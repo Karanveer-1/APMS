@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+	<ui:composition template="/templates/MasterLayout.xhtml">
+		<ui:define name="windowTitle">
+			<h:outputText value="Login" />
+		</ui:define>
+		
+		<ui:define name="content">
+			<h:form>
+				<h:outputLabel id="usernameLabel" value="Username: " for="usernameInput"/>
+				<h:inputText id="usernameInput" value="#{credential.userName}" />
+				<h:outputLabel id="passwordLabel" value="Password: " for="passwordInput"/>
+				<h:inputText id="passwordInput" value="#{credential.password}" />
+				<h:commandButton value="Login" action="#{loginController.login}" />
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>
