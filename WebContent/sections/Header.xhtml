@@ -3,8 +3,40 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
-
+      
+	<!-- This panel is where the information for each page will be displayed -->
 	<ui:composition>
-		<h:outputText value="This is header" />
+		<div class="main-panel">
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle">
+							<span class="sr-only">Toggle navigation</span> <span
+								class="icon-bar bar1"></span> <span class="icon-bar bar2"></span>
+							<span class="icon-bar bar3"></span>
+						</button>
+						<a class="navbar-brand" href="#">Dashboard</a>
+					</div>
+					<div class="collapse navbar-collapse">
+						<ul class="nav navbar-nav navbar-right">
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+								<i class="ti-bell"></i>
+									1
+									Notifications
+									<b class="caret"></b>
+							</a>
+								<ul class="dropdown-menu">
+									<li><a href="#">Something</a></li>
+								</ul></li>
+							<li><a href="#"> <i class="ti-settings"></i>
+									Settings
+							</a></li>
+						</ul>
+	
+					</div>
+				</div>
+			</nav>
+		</div>
 	</ui:composition>
+	<!-- This is the end. -->
 </html>

@@ -5,8 +5,6 @@ V0.1.4
 */
 
 
-
-
 -- Create database
 DROP DATABASE APMS;
 CREATE DATABASE APMS;
@@ -21,23 +19,22 @@ GRANT ALL PRIVILEGES ON APMS.* TO 'employee'@'%' WITH GRANT OPTION;
 
 USE APMS;
 
-
-
 -- Create table Employee
 CREATE TABLE Employee
 (
-	EmpNo        INTEGER       NOT NULL,
-    EmpName      VARCHAR(100)  NOT NULL,
-	EmpUserName  VARCHAR(50)   NOT NULL UNIQUE,
-    Password     VARCHAR(50)   NOT NULL,
+	EmpNo        	INTEGER      	NOT NULL,
+    EmpFirstName  	VARCHAR(100) 	NOT NULL,
+    EmpLastName   	VARCHAR(100) 	NOT NULL,
+	EmpUserName  	VARCHAR(50)     NOT NULL UNIQUE,
+    Password     	VARCHAR(50)     NOT NULL,
 	PRIMARY KEY(EmpNo)
 );
 
 -- Load data into table Employee
-INSERT INTO APMS.EMPLOYEE VALUES('1', 'Admin', 'admin', 'password');
-INSERT INTO APMS.EMPLOYEE VALUES('2', 'Karanveer Khanna', 'karan', 'password');
-INSERT INTO APMS.EMPLOYEE VALUES('3', 'Ryan Liang', 'ryan', 'password');
-INSERT INTO APMS.EMPLOYEE VALUES('4', 'Test', 'test', 'password');
+INSERT INTO APMS.EMPLOYEE VALUES('1', 'Admin', 'Admin' , 'admin', 'password');
+INSERT INTO APMS.EMPLOYEE VALUES('2', 'Karanveer', 'Khanna', 'karan', 'password');
+INSERT INTO APMS.EMPLOYEE VALUES('3', 'Ryan', 'Liang', 'ryan', 'password');
+INSERT INTO APMS.EMPLOYEE VALUES('4', 'Test', 'Test', 'test', 'password');
 
 
 -- Create table Project
@@ -50,8 +47,6 @@ CREATE TABLE Project
 );
 
 -- Load data into table Project
-
-
 
 
 -- Create table ProjectForm

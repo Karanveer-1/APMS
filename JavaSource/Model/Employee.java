@@ -6,23 +6,23 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "EMPLOYEE")
+@Table(name = "Employee")
 public class Employee {
     
     @Id
-    @Column(name = "EMPLOYEE_ID")
+    @Column(name = "EmpNo")
     private int empNumber;
     
-    @Column(name = "EMPLOYEE_FIRSTNAME")
+    @Column(name = "EmpFirstName")
     private String firstName;
     
-    @Column(name = "EMPLOYEE_LASTNAME")
+    @Column(name = "EmpLastName")
     private String lastName;
     
-    @Column(name = "EMPLOYEE_USERNAME")
+    @Column(name = "EmpUserName")
     private String userName;
     
-    @Column(name = "EMPLOYEE_PASSWORD")
+    @Column(name = "Password")
     private String password;
     
     public Employee() {}
