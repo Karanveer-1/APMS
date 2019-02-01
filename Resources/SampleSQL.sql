@@ -1,4 +1,5 @@
 /*
+V0.1.4
 1. Created admin user.
 2. Created Employee, Project, ProjectForm, ProEmp, WorkPackage, WorkPackageRelationship, Timesheet, and TimesheetRow which are for phase 1.
 */
@@ -96,11 +97,10 @@ CREATE TABLE ProEmp
 CREATE TABLE WorkPackage
 (
 	ProNo        INTEGER       NOT NULL,
-    WPNo         VARCHAR(30)   NOT NULL,
+    WPID         VARCHAR(30)   NOT NULL,
     REEmpNo      INTEGER       NOT NULL,
-	EmpNo        INTEGER       NOT NULL,
 	State        VARCHAR(30)   NOT NULL,
-	PRIMARY KEY(ProNo, WPNo)
+	PRIMARY KEY(ProNo, WPID)
 );
 
 -- Load data into table WorkPackage
@@ -113,9 +113,9 @@ CREATE TABLE WorkPackage
 CREATE TABLE WorkPackageRelationship
 (
 	ProNo        INTEGER       NOT NULL,
-    ChildWPNo    VARCHAR(30)   NOT NULL,
-    ParentWPNo   VARCHAR(30)   NOT NULL,
-	PRIMARY KEY(ProNo, ChildWPNo)
+    ChildWPID    VARCHAR(30)   NOT NULL,
+    ParentWPID   VARCHAR(30)   NOT NULL,
+	PRIMARY KEY(ProNo, ChildWPID)
 );
 
 -- Load data into table WorkPackageRelationship
@@ -124,17 +124,28 @@ CREATE TABLE WorkPackageRelationship
 
 
 
+-- Create table WPEmp
+CREATE TABLE WPEmp
+(
+	ProNo        INTEGER       NOT NULL,
+    WPID         VARCHAR(30)   NOT NULL,
+    EmpNo        INTEGER       NOT NULL,
+	PRIMARY KEY(ProNo, WPID, EmpNo)
+);
+
+-- Load data into table WPEmp
+
 
 
 -- Create table Timesheet
 CREATE TABLE Timesheet
 (
 	EmpNo          INTEGER       NOT NULL,
+	Year           INTEGER       NOT NULL,
     WeekNo         INTEGER       NOT NULL,
-    Signed         VARCHAR(30)   NOT NULL,
 	ApprovedEmpNo  INTEGER       NOT NULL,
     State          VARCHAR(30)   NOT NULL,
-	PRIMARY KEY(EmpNo, WeekNo)
+	PRIMARY KEY(EmpNo, Year, WeekNo)
 );
 
 -- Load data into table Timesheet
@@ -147,10 +158,10 @@ CREATE TABLE Timesheet
 CREATE TABLE TimesheetRow
 (
 	EmpNo        INTEGER       NOT NULL,
+	Year         INTEGER       NOT NULL,
     WeekNo       INTEGER       NOT NULL,
     ProNo        INTEGER       NOT NULL,
-	WPNo         VARCHAR(30)   NOT NULL,
-    Weekending   DATE          NOT NULL,
+	WPID         VARCHAR(30)   NOT NULL,
 	Sat          FLOAT         NOT NULL,
 	Sun          FLOAT         NOT NULL,
 	Mon          FLOAT         NOT NULL,
@@ -158,7 +169,7 @@ CREATE TABLE TimesheetRow
 	Wed          FLOAT         NOT NULL,
 	Thu          FLOAT         NOT NULL,
 	Fri          FLOAT         NOT NULL,
-	PRIMARY KEY(EmpNo, WeekNo, ProNo, WPNo)
+	PRIMARY KEY(EmpNo, Year, WeekNo, ProNo, WPID)
 );
 
 -- Load data into table TimesheetRow
