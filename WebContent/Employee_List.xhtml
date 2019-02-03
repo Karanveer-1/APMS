@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+      
+    <h:head>
+        <title>Employee List</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        
+        <!-- Bootstrap core CSS-->
+        <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+        <!-- Custom fonts for this template-->
+        <link href="resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <!-- Custom styles for this template-->
+        <link href="resources/css/sb-admin.css" rel="stylesheet"/>
+    </h:head>
+    
+    <h:body>
+        <h:form>
+            <p:commandButton value="Add Employee" onclick="PF('addEmployeeDialog').show();"/>
+            	                     
+	        <p:dialog header="Add Employee" modal="true" widgetVar="addEmployeeDialog" minHeight="40" resizable="false">
+	           <h:panelGrid columns="1">
+	               <p>Employee Number</p>
+	               <h:inputText binding="#{empNoText}" />
+	               <p>First Name</p>
+                   <h:inputText binding="#{firstNameText}" />
+                   <p>Last Name</p>
+                   <h:inputText binding="#{lastNameText}" />
+                   <p>Username</p>
+                   <h:inputText binding="#{usernameText}" />
+                   <p>Password</p>
+                   <h:inputText binding="#{passwordText}" />
+                   <br/>
+                   <p:commandButton 
+                    update="employeeTable" 
+                    value="Save" 
+                    action="#{employeeListController.addEmployee(
+                            empNoText.value,
+                            firstNameText.value,
+                            lastNameText.value,
+                            usernameText.value,
+                            passwordText.value)}"
+                    oncomplete="PF('addEmployeeDialog').hide();"/>
+	           </h:panelGrid>
+	        </p:dialog>
+	        
+	        <h:dataTable id="employeeTable" value="#{employeeListController.employees}" var="employee">
+	            <h:column>
+	                <f:facet name="header">Emp No.</f:facet>
+	                <h:inputText value="#{employee.empNumber}" />
+	            </h:column>
+	            <h:column>
+	                <f:facet name="header">First Name</f:facet>
+	                <h:inputText value="#{employee.firstName}" />
+	            </h:column>
+	            <h:column>
+	                <f:facet name="header">Last Name</f:facet>
+	                <h:inputText value="#{employee.lastName}" />
+	            </h:column>
+	            <h:column>
+	                <f:facet name="header">Username</f:facet>
+	                <h:inputText value="#{employee.userName}" />
+	            </h:column>
+	            <h:column>
+	                <f:facet name="header">Password</f:facet>
+	                <h:inputText value="#{employee.password}" />
+	            </h:column>
+	        </h:dataTable>
+        </h:form>
+    </h:body>
+</html>
