@@ -21,22 +21,30 @@
     <h:body>
         <h:form>
             <p:commandButton value="Add Employee" onclick="PF('addEmployeeDialog').show();"/>
-            	                     
+            <p:growl id="invalidEmployeeGrowl" sticky="false" />	
+                                 
 	        <p:dialog header="Add Employee" modal="true" widgetVar="addEmployeeDialog" minHeight="40" resizable="false">
 	           <h:panelGrid columns="1">
 	               <p>Employee Number</p>
-	               <h:inputText binding="#{empNoText}" />
+	               <h:inputText binding="#{empNoText}" required="true">
+	                   <f:convertNumber type="number"/>
+	               </h:inputText>
+	               
 	               <p>First Name</p>
-                   <h:inputText binding="#{firstNameText}" />
+                   <h:inputText binding="#{firstNameText}" required="true" />
+                   
                    <p>Last Name</p>
-                   <h:inputText binding="#{lastNameText}" />
+                   <h:inputText binding="#{lastNameText}" required="true"/>
+                   
                    <p>Username</p>
-                   <h:inputText binding="#{usernameText}" />
+                   <h:inputText binding="#{usernameText}" required="true"/>
+                   
                    <p>Password</p>
-                   <h:inputText binding="#{passwordText}" />
+                   <h:inputText binding="#{passwordText}" required="true"/>
+                   
                    <br/>
                    <p:commandButton 
-                    update="employeeTable" 
+                    update="employeeTable invalidEmployeeGrowl" 
                     value="Save" 
                     action="#{employeeListController.addEmployee(
                             empNoText.value,
@@ -48,28 +56,26 @@
 	           </h:panelGrid>
 	        </p:dialog>
 	        
-	        <h:dataTable id="employeeTable" value="#{employeeListController.employees}" var="employee">
-	            <h:column>
-	                <f:facet name="header">Emp No.</f:facet>
+	        <p:dataTable id="employeeTable" value="#{employeeListController.employees}" var="employee">
+	            <p:column headerText="Employee No">
 	                <h:inputText value="#{employee.empNumber}" />
-	            </h:column>
-	            <h:column>
-	                <f:facet name="header">First Name</f:facet>
+	            </p:column>
+	            <p:column headerText="First Name">
 	                <h:inputText value="#{employee.firstName}" />
-	            </h:column>
-	            <h:column>
-	                <f:facet name="header">Last Name</f:facet>
+	            </p:column>
+	            <p:column headerText="Last Name">
 	                <h:inputText value="#{employee.lastName}" />
-	            </h:column>
-	            <h:column>
-	                <f:facet name="header">Username</f:facet>
+	            </p:column>
+	            <p:column headerText="Username">
 	                <h:inputText value="#{employee.userName}" />
-	            </h:column>
-	            <h:column>
-	                <f:facet name="header">Password</f:facet>
+	            </p:column>
+	            <p:column headerText="Password">
 	                <h:inputText value="#{employee.password}" />
-	            </h:column>
-	        </h:dataTable>
+	            </p:column>
+	            <p:column headerText="Delete">
+	               <p:commandButton value="Delete" update="employeeTable" action="#{employeeListController.deleteEmployee(employee)}"/>
+	            </p:column>
+	        </p:dataTable>
         </h:form>
     </h:body>
 </html>

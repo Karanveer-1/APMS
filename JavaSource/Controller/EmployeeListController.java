@@ -29,8 +29,16 @@ public class EmployeeListController implements Serializable {
     }
     
     public void addEmployee(Integer empNo, String firstName, String lastName, String username, String password) {
-        employees.add(new Employee(empNo, firstName, lastName, username, password));
-        addMessage("Welcome to Primefaces!!");
+        Employee e = new Employee(empNo, firstName, lastName, username, password);
+        if (isValidEmployee(e)) {
+            employees.add(e);
+        } else {
+            addErrorMessage("Duplicate found in employee number or username");
+        }
+    }
+    
+    public void deleteEmployee(Employee e) {
+        employees.remove(e);
     }
 
     public List<Employee> getEmployees() {
@@ -41,8 +49,31 @@ public class EmployeeListController implements Serializable {
         this.employees = employees;
     }
     
-    public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+    private void addErrorMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+    
+    private boolean isValidEmployee(Employee employee) {
+        for (Employee e : employees) {
+            if (e.getEmpNumber() == employee.getEmpNumber()) {
+                return false;
+            }
+            
+            if (e.getUserName().equals(employee.getUserName())) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
 }
+
+
+
+
+
+
+
+/**
+ * */
