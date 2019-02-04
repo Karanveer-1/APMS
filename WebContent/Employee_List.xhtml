@@ -22,64 +22,10 @@
 </h:head>
 
 <h:body>
-	<h:form>
+	<h:form id="formMain">
 		<p:commandButton value="Add Employee"
 			onclick="PF('addEmployeeDialog').show();" />
 		<p:growl id="invalidEmployeeGrowl" sticky="false" />
-
-		<p:dialog header="Add Employee" modal="true" width="400"
-			widgetVar="addEmployeeDialog" resizable="false" draggable="false">
-			<h:panelGrid columns="1">
-				<h:outputText value="Employee Number" />
-				<h:inputText binding="#{empNoText}">
-					<f:convertNumber type="number" />
-				</h:inputText>
-
-				<h:outputText value="First Name" />
-				<h:inputText binding="#{firstNameText}" />
-
-				<h:outputText value="Last Name" />
-				<h:inputText binding="#{lastNameText}" />
-
-				<h:outputText value="Username" />
-				<h:inputText binding="#{usernameText}" />
-
-				<h:outputText value="Password" />
-				<h:inputText binding="#{passwordText}" />
-
-				<p:commandButton update="employeeTable invalidEmployeeGrowl"
-					value="Save"
-					action="#{employeeListController.addEmployee(
-                            empNoText.value,
-                            firstNameText.value,
-                            lastNameText.value,
-                            usernameText.value,
-                            passwordText.value)}"
-					oncomplete="PF('addEmployeeDialog').hide();" />
-			</h:panelGrid>
-		</p:dialog>
-
-		<p:dialog header="Edit Employee" modal="true" width="400"
-			widgetVar="editEmployeeDialog" resizable="false" draggable="false">
-			<h:panelGrid columns="1">
-				<h:outputText value="Employee Number" />
-				<h:inputText>
-					<f:convertNumber type="number" />
-				</h:inputText>
-
-				<h:outputText value="First Name" />
-				<h:inputText/>
-
-				<h:outputText value="Last Name" />
-				<h:inputText />
-
-				<h:outputText value="Username" />
-				<h:inputText />
-
-				<h:outputText value="Password" />
-				<h:inputText />
-			</h:panelGrid>
-		</p:dialog>
 
 		<p:dataTable id="employeeTable"
 			value="#{employeeListController.employees}" var="employee">
@@ -99,8 +45,8 @@
 				<h:outputText value="#{employee.password}" />
 			</p:column>
 			<p:column headerText="Edit">
-				<p:commandButton value="Edit"
-					onclick="PF('editEmployeeDialog').show();" />
+				<p:commandButton value="Edit" update=":#{p:component('editDialog')}"
+					action="#{employeeListController.setEditEmployee(employee)}" />
 			</p:column>
 			<p:column headerText="Delete">
 				<p:commandButton value="Delete" update="employeeTable"
@@ -108,5 +54,80 @@
 			</p:column>
 		</p:dataTable>
 	</h:form>
+
+	<p:dialog id="addDialog" header="Add Employee" modal="true" width="400"
+		widgetVar="addEmployeeDialog" resizable="false" draggable="false">
+		<h:form id="formAddDialog">
+			<h:panelGrid columns="1">
+				<h:outputText value="Employee Number" />
+				<h:inputText binding="#{add_empNoText}">
+					<f:convertNumber type="number" />
+				</h:inputText>
+
+				<h:outputText value="First Name" />
+				<h:inputText binding="#{add_firstNameText}" />
+
+				<h:outputText value="Last Name" />
+				<h:inputText binding="#{add_lastNameText}" />
+
+				<h:outputText value="Username" />
+				<h:inputText binding="#{add_usernameText}" />
+
+				<h:outputText value="Password" />
+				<h:inputText binding="#{add_passwordText}" />
+
+				<p:commandButton
+					update=":formMain:employeeTable :formMain:invalidEmployeeGrowl"
+					value="Save"
+					action="#{employeeListController.addEmployee(
+                            add_empNoText.value,
+                            add_firstNameText.value,
+                            add_lastNameText.value,
+                            add_usernameText.value,
+                            add_passwordText.value)}" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+	<!-- THIS MUST BE OUTSIDE OF THE MAIN FORM! -->
+	<p:dialog id="editDialog" header="Edit Employee" modal="true"
+		width="400" widgetVar="editEmployeeDialog" resizable="false"
+		draggable="false">
+		<h:form id="formEditDialog">
+			<h:panelGrid columns="1">
+				<h:outputText value="Employee Number" />
+				<h:inputText binding="#{edit_empNoText}"
+					value="#{employeeListController.editEmployee.empNumber}">
+					<f:convertNumber type="number" />
+				</h:inputText>
+
+				<h:outputText value="First Name" />
+				<h:inputText binding="#{edit_firstNameText}"
+					value="#{employeeListController.editEmployee.firstName}" />
+
+				<h:outputText value="Last Name" />
+				<h:inputText binding="#{edit_lastNameText}"
+					value="#{employeeListController.editEmployee.lastName}" />
+
+				<h:outputText value="Username" />
+				<h:inputText binding="#{edit_usernameText}"
+					value="#{employeeListController.editEmployee.userName}" />
+
+				<h:outputText value="Password" />
+				<h:inputText binding="#{edit_passwordText}"
+					value="#{employeeListController.editEmployee.password}" />
+
+				<p:commandButton
+					update=":formMain:employeeTable :formMain:invalidEmployeeGrowl"
+					value="Save"
+					action="#{employeeListController.editEmployee(
+                            edit_empNoText.value,
+                            edit_firstNameText.value,
+                            edit_lastNameText.value,
+                            edit_usernameText.value,
+                            edit_passwordText.value)}" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
 </h:body>
 </html>
