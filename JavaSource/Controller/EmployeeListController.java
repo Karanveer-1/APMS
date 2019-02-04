@@ -4,41 +4,48 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import Model.Employee;
 
 @Named("employeeListController")
-@SessionScoped
+@RequestScoped
 public class EmployeeListController implements Serializable {
     
-    @PersistenceContext(unitName="apms")
-    private EntityManager manager;
+    @Inject DatabaseController database;
     
     private List<Employee> employees;
     
     @PostConstruct
-    @SuppressWarnings("unchecked")
     public void init() {
-        employees = manager.createQuery("select e from Employee e").getResultList();
+        employees = database.getEmployees();
     }
     
     public void addEmployee(Integer empNo, String firstName, String lastName, String username, String password) {
         Employee e = new Employee(empNo, firstName, lastName, username, password);
         if (isValidEmployee(e)) {
             employees.add(e);
+            database.addEmployee(e);
         } else {
             addErrorMessage("Duplicate found in employee number or username");
         }
     }
     
+    public void editEmployee(Employee e, Integer empNo, String firstName, String lastName, String username, String password) {
+        e.setEmpNumber(empNo);
+        e.setFirstName(firstName);
+        e.setLastName(lastName);
+        e.setUserName(username);
+        e.setPassword(password);
+    }
+    
     public void deleteEmployee(Employee e) {
         employees.remove(e);
+        database.removeEmployee(e);
     }
 
     public List<Employee> getEmployees() {
