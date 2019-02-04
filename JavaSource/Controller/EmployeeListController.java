@@ -93,7 +93,7 @@ public class EmployeeListController implements Serializable {
                 return false;
             }
 
-            if (e.getUserName().equals(employee.getUserName())) {
+            if (e.getUserName().equalsIgnoreCase(employee.getUserName())) {
                 return false;
             }
         }
