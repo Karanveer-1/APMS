@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -13,7 +11,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
-import org.primefaces.context.RequestContext;
 
 import Model.Employee;
 
@@ -34,32 +31,34 @@ public class EmployeeListController implements Serializable {
         employees = database.getEmployees();
     }
 
-    public void addEmployee(Integer empNo, String firstName, String lastName,
+    public void addEmployee(String empNo, String firstName, String lastName,
             String username, String password) {
-        Employee e = new Employee(empNo, firstName, lastName, username,
-                password);
-        if (isValidEmployee(e)) {
+
+        if (validateEmployee(empNo, firstName, lastName, username, password)) {
+            Employee e = new Employee(Integer.parseInt(empNo), firstName,
+                    lastName, username, password);
             employees.add(e);
             database.addEmployee(e);
             PrimeFaces.current()
                     .executeScript("PF('addEmployeeDialog').hide();");
-        } else {
-            addErrorMessage("Duplicate found in employee number or username");
         }
     }
 
-    public void editEmployee(Integer empNo, String firstName, String lastName,
+    public void editEmployee(String empNo, String firstName, String lastName,
             String username, String password) {
-        Employee e = editEmployee;
-        e.setEmpNumber(empNo);
-        e.setFirstName(firstName);
-        e.setLastName(lastName);
-        e.setUserName(username);
-        e.setPassword(password);
-        
-        database.updateEmployee(e);
-        
-        PrimeFaces.current().executeScript("PF('editEmployeeDialog').hide();");
+        if (validateEmployee(empNo, firstName, lastName, username, password)) {
+            Employee e = editEmployee;
+            e.setEmpNumber(Integer.parseInt(empNo));
+            e.setFirstName(firstName);
+            e.setLastName(lastName);
+            e.setUserName(username);
+            e.setPassword(password);
+
+            database.updateEmployee(e);
+
+            PrimeFaces.current()
+                    .executeScript("PF('editEmployeeDialog').hide();");
+        }
     }
 
     public void deleteEmployee(Employee e) {
@@ -87,6 +86,24 @@ public class EmployeeListController implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
+    public boolean validateEmployee(String empNo, String firstName,
+            String lastName, String username, String password) {
+        if (isAnyNullOrWhitespace(empNo, firstName, lastName, username,
+                password)) {
+            addErrorMessage("All fields must be filled in");
+            return false;
+        } else if (!isInteger(empNo)) {
+            addErrorMessage("Employee number must be an integer");
+            return false;
+        } else if (!isValidEmployee(new Employee(Integer.parseInt(empNo),
+                firstName, lastName, username, password))) {
+            addErrorMessage("Duplicate employee number or username found");
+            return false;
+        }
+
+        return true;
+    }
+
     private boolean isValidEmployee(Employee employee) {
         for (Employee e : employees) {
             if (e.getEmpNumber() == employee.getEmpNumber()) {
@@ -99,5 +116,25 @@ public class EmployeeListController implements Serializable {
         }
 
         return true;
+    }
+
+    private boolean isInteger(String string) {
+        try {
+            Integer.parseInt(string);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isAnyNullOrWhitespace(String... values) {
+        for (String s : values) {
+            if (s == null || s.trim().length() == 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
