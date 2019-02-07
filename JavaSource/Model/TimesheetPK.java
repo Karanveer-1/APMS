@@ -1,10 +1,12 @@
 package Model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class TimesheetPK {
+public class TimesheetPK implements Serializable {
 
     @Column(name = "EmpNo", nullable = false)
     private int empNumber;

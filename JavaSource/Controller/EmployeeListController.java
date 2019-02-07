@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -12,7 +13,6 @@ import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
-import Access.DatabaseController;
 import Model.Employee;
 
 @Named("employeeListController")
@@ -33,11 +33,13 @@ public class EmployeeListController implements Serializable {
     }
 
     public void addEmployee(String empNo, String firstName, String lastName,
-            String username, String password) {
+            String username, String password, String pLevel, String state,
+            String comment) {
 
-        if (validateEmployee(empNo, firstName, lastName, username, password)) {
+        if (validateEmployee(empNo, firstName, lastName, username, password,
+                pLevel, state, comment, false)) {
             Employee e = new Employee(Integer.parseInt(empNo), firstName,
-                    lastName, username, password);
+                    lastName, username, password, pLevel, state, comment);
             employees.add(e);
             database.addEmployee(e);
             PrimeFaces.current()
@@ -45,15 +47,18 @@ public class EmployeeListController implements Serializable {
         }
     }
 
-    public void editEmployee(String empNo, String firstName, String lastName,
-            String username, String password) {
-        if (validateEmployee(empNo, firstName, lastName, username, password)) {
+    public void editEmployee(String firstName, String lastName, String username,
+            String password, String pLevel, String state, String comment) {
+        if (validateEmployee(null, firstName, lastName, username, password,
+                pLevel, state, comment, true)) {
             Employee e = editEmployee;
-            e.setEmpNumber(Integer.parseInt(empNo));
             e.setFirstName(firstName);
             e.setLastName(lastName);
             e.setUserName(username);
             e.setPassword(password);
+            e.setpLevel(pLevel);
+            e.setState(state);
+            e.setComment(comment);
 
             database.updateEmployee(e);
 
@@ -76,47 +81,62 @@ public class EmployeeListController implements Serializable {
     }
 
     public void setEditEmployee(Employee editEmployee) {
-        this.editEmployee = editEmployee;
+        this.editEmployee = new Employee(editEmployee.getEmpNumber(),
+                editEmployee.getFirstName(), editEmployee.getLastName(),
+                editEmployee.getUserName(), editEmployee.getPassword(),
+                editEmployee.getpLevel(), editEmployee.getState(),
+                editEmployee.getComment());
 
         PrimeFaces.current().executeScript("PF('editEmployeeDialog').show();");
     }
 
-    private void addErrorMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                summary, null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
     public boolean validateEmployee(String empNo, String firstName,
-            String lastName, String username, String password) {
-        if (isAnyNullOrWhitespace(empNo, firstName, lastName, username,
-                password)) {
-            addErrorMessage("All fields must be filled in");
+            String lastName, String username, String password, String pLevel,
+            String state, String comment, boolean isEdit) {
+
+        if (isEdit
+                ? isAnyNullOrWhitespace(firstName, lastName, username, password,
+                        pLevel, state)
+                : isAnyNullOrWhitespace(empNo, firstName, lastName, username,
+                        password, pLevel, state)) {
+            addErrorMessage("All fields except for comment must be filled in");
             return false;
-        } else if (!isInteger(empNo)) {
+        } else if (!isEdit && !isInteger(empNo)) {
             addErrorMessage("Employee number must be an integer");
             return false;
-        } else if (!isValidEmployee(new Employee(Integer.parseInt(empNo),
-                firstName, lastName, username, password))) {
-            addErrorMessage("Duplicate employee number or username found");
+        } else if (!isEdit && isDuplicateEmpNumber(Integer.parseInt(empNo))) {
+            addErrorMessage("Duplicate employee number found");
+            return false;
+        } else if (isDuplicateUsername(username, isEdit)) {
+            addErrorMessage("Duplicate username found");
             return false;
         }
 
         return true;
     }
 
-    private boolean isValidEmployee(Employee employee) {
+    private boolean isDuplicateEmpNumber(int empNumber) {
         for (Employee e : employees) {
-            if (e.getEmpNumber() == employee.getEmpNumber()) {
-                return false;
-            }
-
-            if (e.getUserName().equalsIgnoreCase(employee.getUserName())) {
-                return false;
+            if (e.getEmpNumber() == empNumber) {
+                return true;
             }
         }
 
-        return true;
+        return false;
+    }
+
+    private boolean isDuplicateUsername(String username, boolean isEdit) {
+        for (Employee e : employees) {
+            if (e.equals(editEmployee) && isEdit) {
+                continue;
+            }
+
+            if (e.getUserName().equalsIgnoreCase(username)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private boolean isInteger(String string) {
@@ -137,5 +157,11 @@ public class EmployeeListController implements Serializable {
         }
 
         return false;
+    }
+
+    private void addErrorMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                summary, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }

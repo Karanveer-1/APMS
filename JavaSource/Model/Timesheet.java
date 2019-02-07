@@ -1,5 +1,7 @@
 package Model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -7,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Timesheet")
-public class Timesheet {
+public class Timesheet implements Serializable {
 
     @EmbeddedId
     private TimesheetPK timesheetPk;

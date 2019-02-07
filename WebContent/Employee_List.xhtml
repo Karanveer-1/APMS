@@ -44,6 +44,15 @@
 			<p:column headerText="Password">
 				<h:outputText value="#{employee.password}" />
 			</p:column>
+			<p:column headerText="PLevel">
+				<h:outputText value="#{employee.pLevel}" />
+			</p:column>
+			<p:column headerText="State">
+				<h:outputText value="#{employee.state}" />
+			</p:column>
+			<p:column headerText="Comment">
+				<h:outputText value="#{employee.comment}" />
+			</p:column>
 			<p:column headerText="Edit">
 				<p:commandButton value="Edit" update=":#{p:component('editDialog')}"
 					action="#{employeeListController.setEditEmployee(employee)}" />
@@ -60,29 +69,41 @@
 		<h:form id="formAddDialog">
 			<h:panelGrid columns="1">
 				<h:outputText value="Employee Number" />
-				<h:inputText id="addEmpNo" binding="#{add_empNoText}" />
+				<h:inputText id="addEmpNo" binding="#{addEmpNoText}" />
 
 				<h:outputText id="addFirstName" value="First Name" />
-				<h:inputText binding="#{add_firstNameText}" />
+				<h:inputText binding="#{addFirstNameText}" />
 
 				<h:outputText id="addlastName" value="Last Name" />
-				<h:inputText binding="#{add_lastNameText}" />
+				<h:inputText binding="#{addLastNameText}" />
 
 				<h:outputText id="addUsername" value="Username" />
-				<h:inputText binding="#{add_usernameText}" />
+				<h:inputText binding="#{addUsernameText}" />
 
 				<h:outputText id="addPassword" value="Password" />
-				<h:inputText binding="#{add_passwordText}" />
+				<h:inputText binding="#{addPasswordText}" />
+
+				<h:outputText id="addPLevel" value="PLevel" />
+				<h:inputText binding="#{addPLevelText}" />
+
+				<h:outputText id="addState" value="State" />
+				<h:inputText binding="#{addStateText}" />
+
+				<h:outputText id="addComment" value="Comment" />
+				<h:inputText binding="#{addCommentText}" />
 
 				<p:commandButton resetValues="true"
 					update=":formMain:employeeTable :formMain:invalidEmployeeGrowl :formAddDialog"
 					value="Save"
 					action="#{employeeListController.addEmployee(
-                            add_empNoText.value,
-                            add_firstNameText.value,
-                            add_lastNameText.value,
-                            add_usernameText.value,
-                            add_passwordText.value)}" />
+                            addEmpNoText.value,
+                            addFirstNameText.value,
+                            addLastNameText.value,
+                            addUsernameText.value,
+                            addPasswordText.value,
+                            addPLevelText.value,
+                            addStateText.value,
+                            addCommentText.value)}" />
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>
@@ -92,35 +113,45 @@
 		draggable="false">
 		<h:form id="formEditDialog">
 			<h:panelGrid columns="1">
-				<h:outputText value="Employee Number" />
-				<h:inputText binding="#{edit_empNoText}"
-					value="#{employeeListController.editEmployee.empNumber}" />
-
 				<h:outputText value="First Name" />
-				<h:inputText binding="#{edit_firstNameText}"
+				<h:inputText binding="#{editFirstNameText}"
 					value="#{employeeListController.editEmployee.firstName}" />
 
 				<h:outputText value="Last Name" />
-				<h:inputText binding="#{edit_lastNameText}"
+				<h:inputText binding="#{editLastNameText}"
 					value="#{employeeListController.editEmployee.lastName}" />
 
 				<h:outputText value="Username" />
-				<h:inputText binding="#{edit_usernameText}"
+				<h:inputText binding="#{editUsernameText}"
 					value="#{employeeListController.editEmployee.userName}" />
 
 				<h:outputText value="Password" />
-				<h:inputText binding="#{edit_passwordText}"
+				<h:inputText binding="#{editPasswordText}"
 					value="#{employeeListController.editEmployee.password}" />
 
+				<h:outputText id="editPLevel" value="PLevel" />
+				<h:inputText binding="#{editPLevelText}"
+					value="#{employeeListController.editEmployee.pLevel}" />
+
+				<h:outputText id="editState" value="State" />
+				<h:inputText binding="#{editStateText}"
+					value="#{employeeListController.editEmployee.state}" />
+
+				<h:outputText id="editComment" value="Comment" />
+				<h:inputText binding="#{editCommentText}"
+					value="#{employeeListController.editEmployee.comment}" />
+
 				<p:commandButton
-					update=":formMain:employeeTable :formMain:invalidEmployeeGrowl"
+					update=":formMain:employeeTable :formMain:invalidEmployeeGrowl :formEditDialog"
 					value="Save"
 					action="#{employeeListController.editEmployee(
-                            edit_empNoText.value,
-                            edit_firstNameText.value,
-                            edit_lastNameText.value,
-                            edit_usernameText.value,
-                            edit_passwordText.value)}" />
+                            editFirstNameText.value,
+                            editLastNameText.value,
+                            editUsernameText.value,
+                            editPasswordText.value,
+                            editPLevelText.value,
+                            editStateText.value,
+                            editCommentText.value)}" />
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>
