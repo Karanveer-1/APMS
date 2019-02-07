@@ -8,39 +8,59 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TimesheetRow")
 public class TimesheetRow {
-    
+
     @EmbeddedId
     private TimesheetRowPK timesheetRowPk;
-    
+
     @Column(name = "Sat")
     private float sat;
-    
+
     @Column(name = "Sun")
     private float sun;
-    
+
     @Column(name = "Mon")
     private float mon;
-    
+
     @Column(name = "Tue")
     private float tue;
-    
+
     @Column(name = "Wed")
     private float wed;
-    
+
     @Column(name = "Thu")
     private float thu;
-    
+
     @Column(name = "Fri")
     private float fri;
-    
+
     @Column(name = "Note")
     private String note;
-    
-    @Column(name = "State")
+
+    @Column(name = "State", nullable = false)
     private String state;
-    
+
     @Column(name = "Comment")
     private String comment;
+
+    public TimesheetRow() {
+    }
+
+    public TimesheetRow(TimesheetRowPK timesheetRowPk, float sat,
+            float sun, float mon, float tue, float wed, float thu, float fri,
+            String note, String state, String comment) {
+        super();
+        this.timesheetRowPk = timesheetRowPk;
+        this.sat = sat;
+        this.sun = sun;
+        this.mon = mon;
+        this.tue = tue;
+        this.wed = wed;
+        this.thu = thu;
+        this.fri = fri;
+        this.note = note;
+        this.state = state;
+        this.comment = comment;
+    }
 
     public TimesheetRowPK getTimesheetRowPk() {
         return timesheetRowPk;
@@ -129,6 +149,5 @@ public class TimesheetRow {
     public void setComment(String comment) {
         this.comment = comment;
     }
-    
-    
+
 }

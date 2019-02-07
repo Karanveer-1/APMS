@@ -8,29 +8,31 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Timesheet")
 public class Timesheet {
-    
+
     @EmbeddedId
     private TimesheetPK timesheetPk;
-    
+
     @Column(name = "Wage")
     private float wage;
-    
+
     @Column(name = "Signature")
     private String signature;
-    
+
     @Column(name = "ApprovedEmpNo")
     private int approvedEmpNumber;
-    
-    @Column(name = "State")
+
+    @Column(name = "State", nullable = false)
     private String state;
-    
+
     @Column(name = "Comment")
     private String comment;
-    
-    public Timesheet() {}
 
-    public Timesheet(TimesheetPK timesheetPk, float wage, String signature,
-            int approvedEmpNumber, String state, String comment) {
+    public Timesheet() {
+    }
+
+    public Timesheet(TimesheetPK timesheetPk, float wage,
+            String signature, int approvedEmpNumber, String state,
+            String comment) {
         super();
         this.timesheetPk = timesheetPk;
         this.wage = wage;
@@ -87,6 +89,5 @@ public class Timesheet {
     public void setComment(String comment) {
         this.comment = comment;
     }
-    
-    
+
 }
