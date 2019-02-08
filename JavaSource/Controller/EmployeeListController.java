@@ -1,7 +1,6 @@
 package Controller;
 
 import java.io.Serializable;
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -36,12 +35,17 @@ public class EmployeeListController implements Serializable {
             String username, String password, String pLevel, String state,
             String comment) {
 
+        employees = database.getEmployees();
+        
         if (validateEmployee(empNo, firstName, lastName, username, password,
                 pLevel, state, comment, false)) {
             Employee e = new Employee(Integer.parseInt(empNo), firstName,
                     lastName, username, password, pLevel, state, comment);
             employees.add(e);
             database.addEmployee(e);
+            
+            employees = database.getEmployees();
+            
             PrimeFaces.current()
                     .executeScript("PF('addEmployeeDialog').hide();");
         }
@@ -49,18 +53,23 @@ public class EmployeeListController implements Serializable {
 
     public void editEmployee(String firstName, String lastName, String username,
             String password, String pLevel, String state, String comment) {
+        
+        employees = database.getEmployees();
+        
         if (validateEmployee(null, firstName, lastName, username, password,
                 pLevel, state, comment, true)) {
-            Employee e = editEmployee;
-            e.setFirstName(firstName);
-            e.setLastName(lastName);
-            e.setUserName(username);
-            e.setPassword(password);
-            e.setpLevel(pLevel);
-            e.setState(state);
-            e.setComment(comment);
 
-            database.updateEmployee(e);
+            editEmployee.setFirstName(firstName);
+            editEmployee.setLastName(lastName);
+            editEmployee.setUserName(username);
+            editEmployee.setPassword(password);
+            editEmployee.setpLevel(pLevel);
+            editEmployee.setState(state);
+            editEmployee.setComment(comment);
+
+            database.updateEmployee(editEmployee);
+            
+            employees = database.getEmployees();
 
             PrimeFaces.current()
                     .executeScript("PF('editEmployeeDialog').hide();");
@@ -80,12 +89,13 @@ public class EmployeeListController implements Serializable {
         return editEmployee;
     }
 
-    public void setEditEmployee(Employee editEmployee) {
+    public void setEditEmployee(Employee editEmployee) {        
         this.editEmployee = new Employee(editEmployee.getEmpNumber(),
                 editEmployee.getFirstName(), editEmployee.getLastName(),
                 editEmployee.getUserName(), editEmployee.getPassword(),
                 editEmployee.getpLevel(), editEmployee.getState(),
                 editEmployee.getComment());
+                
 
         PrimeFaces.current().executeScript("PF('editEmployeeDialog').show();");
     }
