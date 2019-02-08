@@ -14,8 +14,8 @@ CREATE DATABASE APMS;
 -- Create admin user
 DROP USER 'employee'@'localhost';
 DROP USER 'employee'@'%';
-CREATE USER 'employee'@'localhost' IDENTIFIED BY 'password';
-CREATE USER 'employee'@'%' IDENTIFIED BY 'password';
+CREATE USER 'employee'@'localhost' IDENTIFIED BY 'P@$$w0rd';
+CREATE USER 'employee'@'%' IDENTIFIED BY 'P@$$w0rd';
 GRANT ALL PRIVILEGES ON APMS.* TO 'employee'@'localhost' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON APMS.* TO 'employee'@'%' WITH GRANT OPTION;
 
@@ -35,11 +35,12 @@ CREATE TABLE Employee
 	PRIMARY KEY(EmpNo)
 );
 
+
 -- Load data into table Employee
-INSERT INTO APMS.EMPLOYEE VALUES('1', 'Admin', 'Admin' , 'admin', 'password', 'P1', 'Active', '');
-INSERT INTO APMS.EMPLOYEE VALUES('2', 'Karanveer', 'Khanna', 'karan', 'password', 'P1', 'Active', '');
-INSERT INTO APMS.EMPLOYEE VALUES('3', 'Ryan', 'Liang', 'ryan', 'password', 'P1', 'Active', '');
-INSERT INTO APMS.EMPLOYEE VALUES('4', 'Test', 'Test', 'test', 'password', 'P1', 'Active', '');
+INSERT INTO APMS.Employee VALUES('1', 'Admin', 'Admin' , 'admin', 'password', 'P1', 'Active', '');
+INSERT INTO APMS.Employee VALUES('2', 'Karanveer', 'Khanna', 'karan', 'password', 'P1', 'Active', '');
+INSERT INTO APMS.Employee VALUES('3', 'Ryan', 'Liang', 'ryan', 'password', 'P1', 'Active', '');
+INSERT INTO APMS.Employee VALUES('4', 'Test', 'Test', 'test', 'password', 'P1', 'Active', '');
 
 
 
