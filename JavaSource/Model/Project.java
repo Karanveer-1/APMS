@@ -56,8 +56,6 @@ public class Project implements Serializable {
 	@Column(name = "WorkPackages", nullable = false)
 	private ArrayList<WorkPackage> workPackages;
 
-
-
 	/**
 	 * Project start date
 	 */
@@ -73,7 +71,7 @@ public class Project implements Serializable {
 	public Project() {
 
 	}
-	
+
 	public Project(int projectId, Employee projectManager, int status, ArrayList<WorkPackage> workPackages,
 			Date startDate, Date endDate) {
 		super();
@@ -84,5 +82,53 @@ public class Project implements Serializable {
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
-	
+
+	public int getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+
+	public Employee getProjectManager() {
+		return projectManager;
+	}
+
+	public void setProjectManager(Employee projectManager) {
+		this.projectManager = projectManager;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public ArrayList<WorkPackage> getWorkPackages() {
+		return workPackages;
+	}
+
+	public void setWorkPackages(ArrayList<WorkPackage> workPackages) {
+		this.workPackages = workPackages;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
 }
