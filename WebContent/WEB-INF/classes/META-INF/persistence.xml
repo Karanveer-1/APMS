@@ -4,11 +4,11 @@
 	    <jta-data-source>java:jboss/datasources/apms</jta-data-source>
 	    <class>Model.Employee</class>
 	      
-      <properties>
-         <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>
-         <property name="hibernate.hbm2ddl.auto" value="validate"/>
-         <property name="hibernate.show_sql" value="false"/>
-         <property name="hibernate.format_sql" value="true"/>
-      </properties>
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect" />
+            <property name="hibernate.hbm2ddl.auto" value="validate" />
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.format_sql" value="true" />
+        </properties>
 	</persistence-unit>
 </persistence>
