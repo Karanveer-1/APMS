@@ -18,15 +18,7 @@ public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Project status
-	 * 
-	 * @author mike
-	 *
-	 */
-	enum Status {
-		OPEN, CLOSED, ARCHIVED;
-	}
+	public static final String[] STATE = { "Open", "Closed", "Archived" };
 
 	/**
 	 * Project ID as Primary Key
@@ -56,10 +48,10 @@ public class Project implements Serializable {
 	private Employee projectManager;
 
 	/**
-	 * Project current status
+	 * Project current state
 	 */
-	@Column(name = "Status", nullable = false)
-	private int status;
+	@Column(name = "State", nullable = false)
+	private int state;
 
 	/**
 	 * List of work packages in a project
@@ -80,16 +72,19 @@ public class Project implements Serializable {
 	@Column(name = "endDate", nullable = false)
 	private Date endDate;
 
-	public Project() {
+	@Column(name = "Comment")
+	private String comment;
 
+	public Project() {
+		this.state = 0;
 	}
 
-	public Project(int projectId, Employee projectManager, int status, ArrayList<WorkPackage> workPackages,
+	public Project(int projectId, Employee projectManager, int state, ArrayList<WorkPackage> workPackages,
 			Date startDate, Date endDate) {
 		super();
 		this.projectID = projectId;
 		this.projectManager = projectManager;
-		this.status = status;
+		this.state = state;
 		this.workPackages = workPackages;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -111,12 +106,12 @@ public class Project implements Serializable {
 		this.projectManager = projectManager;
 	}
 
-	public int getStatus() {
-		return status;
+	public int getState() {
+		return state;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setState(int state) {
+		this.state = state;
 	}
 
 	public ArrayList<WorkPackage> getWorkPackages() {
@@ -141,6 +136,32 @@ public class Project implements Serializable {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * Return state with an argument
+	 * 
+	 * @param state
+	 * @return String indicates the state of the projet
+	 */
+	public String getState(int state) {
+		return STATE[state];
 	}
 
 }

@@ -49,6 +49,7 @@ public class WorkPackage implements Serializable {
 	 */
 	private int budget;
 
+	
 	public WorkPackage() {
 
 	}
