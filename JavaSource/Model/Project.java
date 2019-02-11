@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Entity
+@Embeddable
 @Table(name = "Project")
 public class Project implements Serializable {
 
@@ -33,8 +33,20 @@ public class Project implements Serializable {
 	 */
 	@GeneratedValue
 	@Id
-	@Column(name = "ProjectId", nullable = false)
-	private int projectId;
+	@Column(name = "ProjectID", nullable = false)
+	private int projectID;
+
+	/**
+	 * Project Name
+	 */
+	@Column(name = "ProjectName", nullable = false)
+	private String name;
+
+	/**
+	 * Project Description
+	 */
+	@Column(name = "ProjectDescription", nullable = false)
+	private String description;
 
 	/**
 	 * Project manager, must be unique
@@ -75,7 +87,7 @@ public class Project implements Serializable {
 	public Project(int projectId, Employee projectManager, int status, ArrayList<WorkPackage> workPackages,
 			Date startDate, Date endDate) {
 		super();
-		this.projectId = projectId;
+		this.projectID = projectId;
 		this.projectManager = projectManager;
 		this.status = status;
 		this.workPackages = workPackages;
@@ -84,11 +96,11 @@ public class Project implements Serializable {
 	}
 
 	public int getProjectId() {
-		return projectId;
+		return projectID;
 	}
 
 	public void setProjectId(int projectId) {
-		this.projectId = projectId;
+		this.projectID = projectId;
 	}
 
 	public Employee getProjectManager() {
