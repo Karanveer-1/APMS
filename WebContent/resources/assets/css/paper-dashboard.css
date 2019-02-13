@@ -179,6 +179,7 @@ strong {
 
 /*     General overwrite     */
 body {
+	margin-left: 260px;
     color: #66615b;
     font-size: 14px;
     background-color: #f4f3ef;
@@ -511,7 +512,8 @@ hr {
     position: relative;
     z-index: 2;
     float: right;
-    width: calc(100% - 260px);
+    width: 100%;
+
     -webkit-transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
     -moz-transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
     -o-transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
@@ -529,7 +531,7 @@ hr {
 }
 
 .main-panel .navbar {
-    margin-bottom: 0;
+    margin-bottom: 10px;
 }
 
 .navbar-fixed {
@@ -2179,6 +2181,7 @@ textarea.form-control {
 
 .card .content {
     padding: 15px 15px 10px 15px;
+    
 }
 
 .card .header {
@@ -3815,7 +3818,7 @@ textarea.form-control {
         box-shadow: none;
     }
     .main-panel > .content {
-        padding-left: 0;
+        padding-left: 260;
         padding-right: 0;
     }
     .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {

@@ -6,11 +6,12 @@
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
 	<h:head>
+		<title><ui:insert name="windowTitle" /></title>
+	
 		<meta charset="utf-8" />
 		<link rel="apple-touch-icon" sizes="76x76" href="resources/assets/img/apple-icon.png"/>
 		<link rel="icon" type="image/png" sizes="96x96" href="resources/assets/img/favicon.png"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<title><ui:insert name="windowTitle" /></title>
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 	    <meta name="viewport" content="width=device-width" />
 	
@@ -79,11 +80,11 @@
 	</h:head>
 	
 	<h:body>
+		<f:event type="preRenderView" listener="#{loginController.checkIfLoggedIn()}" />
 		<div class="wrapper">
 			<ui:include src="/sections/DashboardNavigationBar.xhtml" />
 			<ui:include src="/sections/Header.xhtml" />
-			<ui:define name="content">
-			</ui:define>
+			<ui:insert name="content"/>
 		</div>
 	</h:body>
 </html>
