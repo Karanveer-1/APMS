@@ -1,22 +1,22 @@
-package Controller;
+package controller;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.ConfigurableNavigationHandler;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
-import Model.Credential;
-import Model.Employee;
+import model.Credential;
+import model.Employee;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Named("loginController")
 @SessionScoped
 public class LoginController implements Serializable {
     @Inject Credential credential;
-    @PersistenceContext(unitName="apms") EntityManager manager;
+    @Inject DatabaseController database;
     private Employee currentEmployee;
     
     public LoginController() {
@@ -24,27 +24,46 @@ public class LoginController implements Serializable {
     }
     
     public String login() {
-        @SuppressWarnings("unchecked")
-        List<Employee> results = manager.createQuery(
-           "select e from Employee e where e.userName = :username and e.password = :password")
-           .setParameter("username", credential.getUserName())
-           .setParameter("password", credential.getPassword())
-           .getResultList();
-        if (!results.isEmpty()) {
-           currentEmployee = results.get(0);
-        } else {
-           // perhaps add code here to report a failed login
-        }
+        Employee result = database.getEmployeeByUsername(credential.getUserName());
         
-        return "Dashboard.xhtml?faces-redirect=true";
+        if (result != null) {
+           currentEmployee = result;
+           return "Dashboard.xhtml?faces-redirect=true";
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                            "Failed to login.", null));
+            return null;
+        }
      }
 
-     public void logout() {
+     public String logout() {
          currentEmployee = null;
+         return "Login.xhtml?faces-redirect=true";
      }
 
      public boolean isLoggedIn() {
         return currentEmployee != null;
      }
      
+     public void checkIfLoggedIn() {
+         FacesContext context = FacesContext.getCurrentInstance();
+
+         if (!isLoggedIn()) {
+             context.addMessage(null,
+                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                             "Please login to access the page.", null));
+
+             ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) context.getApplication().getNavigationHandler();
+             nav.performNavigation("Login");
+         }
+     }
+
+    public Employee getCurrentEmployee() {
+        return currentEmployee;
+    }
+
+    public void setCurrentEmployee(Employee currentEmployee) {
+        this.currentEmployee = currentEmployee;
+    }
 }
