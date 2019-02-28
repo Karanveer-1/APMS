@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,24 +15,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Embeddable
+
 @Table(name = "Project")
 public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Project ID as Primary Key
-	 */
-	@Id
-	@Column(name = "ProNo", nullable = false)
-	private int proNo;
-
-	/**
-	 * Project manager, must be unique
-	 */
-	@Column(name = "ProMgrEmpNo", nullable = false)
-	private int empNo;
+	@EmbeddedId
+	private ProAssi proAssi;
 
 	/**
 	 * Project current state
@@ -46,28 +37,19 @@ public class Project implements Serializable {
 
 	}
 
-	public Project(int proNo, int empNo, String state, String comment) {
+	public Project(ProAssi proAssi, String state, String comment) {
 		super();
-		this.proNo = proNo;
-		this.empNo = empNo;
+		this.proAssi = proAssi;
 		this.state = state;
 		this.comment = comment;
 	}
 
-	public int getProNo() {
-		return proNo;
+	public ProAssi getProAssi() {
+		return proAssi;
 	}
 
-	public void setProNo(int proNo) {
-		this.proNo = proNo;
-	}
-
-	public int getEmpNo() {
-		return empNo;
-	}
-
-	public void setEmpNo(int empNo) {
-		this.empNo = empNo;
+	public void setProAssi(ProAssi proAssi) {
+		this.proAssi = proAssi;
 	}
 
 	public String getState() {
