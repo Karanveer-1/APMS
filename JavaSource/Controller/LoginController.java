@@ -1,4 +1,4 @@
-package controller;
+package Controller;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.ConfigurableNavigationHandler;
@@ -7,8 +7,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import model.Credential;
-import model.Employee;
+import Model.Credential;
+import Model.Employee;
 
 import java.io.Serializable;
 

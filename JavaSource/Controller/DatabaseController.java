@@ -1,4 +1,4 @@
-package controller;
+package Controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
-import model.Employee;
+import Model.Employee;
 
 @Stateless
 public class DatabaseController implements Serializable {

@@ -1,4 +1,4 @@
-package model;
+package Model;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
