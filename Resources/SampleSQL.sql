@@ -28,7 +28,7 @@ CREATE TABLE Employee
     EmpFirstName  	VARCHAR(100) 	NOT NULL,
     EmpLastName   	VARCHAR(100) 	NOT NULL,
 	EmpUserName  	VARCHAR(50)     NOT NULL UNIQUE,
-    Password     	VARCHAR(50)     NOT NULL,
+    Password     	VARCHAR(512)     NOT NULL,
 	PLevel          VARCHAR(30)     NOT NULL,
 	State           VARCHAR(30)     NOT NULL,
 	Comment         VARCHAR(1000)   ,

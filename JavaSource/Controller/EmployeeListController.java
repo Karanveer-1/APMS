@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,7 +12,7 @@ import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
-import Model.Employee;
+import model.Employee;
 
 @Named("employeeListController")
 @ViewScoped
