@@ -21,8 +21,12 @@ public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private ProAssi proAssi;
+	@Id
+	@Column(name = "ProNo", nullable = false)
+	private int proNo;
+
+	@Column(name = "ProMgrEmpNo", nullable = false)
+	private int proMgrEmpNo;
 
 	/**
 	 * Project current state
@@ -37,19 +41,28 @@ public class Project implements Serializable {
 
 	}
 
-	public Project(ProAssi proAssi, String state, String comment) {
+	public Project(int proNo, int proMgrEmpNo, String state, String comment) {
 		super();
-		this.proAssi = proAssi;
+		this.proNo = proNo;
+		this.proMgrEmpNo = proMgrEmpNo;
 		this.state = state;
 		this.comment = comment;
 	}
 
-	public ProAssi getProAssi() {
-		return proAssi;
+	public int getProNo() {
+		return proNo;
 	}
 
-	public void setProAssi(ProAssi proAssi) {
-		this.proAssi = proAssi;
+	public void setProNo(int proNo) {
+		this.proNo = proNo;
+	}
+
+	public int getProMgrEmpNo() {
+		return proMgrEmpNo;
+	}
+
+	public void setProMgrEmpNo(int proMgrEmpNo) {
+		this.proMgrEmpNo = proMgrEmpNo;
 	}
 
 	public String getState() {
@@ -67,5 +80,8 @@ public class Project implements Serializable {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	
+	
 
+	
 }

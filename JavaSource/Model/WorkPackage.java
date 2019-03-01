@@ -10,8 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "WorkPackage")
 public class WorkPackage implements Serializable {
 
 	/**
@@ -19,88 +21,56 @@ public class WorkPackage implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Composite key
-	 */
-	@Id
-	@Column(name = "WPID", nullable = false)
-	private String WPID;
-
-	/**
-	 * Composite key with project
-	 */
 	@EmbeddedId
-	private Project project;
+	private WorkPackagePK workPackagePk;
 
-	/**
-	 * Responsible Engineer who is in charge of the work package
-	 */
-	@OneToOne
-	private Employee WPManager;
+	@Column(name = "REEmpNo", nullable = false)
+	private int reEmpNo;
 
-	/**
-	 * Contains a list of lower level work packages
-	 */
-	@OneToMany
-	private ArrayList<WorkPackage> WPList;
+	@Column(name = "State", nullable = false)
+	private String state;
 
-	/**
-	 * Total days of works
-	 */
-	private int budget;
+	@Column(name = "Comment")
+	private String comment;
 
-	
-	public WorkPackage() {
-
-	}
-
-	public WorkPackage(String wPID, Project project, Employee wPManager, ArrayList<WorkPackage> wPList, int budget) {
+	public WorkPackage(WorkPackagePK workPackagePk, int reEmpNo, String state, String comment) {
 		super();
-		WPID = wPID;
-		this.project = project;
-		WPManager = wPManager;
-		WPList = wPList;
-		this.budget = budget;
+		this.workPackagePk = workPackagePk;
+		this.reEmpNo = reEmpNo;
+		this.state = state;
+		this.comment = comment;
 	}
 
-	public String getWPID() {
-		return WPID;
+	public WorkPackagePK getWorkPackagePk() {
+		return workPackagePk;
 	}
 
-	public void setWPID(String wPID) {
-		WPID = wPID;
+	public void setWorkPackagePk(WorkPackagePK workPackagePk) {
+		this.workPackagePk = workPackagePk;
 	}
 
-	public Project getProject() {
-		return project;
+	public int getReEmpNo() {
+		return reEmpNo;
 	}
 
-	public void setProject(Project project) {
-		this.project = project;
+	public void setReEmpNo(int reEmpNo) {
+		this.reEmpNo = reEmpNo;
 	}
 
-	public Employee getWPManager() {
-		return WPManager;
+	public String getState() {
+		return state;
 	}
 
-	public void setWPManager(Employee wPManager) {
-		WPManager = wPManager;
+	public void setState(String state) {
+		this.state = state;
 	}
 
-	public ArrayList<WorkPackage> getWPList() {
-		return WPList;
+	public String getComment() {
+		return comment;
 	}
 
-	public void setWPList(ArrayList<WorkPackage> wPList) {
-		WPList = wPList;
-	}
-
-	public int getBudget() {
-		return budget;
-	}
-
-	public void setBudget(int budget) {
-		this.budget = budget;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 }
