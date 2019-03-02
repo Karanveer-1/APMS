@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -9,27 +10,58 @@ import javax.persistence.Embeddable;
 public class TimesheetRowPK implements Serializable {
 
     @Column(name = "EmpNo", nullable = false)
-    private int empNumber;
-
-    @Column(name = "Year", nullable = false)
-    private int year;
-
-    @Column(name = "WeekNo", nullable = false)
-    private int weekNo;
-
+    private int empNo;
+    
+    @Column(name = "StartDate", nullable = false)
+    private Date startDate;
+    
     @Column(name = "ProNo", nullable = false)
-    private int projectNumber;
-
+    private int proNo;
+    
     @Column(name = "WPID", nullable = false)
-    private String WPID;
+    private String wpid;
+    
+    public TimesheetRowPK() {}
 
-    public TimesheetRowPK(int empNumber, int year, int weekNo,
-            int projectNumber, String wPID) {
+    public TimesheetRowPK(int empNo, Date startDate, int proNo, String wpid) {
         super();
-        this.empNumber = empNumber;
-        this.year = year;
-        this.weekNo = weekNo;
-        this.projectNumber = projectNumber;
-        WPID = wPID;
+        this.empNo = empNo;
+        this.startDate = startDate;
+        this.proNo = proNo;
+        this.wpid = wpid;
     }
+
+    public int getEmpNo() {
+        return empNo;
+    }
+
+    public void setEmpNo(int empNo) {
+        this.empNo = empNo;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public int getProNo() {
+        return proNo;
+    }
+
+    public void setProNo(int proNo) {
+        this.proNo = proNo;
+    }
+
+    public String getWpid() {
+        return wpid;
+    }
+
+    public void setWpid(String wpid) {
+        this.wpid = wpid;
+    }
+    
+    
 }
