@@ -6,6 +6,7 @@
       
 	<!-- Nav BAR -->
 	<ui:composition>
+		<h:form>
 		<div class="sidebar" data-background-color="black" data-active-color="danger">
 			<div class="sidebar-wrapper">
 				<div class="logo">
@@ -14,27 +15,54 @@
 					</span>
 				</div>
 				<ul class="nav">
-					<li class="active"><a href=""> <i class="ti-panel"></i>
+					<li class="active">
+						<h:commandLink action="Dashboard.xhtml?faces-redirect=true">
+							<i class="ti-panel"></i>
 							Dashboard
-					</a></li>
-					<li><a href=""> <i class="ti-user"></i>
+						</h:commandLink>	
+					</li>
+					<li>
+						<h:commandLink action="EmployeeList.xhtml?faces-redirect=true">
+							<i class="ti-alarm-clock"></i>
+							Employee
+						</h:commandLink>				
+					</li>
+					<li>
+						<h:commandLink action="Dashboard.xhtml?faces-redirect=true">
+							<i class="ti-user"></i>
 							User Profile
-					</a></li>
-					<li><a href=""> <i class="ti-view-list-alt"></i>
+						</h:commandLink>				
+					</li>
+					
+					<li>
+						<h:commandLink action="Dashboard.xhtml?faces-redirect=true">
+							<i class="ti-view-list-alt"></i>
 							Projects
-					</a></li>
-					<li><a href=""> <i class="ti-package"></i>
+						</h:commandLink>				
+					</li>
+					
+					<li>
+						<h:commandLink action="Dashboard.xhtml?faces-redirect=true">
+							<i class="ti-package"></i>
 							Work Packages
-					</a></li>
-					<li><a href=""> <i class="ti-alarm-clock"></i>
+						</h:commandLink>				
+					</li>
+					<li>
+						<h:commandLink action="Dashboard.xhtml?faces-redirect=true">
+							<i class="ti-alarm-clock"></i>
 							Time Sheets
-					</a></li>
-					<li><a href=""> <i class="ti-angle-left"></i>
+						</h:commandLink>				
+					</li>
+					<li>
+						<h:commandLink action="#{loginController.logout()}">
+							<i class="ti-angle-left"></i>
 							Log Out
-					</a></li>
+						</h:commandLink>
+					</li>
 				</ul>
 			</div>
 		</div>
+		</h:form>
 	</ui:composition>
 	<!-- END OF SIDE NAVIGATION BAR -->
 </html>

@@ -1,9 +1,18 @@
 /*
-V0.2.1
+V0.2.3
 1. Created admin user.
-2. Created Employee, SuperEmp, ApproEmp, PLevel, EmpVacSick, LeaveData,
-   Project, ProAssi, ProjectForm, ProEmp, WorkPackage, WorkPackageForm,
-   WorkPackageRelationship, WPEmp, Timesheet, TimesheetRow, and Role tables.
+2. Created tables:
+	Employee
+	EmpPLevel
+	PLevel
+	Project
+    ProAssi
+    ProEmp
+    WorkPackage
+    WPEmp
+    Timesheet
+    TimesheetRow
+    Role
 */
 
 
@@ -29,7 +38,8 @@ CREATE TABLE Employee
     EmpLastName   	VARCHAR(100) 	NOT NULL,
 	EmpUserName  	VARCHAR(50)     NOT NULL UNIQUE,
     Password     	VARCHAR(50)     NOT NULL,
-	PLevel          VARCHAR(30)     NOT NULL,
+	SuperEmpNo    	INTEGER      	NOT NULL,
+	ApproEmpNo     	INTEGER      	NOT NULL,
 	State           VARCHAR(30)     NOT NULL,
 	Comment         VARCHAR(1000)   ,
 	PRIMARY KEY(EmpNo)
@@ -37,35 +47,23 @@ CREATE TABLE Employee
 
 
 -- Load data into table Employee
-INSERT INTO APMS.Employee VALUES('1', 'Admin', 'Admin' , 'admin', 'password', 'P1', 'Active', '');
-INSERT INTO APMS.Employee VALUES('2', 'Karanveer', 'Khanna', 'karan', 'password', 'P1', 'Active', '');
-INSERT INTO APMS.Employee VALUES('3', 'Ryan', 'Liang', 'ryan', 'password', 'P1', 'Active', '');
-INSERT INTO APMS.Employee VALUES('4', 'Test', 'Test', 'test', 'password', 'P1', 'Active', '');
+INSERT INTO APMS.Employee VALUES('1', 'Admin', 'Admin', 'admin', 'password', '1', '1', 'Active', '');
+INSERT INTO APMS.Employee VALUES('2', 'Karanveer', 'Khanna', 'karan', 'password', '1', '1', 'Active', '');
+INSERT INTO APMS.Employee VALUES('3', 'Ryan', 'Liang', 'ryan', 'password', '1', '2', 'Active', '');
+INSERT INTO APMS.Employee VALUES('4', 'Test', 'Test', 'test', 'password', '2', '3', 'Active', '');
 
 
 
--- Create table SuperEmp
-CREATE TABLE SuperEmp
+-- Create table EmpPLevel
+CREATE TABLE EmpPLevel
 (
-	SuperEmpNo     INTEGER       NOT NULL,
-    EmpNo          INTEGER       NOT NULL,
-	PRIMARY KEY(SuperEmpNo, EmpNo)
+	EmpNo       INTEGER       NOT NULL,
+    StartDate   DATE          NOT NULL,
+	PLevel      VARCHAR(30)   NOT NULL,
+	PRIMARY KEY(EmpNo, StartDate)
 );
 
--- Load data into table SuperEmp
-
-
-
-
--- Create table ApproEmp
-CREATE TABLE ApproEmp
-(
-	ApproEmpNo     INTEGER       NOT NULL,
-    EmpNo          INTEGER       NOT NULL,
-	PRIMARY KEY(ApproEmpNo, EmpNo)
-);
-
--- Load data into table ApproEmp
+-- Load data into table EmpPLevel
 
 
 
@@ -73,10 +71,10 @@ CREATE TABLE ApproEmp
 -- Create table PLevel
 CREATE TABLE PLevel
 (
-	Year          INTEGER       NOT NULL,
+	StartDate     DATE       NOT NULL,
 	PLevel        VARCHAR(30)   NOT NULL,
     Wage          FLOAT         NOT NULL,
-	PRIMARY KEY(Year, PLevel)
+	PRIMARY KEY(StartDate, PLevel)
 );
 
 -- Load data into table PLevel
@@ -84,47 +82,16 @@ CREATE TABLE PLevel
 
 
 
--- Create table EmpVacSick
-CREATE TABLE EmpVacSick
-(
-	EmpNo           INTEGER       NOT NULL,
-    Year            INTEGER       NOT NULL,
-    VacationDays    INTEGER       NOT NULL,
-	SickDays        INTEGER       NOT NULL,
-	PRIMARY KEY(EmpNo, Year)
-);
-
--- Load data into table EmpVacSick
-
-
-
-
--- Create table LeaveData
-CREATE TABLE LeaveData
-(
-	EmpNo          INTEGER         NOT NULL,
-	StartDate      DATE            NOT NULL,
-	Days           INTEGER         NOT NULL,
-	Category       VARCHAR(100)    NOT NULL,
-	Details        VARCHAR(1000)   NOT NULL,
-	ApprovedEmpNo  INTEGER         ,
-	State          VARCHAR(30)     NOT NULL,
-	Comment        VARCHAR(1000)   ,
-	PRIMARY KEY(EmpNo, StartDate)
-);
-
--- Load data into table LeaveData
-
-
-
-
 -- Create table Project
 CREATE TABLE Project
 (
-	ProNo        INTEGER         NOT NULL,
-    ProMgrEmpNo  INTEGER         NOT NULL,
-    State        VARCHAR(30)     NOT NULL,
-	Comment      VARCHAR(1000)   ,
+	ProNo           INTEGER         NOT NULL,
+    ProMgrEmpNo     INTEGER         NOT NULL,
+	ProName         VARCHAR(200)    NOT NULL,
+	ProDescription  VARCHAR(1000)   NOT NULL,
+	Budget          FLOAT           NOT NULL,
+    State           VARCHAR(30)     NOT NULL,
+	Comment         VARCHAR(1000)   ,
 	PRIMARY KEY(ProNo)
 );
 
@@ -145,32 +112,6 @@ CREATE TABLE ProAssi
 
 
 
--- Create table ProjectForm
-CREATE TABLE ProjectForm
-(
-	ProNo           INTEGER        NOT NULL,
-    Name            VARCHAR(100)   NOT NULL,
-    Position        VARCHAR(50)    ,
-	ReportsTo       VARCHAR(100)   ,
-    ProName         VARCHAR(200)   ,
-	ProMgrEmpNo     INTEGER        ,
-	ProMgr          VARCHAR(100)   ,
-	JobDescription  VARCHAR(1000)  ,
-	Duration        VARCHAR(1000)  ,
-	Milestone       VARCHAR(1000)  ,
-	Training        VARCHAR(1000)  ,
-	Special         VARCHAR(1000)  ,
-	Criteria        VARCHAR(1000)  ,
-	Signatures      VARCHAR(1000)  ,
-	Dates           DATE           NOT NULL,
-	PRIMARY KEY(ProNo)
-);
-
--- Load data into table ProjectForm
-
-
-
-
 
 -- Create table ProEmp
 CREATE TABLE ProEmp
@@ -188,52 +129,19 @@ CREATE TABLE ProEmp
 -- Create table WorkPackage
 CREATE TABLE WorkPackage
 (
-	ProNo        INTEGER         NOT NULL,
-    WPID         VARCHAR(30)     NOT NULL,
-    REEmpNo      INTEGER         NOT NULL,
-	State        VARCHAR(30)     NOT NULL,
-	Comment      VARCHAR(1000)   ,
+	ProNo          INTEGER         NOT NULL,
+    WPID           VARCHAR(30)     NOT NULL,
+    REEmpNo        INTEGER         NOT NULL,
+	WPTitle        VARCHAR(200)    NOT NULL,
+	WPDescription  VARCHAR(1000)   NOT NULL,
+	ParentWPID     VARCHAR(30)     ,
+	Budget         FLOAT           NOT NULL,
+	State          VARCHAR(30)     NOT NULL,
+	Comment        VARCHAR(1000)   ,
 	PRIMARY KEY(ProNo, WPID)
 );
 
 -- Load data into table WorkPackage
-
-
-
-
-
--- Create table WorkPackageForm
-CREATE TABLE WorkPackageForm
-(
-	ProNo         INTEGER         NOT NULL,
-    WPID          VARCHAR(30)     NOT NULL,
-    Title         VARCHAR(200)    NOT NULL,
-	Contractor    VARCHAR(200)    ,
-    REEmpNo       INTEGER         ,
-	IssueDate     Date            NOT NULL,
-	Purpose       VARCHAR(1000)   ,
-	Inputs        VARCHAR(1000)   ,
-	Activates     VARCHAR(1000)   ,
-	Outputs       VARCHAR(1000)   ,
-	PRIMARY KEY(ProNo, WPID)
-);
-
--- Load data into table WorkPackageForm
-
-
-
-
--- Create table WorkPackageRelationship
-CREATE TABLE WorkPackageRelationship
-(
-	ProNo        INTEGER       NOT NULL,
-    ChildWPID    VARCHAR(30)   NOT NULL,
-    ParentWPID   VARCHAR(30)   NOT NULL,
-	PRIMARY KEY(ProNo, ChildWPID)
-);
-
--- Load data into table WorkPackageRelationship
-
 
 
 
@@ -255,14 +163,12 @@ CREATE TABLE WPEmp
 CREATE TABLE Timesheet
 (
 	EmpNo          INTEGER         NOT NULL,
-	Year           INTEGER         NOT NULL,
-    WeekNo         INTEGER         NOT NULL,
-    Wage           FLOAT           NOT NULL,
+	StartDate      DATE            NOT NULL,
     Signature      VARCHAR(100)    ,
 	ApprovedEmpNo  INTEGER         ,
     State          VARCHAR(30)     NOT NULL,
 	Comment        VARCHAR(1000)   ,
-	PRIMARY KEY(EmpNo, Year, WeekNo)
+	PRIMARY KEY(EmpNo, StartDate)
 );
 
 -- Load data into table Timesheet
@@ -275,8 +181,7 @@ CREATE TABLE Timesheet
 CREATE TABLE TimesheetRow
 (
 	EmpNo        INTEGER         NOT NULL,
-	Year         INTEGER         NOT NULL,
-    WeekNo       INTEGER         NOT NULL,
+	StartDate    DATE            NOT NULL,
     ProNo        INTEGER         NOT NULL,
 	WPID         VARCHAR(30)     NOT NULL,
 	Sat          FLOAT           ,
@@ -289,7 +194,7 @@ CREATE TABLE TimesheetRow
 	Note         VARCHAR(1000)   ,
 	State        VARCHAR(30)     NOT NULL,
 	Comment      VARCHAR(1000)   ,
-	PRIMARY KEY(EmpNo, Year, WeekNo, ProNo, WPID)
+	PRIMARY KEY(EmpNo, StartDate, ProNo, WPID)
 );
 
 -- Load data into table TimesheetRow
@@ -302,8 +207,6 @@ CREATE TABLE Role
 (
 	EmpNo          INTEGER         NOT NULL,
 	Role           VARCHAR(100)    NOT NULL,
-    State          VARCHAR(30)     NOT NULL,
-    Comment        VARCHAR(1000)   ,
 	PRIMARY KEY(EmpNo, Role)
 );
 
