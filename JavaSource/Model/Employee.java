@@ -26,12 +26,15 @@ public class Employee implements Serializable {
 
     @Column(name = "Password", nullable = false)
     private String password;
-
-    @Column(name = "PLevel", nullable = false)
-    private String pLevel;
+      
+    @Column(name = "SuperEmpNo", nullable = false)
+    private int superEmpNo;
+    
+    @Column(name = "ApproEmpNo", nullable = false)
+    private int approEmpNo;
 
     @Column(name = "State", nullable = false)
-    private String State;
+    private String state;
 
     @Column(name = "Comment")
     private String comment;
@@ -40,7 +43,7 @@ public class Employee implements Serializable {
     }
 
     public Employee(int empNumber, String firstName, String lastName,
-            String userName, String password, String pLevel, String state,
+            String userName, String password, String state,
             String comment) {
         super();
         this.empNumber = empNumber;
@@ -48,8 +51,7 @@ public class Employee implements Serializable {
         this.lastName = lastName;
         this.userName = userName;
         this.password = password;
-        this.pLevel = pLevel;
-        State = state;
+        this.state = state;
         this.comment = comment;
     }
 
@@ -92,21 +94,29 @@ public class Employee implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getpLevel() {
-        return pLevel;
+    
+    public int getSuperEmpNo() {
+        return superEmpNo;
     }
 
-    public void setpLevel(String pLevel) {
-        this.pLevel = pLevel;
+    public void setSuperEmpNo(int superEmpNo) {
+        this.superEmpNo = superEmpNo;
+    }
+
+    public int getApproEmpNo() {
+        return approEmpNo;
+    }
+
+    public void setApproEmpNo(int approEmpNo) {
+        this.approEmpNo = approEmpNo;
     }
 
     public String getState() {
-        return State;
+        return this.state;
     }
 
     public void setState(String state) {
-        State = state;
+        this.state = state;
     }
 
     public String getComment() {

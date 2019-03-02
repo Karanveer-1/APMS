@@ -32,15 +32,14 @@ public class EmployeeListController implements Serializable {
     }
 
     public void addEmployee(String empNo, String firstName, String lastName,
-            String username, String password, String pLevel, String state,
+            String username, String password, String state,
             String comment) {
 
         employees = database.getEmployees();
         
-        if (validateEmployee(empNo, firstName, lastName, username, password,
-                pLevel, state, comment, false)) {
+        if (validateEmployee(empNo, firstName, lastName, username, password, state, comment, false)) {
             Employee e = new Employee(Integer.parseInt(empNo), firstName,
-                    lastName, username, password, pLevel, state, comment);
+                    lastName, username, password, state, comment);
             employees.add(e);
             database.addEmployee(e);
             
@@ -52,18 +51,16 @@ public class EmployeeListController implements Serializable {
     }
 
     public void editEmployee(String firstName, String lastName, String username,
-            String password, String pLevel, String state, String comment) {
+            String password, String state, String comment) {
         
         employees = database.getEmployees();
         
-        if (validateEmployee(null, firstName, lastName, username, password,
-                pLevel, state, comment, true)) {
+        if (validateEmployee(null, firstName, lastName, username, password, state, comment, true)) {
 
             editEmployee.setFirstName(firstName);
             editEmployee.setLastName(lastName);
             editEmployee.setUserName(username);
             editEmployee.setPassword(password);
-            editEmployee.setpLevel(pLevel);
             editEmployee.setState(state);
             editEmployee.setComment(comment);
 
@@ -93,22 +90,20 @@ public class EmployeeListController implements Serializable {
         this.editEmployee = new Employee(editEmployee.getEmpNumber(),
                 editEmployee.getFirstName(), editEmployee.getLastName(),
                 editEmployee.getUserName(), editEmployee.getPassword(),
-                editEmployee.getpLevel(), editEmployee.getState(),
-                editEmployee.getComment());
+                editEmployee.getState(), editEmployee.getComment());
                 
 
         PrimeFaces.current().executeScript("PF('editEmployeeDialog').show();");
     }
 
     public boolean validateEmployee(String empNo, String firstName,
-            String lastName, String username, String password, String pLevel,
+            String lastName, String username, String password,
             String state, String comment, boolean isEdit) {
 
         if (isEdit
-                ? isAnyNullOrWhitespace(firstName, lastName, username, password,
-                        pLevel, state)
+                ? isAnyNullOrWhitespace(firstName, lastName, username, password, state)
                 : isAnyNullOrWhitespace(empNo, firstName, lastName, username,
-                        password, pLevel, state)) {
+                        password, state)) {
             addErrorMessage("All fields except for comment must be filled in");
             return false;
         } else if (!isEdit && !isInteger(empNo)) {
