@@ -57,13 +57,29 @@ public class DatabaseController implements Serializable {
         return manager.createQuery("SELECT t from Timesheet t", Timesheet.class)
                 .getResultList();
     }
+    
+    public void addTimesheet(Timesheet t) {
+        manager.persist(t);
+    }
+    
+    public void addTimesheetIfNotExist(Timesheet t, boolean merge) {
+        if (manager.find(Timesheet.class, t.getTimesheetPk()) == null) {
+            manager.persist(t);
+        } else if (merge){
+            manager.merge(t);
+        }
+    }
+    
+    public void removeTimesheet(Timesheet t) {
+        manager.remove(manager.contains(t) ? t : manager.merge(t));
+    }
 
     // #########################################################################
     // # TimesheetRow methods
     // #########################################################################
     private List<TimesheetRow> getTimesheetRows() {
         return manager
-                .createQuery("SELECT tr from Timesheet tr", TimesheetRow.class)
+                .createQuery("SELECT tr from TimesheetRow tr", TimesheetRow.class)
                 .getResultList();
     }
 

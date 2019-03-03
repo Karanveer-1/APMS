@@ -19,11 +19,11 @@
 
 		<ui:define name="content">
 			<h:form id="formMain">
-				<p:commandButton value="Add Timesheet"
+				<p:commandButton id="addButton" value="Add Timesheet"
 					action="#{timesheetController.addTimesheet()}"
 					disabled="#{timesheetController.hasTimesheetForCurrentWeek()}" />
-				<p:dataTable value="#{timesheetController.timesheets}"
-					var="timesheet">
+				<p:dataTable id="viewTable"
+					value="#{timesheetController.timesheets}" var="timesheet">
 					<p:column headerText="Date">
 						<h:outputText value="#{timesheet.timesheetPk.startDate}" />
 					</p:column>
@@ -35,7 +35,14 @@
 					</p:column>
 					<p:column headerText="Edit">
 						<p:commandButton value="Edit"
-							action="#{timesheetController.editTimesheet(timesheet)}" />
+							action="#{timesheetController.editTimesheet(timesheet)}"
+							disabled="#{!timesheetController.timesheetIsInCurrentWeek(timesheet)}" />
+					</p:column>
+					<p:column headerText="Delete">
+						<p:commandButton value="Delete"
+							action="#{timesheetController.deleteTimesheet(timesheet)}"
+							disabled="#{!timesheetController.timesheetIsInCurrentWeek(timesheet)}"
+							update=":formMain" />
 					</p:column>
 				</p:dataTable>
 			</h:form>

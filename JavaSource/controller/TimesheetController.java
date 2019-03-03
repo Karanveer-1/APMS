@@ -16,6 +16,7 @@ import model.Employee;
 import model.Timesheet;
 import model.TimesheetPK;
 import model.TimesheetRow;
+import model.TimesheetRowPK;
 import utils.DateUtils;
 
 @Named("timesheetController")
@@ -38,7 +39,7 @@ public class TimesheetController implements Serializable {
         TimesheetPK pk = new TimesheetPK(getLoggedInEmployee().getEmpNumber(),
                 Date.from(Instant.now()));
 
-        editTimesheet = new Timesheet(pk, null, null, null, null);
+        editTimesheet = new Timesheet(pk, null, null, "New", null);
         editTimesheetRows = new ArrayList<TimesheetRow>();
 
         return "EditTimesheet.xhtml?faces-redirect=true";
@@ -54,20 +55,35 @@ public class TimesheetController implements Serializable {
     }
 
     public String saveTimesheet() {
-        // TODO: Validate
-        // TODO: Merge to database
-        // TODO: Update timesheets list using database method
+        // TODO: Validate timesheet rows
 
-        timesheets.add(editTimesheet);
-
+        database.addTimesheetIfNotExist(editTimesheet, true);
+        timesheets = database.getTimesheets();
+        
         return "Timesheets.xhtml?faces-redirect=true";
     }
-    
+
     public String discardTimesheetChanges() {
         editTimesheet = null;
         editTimesheetRows = null;
-        
+
         return "Timesheets.xhtml?faces-redirect=true";
+    }
+
+    public void deleteTimesheet(Timesheet t) {
+        database.removeTimesheet(t);
+        timesheets = database.getTimesheets();
+    }
+    
+    public void addTimesheetRow() {
+        Employee currentEmployee = getLoggedInEmployee();
+
+        TimesheetRowPK pk = new TimesheetRowPK(currentEmployee.getEmpNumber(),
+                Date.from(Instant.now()), null, null);
+        TimesheetRow row = new TimesheetRow();
+        row.setTimesheetRowPk(pk);
+
+        editTimesheetRows.add(row);
     }
 
     public boolean hasTimesheetForCurrentWeek() {
@@ -80,6 +96,11 @@ public class TimesheetController implements Serializable {
         }
 
         return false;
+    }
+
+    public boolean timesheetIsInCurrentWeek(Timesheet t) {
+        return DateUtils.isWithinWeekOfYear(t.getTimesheetPk().getStartDate(),
+                Date.from(Instant.now()));
     }
 
     public List<Timesheet> getTimesheets() {
@@ -97,7 +118,7 @@ public class TimesheetController implements Serializable {
     public void setEditTimesheet(Timesheet editTimesheet) {
         this.editTimesheet = editTimesheet;
     }
-    
+
     public List<TimesheetRow> getEditTimesheetRows() {
         return editTimesheetRows;
     }
