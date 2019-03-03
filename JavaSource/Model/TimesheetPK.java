@@ -25,5 +25,20 @@ public class TimesheetPK implements Serializable {
         this.empNo = empNo;
         this.startDate = startDate;
     }
-    
+
+    public int getEmpNo() {
+        return empNo;
+    }
+
+    public void setEmpNo(int empNo) {
+        this.empNo = empNo;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 }

@@ -15,49 +15,60 @@ import java.io.Serializable;
 @Named("loginController")
 @SessionScoped
 public class LoginController implements Serializable {
-    @Inject Credential credential;
-    @Inject DatabaseController database;
+
+    public static final String USER_KEY = "user";
+
+    @Inject
+    Credential credential;
+    @Inject
+    DatabaseController database;
+
     private Employee currentEmployee;
-    
+
     public LoginController() {
         currentEmployee = null;
     }
-    
+
     public String login() {
-        Employee result = database.getEmployeeByUsername(credential.getUserName());
-        
+        Employee result = database
+                .getEmployeeByUsername(credential.getUserName());
+
         if (result != null) {
-           currentEmployee = result;
-           return "Dashboard.xhtml?faces-redirect=true";
+            currentEmployee = result;
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .getSessionMap().put(USER_KEY, currentEmployee);
+            return "Dashboard.xhtml?faces-redirect=true";
         } else {
-            FacesContext.getCurrentInstance().addMessage(null,
-                                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                            "Failed to login.", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Failed to login.", null));
             return null;
         }
-     }
+    }
 
-     public String logout() {
-         currentEmployee = null;
-         return "Login.xhtml?faces-redirect=true";
-     }
+    public String logout() {
+        currentEmployee = null;
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                .remove(USER_KEY);
+        return "Login.xhtml?faces-redirect=true";
+    }
 
-     public boolean isLoggedIn() {
+    public boolean isLoggedIn() {
         return currentEmployee != null;
-     }
-     
-     public void checkIfLoggedIn() {
-         FacesContext context = FacesContext.getCurrentInstance();
+    }
 
-         if (!isLoggedIn()) {
-             context.addMessage(null,
-                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                             "Please login to access the page.", null));
+    public void checkIfLoggedIn() {
+        FacesContext context = FacesContext.getCurrentInstance();
 
-             ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) context.getApplication().getNavigationHandler();
-             nav.performNavigation("Login");
-         }
-     }
+        if (!isLoggedIn()) {
+            context.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Please login to access the page.", null));
+
+            ConfigurableNavigationHandler nav = (ConfigurableNavigationHandler) context
+                    .getApplication().getNavigationHandler();
+            nav.performNavigation("Login");
+        }
+    }
 
     public Employee getCurrentEmployee() {
         return currentEmployee;

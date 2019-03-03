@@ -18,7 +18,7 @@ public class Timesheet implements Serializable {
     private String signature;
     
     @Column(name = "ApprovedEmpNo")
-    private int approvedEmpNo;
+    private Integer approvedEmpNo;
     
     @Column(name = "State")
     private String state;
@@ -30,12 +30,52 @@ public class Timesheet implements Serializable {
     }
 
     public Timesheet(TimesheetPK timesheetPk, String signature,
-            int approvedEmpNo, String state, String comment) {
+            Integer approvedEmpNo, String state, String comment) {
         super();
         this.timesheetPk = timesheetPk;
         this.signature = signature;
         this.approvedEmpNo = approvedEmpNo;
         this.state = state;
+        this.comment = comment;
+    }
+
+    public TimesheetPK getTimesheetPk() {
+        return timesheetPk;
+    }
+
+    public void setTimesheetPk(TimesheetPK timesheetPk) {
+        this.timesheetPk = timesheetPk;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public Integer getApprovedEmpNo() {
+        return approvedEmpNo;
+    }
+
+    public void setApprovedEmpNo(Integer approvedEmpNo) {
+        this.approvedEmpNo = approvedEmpNo;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
         this.comment = comment;
     }
 }

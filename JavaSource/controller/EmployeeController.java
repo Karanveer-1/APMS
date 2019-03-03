@@ -14,9 +14,9 @@ import org.primefaces.PrimeFaces;
 
 import model.Employee;
 
-@Named("employeeListController")
+@Named("employeeController")
 @ViewScoped
-public class EmployeeListController implements Serializable {
+public class EmployeeController implements Serializable {
 
     @Inject
     private DatabaseController database;

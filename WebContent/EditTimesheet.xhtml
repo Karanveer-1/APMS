@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>IGNORED!</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="/templates/MasterLayout.xhtml">
+
+        <ui:define name="windowTitle">Edit Timesheet</ui:define>
+        <ui:define name="headerTitle">
+            <h:outputText value="Edit Timesheet" class="navbar-brand" />
+        </ui:define>
+
+        <ui:define name="content">
+            <h:form id="formMain">
+                <p:commandButton value="Add Row" />
+                <p:commandButton value="Remove Row" />
+                <p:commandButton value="Save" action="#{timesheetController.saveTimesheet()}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
