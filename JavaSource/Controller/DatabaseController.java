@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -11,6 +13,9 @@ import javax.persistence.TypedQuery;
 
 import model.Employee;
 import model.Timesheet;
+import model.TimesheetRow;
+import model.TimesheetRowPK;
+import utils.DateUtils;
 
 @Stateless
 public class DatabaseController implements Serializable {
@@ -44,33 +49,62 @@ public class DatabaseController implements Serializable {
     public void updateEmployee(Employee e) {
         manager.merge(e);
     }
-    
+
     // #########################################################################
-    // # Employee methods
+    // # Timesheet methods
     // #########################################################################
     public List<Timesheet> getTimesheets() {
         return manager.createQuery("SELECT t from Timesheet t", Timesheet.class)
                 .getResultList();
     }
+
+    // #########################################################################
+    // # TimesheetRow methods
+    // #########################################################################
+    private List<TimesheetRow> getTimesheetRows() {
+        return manager
+                .createQuery("SELECT tr from Timesheet tr", TimesheetRow.class)
+                .getResultList();
+    }
+
+    public List<TimesheetRow> getTimesheetRows(int empNo, Date startDate) {
+        List<TimesheetRow> timesheetRows = getTimesheetRows();
+
+        List<TimesheetRow> relatedTimesheetRows = new ArrayList<TimesheetRow>();
+
+        for (TimesheetRow row : timesheetRows) {
+            TimesheetRowPK pk = row.getTimesheetRowPk();
+
+            if (pk.getEmpNo() == empNo
+                    && DateUtils.isWithinWeekOfYear(pk.getStartDate(), startDate)) {
+                relatedTimesheetRows.add(row);
+            }
+        }
+
+        return relatedTimesheetRows;
+    }
 }
 
 /*
  * This is just a place holder for extra whitespace
- * gfd
- * gfd
- * dfg
- * dg
- * dfg
+ * 
  * f
  * 
- * fd
  * g
- * d
- * ff
  * 
- * gf
  * g
- * dfg
- * d
- * gdf
+ * 
+ * g
+ * 
+ * g
+ * 
+ * g
+ * 
+ * g
+ * 
+ * g
+ * 
+ * g
+ * 
+ * g
  */

@@ -20,8 +20,39 @@
         <ui:define name="content">
             <h:form id="formMain">
                 <p:commandButton value="Add Row" />
-                <p:commandButton value="Remove Row" />
                 <p:commandButton value="Save" action="#{timesheetController.saveTimesheet()}"/>
+                <p:commandButton value="Discard Changes" action="#{timesheetController.discardTimesheetChanges()}" immediate="true" />
+                
+                <p:dataTable value="#{timesheetController.editTimesheetRows}" var="row">
+                    <p:column headerText="Start Date">
+                        <p:inputText value="#{row.timesheetRowPk.startDate}" />
+                    </p:column>
+                    <p:column headerText="Project No">
+                        <p:inputText value="#{row.timesheetRowPk.proNo}" />
+                    </p:column>
+                    <p:column headerText="WPID">
+                        <p:inputText value="#{row.timesheetRowPk.wpid}" />
+                    </p:column>
+                    <p:column headerText="Sat">
+                        <p:inputText value="#{row.sat}" />
+                    </p:column>
+                    <p:column headerText="Sun">
+                    </p:column>
+                    <p:column headerText="Mon">
+                    </p:column>
+                    <p:column headerText="Tue">
+                    </p:column>
+                    <p:column headerText="Wed">
+                    </p:column>
+                    <p:column headerText="Thu">
+                    </p:column>
+                    <p:column headerText="Fri">
+                    </p:column>
+                    <p:column headerText="State">
+                    </p:column>
+                    <p:column headerText="Comment">
+                    </p:column>
+                </p:dataTable>
             </h:form>
         </ui:define>
     </ui:composition>

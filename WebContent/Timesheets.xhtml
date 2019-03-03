@@ -19,7 +19,9 @@
 
 		<ui:define name="content">
 			<h:form id="formMain">
-				<p:commandButton value="Add Timesheet" action="#{timesheetController.addTimesheet()}"/>
+				<p:commandButton value="Add Timesheet"
+					action="#{timesheetController.addTimesheet()}"
+					disabled="#{timesheetController.hasTimesheetForCurrentWeek()}" />
 				<p:dataTable value="#{timesheetController.timesheets}"
 					var="timesheet">
 					<p:column headerText="Date">
@@ -30,6 +32,10 @@
 					</p:column>
 					<p:column headerText="Comment">
 						<h:outputText value="#{timesheet.comment}" />
+					</p:column>
+					<p:column headerText="Edit">
+						<p:commandButton value="Edit"
+							action="#{timesheetController.editTimesheet(timesheet)}" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
