@@ -37,9 +37,6 @@
 					<p:column headerText="Password">
 						<h:outputText value="#{employee.password}" />
 					</p:column>
-					<p:column headerText="PLevel">
-						<h:outputText value="#{employee.pLevel}" />
-					</p:column>
 					<p:column headerText="State">
 						<h:outputText value="#{employee.state}" />
 					</p:column>
@@ -76,9 +73,6 @@
 						<h:outputText id="addPassword" value="Password" />
 						<h:inputText binding="#{addPasswordText}" />
 		
-						<h:outputText id="addPLevel" value="PLevel" />
-						<h:inputText binding="#{addPLevelText}" />
-		
 						<h:outputText id="addState" value="State" />
 						<h:inputText binding="#{addStateText}" />
 		
@@ -94,7 +88,6 @@
 		                            addLastNameText.value,
 		                            addUsernameText.value,
 		                            addPasswordText.value,
-		                            addPLevelText.value,
 		                            addStateText.value,
 		                            addCommentText.value)}" />
 					</h:panelGrid>
@@ -122,10 +115,6 @@
 						<h:inputText binding="#{editPasswordText}"
 							value="#{employeeListController.editEmployee.password}" />
 		
-						<h:outputText id="editPLevel" value="PLevel" />
-						<h:inputText binding="#{editPLevelText}"
-							value="#{employeeListController.editEmployee.pLevel}" />
-		
 						<h:outputText id="editState" value="State" />
 						<h:inputText binding="#{editStateText}"
 							value="#{employeeListController.editEmployee.state}" />
@@ -142,7 +131,6 @@
 		                            editLastNameText.value,
 		                            editUsernameText.value,
 		                            editPasswordText.value,
-		                            editPLevelText.value,
 		                            editStateText.value,
 		                            editCommentText.value)}" />
 					</h:panelGrid>

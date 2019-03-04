@@ -14,32 +14,27 @@ public class Timesheet implements Serializable {
     @EmbeddedId
     private TimesheetPK timesheetPk;
 
-    @Column(name = "Wage")
-    private float wage;
-
     @Column(name = "Signature")
     private String signature;
-
+    
     @Column(name = "ApprovedEmpNo")
-    private int approvedEmpNumber;
-
-    @Column(name = "State", nullable = false)
+    private Integer approvedEmpNo;
+    
+    @Column(name = "State")
     private String state;
-
+    
     @Column(name = "Comment")
     private String comment;
 
     public Timesheet() {
     }
 
-    public Timesheet(TimesheetPK timesheetPk, float wage,
-            String signature, int approvedEmpNumber, String state,
-            String comment) {
+    public Timesheet(TimesheetPK timesheetPk, String signature,
+            Integer approvedEmpNo, String state, String comment) {
         super();
         this.timesheetPk = timesheetPk;
-        this.wage = wage;
         this.signature = signature;
-        this.approvedEmpNumber = approvedEmpNumber;
+        this.approvedEmpNo = approvedEmpNo;
         this.state = state;
         this.comment = comment;
     }
@@ -48,16 +43,8 @@ public class Timesheet implements Serializable {
         return timesheetPk;
     }
 
-    public void setTimesheetPk(TimesheetPK pk) {
-        this.timesheetPk = pk;
-    }
-
-    public float getWage() {
-        return wage;
-    }
-
-    public void setWage(float wage) {
-        this.wage = wage;
+    public void setTimesheetPk(TimesheetPK timesheetPk) {
+        this.timesheetPk = timesheetPk;
     }
 
     public String getSignature() {
@@ -68,12 +55,12 @@ public class Timesheet implements Serializable {
         this.signature = signature;
     }
 
-    public int getApprovedEmpNumber() {
-        return approvedEmpNumber;
+    public Integer getApprovedEmpNo() {
+        return approvedEmpNo;
     }
 
-    public void setApprovedEmpNumber(int approvedEmpNumber) {
-        this.approvedEmpNumber = approvedEmpNumber;
+    public void setApprovedEmpNo(Integer approvedEmpNo) {
+        this.approvedEmpNo = approvedEmpNo;
     }
 
     public String getState() {
@@ -91,5 +78,4 @@ public class Timesheet implements Serializable {
     public void setComment(String comment) {
         this.comment = comment;
     }
-
 }

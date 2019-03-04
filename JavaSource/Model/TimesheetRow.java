@@ -47,9 +47,9 @@ public class TimesheetRow implements Serializable {
     public TimesheetRow() {
     }
 
-    public TimesheetRow(TimesheetRowPK timesheetRowPk, float sat,
-            float sun, float mon, float tue, float wed, float thu, float fri,
-            String note, String state, String comment) {
+    public TimesheetRow(TimesheetRowPK timesheetRowPk, float sat, float sun,
+            float mon, float tue, float wed, float thu, float fri, String note,
+            String state, String comment) {
         super();
         this.timesheetRowPk = timesheetRowPk;
         this.sat = sat;
@@ -152,4 +152,5 @@ public class TimesheetRow implements Serializable {
         this.comment = comment;
     }
 
+    
 }
