@@ -19,50 +19,150 @@
 
 		<ui:define name="content">
 			<h:form id="formMain">
-				<p:commandButton value="Add Row" action="#{timesheetController.addTimesheetRow()}" update="editTable" />
+				<p:commandButton value="Add Row"
+					action="#{timesheetController.addTimesheetRow()}"
+					update="editTable" />
 				<p:commandButton value="Save"
 					action="#{timesheetController.saveTimesheet()}" />
 				<p:commandButton value="Discard Changes"
 					action="#{timesheetController.discardTimesheetChanges()}"
 					immediate="true" />
 
-				<p:dataTable id="editTable" value="#{timesheetController.editTimesheetRows}"
-					var="row">
+				<p:dataTable id="editTable"
+					value="#{timesheetController.editTimesheetRows}" var="row"
+					editable="true" editMode="cell">
+
 					<p:column headerText="Project No">
-						<p:inputText value="#{row.timesheetRowPk.proNo}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.timesheetRowPk.proNo}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.timesheetRowPk.proNo}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
+
 					<p:column headerText="WPID">
-						<p:inputText value="#{row.timesheetRowPk.wpid}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.timesheetRowPk.wpid}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.timesheetRowPk.wpid}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
+
 					<p:column headerText="Start Date">
-                        <p:calendar value="#{row.timesheetRowPk.startDate}" />
-                    </p:column>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.timesheetRowPk.startDate}">
+									<f:convertDateTime pattern="MMM. dd, yyyy" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar value="#{row.timesheetRowPk.startDate}" pattern="MMM. dd, yyyy" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
 					<p:column headerText="Sat">
-						<p:inputText value="#{row.sat}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.sat}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.sat}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
+
 					<p:column headerText="Sun">
-						<p:inputText value="#{row.sat}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.sat}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.sat}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
+
 					<p:column headerText="Mon">
-						<p:inputText value="#{row.mon}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.mon}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.mon}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
+
 					<p:column headerText="Tue">
-						<p:inputText value="#{row.tue}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.tue}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.tue}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
+
 					<p:column headerText="Wed">
-						<p:inputText value="#{row.wed}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.wed}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.wed}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
+
 					<p:column headerText="Thu">
-						<p:inputText value="#{row.thu}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.thu}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.thu}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
+
 					<p:column headerText="Fri">
-						<p:inputText value="#{row.fri}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.fri}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.fri}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
+
 					<p:column headerText="State">
-						<p:inputText value="#{row.state}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.state}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.state}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
+
 					<p:column headerText="Comment">
-						<p:inputText value="#{row.comment}" />
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.comment}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.comment}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 				</p:dataTable>
 			</h:form>

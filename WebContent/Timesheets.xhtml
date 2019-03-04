@@ -25,7 +25,9 @@
 				<p:dataTable id="viewTable"
 					value="#{timesheetController.timesheets}" var="timesheet">
 					<p:column headerText="Date">
-						<h:outputText value="#{timesheet.timesheetPk.startDate}" />
+						<h:outputText value="#{timesheet.timesheetPk.startDate}">
+							<f:convertDateTime pattern="MMM. dd, yyyy" />
+						</h:outputText>
 					</p:column>
 					<p:column headerText="State">
 						<h:outputText value="#{timesheet.state}" />
