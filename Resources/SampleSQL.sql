@@ -47,10 +47,10 @@ CREATE TABLE Employee
 
 
 -- Load data into table Employee
-INSERT INTO APMS.Employee VALUES('1', 'Admin', 'Admin', 'admin', 'password', '1', '1', 'Active', '');
-INSERT INTO APMS.Employee VALUES('2', 'Karanveer', 'Khanna', 'karan', 'password', '1', '1', 'Active', '');
-INSERT INTO APMS.Employee VALUES('3', 'Ryan', 'Liang', 'ryan', 'password', '1', '2', 'Active', '');
-INSERT INTO APMS.Employee VALUES('4', 'Test', 'Test', 'test', 'password', '2', '3', 'Active', '');
+INSERT INTO APMS.Employee VALUES('1', 'Admin', 'Admin', 'admin', 'sha1:64000:18:6BMHQNrAa7QUpYtffRlt8RSaxuoeoy6o:nn4ooDmw3agMFtiFfwcyiok6', '1', '1', 'Active', '');
+INSERT INTO APMS.Employee VALUES('2', 'Karanveer', 'Khanna', 'karan', 'sha1:64000:18:XLut11LQ4mTSfG/qtpIlx+0pV22c3CWw:TLNw6ESsnrM512eCYCSl+8bu', '1', '1', 'Active', '');
+INSERT INTO APMS.Employee VALUES('3', 'Ryan', 'Liang', 'ryan', 'sha1:64000:18:CoHbU5wqpLwD9vhz0ristkDVhHcDrNa/:w8M4ttFIRj2KgUjgSrTFTDZI', '1', '2', 'Active', '');
+INSERT INTO APMS.Employee VALUES('4', 'Test', 'Test', 'test', 'sha1:64000:18:Gva6Da/2KniKBQFetzoF/ApJppU18smV:DWMsNXsx4DtG0BJlLRDB7Ngf', '2', '3', 'Active', '');
 
 
 
