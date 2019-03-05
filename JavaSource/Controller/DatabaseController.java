@@ -109,6 +109,12 @@ public class DatabaseController implements Serializable {
             }
         }
     }
+    
+    public void removeTimesheetRows(List<TimesheetRow> rows) {
+        for (TimesheetRow row : rows) {
+            manager.remove(manager.contains(row) ? row : manager.merge(row));
+        }
+    }
 }
 
 /*
