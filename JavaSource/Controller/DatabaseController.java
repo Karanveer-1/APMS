@@ -57,19 +57,19 @@ public class DatabaseController implements Serializable {
         return manager.createQuery("SELECT t from Timesheet t", Timesheet.class)
                 .getResultList();
     }
-    
+
     public void addTimesheet(Timesheet t) {
         manager.persist(t);
     }
-    
+
     public void addTimesheetIfNotExist(Timesheet t, boolean merge) {
         if (manager.find(Timesheet.class, t.getTimesheetPk()) == null) {
             manager.persist(t);
-        } else if (merge){
+        } else if (merge) {
             manager.merge(t);
         }
     }
-    
+
     public void removeTimesheet(Timesheet t) {
         manager.remove(manager.contains(t) ? t : manager.merge(t));
     }
@@ -78,9 +78,8 @@ public class DatabaseController implements Serializable {
     // # TimesheetRow methods
     // #########################################################################
     private List<TimesheetRow> getTimesheetRows() {
-        return manager
-                .createQuery("SELECT tr from TimesheetRow tr", TimesheetRow.class)
-                .getResultList();
+        return manager.createQuery("SELECT tr from TimesheetRow tr",
+                TimesheetRow.class).getResultList();
     }
 
     public List<TimesheetRow> getTimesheetRows(int empNo, Date startDate) {
@@ -91,29 +90,35 @@ public class DatabaseController implements Serializable {
         for (TimesheetRow row : timesheetRows) {
             TimesheetRowPK pk = row.getTimesheetRowPk();
 
-            if (pk.getEmpNo() == empNo
-                    && DateUtils.isWithinWeekOfYear(pk.getStartDate(), startDate)) {
+            if (pk.getEmpNo() == empNo && DateUtils
+                    .isWithinWeekOfYear(pk.getStartDate(), startDate)) {
                 relatedTimesheetRows.add(row);
             }
         }
 
         return relatedTimesheetRows;
     }
-    
+
     public void addIfNotExistTimesheetRows(List<TimesheetRow> rows) {
         for (TimesheetRow row : rows) {
-            if (manager.find(TimesheetRow.class, row.getTimesheetRowPk()) != null) {
+            if (manager.find(TimesheetRow.class,
+                    row.getTimesheetRowPk()) != null) {
                 manager.merge(row);
             } else {
                 manager.persist(row);
             }
         }
     }
-    
+
     public void removeTimesheetRows(List<TimesheetRow> rows) {
         for (TimesheetRow row : rows) {
             manager.remove(manager.contains(row) ? row : manager.merge(row));
         }
+    }
+
+    public void removeTimesheetRows(Timesheet t) {
+        removeTimesheetRows(getTimesheetRows(t.getTimesheetPk().getEmpNo(),
+                t.getTimesheetPk().getStartDate()));
     }
 }
 

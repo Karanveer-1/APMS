@@ -36,6 +36,15 @@ public class DateUtils {
         calendar.setTime(date);
         return calendar.get(Calendar.YEAR);
     }
+    
+    public static Date getPreviousSaturday(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        calendar.add(Calendar.DAY_OF_YEAR, -7);
+        
+        return calendar.getTime();
+    }
 
     /**
      * Checks to see if date 'a' is within the same week and year of date 'b'.

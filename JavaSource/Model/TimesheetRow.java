@@ -152,5 +152,70 @@ public class TimesheetRow implements Serializable {
         this.comment = comment;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((comment == null) ? 0 : comment.hashCode());
+        result = prime * result + Float.floatToIntBits(fri);
+        result = prime * result + Float.floatToIntBits(mon);
+        result = prime * result + ((note == null) ? 0 : note.hashCode());
+        result = prime * result + Float.floatToIntBits(sat);
+        result = prime * result + ((state == null) ? 0 : state.hashCode());
+        result = prime * result + Float.floatToIntBits(sun);
+        result = prime * result + Float.floatToIntBits(thu);
+        result = prime * result
+                + ((timesheetRowPk == null) ? 0 : timesheetRowPk.hashCode());
+        result = prime * result + Float.floatToIntBits(tue);
+        result = prime * result + Float.floatToIntBits(wed);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        TimesheetRow other = (TimesheetRow) obj;
+        if (comment == null) {
+            if (other.comment != null)
+                return false;
+        } else if (!comment.equals(other.comment))
+            return false;
+        if (Float.floatToIntBits(fri) != Float.floatToIntBits(other.fri))
+            return false;
+        if (Float.floatToIntBits(mon) != Float.floatToIntBits(other.mon))
+            return false;
+        if (note == null) {
+            if (other.note != null)
+                return false;
+        } else if (!note.equals(other.note))
+            return false;
+        if (Float.floatToIntBits(sat) != Float.floatToIntBits(other.sat))
+            return false;
+        if (state == null) {
+            if (other.state != null)
+                return false;
+        } else if (!state.equals(other.state))
+            return false;
+        if (Float.floatToIntBits(sun) != Float.floatToIntBits(other.sun))
+            return false;
+        if (Float.floatToIntBits(thu) != Float.floatToIntBits(other.thu))
+            return false;
+        if (timesheetRowPk == null) {
+            if (other.timesheetRowPk != null)
+                return false;
+        } else if (!timesheetRowPk.equals(other.timesheetRowPk))
+            return false;
+        if (Float.floatToIntBits(tue) != Float.floatToIntBits(other.tue))
+            return false;
+        if (Float.floatToIntBits(wed) != Float.floatToIntBits(other.wed))
+            return false;
+        return true;
+    }
+
     
 }

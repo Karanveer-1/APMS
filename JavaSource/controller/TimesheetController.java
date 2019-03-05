@@ -40,7 +40,7 @@ public class TimesheetController implements Serializable {
 
     public String addTimesheet() {
         TimesheetPK pk = new TimesheetPK(getLoggedInEmployee().getEmpNumber(),
-                Date.from(Instant.now()));
+                DateUtils.getPreviousSaturday(Date.from(Instant.now())));
 
         editTimesheet = new Timesheet(pk, null, null,
                 TimesheetState.Draft.toString(), null);
@@ -65,12 +65,14 @@ public class TimesheetController implements Serializable {
         
         editTimesheet.setState(TimesheetState.Pending.toString());
         
+        database.removeTimesheetRows(editTimesheet);
+        
         database.addIfNotExistTimesheetRows(editTimesheetRows);
-
+        
         database.addTimesheetIfNotExist(editTimesheet, true);
+        
         timesheets = database.getTimesheets();
         
-
         return "Timesheets.xhtml?faces-redirect=true";
     }
 
@@ -93,7 +95,7 @@ public class TimesheetController implements Serializable {
         Employee currentEmployee = getLoggedInEmployee();
 
         TimesheetRowPK pk = new TimesheetRowPK(currentEmployee.getEmpNumber(),
-                Date.from(Instant.now()), null, null);
+                DateUtils.getPreviousSaturday(Date.from(Instant.now())), null, null);
         TimesheetRow row = new TimesheetRow();
         row.setTimesheetRowPk(pk);
         row.setState(TimesheetRowState.Draft.toString());
