@@ -21,7 +21,7 @@
 				<p:growl id="invalidEmployeeGrowl" sticky="false" />
 
 				<p:dataTable id="employeeTable"
-					value="#{employeeController.employees}" var="employee">
+					value="#{employeeController.employees}" var="employee" rendered="true">
 					<p:column headerText="Employee No">
 						<h:outputText value="#{employee.empNumber}" />
 					</p:column>

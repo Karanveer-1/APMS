@@ -166,6 +166,11 @@
 					</p:column>
 				</p:dataTable>
 			</h:form>
+			
+			 <p:dialog id="errorDialog" header="Add Employee" modal="true" width="400"
+                widgetVar="errorDialog" resizable="false" draggable="false">
+                    <h:outputText value="Error in timesheet!" />  
+              </p:dialog>
 		</ui:define>
 	</ui:composition>
 </h:body>

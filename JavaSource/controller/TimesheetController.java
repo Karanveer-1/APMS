@@ -12,12 +12,16 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.PrimeFaces;
+
 import model.Employee;
 import model.Timesheet;
 import model.TimesheetPK;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
+import model.TimesheetState;
 import utils.DateUtils;
+import validator.TimesheetValidator;
 
 @Named("timesheetController")
 @SessionScoped
@@ -39,7 +43,8 @@ public class TimesheetController implements Serializable {
         TimesheetPK pk = new TimesheetPK(getLoggedInEmployee().getEmpNumber(),
                 Date.from(Instant.now()));
 
-        editTimesheet = new Timesheet(pk, null, null, "New", null);
+        editTimesheet = new Timesheet(pk, null, null,
+                TimesheetState.Draft.toString(), null);
         editTimesheetRows = new ArrayList<TimesheetRow>();
 
         return "EditTimesheet.xhtml?faces-redirect=true";
@@ -55,11 +60,11 @@ public class TimesheetController implements Serializable {
     }
 
     public String saveTimesheet() {
-        // TODO: Validate timesheet rows
+        database.addIfNotExistTimesheetRows(editTimesheetRows);
 
         database.addTimesheetIfNotExist(editTimesheet, true);
         timesheets = database.getTimesheets();
-        
+
         return "Timesheets.xhtml?faces-redirect=true";
     }
 
@@ -74,7 +79,7 @@ public class TimesheetController implements Serializable {
         database.removeTimesheet(t);
         timesheets = database.getTimesheets();
     }
-    
+
     public void addTimesheetRow() {
         Employee currentEmployee = getLoggedInEmployee();
 

@@ -99,6 +99,16 @@ public class DatabaseController implements Serializable {
 
         return relatedTimesheetRows;
     }
+    
+    public void addIfNotExistTimesheetRows(List<TimesheetRow> rows) {
+        for (TimesheetRow row : rows) {
+            if (manager.find(TimesheetRow.class, row.getTimesheetRowPk()) != null) {
+                manager.merge(row);
+            } else {
+                manager.persist(row);
+            }
+        }
+    }
 }
 
 /*
