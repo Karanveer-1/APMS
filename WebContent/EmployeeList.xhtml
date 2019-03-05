@@ -18,7 +18,9 @@
 		
 		<ui:define name="content">
 			<h:form id="formMain">
-				<p:commandButton value="Add Employee" onclick="PF('addEmployeeDialog').show();" />
+				<h:panelGrid columns="2" cellpadding="10">
+				        <p:outputLabel value="msg" style="opacity:0"/>
+			    	</h:panelGrid>
 				<p:growl id="invalidEmployeeGrowl" sticky="false" />
 				<p:dataTable id="employeeTable"
 					value="#{employeeListController.employees}" var="employee">
