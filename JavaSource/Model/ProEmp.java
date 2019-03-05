@@ -7,7 +7,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Entity
 @Embeddable
 @Table(name = "ProEmp")
 public class ProEmp implements Serializable {

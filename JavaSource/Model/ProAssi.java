@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
+
 @Embeddable
 @Table(name = "ProAssi")
 public class ProAssi implements Serializable {

@@ -23,4 +23,34 @@ public class WorkPackageController implements Serializable {
 //
 //	private Integer parentWPID;
 
+	public WorkPackage find(final Integer id) {
+		if (id != null)
+			return manager.find(WorkPackage.class, id);
+		else
+			return null;
+	}
+
+//	public void remove(final WorkPackage workPackage) {
+//		WorkPackage wp = manager.find(workPackage.getWorkPackagePk());
+//		manager.remove(wp);
+//	}
+
+	public void merge(final WorkPackage workPackage) {
+		manager.merge(workPackage);
+	}
+
+//	public void persist(final WorkPackage newWorkPackage) {
+//		WorkPackage match = manager.find(WorkPackage.class, newWorkPackage.getId());
+//
+//		if (match != null) {
+//			logger.warn("Record(WorkPackage) already exist! ");
+//		} else {
+//			if (!newWorkPackage.isLeaf())
+//				newWorkPackage.setBudget(null);
+//			manager.persist(newWorkPackage);
+//			logger.info("Workpackage added: " + newWorkPackage.getId() + ", " + newWorkPackage.getName());
+//		}
+
+	// }
+
 }

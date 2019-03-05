@@ -33,6 +33,10 @@ public class WorkPackage implements Serializable {
 	@Column(name = "Comment")
 	private String comment;
 
+	public WorkPackage() {
+
+	}
+
 	public WorkPackage(WorkPackagePK workPackagePk, int reEmpNo, String state, String comment) {
 		super();
 		this.workPackagePk = workPackagePk;
