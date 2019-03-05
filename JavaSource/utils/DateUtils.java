@@ -1,10 +1,10 @@
 package utils;
 
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils {
-
     /**
      * Private constructor to prevent instantiation.
      */
@@ -36,13 +36,29 @@ public class DateUtils {
         calendar.setTime(date);
         return calendar.get(Calendar.YEAR);
     }
-    
+
     public static Date getPreviousSaturday(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
         calendar.add(Calendar.DAY_OF_YEAR, -7);
-        
+
+        return calendar.getTime();
+    }
+    
+    public static Date getCurrentFriday(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(Date.from(Instant.now()));
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+        return calendar.getTime();
+    }
+    
+    public static Date getNextFriday(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        calendar.add(Calendar.DAY_OF_YEAR, 7);
+
         return calendar.getTime();
     }
 
@@ -58,5 +74,12 @@ public class DateUtils {
     public static boolean isWithinWeekOfYear(Date date, Date within) {
         return getWeekNumber(date) == getWeekNumber(within)
                 && getYear(date) == getYear(within);
+    }
+
+    public static boolean isWithinTimesheetRange(Date date) {
+        Date startDate = getPreviousSaturday(date);
+        Date endDate = getNextFriday(date);
+        
+        return date.after(startDate) && date.before(endDate);
     }
 }

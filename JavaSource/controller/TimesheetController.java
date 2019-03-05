@@ -105,9 +105,8 @@ public class TimesheetController implements Serializable {
 
     public boolean hasTimesheetForCurrentWeek() {
         for (Timesheet timesheet : timesheets) {
-            if (DateUtils.isWithinWeekOfYear(
-                    timesheet.getTimesheetPk().getStartDate(),
-                    Date.from(Instant.now()))) {
+            if (DateUtils.isWithinTimesheetRange(
+                    timesheet.getTimesheetPk().getStartDate())) {
                 return true;
             }
         }
@@ -116,8 +115,7 @@ public class TimesheetController implements Serializable {
     }
 
     public boolean timesheetIsInCurrentWeek(Timesheet t) {
-        return DateUtils.isWithinWeekOfYear(t.getTimesheetPk().getStartDate(),
-                Date.from(Instant.now()));
+        return DateUtils.isWithinTimesheetRange(t.getTimesheetPk().getStartDate());
     }
 
     public List<Timesheet> getTimesheets() {
