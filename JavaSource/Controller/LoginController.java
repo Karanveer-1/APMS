@@ -9,6 +9,9 @@ import javax.inject.Named;
 
 import model.Credential;
 import model.Employee;
+import service.PasswordHash;
+import service.PasswordHash.CannotPerformOperationException;
+import service.PasswordHash.InvalidHashException;
 
 import java.io.Serializable;
 
@@ -27,14 +30,29 @@ public class LoginController implements Serializable {
         Employee result = database.getEmployeeByUsername(credential.getUserName());
         
         if (result != null) {
-           currentEmployee = result;
-           return "Dashboard.xhtml?faces-redirect=true";
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null,
-                                new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                            "Failed to login.", null));
-            return null;
+            try {
+                if (PasswordHash.verifyPassword(credential.getPassword(), result.getPassword())) {
+                    currentEmployee = result;
+                    return "Dashboard.xhtml?faces-redirect=true";
+                }
+            } catch (CannotPerformOperationException e) {
+                e.printStackTrace();
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                    "Something went wrong.", null));
+            } catch (InvalidHashException e) {
+                e.printStackTrace();
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                    "Something went wrong.", null));
+            }
         }
+            
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Incorrect Username or Password.", null));
+        
+        return null;
      }
 
      public String logout() {

@@ -14,12 +14,14 @@
 	
 		<ui:define name="windowTitle">Employee</ui:define>
 		<ui:define name="headerTitle"><h:outputText value="Employees" class="navbar-brand"/></ui:define>
+		<ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
 		
 		<ui:define name="content">
 			<h:form id="formMain">
-				<p:commandButton value="Add Employee" onclick="PF('addEmployeeDialog').show();" />
+				<h:panelGrid columns="2" cellpadding="10">
+				        <p:outputLabel value="msg" style="opacity:0"/>
+			    	</h:panelGrid>
 				<p:growl id="invalidEmployeeGrowl" sticky="false" />
-
 				<p:dataTable id="employeeTable"
 					value="#{employeeListController.employees}" var="employee">
 					<p:column headerText="Employee No">
@@ -33,9 +35,6 @@
 					</p:column>
 					<p:column headerText="Username">
 						<h:outputText value="#{employee.userName}" />
-					</p:column>
-					<p:column headerText="Password">
-						<h:outputText value="#{employee.password}" />
 					</p:column>
 					<p:column headerText="State">
 						<h:outputText value="#{employee.state}" />
@@ -52,6 +51,7 @@
 							action="#{employeeListController.deleteEmployee(employee)}" />
 					</p:column>
 				</p:dataTable>
+				
 			</h:form>
 		
 			<p:dialog id="addDialog" header="Add Employee" modal="true" width="400"
