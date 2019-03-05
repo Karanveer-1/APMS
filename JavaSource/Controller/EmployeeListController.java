@@ -13,6 +13,8 @@ import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 
 import model.Employee;
+import service.PasswordHash;
+import service.PasswordHash.CannotPerformOperationException;
 
 @Named("employeeListController")
 @ViewScoped
@@ -38,15 +40,22 @@ public class EmployeeListController implements Serializable {
         employees = database.getEmployees();
         
         if (validateEmployee(empNo, firstName, lastName, username, password, state, comment, false)) {
-            Employee e = new Employee(Integer.parseInt(empNo), firstName,
-                    lastName, username, password, state, comment);
-            employees.add(e);
-            database.addEmployee(e);
-            
-            employees = database.getEmployees();
-            
-            PrimeFaces.current()
-                    .executeScript("PF('addEmployeeDialog').hide();");
+            try {
+                password = PasswordHash.createHash(password);
+
+                Employee e = new Employee(Integer.parseInt(empNo), firstName,
+                        lastName, username, password, state, comment);
+                
+                employees.add(e);
+                database.addEmployee(e);
+                
+                employees = database.getEmployees();
+                
+                PrimeFaces.current()
+                        .executeScript("PF('addEmployeeDialog').hide();");
+            } catch (CannotPerformOperationException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -56,20 +65,26 @@ public class EmployeeListController implements Serializable {
         employees = database.getEmployees();
         
         if (validateEmployee(null, firstName, lastName, username, password, state, comment, true)) {
+            try {
+                password = PasswordHash.createHash(password);
+                
+                editEmployee.setFirstName(firstName);
+                editEmployee.setLastName(lastName);
+                editEmployee.setUserName(username);
+                editEmployee.setPassword(password);
+                editEmployee.setState(state);
+                editEmployee.setComment(comment);
 
-            editEmployee.setFirstName(firstName);
-            editEmployee.setLastName(lastName);
-            editEmployee.setUserName(username);
-            editEmployee.setPassword(password);
-            editEmployee.setState(state);
-            editEmployee.setComment(comment);
+                database.updateEmployee(editEmployee);
+                
+                employees = database.getEmployees();
 
-            database.updateEmployee(editEmployee);
-            
-            employees = database.getEmployees();
+                PrimeFaces.current()
+                        .executeScript("PF('editEmployeeDialog').hide();");
 
-            PrimeFaces.current()
-                    .executeScript("PF('editEmployeeDialog').hide();");
+            } catch (CannotPerformOperationException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -89,7 +104,7 @@ public class EmployeeListController implements Serializable {
     public void setEditEmployee(Employee editEmployee) {        
         this.editEmployee = new Employee(editEmployee.getEmpNumber(),
                 editEmployee.getFirstName(), editEmployee.getLastName(),
-                editEmployee.getUserName(), editEmployee.getPassword(),
+                editEmployee.getUserName(), "",
                 editEmployee.getState(), editEmployee.getComment());
                 
 
