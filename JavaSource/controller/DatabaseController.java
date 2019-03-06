@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 import model.Employee;
+import model.PLevel;
 import model.Timesheet;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
@@ -145,6 +146,14 @@ public class DatabaseController implements Serializable {
     public void removeTimesheetRows(Timesheet t) {
         removeTimesheetRows(getTimesheetRows(t.getTimesheetPk().getEmpNo(),
                 t.getTimesheetPk().getStartDate()));
+    }
+
+    /**
+     * @return
+     */
+    public List<PLevel> getPLevels() {
+        return manager.createQuery("SELECT p FROM PLevel p", PLevel.class)
+                .getResultList();
     }
 
 }
