@@ -49,6 +49,7 @@ public class LoginController implements Serializable {
         currentEmployee = null;
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
                 .remove(USER_KEY);
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "Login.xhtml?faces-redirect=true";
     }
 

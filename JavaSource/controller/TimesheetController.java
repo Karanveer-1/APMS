@@ -12,7 +12,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-
 import model.Employee;
 import model.Timesheet;
 import model.TimesheetPK;
@@ -33,14 +32,16 @@ public class TimesheetController implements Serializable {
     private Timesheet editTimesheet;
     private List<TimesheetRow> editTimesheetRows;
 
+    private Employee currentEmployee = getLoggedInEmployee();
+
     @PostConstruct
     public void init() {
-        timesheets = database.getTimesheets();
+        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
     }
 
     public String addTimesheet() {
-        TimesheetPK pk = new TimesheetPK(getLoggedInEmployee().getEmpNumber(),
-                DateUtils.getPreviousSaturday(Date.from(Instant.now())));
+        TimesheetPK pk = new TimesheetPK(currentEmployee.getEmpNumber(),
+                DateUtils.getTimesheetStartDate(DateUtils.today()));
 
         editTimesheet = new Timesheet(pk, null, null,
                 TimesheetState.Draft.toString(), null);
@@ -62,17 +63,16 @@ public class TimesheetController implements Serializable {
         for (TimesheetRow row : editTimesheetRows) {
             row.setState(TimesheetRowState.Pending.toString());
         }
-        
+
         editTimesheet.setState(TimesheetState.Pending.toString());
-        
+
         database.removeTimesheetRows(editTimesheet);
-        
+
         database.addIfNotExistTimesheetRows(editTimesheetRows);
-        
         database.addTimesheetIfNotExist(editTimesheet, true);
-        
-        timesheets = database.getTimesheets();
-        
+
+        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
+
         return "Timesheets.xhtml?faces-redirect=true";
     }
 
@@ -85,17 +85,17 @@ public class TimesheetController implements Serializable {
 
     public void deleteTimesheet(Timesheet t) {
         database.removeTimesheet(t);
-        database.removeTimesheetRows(database.getTimesheetRows(
-                t.getTimesheetPk().getEmpNo(),
-                t.getTimesheetPk().getStartDate()));
-        timesheets = database.getTimesheets();
+        database.removeTimesheetRows(
+                database.getTimesheetRows(t.getTimesheetPk().getEmpNo(),
+                        t.getTimesheetPk().getStartDate()));
+        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
     }
 
     public void addTimesheetRow() {
-        Employee currentEmployee = getLoggedInEmployee();
 
         TimesheetRowPK pk = new TimesheetRowPK(currentEmployee.getEmpNumber(),
-                DateUtils.getPreviousSaturday(Date.from(Instant.now())), null, null);
+                DateUtils.getTimesheetStartDate(DateUtils.today()), null,
+                null);
         TimesheetRow row = new TimesheetRow();
         row.setTimesheetRowPk(pk);
         row.setState(TimesheetRowState.Draft.toString());
@@ -105,8 +105,12 @@ public class TimesheetController implements Serializable {
 
     public boolean hasTimesheetForCurrentWeek() {
         for (Timesheet timesheet : timesheets) {
-            if (DateUtils.isWithinTimesheetRange(
-                    timesheet.getTimesheetPk().getStartDate())) {
+            Date start = DateUtils
+                    .getTimesheetStartDate(DateUtils.today());
+            Date end = DateUtils.getTimesheetEndDate(DateUtils.today());
+
+            if (DateUtils.isWithinRange(
+                    timesheet.getTimesheetPk().getStartDate(), start, end)) {
                 return true;
             }
         }
@@ -115,7 +119,30 @@ public class TimesheetController implements Serializable {
     }
 
     public boolean timesheetIsInCurrentWeek(Timesheet t) {
-        return DateUtils.isWithinTimesheetRange(t.getTimesheetPk().getStartDate());
+        Date start = DateUtils.getTimesheetStartDate(DateUtils.today());
+        Date end = DateUtils.getTimesheetEndDate(DateUtils.today());
+        System.out.println(start);
+        System.out.println(end);
+        System.out.println(t.getTimesheetPk().getStartDate());
+        
+        return DateUtils.isWithinRange(t.getTimesheetPk().getStartDate(), start,
+                end);
+    }
+
+    public Date calendarMinDate() {
+        System.out.println("Start: " + DateUtils.getTimesheetStartDate(
+                editTimesheet.getTimesheetPk().getStartDate()));
+        
+        return DateUtils.getTimesheetStartDate(
+                editTimesheet.getTimesheetPk().getStartDate());
+    }
+
+    public Date calendarMaxDate() {
+        System.out.println("End: " + DateUtils.getTimesheetEndDate(
+                editTimesheet.getTimesheetPk().getStartDate()));
+        
+        return DateUtils.getTimesheetEndDate(
+                editTimesheet.getTimesheetPk().getStartDate());
     }
 
     public List<Timesheet> getTimesheets() {
@@ -142,7 +169,7 @@ public class TimesheetController implements Serializable {
         this.editTimesheetRows = editTimesheetRows;
     }
 
-    private Employee getLoggedInEmployee() {
+    private static Employee getLoggedInEmployee() {
         return (Employee) FacesContext.getCurrentInstance().getExternalContext()
                 .getSessionMap().get(LoginController.USER_KEY);
     }

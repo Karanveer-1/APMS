@@ -53,9 +53,19 @@ public class DatabaseController implements Serializable {
     // #########################################################################
     // # Timesheet methods
     // #########################################################################
-    public List<Timesheet> getTimesheets() {
-        return manager.createQuery("SELECT t from Timesheet t", Timesheet.class)
+    public List<Timesheet> getTimesheets(int empNo) {
+        List<Timesheet> timesheets = manager
+                .createQuery("SELECT t from Timesheet t", Timesheet.class)
                 .getResultList();
+
+        List<Timesheet> result = new ArrayList<Timesheet>();
+        for (Timesheet timesheet : timesheets) {
+            if (timesheet.getTimesheetPk().getEmpNo() == empNo) {
+                result.add(timesheet);
+            }
+        }
+
+        return result;
     }
 
     public void addTimesheet(Timesheet t) {
@@ -86,12 +96,15 @@ public class DatabaseController implements Serializable {
         List<TimesheetRow> timesheetRows = getTimesheetRows();
 
         List<TimesheetRow> relatedTimesheetRows = new ArrayList<TimesheetRow>();
+        
+        Date start = DateUtils.getTimesheetStartDate(startDate);
+        Date end = DateUtils.getTimesheetEndDate(startDate);
 
         for (TimesheetRow row : timesheetRows) {
             TimesheetRowPK pk = row.getTimesheetRowPk();
 
-            if (pk.getEmpNo() == empNo && DateUtils
-                    .isWithinWeekOfYear(pk.getStartDate(), startDate)) {
+            if (pk.getEmpNo() == empNo
+                    && DateUtils.isWithinRange(pk.getStartDate(), start, end)) {
                 relatedTimesheetRows.add(row);
             }
         }
