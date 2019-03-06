@@ -37,7 +37,7 @@ CREATE TABLE Employee
     EmpFirstName    VARCHAR(100)    NOT NULL,
     EmpLastName     VARCHAR(100)    NOT NULL,
     EmpUserName     VARCHAR(50)     NOT NULL UNIQUE,
-    Password        VARCHAR(512)     NOT NULL,
+    Password        VARCHAR(512)    NOT NULL,
     SuperEmpNo      INTEGER         NOT NULL,
     ApproEmpNo      INTEGER         NOT NULL,
     State           VARCHAR(30)     NOT NULL,
@@ -212,6 +212,15 @@ CREATE TABLE Role
 
 -- Load data into table Role
 
+
+
+CREATE TABLE Signature(
+	EmpNo          INTEGER         NOT NULL,
+    StartDate      DATE            NOT NULL,
+	signature 	   TINYBLOB 	   NOT NULL, 
+	publicKey 	   BLOB 		   NOT NULL,
+	PRIMARY KEY(EmpNo, StartDate)
+);
 
 
 

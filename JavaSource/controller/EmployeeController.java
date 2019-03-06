@@ -13,6 +13,7 @@ import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 
 import model.Employee;
+import model.EmployeeState;
 import service.PasswordHash;
 import service.PasswordHash.CannotPerformOperationException;
 
@@ -23,21 +24,25 @@ public class EmployeeController implements Serializable {
     @Inject
     private DatabaseController database;
 
-    private List<Employee> employees;
+    private List<Employee> activeEmployees;
+    private List<Employee> allEmployees;
 
     private Employee editEmployee;
 
     @PostConstruct
     public void init() {
         editEmployee = null;
-        employees = database.getEmployees();
+        activeEmployees = database.getActiveEmployees();
+        setAllEmployees(database.getEmployees());
     }
 
     public void addEmployee(String empNo, String firstName, String lastName,
-            String username, String password, String state,
+            String username, String password,
             String comment) {
 
-        employees = database.getEmployees();
+        activeEmployees = database.getEmployees();
+        
+        String state = EmployeeState.Active.toString();
         
         if (validateEmployee(empNo, firstName, lastName, username, password, state, comment, false)) {
             try {
@@ -46,10 +51,10 @@ public class EmployeeController implements Serializable {
                 Employee e = new Employee(Integer.parseInt(empNo), firstName,
                         lastName, username, password, state, comment);
                 
-                employees.add(e);
+                activeEmployees.add(e);
                 database.addEmployee(e);
                 
-                employees = database.getEmployees();
+                activeEmployees = database.getEmployees();
                 
                 PrimeFaces.current()
                         .executeScript("PF('addEmployeeDialog').hide();");
@@ -60,9 +65,10 @@ public class EmployeeController implements Serializable {
     }
 
     public void editEmployee(String firstName, String lastName, String username,
-            String password, String state, String comment) {
+            String password, String comment) {
         
-        employees = database.getEmployees();
+        activeEmployees = database.getEmployees();
+        String state = EmployeeState.Active.toString();
         
         if (validateEmployee(null, firstName, lastName, username, password, state, comment, true)) {
             try {
@@ -77,7 +83,7 @@ public class EmployeeController implements Serializable {
 
                 database.updateEmployee(editEmployee);
                 
-                employees = database.getEmployees();
+                activeEmployees = database.getEmployees();
 
                 PrimeFaces.current()
                         .executeScript("PF('editEmployeeDialog').hide();");
@@ -89,12 +95,21 @@ public class EmployeeController implements Serializable {
     }
 
     public void deleteEmployee(Employee e) {
-        employees.remove(e);
-        database.removeEmployee(e);
+        e.setState(EmployeeState.Retired.toString());
+        activeEmployees.remove(e);
+        database.updateEmployee(e);
+    }
+    
+    public void deletePermanentEmployee(Employee e) {
+       allEmployees.remove(e);
+       if (activeEmployees.contains(e)) {
+           activeEmployees.remove(e);
+       }
+       database.removeEmployee(e);
     }
 
     public List<Employee> getEmployees() {
-        return employees;
+        return activeEmployees;
     }
 
     public Employee getEditEmployee() {
@@ -136,7 +151,7 @@ public class EmployeeController implements Serializable {
     }
 
     private boolean isDuplicateEmpNumber(int empNumber) {
-        for (Employee e : employees) {
+        for (Employee e : activeEmployees) {
             if (e.getEmpNumber() == empNumber) {
                 return true;
             }
@@ -146,7 +161,7 @@ public class EmployeeController implements Serializable {
     }
 
     private boolean isDuplicateUsername(String username, boolean isEdit) {
-        for (Employee e : employees) {
+        for (Employee e : activeEmployees) {
             if (e.equals(editEmployee) && isEdit) {
                 continue;
             }
@@ -183,5 +198,13 @@ public class EmployeeController implements Serializable {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                 summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public List<Employee> getAllEmployees() {
+        return allEmployees;
+    }
+
+    public void setAllEmployees(List<Employee> allEmployees) {
+        this.allEmployees = allEmployees;
     }
 }

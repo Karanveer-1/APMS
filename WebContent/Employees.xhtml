@@ -18,10 +18,10 @@
         
         <ui:define name="content">
             <h:form id="formMain">
-                <h:panelGrid columns="2" cellpadding="10">
-                        <p:outputLabel value="msg" style="opacity:0"/>
-                    </h:panelGrid>
+            
+				<p:commandButton value="Add Employee" onclick="PF('addEmployeeDialog').show();"/>
                 <p:growl id="invalidEmployeeGrowl" sticky="false" />
+                
                 <p:dataTable id="employeeTable"
                     value="#{employeesController.employees}" var="employee">
                     <p:column headerText="Employee No">
@@ -46,8 +46,8 @@
                         <p:commandButton value="Edit" update=":#{p:component('editDialog')}"
                             action="#{employeesController.setEditEmployee(employee)}" />
                     </p:column>
-                    <p:column headerText="Delete">
-                        <p:commandButton value="Delete" update="employeeTable"
+                    <p:column headerText="Remove">
+                        <p:commandButton value="Not Active" update="employeeTable"
                             action="#{employeesController.deleteEmployee(employee)}" />
                     </p:column>
                 </p:dataTable>
@@ -73,9 +73,6 @@
                         <h:outputText id="addPassword" value="Password" />
                         <h:inputText binding="#{addPasswordText}" />
         
-                        <h:outputText id="addState" value="State" />
-                        <h:inputText binding="#{addStateText}" />
-        
                         <h:outputText id="addComment" value="Comment" />
                         <h:inputText binding="#{addCommentText}" />
         
@@ -88,7 +85,6 @@
                                     addLastNameText.value,
                                     addUsernameText.value,
                                     addPasswordText.value,
-                                    addStateText.value,
                                     addCommentText.value)}" />
                     </h:panelGrid>
                 </h:form>
@@ -115,10 +111,6 @@
                         <h:inputText binding="#{editPasswordText}"
                             value="#{employeesController.editEmployee.password}" />
         
-                        <h:outputText id="editState" value="State" />
-                        <h:inputText binding="#{editStateText}"
-                            value="#{employeesController.editEmployee.state}" />
-        
                         <h:outputText id="editComment" value="Comment" />
                         <h:inputText binding="#{editCommentText}"
                             value="#{employeesController.editEmployee.comment}" />
@@ -131,7 +123,6 @@
                                     editLastNameText.value,
                                     editUsernameText.value,
                                     editPasswordText.value,
-                                    editStateText.value,
                                     editCommentText.value)}" />
                     </h:panelGrid>
                 </h:form>
