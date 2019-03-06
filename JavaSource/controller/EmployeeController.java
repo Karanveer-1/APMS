@@ -50,6 +50,8 @@ public class EmployeeController implements Serializable {
 
                 Employee e = new Employee(Integer.parseInt(empNo), firstName,
                         lastName, username, password, state, comment);
+                e.setApproEmpNo(1);
+                e.setSuperEmpNo(1);
                 
                 activeEmployees.add(e);
                 database.addEmployee(e);
