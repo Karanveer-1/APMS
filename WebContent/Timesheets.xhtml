@@ -44,12 +44,24 @@
 					<p:column headerText="Edit">
 						<p:commandButton value="Edit"
 							action="#{timesheetController.editTimesheet(timesheet)}"
-							disabled="#{!timesheetController.canEditTimesheet(timesheet)}" />
+							disabled="#{!timesheetController.canEditTimesheet(timesheet) ||
+										(timesheet.state == 'Submitted')}" />
 					</p:column>
 					<p:column headerText="Delete">
 						<p:commandButton value="Delete"
 							action="#{timesheetController.deleteTimesheet(timesheet)}"
-							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
+							disabled="#{!timesheetController.canEditTimesheet(timesheet) || 
+										(timesheet.state == 'Submitted')}"
+							update=":formMain" />
+					</p:column>
+					<p:column headerText="Submit / Cancel">
+						<p:commandButton value="Submit"
+							action="#{timesheetController.submitTimesheet(timesheet)}"
+							rendered="#{!(timesheet.state == 'Submitted')}"
+							update=":formMain" />
+						<p:commandButton value="Cancel"
+							action="#{timesheetController.CancelSubmitTimesheet(timesheet)}"
+							rendered="#{!(timesheet.state != 'Submitted')}"
 							update=":formMain" />
 					</p:column>
 				</p:dataTable>
