@@ -18,6 +18,8 @@ import java.io.Serializable;
 @Named("loginController")
 @SessionScoped
 public class LoginController implements Serializable {
+    public static final String USER_KEY = "user";
+    
     @Inject Credential credential;
     @Inject DatabaseController database;
     private Employee currentEmployee;
@@ -33,6 +35,7 @@ public class LoginController implements Serializable {
             try {
                 if (PasswordHash.verifyPassword(credential.getPassword(), result.getPassword())) {
                     currentEmployee = result;
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(USER_KEY, currentEmployee);
                     return "Dashboard.xhtml?faces-redirect=true";
                 }
             } catch (CannotPerformOperationException e) {
@@ -57,6 +60,8 @@ public class LoginController implements Serializable {
 
      public String logout() {
          currentEmployee = null;
+         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(USER_KEY);
+         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
          return "Login.xhtml?faces-redirect=true";
      }
 
