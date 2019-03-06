@@ -33,6 +33,7 @@ USE APMS;
 -- Create table Employee
 CREATE TABLE Employee
 (
+<<<<<<< HEAD
     EmpNo           INTEGER         NOT NULL,
     EmpFirstName    VARCHAR(100)    NOT NULL,
     EmpLastName     VARCHAR(100)    NOT NULL,
@@ -43,6 +44,18 @@ CREATE TABLE Employee
     State           VARCHAR(30)     NOT NULL,
     Comment         VARCHAR(1000)   ,
     PRIMARY KEY(EmpNo)
+=======
+	EmpNo        	INTEGER      	NOT NULL,
+    EmpFirstName  	VARCHAR(100) 	NOT NULL,
+    EmpLastName   	VARCHAR(100) 	NOT NULL,
+	EmpUserName  	VARCHAR(50)     NOT NULL UNIQUE,
+    Password     	VARCHAR(512)     NOT NULL,
+	SuperEmpNo    	INTEGER      	NOT NULL,
+	ApproEmpNo     	INTEGER      	NOT NULL,
+	State           VARCHAR(30)     NOT NULL,
+	Comment         VARCHAR(1000)   ,
+	PRIMARY KEY(EmpNo)
+>>>>>>> Dev_Stage
 );
 
 

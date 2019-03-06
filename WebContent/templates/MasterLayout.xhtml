@@ -82,7 +82,9 @@
 	<h:body>
 		<f:event type="preRenderView" listener="#{loginController.checkIfLoggedIn()}" />
 		<div class="wrapper">
-			<ui:include src="/sections/DashboardNavigationBar.xhtml" />
+			<ui:insert name="navBar">
+				<ui:include src="/sections/DashboardNavigationBar.xhtml" />
+			</ui:insert>
 			<ui:include src="/sections/Header.xhtml" />
 			<ui:insert name="content"/>
 		</div>

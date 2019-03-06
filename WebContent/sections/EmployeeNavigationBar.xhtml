@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+      
+	<!-- Nav BAR -->
+	<ui:composition>
+		<h:form>
+		<div class="sidebar" data-background-color="black" data-active-color="danger">
+			<div class="sidebar-wrapper">
+				<div class="logo">
+					<span class="simple-text" style="margin-top: 30px">
+						APMS
+					</span>
+				</div>
+				<ul class="nav">
+					<li>
+						<p:commandLink value="Add Employee" onclick="PF('addEmployeeDialog').show();">
+							Add Employee
+						</p:commandLink>
+					</li>
+					<li>
+						<p:commandLink action="Dashboard.xhtml?faces-redirect=true">
+							Back
+						</p:commandLink>
+					</li>
+				</ul>
+			</div>
+		</div>
+		</h:form>
+	</ui:composition>
+	<!-- END OF SIDE NAVIGATION BAR -->
+</html>
