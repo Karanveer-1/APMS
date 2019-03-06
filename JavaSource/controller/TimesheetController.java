@@ -7,9 +7,12 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.event.SelectEvent;
 
 import model.Employee;
 import model.Timesheet;
@@ -32,16 +35,15 @@ public class TimesheetController implements Serializable {
     private List<TimesheetRow> editTimesheetRows;
 
     private Employee currentEmployee = getLoggedInEmployee();
-
+    
     @PostConstruct
     public void init() {
         timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
     }
 
-    public String addTimesheet() {
+    public String addTimesheet(Date date) {
         TimesheetPK pk = new TimesheetPK(currentEmployee.getEmpNumber(),
-                DateUtils.getTimesheetStartDate(DateUtils.today()));
-
+                DateUtils.getTimesheetStartDate(date));
         editTimesheet = new Timesheet(pk, null, null,
                 TimesheetState.Draft.toString(), null);
         editTimesheetRows = new ArrayList<TimesheetRow>();
@@ -93,18 +95,31 @@ public class TimesheetController implements Serializable {
     public void addTimesheetRow() {
 
         TimesheetRowPK pk = new TimesheetRowPK(currentEmployee.getEmpNumber(),
-                DateUtils.getTimesheetStartDate(DateUtils.today()), null, null);
+                DateUtils.getTimesheetStartDate(
+                        editTimesheet.getTimesheetPk().getStartDate()),
+                null, null);
         TimesheetRow row = new TimesheetRow();
+
         row.setTimesheetRowPk(pk);
         row.setState(TimesheetRowState.Draft.toString());
 
         editTimesheetRows.add(row);
     }
 
-    public boolean hasTimesheetForCurrentWeek() {
+    public boolean canEditTimesheet(Timesheet t) {
+        Date start = DateUtils.getTimesheetStartDate(DateUtils.today());
+
+        if (t.getTimesheetPk().getStartDate().compareTo(start) >= 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean hasTimesheetForWeek(Date date) {
         for (Timesheet timesheet : timesheets) {
-            Date start = DateUtils.getTimesheetStartDate(DateUtils.today());
-            Date end = DateUtils.getTimesheetEndDate(DateUtils.today());
+            Date start = DateUtils.getTimesheetStartDate(date);
+            Date end = DateUtils.getTimesheetEndDate(date);
 
             if (DateUtils.isWithinRange(
                     timesheet.getTimesheetPk().getStartDate(), start, end)) {
@@ -115,24 +130,25 @@ public class TimesheetController implements Serializable {
         return false;
     }
 
-    public boolean timesheetIsInCurrentWeek(Timesheet t) {
-        Date start = DateUtils.getTimesheetStartDate(DateUtils.today());
-        Date end = DateUtils.getTimesheetEndDate(DateUtils.today());
-
-        return DateUtils.isWithinRange(t.getTimesheetPk().getStartDate(), start,
-                end);
-    }
-
-    public Date calendarMinDate() {
+    public Date calendarEditMinDate() {
         return DateUtils.getTimesheetStartDate(
                 editTimesheet.getTimesheetPk().getStartDate());
     }
 
-    public Date calendarMaxDate() {
+    public Date calendarEditMaxDate() {
         return DateUtils.getTimesheetEndDate(
                 editTimesheet.getTimesheetPk().getStartDate());
     }
 
+    public Date calendarCurrentTimesheetStartDate() {
+        return DateUtils.getTimesheetStartDate(DateUtils.today());
+    }
+    
+    private static Employee getLoggedInEmployee() {
+        return (Employee) FacesContext.getCurrentInstance().getExternalContext()
+                .getSessionMap().get(LoginController.USER_KEY);
+    }
+    
     public List<Timesheet> getTimesheets() {
         return timesheets;
     }
@@ -157,8 +173,7 @@ public class TimesheetController implements Serializable {
         this.editTimesheetRows = editTimesheetRows;
     }
 
-    private static Employee getLoggedInEmployee() {
-        return (Employee) FacesContext.getCurrentInstance().getExternalContext()
-                .getSessionMap().get(LoginController.USER_KEY);
+    public boolean canCreateTimesheet(Date selectedDate) {
+        return hasTimesheetForWeek(selectedDate == null ? DateUtils.today() : selectedDate);
     }
 }

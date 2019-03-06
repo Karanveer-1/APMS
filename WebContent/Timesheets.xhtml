@@ -20,8 +20,8 @@
 		<ui:define name="content">
 			<h:form id="formMain">
 				<p:commandButton id="addButton" value="Add Timesheet"
-					action="#{timesheetController.addTimesheet()}"
-					disabled="#{timesheetController.hasTimesheetForCurrentWeek()}" />
+					onclick="PF('addTimesheetDialog').show();" />
+
 				<p:dataTable id="viewTable"
 					value="#{timesheetController.timesheets}" var="timesheet">
 					<p:column headerText="Date">
@@ -33,10 +33,10 @@
 						<h:outputText value="#{timesheet.state}" />
 					</p:column>
 					<p:column headerText="Signature">
-					   <h:outputText value="#{timesheet.signature}" />
+						<h:outputText value="#{timesheet.signature}" />
 					</p:column>
 					<p:column headerText="Approved Emp No">
-					   <h:outputText value="#{timesheet.approvedEmpNo}" />
+						<h:outputText value="#{timesheet.approvedEmpNo}" />
 					</p:column>
 					<p:column headerText="Comment">
 						<h:outputText value="#{timesheet.comment}" />
@@ -44,16 +44,35 @@
 					<p:column headerText="Edit">
 						<p:commandButton value="Edit"
 							action="#{timesheetController.editTimesheet(timesheet)}"
-							disabled="#{!timesheetController.timesheetIsInCurrentWeek(timesheet)}" />
+							disabled="#{!timesheetController.canEditTimesheet(timesheet)}" />
 					</p:column>
 					<p:column headerText="Delete">
 						<p:commandButton value="Delete"
 							action="#{timesheetController.deleteTimesheet(timesheet)}"
-							disabled="#{!timesheetController.timesheetIsInCurrentWeek(timesheet)}"
+							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
 							update=":formMain" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
+
+			<p:dialog id="addDialog" header="Select Date" modal="true"
+				widgetVar="addTimesheetDialog" resizable="false" draggable="false">
+				<h:form id="formAddDialog">
+
+
+					<p:calendar id="datePicker" pattern="MMM. dd, yyyy" mode="inline"
+						binding="#{createTimesheetDate}"
+						mindate="#{timesheetController.calendarCurrentTimesheetStartDate()}">
+						<p:ajax event="dateSelect"
+
+							update="createButton" />
+					</p:calendar>
+					<p:commandButton id="createButton" value="Create"
+						action="#{timesheetController.addTimesheet(createTimesheetDate.value)}"
+						disabled="#{timesheetController.canCreateTimesheet(createTimesheetDate.value)}" />
+				</h:form>
+			</p:dialog>
+
 		</ui:define>
 	</ui:composition>
 </h:body>
