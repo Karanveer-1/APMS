@@ -17,8 +17,23 @@
 				</div>
 				<ul class="nav">
 					<li>
-						<p:commandLink value="Add Employee" onclick="PF('addEmployeeDialog').show();">
-							Add Employee
+						<p:commandLink action="AllEmployees.xhtml?faces-redirect=true">
+							View All Employees
+						</p:commandLink>
+					</li>
+					<li>
+						<p:commandLink action="Employees.xhtml?faces-redirect=true">
+							View Active Employees
+						</p:commandLink>
+					</li>
+					<li>
+						<p:commandLink action="AssignEmployee.xhtml?faces-redirect=true">
+							Assign Employee
+						</p:commandLink>
+					</li>
+					<li>
+						<p:commandLink action="#">
+							P Level
 						</p:commandLink>
 					</li>
 					<li>

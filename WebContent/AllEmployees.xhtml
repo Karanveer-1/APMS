@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/MasterLayout.xhtml">
+		<ui:define name="windowTitle">All Employee</ui:define>
+        <ui:define name="headerTitle"><h:outputText value="All Employees" class="navbar-brand"/></ui:define>
+        <ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
+        
+        <ui:define name="content">
+        	<h:panelGrid columns="2" cellpadding="10">
+				<p:outputLabel value="msg" style="opacity:0"/>
+			</h:panelGrid>
+            
+           <p:dataTable id="employeeTable"
+               value="#{employeesController.allEmployees}" var="employee">
+               <p:column headerText="Employee No">
+                   <h:outputText value="#{employee.empNumber}" />
+               </p:column>
+               <p:column headerText="First Name">
+                   <h:outputText value="#{employee.firstName}" />
+               </p:column>
+               <p:column headerText="Last Name">
+                   <h:outputText value="#{employee.lastName}" />
+               </p:column>
+               <p:column headerText="Username">
+                   <h:outputText value="#{employee.userName}" />
+               </p:column>
+               <p:column headerText="State">
+                   <h:outputText value="#{employee.state}" />
+               </p:column>
+               <p:column headerText="Comment">
+                   <h:outputText value="#{employee.comment}" />
+               </p:column>
+               <p:column headerText="Delete">
+                   <p:commandButton value="Delete" update="employeeTable"
+                       action="#{employeesController.deletePermanentEmployee(employee)}" />
+               </p:column>
+           </p:dataTable>
+                
+        </ui:define>
+	</ui:composition>
+	
+</html>

@@ -29,6 +29,11 @@ public class DatabaseController implements Serializable {
         return manager.createQuery("SELECT e FROM Employee e", Employee.class)
                 .getResultList();
     }
+    
+    public List<Employee> getActiveEmployees() {
+        return manager.createQuery("SELECT e FROM Employee e WHERE e.state = 'Active'", Employee.class)
+                .getResultList();
+    }
 
     public Employee getEmployeeByUsername(String username) {
         TypedQuery<Employee> query = manager.createQuery(
@@ -141,6 +146,7 @@ public class DatabaseController implements Serializable {
         removeTimesheetRows(getTimesheetRows(t.getTimesheetPk().getEmpNo(),
                 t.getTimesheetPk().getStartDate()));
     }
+
 }
 
 /*
