@@ -1,142 +1,142 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>IGNORED!</title>
+    <title>IGNORED!</title>
 </h:head>
 
 <h:body>
-	<ui:composition template="/templates/MasterLayout.xhtml">
-	
-		<ui:define name="windowTitle">Employee</ui:define>
-		<ui:define name="headerTitle"><h:outputText value="Employees" class="navbar-brand"/></ui:define>
-		
-		<ui:define name="content">
-			<h:form id="formMain">
-				<p:commandButton value="Add Employee" onclick="PF('addEmployeeDialog').show();" />
-				<p:growl id="invalidEmployeeGrowl" sticky="false" />
+    <ui:composition template="/templates/MasterLayout.xhtml">
+    
+        <ui:define name="windowTitle">Employee</ui:define>
+        <ui:define name="headerTitle"><h:outputText value="Employees" class="navbar-brand"/></ui:define>
+        <ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
+        
+        <ui:define name="content">
+            <h:form id="formMain">
+                <h:panelGrid columns="2" cellpadding="10">
+                        <p:outputLabel value="msg" style="opacity:0"/>
+                    </h:panelGrid>
+                <p:growl id="invalidEmployeeGrowl" sticky="false" />
+                <p:dataTable id="employeeTable"
+                    value="#{employeesController.employees}" var="employee">
+                    <p:column headerText="Employee No">
+                        <h:outputText value="#{employee.empNumber}" />
+                    </p:column>
+                    <p:column headerText="First Name">
+                        <h:outputText value="#{employee.firstName}" />
+                    </p:column>
+                    <p:column headerText="Last Name">
+                        <h:outputText value="#{employee.lastName}" />
+                    </p:column>
+                    <p:column headerText="Username">
+                        <h:outputText value="#{employee.userName}" />
+                    </p:column>
+                    <p:column headerText="State">
+                        <h:outputText value="#{employee.state}" />
+                    </p:column>
+                    <p:column headerText="Comment">
+                        <h:outputText value="#{employee.comment}" />
+                    </p:column>
+                    <p:column headerText="Edit">
+                        <p:commandButton value="Edit" update=":#{p:component('editDialog')}"
+                            action="#{employeesController.setEditEmployee(employee)}" />
+                    </p:column>
+                    <p:column headerText="Delete">
+                        <p:commandButton value="Delete" update="employeeTable"
+                            action="#{employeesController.deleteEmployee(employee)}" />
+                    </p:column>
+                </p:dataTable>
+                
+            </h:form>
+        
+            <p:dialog id="addDialog" header="Add Employee" modal="true" width="400"
+                widgetVar="addEmployeeDialog" resizable="false" draggable="false">
+                <h:form id="formAddDialog">
+                    <h:panelGrid columns="1">
+                        <h:outputText value="Employee Number" />
+                        <h:inputText id="addEmpNo" binding="#{addEmpNoText}" />
+        
+                        <h:outputText id="addFirstName" value="First Name" />
+                        <h:inputText binding="#{addFirstNameText}" />
+        
+                        <h:outputText id="addlastName" value="Last Name" />
+                        <h:inputText binding="#{addLastNameText}" />
+        
+                        <h:outputText id="addUsername" value="Username" />
+                        <h:inputText binding="#{addUsernameText}" />
 
-				<p:dataTable id="employeeTable"
-					value="#{employeeController.employees}" var="employee" rendered="true">
-					<p:column headerText="Employee No">
-						<h:outputText value="#{employee.empNumber}" />
-					</p:column>
-					<p:column headerText="First Name">
-						<h:outputText value="#{employee.firstName}" />
-					</p:column>
-					<p:column headerText="Last Name">
-						<h:outputText value="#{employee.lastName}" />
-					</p:column>
-					<p:column headerText="Username">
-						<h:outputText value="#{employee.userName}" />
-					</p:column>
-					<p:column headerText="Password">
-						<h:outputText value="#{employee.password}" />
-					</p:column>
-					<p:column headerText="State">
-						<h:outputText value="#{employee.state}" />
-					</p:column>
-					<p:column headerText="Comment">
-						<h:outputText value="#{employee.comment}" />
-					</p:column>
-					<p:column headerText="Edit">
-						<p:commandButton value="Edit" update=":#{p:component('editDialog')}"
-							action="#{employeeController.setEditEmployee(employee)}" />
-					</p:column>
-					<p:column headerText="Delete">
-						<p:commandButton value="Delete" update="employeeTable"
-							action="#{employeeController.deleteEmployee(employee)}" />
-					</p:column>
-				</p:dataTable>
-			</h:form>
-		
-			<p:dialog id="addDialog" header="Add Employee" modal="true" width="400"
-				widgetVar="addEmployeeDialog" resizable="false" draggable="false">
-				<h:form id="formAddDialog">
-					<h:panelGrid columns="1">
-						<h:outputText value="Employee Number" />
-						<h:inputText id="addEmpNo" binding="#{addEmpNoText}" />
-		
-						<h:outputText id="addFirstName" value="First Name" />
-						<h:inputText binding="#{addFirstNameText}" />
-		
-						<h:outputText id="addlastName" value="Last Name" />
-						<h:inputText binding="#{addLastNameText}" />
-		
-						<h:outputText id="addUsername" value="Username" />
-						<h:inputText binding="#{addUsernameText}" />
+                        <h:outputText id="addPassword" value="Password" />
+                        <h:inputText binding="#{addPasswordText}" />
+        
+                        <h:outputText id="addState" value="State" />
+                        <h:inputText binding="#{addStateText}" />
+        
+                        <h:outputText id="addComment" value="Comment" />
+                        <h:inputText binding="#{addCommentText}" />
+        
+                        <p:commandButton resetValues="true"
+                            update=":formMain:employeeTable :formMain:invalidEmployeeGrowl :formAddDialog"
+                            value="Save"
+                            action="#{employeesController.addEmployee(
+                                    addEmpNoText.value,
+                                    addFirstNameText.value,
+                                    addLastNameText.value,
+                                    addUsernameText.value,
+                                    addPasswordText.value,
+                                    addStateText.value,
+                                    addCommentText.value)}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
 
-						<h:outputText id="addPassword" value="Password" />
-						<h:inputText binding="#{addPasswordText}" />
-		
-						<h:outputText id="addState" value="State" />
-						<h:inputText binding="#{addStateText}" />
-		
-						<h:outputText id="addComment" value="Comment" />
-						<h:inputText binding="#{addCommentText}" />
-		
-						<p:commandButton resetValues="true"
-							update=":formMain:employeeTable :formMain:invalidEmployeeGrowl :formAddDialog"
-							value="Save"
-							action="#{employeeController.addEmployee(
-		                            addEmpNoText.value,
-		                            addFirstNameText.value,
-		                            addLastNameText.value,
-		                            addUsernameText.value,
-		                            addPasswordText.value,
-		                            addStateText.value,
-		                            addCommentText.value)}" />
-					</h:panelGrid>
-				</h:form>
-			</p:dialog>
-
-			<p:dialog id="editDialog" header="Edit Employee" modal="true"
-				width="400" widgetVar="editEmployeeDialog" resizable="false"
-				draggable="false">
-				<h:form id="formEditDialog">
-					<h:panelGrid columns="1">
-						<h:outputText value="First Name" />
-						<h:inputText binding="#{editFirstNameText}"
-							value="#{employeeController.editEmployee.firstName}" />
-		
-						<h:outputText value="Last Name" />
-						<h:inputText binding="#{editLastNameText}"
-							value="#{employeeController.editEmployee.lastName}" />
-		
-						<h:outputText value="Username" />
-						<h:inputText binding="#{editUsernameText}"
-							value="#{employeeController.editEmployee.userName}" />
-		
-						<h:outputText value="Password" />
-						<h:inputText binding="#{editPasswordText}"
-							value="#{employeeController.editEmployee.password}" />
-		
-						<h:outputText id="editState" value="State" />
-						<h:inputText binding="#{editStateText}"
-							value="#{employeeController.editEmployee.state}" />
-		
-						<h:outputText id="editComment" value="Comment" />
-						<h:inputText binding="#{editCommentText}"
-							value="#{employeeController.editEmployee.comment}" />
-		
-						<p:commandButton
-							update=":formMain:employeeTable :formMain:invalidEmployeeGrowl :formEditDialog"
-							value="Save"
-							action="#{employeeController.editEmployee(
-		                            editFirstNameText.value,
-		                            editLastNameText.value,
-		                            editUsernameText.value,
-		                            editPasswordText.value,
-		                            editStateText.value,
-		                            editCommentText.value)}" />
-					</h:panelGrid>
-				</h:form>
-			</p:dialog>
-		</ui:define>
-	</ui:composition>
+            <p:dialog id="editDialog" header="Edit Employee" modal="true"
+                width="400" widgetVar="editEmployeeDialog" resizable="false"
+                draggable="false">
+                <h:form id="formEditDialog">
+                    <h:panelGrid columns="1">
+                        <h:outputText value="First Name" />
+                        <h:inputText binding="#{editFirstNameText}"
+                            value="#{employeesController.editEmployee.firstName}" />
+        
+                        <h:outputText value="Last Name" />
+                        <h:inputText binding="#{editLastNameText}"
+                            value="#{employeesController.editEmployee.lastName}" />
+        
+                        <h:outputText value="Username" />
+                        <h:inputText binding="#{editUsernameText}"
+                            value="#{employeesController.editEmployee.userName}" />
+        
+                        <h:outputText value="Password" />
+                        <h:inputText binding="#{editPasswordText}"
+                            value="#{employeesController.editEmployee.password}" />
+        
+                        <h:outputText id="editState" value="State" />
+                        <h:inputText binding="#{editStateText}"
+                            value="#{employeesController.editEmployee.state}" />
+        
+                        <h:outputText id="editComment" value="Comment" />
+                        <h:inputText binding="#{editCommentText}"
+                            value="#{employeesController.editEmployee.comment}" />
+        
+                        <p:commandButton
+                            update=":formMain:employeeTable :formMain:invalidEmployeeGrowl :formEditDialog"
+                            value="Save"
+                            action="#{employeesController.editEmployee(
+                                    editFirstNameText.value,
+                                    editLastNameText.value,
+                                    editUsernameText.value,
+                                    editPasswordText.value,
+                                    editStateText.value,
+                                    editCommentText.value)}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
 </h:body>
 </html>
