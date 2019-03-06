@@ -83,6 +83,14 @@ public class DatabaseController implements Serializable {
     public void removeTimesheet(Timesheet t) {
         manager.remove(manager.contains(t) ? t : manager.merge(t));
     }
+    
+    /**
+     * merge Category record fields into existing database record.
+     * @param category the record to be merged.
+     */
+    public void updateTimesheet(Timesheet t) {
+        manager.merge(t);
+    }    
 
     // #########################################################################
     // # TimesheetRow methods

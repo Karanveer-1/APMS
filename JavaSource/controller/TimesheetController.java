@@ -65,7 +65,7 @@ public class TimesheetController implements Serializable {
             row.setState(TimesheetRowState.Pending.toString());
         }
 
-        editTimesheet.setState(TimesheetState.Pending.toString());
+        editTimesheet.setState(TimesheetState.Draft.toString());
 
         database.removeTimesheetRows(editTimesheet);
 
@@ -175,5 +175,15 @@ public class TimesheetController implements Serializable {
 
     public boolean canCreateTimesheet(Date selectedDate) {
         return hasTimesheetForWeek(selectedDate == null ? DateUtils.today() : selectedDate);
+    }
+    
+    public void submitTimesheet(Timesheet t) {
+        t.setState(TimesheetState.Submitted.toString());
+        database.updateTimesheet(t);
+    }
+    
+    public void CancelSubmitTimesheet(Timesheet t) {
+        t.setState(TimesheetState.Draft.toString());
+        database.updateTimesheet(t);
     }
 }
