@@ -16,9 +16,9 @@ import model.Employee;
 import service.PasswordHash;
 import service.PasswordHash.CannotPerformOperationException;
 
-@Named("employeeListController")
+@Named("employeesController")
 @ViewScoped
-public class EmployeeListController implements Serializable {
+public class EmployeeController implements Serializable {
 
     @Inject
     private DatabaseController database;

@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>IGNORED!</title>
+</h:head>
+
+<h:body>
+	<ui:composition template="/templates/MasterLayout.xhtml">
+
+		<ui:define name="windowTitle">Edit Timesheet</ui:define>
+		<ui:define name="headerTitle">
+			<h:outputText value="Edit Timesheet" class="navbar-brand" />
+		</ui:define>
+
+		<ui:define name="content">
+			<h:form id="formMain">
+				<p:commandButton value="Add Row"
+					action="#{timesheetController.addTimesheetRow()}"
+					update="editTable" />
+				<p:commandButton value="Save"
+					action="#{timesheetController.saveTimesheet()}" />
+				<p:commandButton value="Discard Changes"
+					action="#{timesheetController.discardTimesheetChanges()}"
+					immediate="true" />
+
+				<p:dataTable id="editTable"
+					value="#{timesheetController.editTimesheetRows}" var="row"
+					editable="true" editMode="cell">
+
+					<p:column headerText="Project No">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.timesheetRowPk.proNo}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.timesheetRowPk.proNo}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="WPID">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.timesheetRowPk.wpid}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.timesheetRowPk.wpid}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Start Date">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.timesheetRowPk.startDate}">
+									<f:convertDateTime pattern="MMM. dd, yyyy" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar value="#{row.timesheetRowPk.startDate}"
+									pattern="MMM. dd, yyyy" mindate="#{timesheetController.calendarMinDate()}" maxdate="#{timesheetController.calendarMaxDate()}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="Sat">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.sat}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.sat}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Sun">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.sun}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.sun}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Mon">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.mon}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.mon}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Tue">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.tue}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.tue}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Wed">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.wed}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.wed}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Thu">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.thu}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.thu}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Fri">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.fri}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.fri}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="State">
+						<h:outputText value="#{row.state}" />
+					</p:column>
+
+					<p:column headerText="Comment">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{row.comment}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{row.comment}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+			<p:dialog id="errorDialog" header="Add Employee" modal="true"
+				width="400" widgetVar="errorDialog" resizable="false"
+				draggable="false">
+				<h:outputText value="Error in timesheet!" />
+			</p:dialog>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

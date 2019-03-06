@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>IGNORED!</title>
+</h:head>
+
+<h:body>
+	<ui:composition template="/templates/MasterLayout.xhtml">
+
+		<ui:define name="windowTitle">Timesheets</ui:define>
+		<ui:define name="headerTitle">
+			<h:outputText value="Timesheets" class="navbar-brand" />
+		</ui:define>
+
+		<ui:define name="content">
+			<h:form id="formMain">
+				<p:commandButton id="addButton" value="Add Timesheet"
+					action="#{timesheetController.addTimesheet()}"
+					disabled="#{timesheetController.hasTimesheetForCurrentWeek()}" />
+				<p:dataTable id="viewTable"
+					value="#{timesheetController.timesheets}" var="timesheet">
+					<p:column headerText="Date">
+						<h:outputText value="#{timesheet.timesheetPk.startDate}">
+							<f:convertDateTime pattern="MMM. dd, yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="State">
+						<h:outputText value="#{timesheet.state}" />
+					</p:column>
+					<p:column headerText="Signature">
+					   <h:outputText value="#{timesheet.signature}" />
+					</p:column>
+					<p:column headerText="Approved Emp No">
+					   <h:outputText value="#{timesheet.approvedEmpNo}" />
+					</p:column>
+					<p:column headerText="Comment">
+						<h:outputText value="#{timesheet.comment}" />
+					</p:column>
+					<p:column headerText="Edit">
+						<p:commandButton value="Edit"
+							action="#{timesheetController.editTimesheet(timesheet)}"
+							disabled="#{!timesheetController.timesheetIsInCurrentWeek(timesheet)}" />
+					</p:column>
+					<p:column headerText="Delete">
+						<p:commandButton value="Delete"
+							action="#{timesheetController.deleteTimesheet(timesheet)}"
+							disabled="#{!timesheetController.timesheetIsInCurrentWeek(timesheet)}"
+							update=":formMain" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
