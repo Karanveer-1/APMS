@@ -23,7 +23,7 @@ import utils.DateUtils;
 @Named("timesheetController")
 @SessionScoped
 public class TimesheetController implements Serializable {
-    
+
     @Inject
     private DatabaseController database;
     private List<Timesheet> timesheets;
@@ -93,8 +93,7 @@ public class TimesheetController implements Serializable {
     public void addTimesheetRow() {
 
         TimesheetRowPK pk = new TimesheetRowPK(currentEmployee.getEmpNumber(),
-                DateUtils.getTimesheetStartDate(DateUtils.today()), null,
-                null);
+                DateUtils.getTimesheetStartDate(DateUtils.today()), null, null);
         TimesheetRow row = new TimesheetRow();
         row.setTimesheetRowPk(pk);
         row.setState(TimesheetRowState.Draft.toString());
@@ -104,8 +103,7 @@ public class TimesheetController implements Serializable {
 
     public boolean hasTimesheetForCurrentWeek() {
         for (Timesheet timesheet : timesheets) {
-            Date start = DateUtils
-                    .getTimesheetStartDate(DateUtils.today());
+            Date start = DateUtils.getTimesheetStartDate(DateUtils.today());
             Date end = DateUtils.getTimesheetEndDate(DateUtils.today());
 
             if (DateUtils.isWithinRange(
@@ -120,26 +118,17 @@ public class TimesheetController implements Serializable {
     public boolean timesheetIsInCurrentWeek(Timesheet t) {
         Date start = DateUtils.getTimesheetStartDate(DateUtils.today());
         Date end = DateUtils.getTimesheetEndDate(DateUtils.today());
-        System.out.println(start);
-        System.out.println(end);
-        System.out.println(t.getTimesheetPk().getStartDate());
-        
+
         return DateUtils.isWithinRange(t.getTimesheetPk().getStartDate(), start,
                 end);
     }
 
     public Date calendarMinDate() {
-        System.out.println("Start: " + DateUtils.getTimesheetStartDate(
-                editTimesheet.getTimesheetPk().getStartDate()));
-        
         return DateUtils.getTimesheetStartDate(
                 editTimesheet.getTimesheetPk().getStartDate());
     }
 
     public Date calendarMaxDate() {
-        System.out.println("End: " + DateUtils.getTimesheetEndDate(
-                editTimesheet.getTimesheetPk().getStartDate()));
-        
         return DateUtils.getTimesheetEndDate(
                 editTimesheet.getTimesheetPk().getStartDate());
     }
