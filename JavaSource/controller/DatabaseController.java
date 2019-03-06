@@ -155,6 +155,15 @@ public class DatabaseController implements Serializable {
         return manager.createQuery("SELECT p FROM PLevel p", PLevel.class)
                 .getResultList();
     }
+    
+    public PLevel getPLevelByPK(Date startDate, String pLevel) {
+        TypedQuery<PLevel> query = manager.createQuery(
+                "select p from PLevel p where p.StartDate = :StartDate AND p.PLevel = :PLevel",
+                PLevel.class);
+        query.setParameter("StartDate", startDate);
+        query.setParameter("PLevel", pLevel);
+        return query.getSingleResult();
+    }
 
 }
 
