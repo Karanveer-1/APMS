@@ -61,12 +61,11 @@ public class DateUtils {
         }
     }
     
-    @SuppressWarnings("deprecation")
     private static Date getWeekSaturday(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
-        if (cal.getTime().getDay() != Calendar.SATURDAY) {
+        if (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
             cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
             cal.add(Calendar.DAY_OF_YEAR, -7);
         }
@@ -74,12 +73,11 @@ public class DateUtils {
         return cal.getTime();
     }
     
-    @SuppressWarnings("deprecation")
     private static Date getWeekFriday(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
-        if (cal.getTime().getDay() != Calendar.FRIDAY) {
+        if (cal.get(Calendar.DAY_OF_WEEK)  != Calendar.FRIDAY) {
             cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
         }
 
