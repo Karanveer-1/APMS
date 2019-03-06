@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +23,7 @@ import utils.DateUtils;
 @Named("timesheetController")
 @SessionScoped
 public class TimesheetController implements Serializable {
-
+    
     @Inject
     private DatabaseController database;
     private List<Timesheet> timesheets;
