@@ -188,6 +188,14 @@ public class DatabaseController implements Serializable {
     public void updatePLevel(PLevel e) {
         manager.merge(e);
     }
+    
+    public void addPLevel(PLevel e) {
+        manager.persist(e);
+    }
+    
+    public void removePLevel(PLevel e) {
+        manager.remove(manager.contains(e) ? e : manager.merge(e));
+    }
 }
 
 /*

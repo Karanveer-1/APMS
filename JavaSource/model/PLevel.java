@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -23,6 +24,14 @@ public class PLevel implements Serializable {
     @Column(name = "Wage")
     private float wage;
 
+    public PLevel() {
+        
+    }
+    
+    public PLevel(String pk, Date sd, Float wage) {
+        this.pLevelPK = new PLevelPK(pk, sd);
+        this.wage = wage;
+    }
     /**
      * Returns the {bare_field_name} for this PLevel.
      * @return the pLevelPK

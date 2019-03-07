@@ -28,7 +28,9 @@
 						<h:outputText value="#{pLevel.pLevelPK.pLevel}" />
 					</p:column>
 					<p:column headerText="StartDate">
-						<h:outputText value="#{pLevel.pLevelPK.startDate}" />
+						<h:outputText value="#{pLevel.pLevelPK.startDate}" >
+							<f:convertDateTime pattern = "dd-mm-yyyy" />
+						</h:outputText>
 					</p:column>
 					<p:column headerText="Wage">
 						<h:outputText value="#{pLevel.wage}" />
@@ -37,6 +39,11 @@
 						<p:commandButton value="Edit"
 							update=":#{p:component('editDialog')}"
 							action="#{pLevelController.setEditPLevel(pLevel)}" />
+					</p:column>
+					<p:column headerText="Remove">
+						<p:commandButton value="Remove"
+							update=":formMain:pLevelTable :formEditDialog"
+							action="#{pLevelController.remove(pLevel)}" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
@@ -64,6 +71,29 @@
 					<p:commandButton update=":formMain:pLevelTable :formEditDialog"
 						value="Save"
 						action="#{pLevelController.editPLevel(editWageText.value)}" />
+				</h:form>
+			</p:dialog>
+			<p:dialog id="addDialog" header="Add PLevel" modal="true"
+				width="400" widgetVar="addPLevelDialog" resizable="false"
+				draggable="false">
+				<h:form id="formAddDialog">
+					<h:panelGrid columns="1">
+						<h:outputText value="PLEVEL" />
+						<h:inputText binding="#{addPLevelText}" />
+
+						<h:outputText value="StartDate" />
+						<p:calendar id="popup" binding="#{addStartDateText}"/>
+
+						<h:outputText value="Wage" />
+						<h:inputText id="wage" binding="#{addWageText}" validatorMessage="Enter a wage between 0.0 and 100000000.0">
+							<f:validateDoubleRange minimum="0.00" maximum="100000000.0" />
+						</h:inputText>
+						<h:message for="wage" style="color:red" />
+						
+					</h:panelGrid>
+					<p:commandButton update=":formMain:pLevelTable"
+						value="Create New PLevel"
+						action="#{pLevelController.add(addPLevelText.value, addStartDateText.value, addWageText.value)}" />
 				</h:form>
 			</p:dialog>
 		</ui:define>

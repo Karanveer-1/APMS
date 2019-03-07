@@ -21,6 +21,15 @@ public class PLevelPK implements Serializable {
     @Column(name = "StartDate", nullable = false)
     private Date startDate;
 
+    
+    public PLevelPK(String pk, Date sd) {
+        this.pLevel = pk;
+        this.startDate = sd;
+    }
+    
+    public PLevelPK() {
+        
+    }
     /**
      * Returns the {bare_field_name} for this PLevelPK.
      * @return the pLevel

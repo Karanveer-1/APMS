@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -26,7 +27,7 @@ import service.PasswordHash.CannotPerformOperationException;
  * @version 2017
  */
 @Named("pLevelController")
-@ViewScoped
+@SessionScoped
 public class PLevelController implements Serializable {
 
     @Inject
@@ -92,6 +93,28 @@ public class PLevelController implements Serializable {
             PrimeFaces.current()
                     .executeScript("PF('editPLevelDialog').hide();");
         }
+    }
+    
+    public void remove(PLevel pLevel) {
+        database.removePLevel(pLevel);
+        pLevels = database.getPLevels();
+    }
+    
+    public void add(String pLevel, Date startDate, String wage) {
+        Float wagef = Float.valueOf(wage);
+        pLevels = database.getPLevels();  
+        boolean validPK = true;
+        for(PLevel p : pLevels) {
+            if(p.getpLevelPK().getpLevel().equals(pLevel) && p.getpLevelPK().getStartDate().equals(startDate)) {
+                validPK = false;
+                break;
+            }
+        }
+        if(validPK) {
+            database.addPLevel(new PLevel(pLevel, startDate, wagef));
+        }
+        pLevels = database.getPLevels();  
+        PrimeFaces.current().executeScript("PF('addPLevelDialog').hide();");
     }
     
 }
