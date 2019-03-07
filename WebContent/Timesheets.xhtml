@@ -52,7 +52,7 @@
 							action="#{timesheetController.deleteTimesheet(timesheet)}"
 							disabled="#{!timesheetController.canEditTimesheet(timesheet) || 
 										(timesheet.state == 'Submitted')}"
-							update=":formMain" />
+							update=":formMain :formAddDialog:createButton" />
 					</p:column>
 					<p:column headerText="Submit / Cancel">
 						<p:commandButton value="Submit"
@@ -60,7 +60,7 @@
 							rendered="#{!(timesheet.state == 'Submitted')}"
 							update=":formMain" />
 						<p:commandButton value="Cancel"
-							action="#{timesheetController.CancelSubmitTimesheet(timesheet)}"
+							action="#{timesheetController.cancelSubmitTimesheet(timesheet)}"
 							rendered="#{!(timesheet.state != 'Submitted')}"
 							update=":formMain" />
 					</p:column>

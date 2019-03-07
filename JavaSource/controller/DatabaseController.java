@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
@@ -41,7 +42,26 @@ public class DatabaseController implements Serializable {
                 "select e from Employee e where e.userName = :username",
                 Employee.class);
         query.setParameter("username", username);
-        return query.getSingleResult();
+        try {
+            Employee emp = query.getSingleResult();
+            return emp;
+        } catch(Exception exp) {
+            return null;
+        }
+        
+    }
+    
+    public Employee getEmployeeById(int id) {
+        TypedQuery<Employee> query = manager.createQuery(
+                "select e from Employee e where e.empNumber = :empNumber",
+                Employee.class);
+        query.setParameter("empNumber", id);
+        try {
+            Employee emp = query.getSingleResult();
+            return emp;
+        } catch(Exception exp) {
+            return null;
+        }
     }
 
     public void addEmployee(Employee e) {
