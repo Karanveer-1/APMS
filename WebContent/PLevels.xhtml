@@ -33,37 +33,31 @@
                     <p:column headerText="Wage">
                         <h:outputText value="#{pLevel.wage}" />
                     </p:column>
-<!-- 
                     <p:column headerText="Edit">
                         <p:commandButton value="Edit" update=":#{p:component('editDialog')}"
                             action="#{pLevelController.setEditPLevel(pLevel)}" />
                     </p:column>
-                    <p:column headerText="Remove">
-                        <p:commandButton value="Not Active" update="employeeTable"
-                            action="#{pLevelController.removePLevel(pLevel)}" />
-                    </p:column>
-                    -->
                 </p:dataTable>
 			</h:form>
-<!--
-			<p:dialog id="addDialog" header="Select Date" modal="true"
-				widgetVar="addPLevelDialog" resizable="false" draggable="false">
-				<h:form id="formAddDialog">
-
-
-					<p:calendar id="datePicker" pattern="MMM. dd, yyyy" mode="inline"
-						binding="#{createTimesheetDate}"
-						mindate="#{timesheetController.calendarCurrentTimesheetStartDate()}">
-						<p:ajax event="dateSelect"
-
-							update="createButton" />
-					</p:calendar>
-					<p:commandButton id="createButton" value="Create"
-						action="#{timesheetController.addTimesheet(createTimesheetDate.value)}"
-						disabled="#{timesheetController.canCreateTimesheet(createTimesheetDate.value)}" />
-				</h:form>
-			</p:dialog>
-	-->
+            <p:dialog id="editDialog" header="Edit PLevel" modal="true"
+                width="400" widgetVar="editPLevelDialog" resizable="false"
+                draggable="false">
+                <h:form id="formEditDialog">
+                    <h:panelGrid columns="1">
+                        <h:outputText value="PLEVEL" />
+                        <h:inputText binding="#{editPLevel}"
+                            value="#{pLevelController.editPLevel.pLevelPK.pLevel}" />
+        
+                        <h:outputText value="StartDate" />
+                        <h:inputText binding="#{editStartDate}"
+                            value="#{pLevelController.editPLevel.pLevelPK.startDate}" />
+        
+                        <h:outputText value="Wage" />
+                        <h:inputText binding="#{editWage}"
+                            value="#{pLevelController.editPLevel.wage}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
 		</ui:define>
     </ui:composition>
 </h:body>

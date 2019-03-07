@@ -5,9 +5,13 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.PrimeFaces;
 
 import model.PLevel;
 
@@ -18,7 +22,7 @@ import model.PLevel;
  * @version 2017
  */
 @Named("pLevelController")
-@ViewScoped
+@SessionScoped
 public class PLevelController implements Serializable {
 
     @Inject
@@ -33,7 +37,7 @@ public class PLevelController implements Serializable {
         editPLevel = null;
         pLevels = database.getPLevels();
         System.out.println(pLevels);
-        
+
     }
 
     /**
@@ -66,5 +70,7 @@ public class PLevelController implements Serializable {
      */
     public void setEditPLevel(PLevel editPLevel) {
         this.editPLevel = editPLevel;
+        PrimeFaces.current().executeScript("PF('editPLevelDialog').show();");
     }
+
 }
