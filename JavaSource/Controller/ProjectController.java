@@ -51,7 +51,7 @@ public class ProjectController implements Serializable {
 	public void init() {
 		projects = database.getAllProjects();
 		addProject = new Project();
-		employeeList = database.getEmployees();
+		employeeList = database.getActiveEmployees();
 		editProject = new Project();
 	}
 
