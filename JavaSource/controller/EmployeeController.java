@@ -21,192 +21,182 @@ import service.PasswordHash.CannotPerformOperationException;
 @ViewScoped
 public class EmployeeController implements Serializable {
 
-    @Inject
-    private DatabaseController database;
+	@Inject
+	private DatabaseController database;
 
-    private List<Employee> activeEmployees;
-    private List<Employee> allEmployees;
+	private List<Employee> activeEmployees;
+	private List<Employee> allEmployees;
 
-    private Employee editEmployee;
+	private Employee editEmployee;
 
-    @PostConstruct
-    public void init() {
-        editEmployee = null;
-        activeEmployees = database.getActiveEmployees();
-        setAllEmployees(database.getEmployees());
-    }
+	@PostConstruct
+	public void init() {
+		editEmployee = null;
+		activeEmployees = database.getActiveEmployees();
+		setAllEmployees(database.getEmployees());
+	}
 
-    public void addEmployee(String empNo, String firstName, String lastName,
-            String username, String password,
-            String comment) {
+	public void addEmployee(String empNo, String firstName, String lastName, String username, String password,
+			String comment) {
 
-        activeEmployees = database.getEmployees();
-        
-        String state = EmployeeState.Active.toString();
-        
-        if (validateEmployee(empNo, firstName, lastName, username, password, state, comment, false)) {
-            try {
-                password = PasswordHash.createHash(password);
+		activeEmployees = database.getEmployees();
 
-                Employee e = new Employee(Integer.parseInt(empNo), firstName,
-                        lastName, username, password, state, comment);
-                e.setApproEmpNo(1);
-                e.setSuperEmpNo(1);
-                
-                activeEmployees.add(e);
-                database.addEmployee(e);
-                
-                activeEmployees = database.getEmployees();
-                
-                PrimeFaces.current()
-                        .executeScript("PF('addEmployeeDialog').hide();");
-            } catch (CannotPerformOperationException e1) {
-                e1.printStackTrace();
-            }
-        }
-    }
+		String state = EmployeeState.Active.toString();
 
-    public void editEmployee(String firstName, String lastName, String username,
-            String password, String comment) {
-        
-        activeEmployees = database.getEmployees();
-        String state = EmployeeState.Active.toString();
-        
-        if (validateEmployee(null, firstName, lastName, username, password, state, comment, true)) {
-            try {
-                password = PasswordHash.createHash(password);
-                
-                editEmployee.setFirstName(firstName);
-                editEmployee.setLastName(lastName);
-                editEmployee.setUserName(username);
-                editEmployee.setPassword(password);
-                editEmployee.setState(state);
-                editEmployee.setComment(comment);
+		if (validateEmployee(empNo, firstName, lastName, username, password, state, comment, false)) {
+			try {
+				password = PasswordHash.createHash(password);
 
-                database.updateEmployee(editEmployee);
-                
-                activeEmployees = database.getEmployees();
+				Employee e = new Employee(Integer.parseInt(empNo), firstName, lastName, username, password, state,
+						comment);
+				e.setApproEmpNo(1);
+				e.setSuperEmpNo(1);
 
-                PrimeFaces.current()
-                        .executeScript("PF('editEmployeeDialog').hide();");
+				activeEmployees.add(e);
+				database.addEmployee(e);
 
-            } catch (CannotPerformOperationException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+				activeEmployees = database.getEmployees();
 
-    public void deleteEmployee(Employee e) {
-        e.setState(EmployeeState.Retired.toString());
-        activeEmployees.remove(e);
-        database.updateEmployee(e);
-    }
-    
-    public void deletePermanentEmployee(Employee e) {
-       allEmployees.remove(e);
-       if (activeEmployees.contains(e)) {
-           activeEmployees.remove(e);
-       }
-       database.removeEmployee(e);
-    }
+				PrimeFaces.current().executeScript("PF('addEmployeeDialog').hide();");
+			} catch (CannotPerformOperationException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
 
-    public List<Employee> getEmployees() {
-        return activeEmployees;
-    }
+	public void editEmployee(String firstName, String lastName, String username, String password, String comment) {
 
-    public Employee getEditEmployee() {
-        return editEmployee;
-    }
+		activeEmployees = database.getEmployees();
+		String state = EmployeeState.Active.toString();
 
-    public void setEditEmployee(Employee editEmployee) {        
-        this.editEmployee = new Employee(editEmployee.getEmpNumber(),
-                editEmployee.getFirstName(), editEmployee.getLastName(),
-                editEmployee.getUserName(), "",
-                editEmployee.getState(), editEmployee.getComment());
-                
+		if (validateEmployee(null, firstName, lastName, username, password, state, comment, true)) {
+			try {
+				password = PasswordHash.createHash(password);
 
-        PrimeFaces.current().executeScript("PF('editEmployeeDialog').show();");
-    }
+				editEmployee.setFirstName(firstName);
+				editEmployee.setLastName(lastName);
+				editEmployee.setUserName(username);
+				editEmployee.setPassword(password);
+				editEmployee.setState(state);
+				editEmployee.setComment(comment);
 
-    public boolean validateEmployee(String empNo, String firstName,
-            String lastName, String username, String password,
-            String state, String comment, boolean isEdit) {
+				database.updateEmployee(editEmployee);
 
-        if (isEdit
-                ? isAnyNullOrWhitespace(firstName, lastName, username, password, state)
-                : isAnyNullOrWhitespace(empNo, firstName, lastName, username,
-                        password, state)) {
-            addErrorMessage("All fields except for comment must be filled in");
-            return false;
-        } else if (!isEdit && !isInteger(empNo)) {
-            addErrorMessage("Employee number must be an integer");
-            return false;
-        } else if (!isEdit && isDuplicateEmpNumber(Integer.parseInt(empNo))) {
-            addErrorMessage("Duplicate employee number found");
-            return false;
-        } else if (isDuplicateUsername(username, isEdit)) {
-            addErrorMessage("Duplicate username found");
-            return false;
-        }
+				activeEmployees = database.getEmployees();
 
-        return true;
-    }
+				PrimeFaces.current().executeScript("PF('editEmployeeDialog').hide();");
 
-    private boolean isDuplicateEmpNumber(int empNumber) {
-        for (Employee e : activeEmployees) {
-            if (e.getEmpNumber() == empNumber) {
-                return true;
-            }
-        }
+			} catch (CannotPerformOperationException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-        return false;
-    }
+	public void deleteEmployee(Employee e) {
+		e.setState(EmployeeState.Retired.toString());
+		activeEmployees.remove(e);
+		database.updateEmployee(e);
+	}
 
-    private boolean isDuplicateUsername(String username, boolean isEdit) {
-        for (Employee e : activeEmployees) {
-            if (e.equals(editEmployee) && isEdit) {
-                continue;
-            }
+	public void deletePermanentEmployee(Employee e) {
+		allEmployees.remove(e);
+		if (activeEmployees.contains(e)) {
+			activeEmployees.remove(e);
+		}
+		database.removeEmployee(e);
+	}
 
-            if (e.getUserName().equalsIgnoreCase(username)) {
-                return true;
-            }
-        }
+	public List<Employee> getEmployees() {
+		return activeEmployees;
+	}
 
-        return false;
-    }
+	public Employee getEditEmployee() {
+		return editEmployee;
+	}
 
-    private boolean isInteger(String string) {
-        try {
-            Integer.parseInt(string);
-        } catch (NumberFormatException e) {
-            return false;
-        }
+	public void setEditEmployee(Employee editEmployee) {
+		this.editEmployee = new Employee(editEmployee.getEmpNumber(), editEmployee.getFirstName(),
+				editEmployee.getLastName(), editEmployee.getUserName(), "", editEmployee.getState(),
+				editEmployee.getComment());
 
-        return true;
-    }
+		PrimeFaces.current().executeScript("PF('editEmployeeDialog').show();");
+	}
 
-    private boolean isAnyNullOrWhitespace(String... values) {
-        for (String s : values) {
-            if (s == null || s.trim().length() == 0) {
-                return true;
-            }
-        }
+	public boolean validateEmployee(String empNo, String firstName, String lastName, String username, String password,
+			String state, String comment, boolean isEdit) {
 
-        return false;
-    }
+		if (isEdit ? isAnyNullOrWhitespace(firstName, lastName, username, password, state)
+				: isAnyNullOrWhitespace(empNo, firstName, lastName, username, password, state)) {
+			addErrorMessage("All fields except for comment must be filled in");
+			return false;
+		} else if (!isEdit && !isInteger(empNo)) {
+			addErrorMessage("Employee number must be an integer");
+			return false;
+		} else if (!isEdit && isDuplicateEmpNumber(Integer.parseInt(empNo))) {
+			addErrorMessage("Duplicate employee number found");
+			return false;
+		} else if (isDuplicateUsername(username, isEdit)) {
+			addErrorMessage("Duplicate username found");
+			return false;
+		}
 
-    private void addErrorMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                summary, null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
+		return true;
+	}
 
-    public List<Employee> getAllEmployees() {
-        return allEmployees;
-    }
+	private boolean isDuplicateEmpNumber(int empNumber) {
+		for (Employee e : activeEmployees) {
+			if (e.getEmpNumber() == empNumber) {
+				return true;
+			}
+		}
 
-    public void setAllEmployees(List<Employee> allEmployees) {
-        this.allEmployees = allEmployees;
-    }
+		return false;
+	}
+
+	private boolean isDuplicateUsername(String username, boolean isEdit) {
+		for (Employee e : activeEmployees) {
+			if (e.equals(editEmployee) && isEdit) {
+				continue;
+			}
+
+			if (e.getUserName().equalsIgnoreCase(username)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private boolean isInteger(String string) {
+		try {
+			Integer.parseInt(string);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private boolean isAnyNullOrWhitespace(String... values) {
+		for (String s : values) {
+			if (s == null || s.trim().length() == 0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private void addErrorMessage(String summary) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+
+	public List<Employee> getAllEmployees() {
+		return allEmployees;
+	}
+
+	public void setAllEmployees(List<Employee> allEmployees) {
+		this.allEmployees = allEmployees;
+	}
 }
