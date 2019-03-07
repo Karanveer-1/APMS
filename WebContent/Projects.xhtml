@@ -18,6 +18,7 @@
 		</ui:define>
 
 		<ui:define name="content">
+
 			<h:form id="form">
 				<p:growl id="msgs" showDetail="true" />
 
@@ -124,7 +125,7 @@
 
 					</p:column>
 					<p:column style="text-align:center">
-						<p:commandButton value="Delete" update="project"  process="@this"
+						<p:commandButton value="Delete" update="project" 
 							action="#{projectController.deleteProject(project)}" />
 
 					</p:column>
@@ -132,7 +133,7 @@
 
 				<div class="ui-g">
 					<div class="ui-g-12">
-						<p:commandButton value="Add new row" 
+						<p:commandButton value="Add new row"
 							styleClass="ui-priority-primary" process="@this"
 							action="#{projectController.addProject()}"
 							oncomplete="PF('project').addRow();" />
