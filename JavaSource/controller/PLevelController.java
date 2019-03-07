@@ -3,6 +3,7 @@ package controller;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -16,6 +17,7 @@ import model.PLevel;
  * @version 2017
  */
 @Named("pLevelController")
+@RequestScoped
 public class PLevelController {
 
     @Inject
