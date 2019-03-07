@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -7,7 +8,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import model.Employee;
 import model.PLevel;
 
 /**
@@ -18,18 +18,18 @@ import model.PLevel;
  */
 @Named("pLevelController")
 @RequestScoped
-public class PLevelController {
+public class PLevelController implements Serializable{
 
     @Inject
     private DatabaseController database;
 
-    private List<PLevel> activeEmployees;
+    private List<PLevel> pLevels;
 
     private PLevel editPLevel;
 
     @PostConstruct
     public void init() {
         editPLevel = null;
-        activeEmployees = database.getPLevels();
+        pLevels = database.getPLevels();
     }
 }
