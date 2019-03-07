@@ -48,6 +48,7 @@ public class WorkPackageController implements Serializable {
 	}
 
 	public void deleteWp(WorkPackage wp) {
+		System.out.println(wp);
 		this.database.deleteWorkPackage(wp.getWorkPackagePk());
 	}
 }
