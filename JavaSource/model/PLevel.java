@@ -41,7 +41,7 @@ public class PLevel implements Serializable {
 
     /**
      * Returns the {bare_field_name} for this PLevel.
-     * @return the sun
+     * @return the wage
      */
     public float getWage() {
         return wage;
@@ -51,7 +51,7 @@ public class PLevel implements Serializable {
      * Sets the sun for this PLevel
      * @param sun the sun to set
      */
-    public void setSun(float wage) {
+    public void setWage(float wage) {
         this.wage = wage;
     }
 

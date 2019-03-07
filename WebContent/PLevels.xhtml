@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>IGNORED!</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="/templates/MasterLayout.xhtml">
+    
+        <ui:define name="windowTitle">PLevels</ui:define>
+        <ui:define name="headerTitle"><h:outputText value="PLevels" class="navbar-brand"/></ui:define>
+        <ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
+        
+        <ui:define name="content">
+            <p:dataTable id="pLevelTable"
+                    value="#{pLevelController.pLevels}" var="pLevel">
+                    <p:column headerText="PLevel">
+                        <h:outputText value="#{pLevel.pLevelPK.pLevel}" />
+                    </p:column>
+                    <p:column headerText="StartDate">
+                        <h:outputText value="#{pLevel.pLevelPK.startDate}" />
+                    </p:column>
+                    <p:column headerText="Wage">
+                        <h:outputText value="#{pLevel.wage}" />
+                    </p:column>
+                   <!-- 
+                    <p:column headerText="Edit">
+                        <p:commandButton value="Edit" update=":#{p:component('editDialog')}"
+                            action="#{employeesController.setEditEmployee(employee)}" />
+                    </p:column>
+                    <p:column headerText="Remove">
+                        <p:commandButton value="Not Active" update="employeeTable"
+                            action="#{employeesController.deleteEmployee(employee)}" />
+                    </p:column>
+                     -->
+                </p:dataTable>
+                
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
