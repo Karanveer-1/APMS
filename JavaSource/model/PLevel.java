@@ -48,8 +48,8 @@ public class PLevel implements Serializable {
     }
 
     /**
-     * Sets the sun for this PLevel
-     * @param sun the sun to set
+     * Sets the wage for this PLevel
+     * @param wage the wage to set
      */
     public void setWage(float wage) {
         this.wage = wage;

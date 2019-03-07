@@ -15,9 +15,13 @@
         <ui:define name="windowTitle">PLevels</ui:define>
         <ui:define name="headerTitle"><h:outputText value="PLevels" class="navbar-brand"/></ui:define>
         <ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
-        
+
         <ui:define name="content">
-            <p:dataTable id="pLevelTable"
+			<h:form id="formMain">
+				<p:commandButton id="addButton" value="Add Timesheet"
+					onclick="PF('addPLevelDialog').show();" />
+
+				<p:dataTable id="pLevelTable"
                     value="#{pLevelController.pLevels}" var="pLevel">
                     <p:column headerText="PLevel">
                         <h:outputText value="#{pLevel.pLevelPK.pLevel}" />
@@ -28,20 +32,37 @@
                     <p:column headerText="Wage">
                         <h:outputText value="#{pLevel.wage}" />
                     </p:column>
-                   <!-- 
                     <p:column headerText="Edit">
                         <p:commandButton value="Edit" update=":#{p:component('editDialog')}"
-                            action="#{employeesController.setEditEmployee(employee)}" />
+                            action="#{pLevelController.setEditPLevel(pLevel)}" />
                     </p:column>
                     <p:column headerText="Remove">
                         <p:commandButton value="Not Active" update="employeeTable"
-                            action="#{employeesController.deleteEmployee(employee)}" />
+                            action="#{pLevelController.removePLevel(pLevel)}" />
                     </p:column>
                      -->
                 </p:dataTable>
-                
-            </h:form>
-        </ui:define>
+			</h:form>
+
+			<p:dialog id="addDialog" header="Select Date" modal="true"
+				widgetVar="addPLevelDialog" resizable="false" draggable="false">
+				<h:form id="formAddDialog">
+
+
+					<p:calendar id="datePicker" pattern="MMM. dd, yyyy" mode="inline"
+						binding="#{createTimesheetDate}"
+						mindate="#{timesheetController.calendarCurrentTimesheetStartDate()}">
+						<p:ajax event="dateSelect"
+
+							update="createButton" />
+					</p:calendar>
+					<p:commandButton id="createButton" value="Create"
+						action="#{timesheetController.addTimesheet(createTimesheetDate.value)}"
+						disabled="#{timesheetController.canCreateTimesheet(createTimesheetDate.value)}" />
+				</h:form>
+			</p:dialog>
+
+		</ui:define>
     </ui:composition>
 </h:body>
 </html>
