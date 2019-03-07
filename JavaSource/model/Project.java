@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,9 +29,15 @@ public class Project implements Serializable {
 	@Column(name = "ProMgrEmpNo", nullable = false)
 	private int proMgrEmpNo;
 
-	/**
-	 * Project current state
-	 */
+	@Column(name = "ProName", nullable = false)
+	private String proName;
+
+	@Column(name = "ProDescription", nullable = false)
+	private String proDesc;
+
+	@Column(name = "Budget", nullable = false)
+	private float budget;
+
 	@Column(name = "State", nullable = false)
 	private String state;
 
@@ -39,22 +45,23 @@ public class Project implements Serializable {
 	private String comment;
 
 	public Project() {
+		proMgrEmpNo = 1;
+		proName = "Project";
+		budget = 0;
+		state = STATE[0];
+		proDesc = "Project";
 
 	}
 
-	/**
-	 * State by default is open
-	 * 
-	 * @param proNo
-	 * @param proMgrEmpNo
-	 * @param state
-	 * @param comment
-	 */
-	public Project(int proNo, int proMgrEmpNo, String state, String comment) {
+	public Project(int proNo, int proMgrEmpNo, String proName, String proDesc, float budget, String state,
+			String comment) {
 		super();
 		this.proNo = proNo;
 		this.proMgrEmpNo = proMgrEmpNo;
-		this.state = STATE[0];
+		this.proName = proName;
+		this.proDesc = proDesc;
+		this.budget = budget;
+		this.state = state;
 		this.comment = comment;
 	}
 
@@ -74,6 +81,30 @@ public class Project implements Serializable {
 		this.proMgrEmpNo = proMgrEmpNo;
 	}
 
+	public String getProName() {
+		return proName;
+	}
+
+	public void setProName(String proName) {
+		this.proName = proName;
+	}
+
+	public String getProDesc() {
+		return proDesc;
+	}
+
+	public void setProDesc(String proDesc) {
+		this.proDesc = proDesc;
+	}
+
+	public float getBudget() {
+		return budget;
+	}
+
+	public void setBudget(float budget) {
+		this.budget = budget;
+	}
+
 	public String getState() {
 		return state;
 	}
@@ -88,6 +119,12 @@ public class Project implements Serializable {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	@Override
+	public String toString() {
+		return "Project [proNo=" + proNo + ", proMgrEmpNo=" + proMgrEmpNo + ", proName=" + proName + ", proDesc="
+				+ proDesc + ", budget=" + budget + ", state=" + state + ", comment=" + comment + "]";
 	}
 
 }

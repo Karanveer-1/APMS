@@ -3,7 +3,6 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
-      
 	<!-- Nav BAR -->
 	<ui:composition>
 		<h:form>
@@ -23,19 +22,19 @@
 					</li>
 					<li>
 						<h:commandLink action="Employees.xhtml?faces-redirect=true">
-							<i class="ti-alarm-clock"></i>
+							<i class="ti-user"></i>
 							Employee
 						</h:commandLink>				
 					</li>
 					<li>
-						<h:commandLink action="Dashboard.xhtml?faces-redirect=true">
+						<h:commandLink action="UserProfile.xhtml?faces-redirect=true">
 							<i class="ti-user"></i>
-							User Profile
+							My Profile
 						</h:commandLink>				
 					</li>
 					
 					<li>
-						<h:commandLink action="Dashboard.xhtml?faces-redirect=true">
+						<h:commandLink action="Projects.xhtml?faces-redirect=true">
 							<i class="ti-view-list-alt"></i>
 							Projects
 						</h:commandLink>				
@@ -65,4 +64,5 @@
 		</h:form>
 	</ui:composition>
 	<!-- END OF SIDE NAVIGATION BAR -->
+
 </html>

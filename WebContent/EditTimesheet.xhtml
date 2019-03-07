@@ -62,7 +62,8 @@
 								</h:outputText>
 							</f:facet>
 							<f:facet name="input">
-								<p:calendar value="#{row.timesheetRowPk.startDate}" pattern="MMM. dd, yyyy" />
+								<p:calendar value="#{row.timesheetRowPk.startDate}"
+									pattern="MMM. dd, yyyy" mindate="#{timesheetController.calendarEditMinDate()}" maxdate="#{timesheetController.calendarEditMaxDate()}"/>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -80,10 +81,10 @@
 					<p:column headerText="Sun">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{row.sat}" />
+								<h:outputText value="#{row.sun}" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{row.sat}" />
+								<p:inputText value="#{row.sun}" />
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -144,14 +145,7 @@
 					</p:column>
 
 					<p:column headerText="State">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{row.state}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{row.state}" />
-							</f:facet>
-						</p:cellEditor>
+						<h:outputText value="#{row.state}" />
 					</p:column>
 
 					<p:column headerText="Comment">
@@ -166,6 +160,12 @@
 					</p:column>
 				</p:dataTable>
 			</h:form>
+
+			<p:dialog id="errorDialog" header="Add Employee" modal="true"
+				width="400" widgetVar="errorDialog" resizable="false"
+				draggable="false">
+				<h:outputText value="Error in timesheet!" />
+			</p:dialog>
 		</ui:define>
 	</ui:composition>
 </h:body>

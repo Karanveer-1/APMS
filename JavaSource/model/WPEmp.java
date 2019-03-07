@@ -1,36 +1,33 @@
-package Model;
+package model;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 @Embeddable
-@Table(name = "ProAssi")
-public class ProAssi implements Serializable {
-	private static final long serialVersionID = 1L;
+@Table(name = "WPEmp")
+public class WPEmp implements Serializable {
 
 	/**
-	 * Project ID as Primary Key
+	 * 
 	 */
+	private static final long serialVersionUID = 1L;
 
 	@Column(name = "ProNo", nullable = false)
 	private int proNo;
 
-	/**
-	 * Project manager, must be unique
-	 */
+	@Column(name = "WPID", nullable = false)
+	private String WPID;
 
-	@Column(name = "ProMgrEmpNo", nullable = false)
+	@Column(name = "EmpNo", nullable = false)
 	private int empNo;
 
-	public ProAssi(int proNo, int empNo) {
+	public WPEmp(int proNo, String wPID, int empNo) {
 		super();
 		this.proNo = proNo;
+		WPID = wPID;
 		this.empNo = empNo;
 	}
 
@@ -40,6 +37,14 @@ public class ProAssi implements Serializable {
 
 	public void setProNo(int proNo) {
 		this.proNo = proNo;
+	}
+
+	public String getWPID() {
+		return WPID;
+	}
+
+	public void setWPID(String wPID) {
+		WPID = wPID;
 	}
 
 	public int getEmpNo() {

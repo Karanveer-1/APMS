@@ -1,22 +1,26 @@
-package Controller;
+package controller;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import Model.Employee;
-import Model.Timesheet;
-import Model.TimesheetPK;
-import Model.TimesheetRow;
-import Model.TimesheetRowPK;
+import org.primefaces.event.SelectEvent;
+
+import model.Employee;
+import model.Timesheet;
+import model.TimesheetPK;
+import model.TimesheetRow;
+import model.TimesheetRowPK;
+import model.TimesheetRowState;
+import model.TimesheetState;
 import utils.DateUtils;
 
 @Named("timesheetController")
@@ -30,15 +34,18 @@ public class TimesheetController implements Serializable {
 	private Timesheet editTimesheet;
 	private List<TimesheetRow> editTimesheetRows;
 
+	private Employee currentEmployee = getLoggedInEmployee();
+
 	@PostConstruct
 	public void init() {
-		timesheets = database.getTimesheets();
+		
+		timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
+		
 	}
 
-	public String addTimesheet() {
-		TimesheetPK pk = new TimesheetPK(getLoggedInEmployee().getEmpNumber(), Date.from(Instant.now()));
-
-		editTimesheet = new Timesheet(pk, null, null, "New", null);
+	public String addTimesheet(Date date) {
+		TimesheetPK pk = new TimesheetPK(currentEmployee.getEmpNumber(), DateUtils.getTimesheetStartDate(date));
+		editTimesheet = new Timesheet(pk, null, null, TimesheetState.Draft.toString(), null);
 		editTimesheetRows = new ArrayList<TimesheetRow>();
 
 		return "EditTimesheet.xhtml?faces-redirect=true";
@@ -52,10 +59,18 @@ public class TimesheetController implements Serializable {
 	}
 
 	public String saveTimesheet() {
-		// TODO: Validate timesheet rows
+		for (TimesheetRow row : editTimesheetRows) {
+			row.setState(TimesheetRowState.Pending.toString());
+		}
 
+		editTimesheet.setState(TimesheetState.Draft.toString());
+
+		database.removeTimesheetRows(editTimesheet);
+
+		database.addIfNotExistTimesheetRows(editTimesheetRows);
 		database.addTimesheetIfNotExist(editTimesheet, true);
-		timesheets = database.getTimesheets();
+
+		timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
 
 		return "Timesheets.xhtml?faces-redirect=true";
 	}
@@ -69,22 +84,39 @@ public class TimesheetController implements Serializable {
 
 	public void deleteTimesheet(Timesheet t) {
 		database.removeTimesheet(t);
-		timesheets = database.getTimesheets();
+		database.removeTimesheetRows(
+				database.getTimesheetRows(t.getTimesheetPk().getEmpNo(), t.getTimesheetPk().getStartDate()));
+		timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
 	}
 
 	public void addTimesheetRow() {
-		Employee currentEmployee = getLoggedInEmployee();
 
-		TimesheetRowPK pk = new TimesheetRowPK(currentEmployee.getEmpNumber(), Date.from(Instant.now()), null, null);
+		TimesheetRowPK pk = new TimesheetRowPK(currentEmployee.getEmpNumber(),
+				DateUtils.getTimesheetStartDate(editTimesheet.getTimesheetPk().getStartDate()), null, null);
 		TimesheetRow row = new TimesheetRow();
+
 		row.setTimesheetRowPk(pk);
+		row.setState(TimesheetRowState.Draft.toString());
 
 		editTimesheetRows.add(row);
 	}
 
-	public boolean hasTimesheetForCurrentWeek() {
+	public boolean canEditTimesheet(Timesheet t) {
+		Date start = DateUtils.getTimesheetStartDate(DateUtils.today());
+
+		if (t.getTimesheetPk().getStartDate().compareTo(start) >= 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean hasTimesheetForWeek(Date date) {
 		for (Timesheet timesheet : timesheets) {
-			if (DateUtils.isWithinWeekOfYear(timesheet.getTimesheetPk().getStartDate(), Date.from(Instant.now()))) {
+			Date start = DateUtils.getTimesheetStartDate(date);
+			Date end = DateUtils.getTimesheetEndDate(date);
+
+			if (DateUtils.isWithinRange(timesheet.getTimesheetPk().getStartDate(), start, end)) {
 				return true;
 			}
 		}
@@ -92,8 +124,21 @@ public class TimesheetController implements Serializable {
 		return false;
 	}
 
-	public boolean timesheetIsInCurrentWeek(Timesheet t) {
-		return DateUtils.isWithinWeekOfYear(t.getTimesheetPk().getStartDate(), Date.from(Instant.now()));
+	public Date calendarEditMinDate() {
+		return DateUtils.getTimesheetStartDate(editTimesheet.getTimesheetPk().getStartDate());
+	}
+
+	public Date calendarEditMaxDate() {
+		return DateUtils.getTimesheetEndDate(editTimesheet.getTimesheetPk().getStartDate());
+	}
+
+	public Date calendarCurrentTimesheetStartDate() {
+		return DateUtils.getTimesheetStartDate(DateUtils.today());
+	}
+
+	private static Employee getLoggedInEmployee() {
+		return (Employee) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.get(LoginController.USER_KEY);
 	}
 
 	public List<Timesheet> getTimesheets() {
@@ -120,8 +165,17 @@ public class TimesheetController implements Serializable {
 		this.editTimesheetRows = editTimesheetRows;
 	}
 
-	private Employee getLoggedInEmployee() {
-		return (Employee) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-				.get(LoginController.USER_KEY);
+	public boolean canCreateTimesheet(Date selectedDate) {
+		return hasTimesheetForWeek(selectedDate == null ? DateUtils.today() : selectedDate);
+	}
+
+	public void submitTimesheet(Timesheet t) {
+		t.setState(TimesheetState.Submitted.toString());
+		database.updateTimesheet(t);
+	}
+
+	public void CancelSubmitTimesheet(Timesheet t) {
+		t.setState(TimesheetState.Draft.toString());
+		database.updateTimesheet(t);
 	}
 }

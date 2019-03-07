@@ -1,30 +1,34 @@
-package Model;
+package model;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Embeddable
-//@Table(name = "ProEmp")
-public class ProEmp implements Serializable {
+@Table(name = "ProAssi")
+public class ProAssi implements Serializable {
+	private static final long serialVersionID = 1L;
+
 	/**
-	 * 
+	 * Project ID as Primary Key
 	 */
-	private static final long serialVersionUID = 1L;
 
 	@Column(name = "ProNo", nullable = false)
 	private int proNo;
 
-	@Column(name = "EmpNo", nullable = false)
+	/**
+	 * Project manager, must be unique
+	 */
+
+	@Column(name = "ProMgrEmpNo", nullable = false)
 	private int empNo;
 
-	public ProEmp() {
-	}
-
-	public ProEmp(int proNo, int empNo) {
+	public ProAssi(int proNo, int empNo) {
 		super();
 		this.proNo = proNo;
 		this.empNo = empNo;

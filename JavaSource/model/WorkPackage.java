@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,6 +27,18 @@ public class WorkPackage implements Serializable {
 	@Column(name = "REEmpNo", nullable = false)
 	private int reEmpNo;
 
+	@Column(name = "WPTitle", nullable = false)
+	private String title;
+
+	@Column(name = "WPDescription", nullable = false)
+	private String description;
+
+	@Column(name = "ParentWPID")
+	private String parentWPID;
+
+	@Column(name = "Budget", nullable = false)
+	private float budget;
+
 	@Column(name = "State", nullable = false)
 	private String state;
 
@@ -37,10 +49,15 @@ public class WorkPackage implements Serializable {
 
 	}
 
-	public WorkPackage(WorkPackagePK workPackagePk, int reEmpNo, String state, String comment) {
+	public WorkPackage(WorkPackagePK workPackagePk, int reEmpNo, String title, String description, String parentWPID,
+			float budget, String state, String comment) {
 		super();
 		this.workPackagePk = workPackagePk;
 		this.reEmpNo = reEmpNo;
+		this.title = title;
+		this.description = description;
+		this.parentWPID = parentWPID;
+		this.budget = budget;
 		this.state = state;
 		this.comment = comment;
 	}
@@ -59,6 +76,38 @@ public class WorkPackage implements Serializable {
 
 	public void setReEmpNo(int reEmpNo) {
 		this.reEmpNo = reEmpNo;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getParentWPID() {
+		return parentWPID;
+	}
+
+	public void setParentWPID(String parentWPID) {
+		this.parentWPID = parentWPID;
+	}
+
+	public float getBudget() {
+		return budget;
+	}
+
+	public void setBudget(float budget) {
+		this.budget = budget;
 	}
 
 	public String getState() {

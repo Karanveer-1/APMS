@@ -1,12 +1,13 @@
-package Model;
+package model;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Table;
 
 @Embeddable
-public class WorkPackageRelationshipPK implements Serializable {
+public class WorkPackagePK implements Serializable {
 
 	/**
 	 * 
@@ -16,13 +17,13 @@ public class WorkPackageRelationshipPK implements Serializable {
 	@Column(name = "ProNo", nullable = false)
 	private int proNo;
 
-	@Column(name = "ChildWPID", nullable = false)
-	private String childWPID;
+	@Column(name = "WPID", nullable = false)
+	private String wpid;
 
-	public WorkPackageRelationshipPK(int proNo, String childWPID) {
+	public WorkPackagePK(int proNo, String wpid) {
 		super();
 		this.proNo = proNo;
-		this.childWPID = childWPID;
+		this.wpid = wpid;
 	}
 
 	public int getProNo() {
@@ -33,12 +34,12 @@ public class WorkPackageRelationshipPK implements Serializable {
 		this.proNo = proNo;
 	}
 
-	public String getChildWPID() {
-		return childWPID;
+	public String getWpid() {
+		return wpid;
 	}
 
-	public void setChildWPID(String childWPID) {
-		this.childWPID = childWPID;
+	public void setWpid(String wpid) {
+		this.wpid = wpid;
 	}
 
 }
