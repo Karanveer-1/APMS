@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.3" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="Model.Credential" project="APMS" file="/APMS/JavaSource/Model/Credential.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="174" width="165" x="41" y="37"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="false" protected="false" private="true" static="false"/>      
+      <operations public="true" package="false" protected="false" private="true" static="false"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="Model.Employee" project="APMS" file="/APMS/JavaSource/Model/Employee.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="588" width="309" x="246" y="37"/>    
+    <display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="false" protected="false" private="true" static="false"/>      
+      <operations public="true" package="false" protected="false" private="true" static="false"/>    
+    </display>  
+  </class>  
+  <classifier-display autosize="true" stereotype="false" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="false" protected="false" private="true" static="false"/>    
+    <operations public="true" package="false" protected="false" private="true" static="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

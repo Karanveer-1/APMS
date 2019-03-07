@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 @Table(name = "Project")
 public class Project implements Serializable {
+	private static String[] STATE = { "OPEN", "CLOSED", "ARCHIVED" };
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,11 +42,19 @@ public class Project implements Serializable {
 
 	}
 
+	/**
+	 * State by default is open
+	 * 
+	 * @param proNo
+	 * @param proMgrEmpNo
+	 * @param state
+	 * @param comment
+	 */
 	public Project(int proNo, int proMgrEmpNo, String state, String comment) {
 		super();
 		this.proNo = proNo;
 		this.proMgrEmpNo = proMgrEmpNo;
-		this.state = state;
+		this.state = STATE[0];
 		this.comment = comment;
 	}
 
@@ -80,8 +89,5 @@ public class Project implements Serializable {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
-	
 
-	
 }

@@ -16,14 +16,14 @@ public class TimesheetRowPK implements Serializable {
     private Date startDate;
     
     @Column(name = "ProNo", nullable = false)
-    private int proNo;
+    private Integer proNo;
     
     @Column(name = "WPID", nullable = false)
     private String wpid;
     
     public TimesheetRowPK() {}
 
-    public TimesheetRowPK(int empNo, Date startDate, int proNo, String wpid) {
+    public TimesheetRowPK(int empNo, Date startDate, Integer proNo, String wpid) {
         super();
         this.empNo = empNo;
         this.startDate = startDate;
@@ -47,11 +47,11 @@ public class TimesheetRowPK implements Serializable {
         this.startDate = startDate;
     }
 
-    public int getProNo() {
+    public Integer getProNo() {
         return proNo;
     }
 
-    public void setProNo(int proNo) {
+    public void setProNo(Integer proNo) {
         this.proNo = proNo;
     }
 

@@ -21,7 +21,7 @@
 				<p:growl id="invalidEmployeeGrowl" sticky="false" />
 
 				<p:dataTable id="employeeTable"
-					value="#{employeeListController.employees}" var="employee">
+					value="#{employeeController.employees}" var="employee">
 					<p:column headerText="Employee No">
 						<h:outputText value="#{employee.empNumber}" />
 					</p:column>
@@ -45,11 +45,11 @@
 					</p:column>
 					<p:column headerText="Edit">
 						<p:commandButton value="Edit" update=":#{p:component('editDialog')}"
-							action="#{employeeListController.setEditEmployee(employee)}" />
+							action="#{employeeController.setEditEmployee(employee)}" />
 					</p:column>
 					<p:column headerText="Delete">
 						<p:commandButton value="Delete" update="employeeTable"
-							action="#{employeeListController.deleteEmployee(employee)}" />
+							action="#{employeeController.deleteEmployee(employee)}" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
@@ -82,7 +82,7 @@
 						<p:commandButton resetValues="true"
 							update=":formMain:employeeTable :formMain:invalidEmployeeGrowl :formAddDialog"
 							value="Save"
-							action="#{employeeListController.addEmployee(
+							action="#{employeeController.addEmployee(
 		                            addEmpNoText.value,
 		                            addFirstNameText.value,
 		                            addLastNameText.value,
@@ -101,32 +101,32 @@
 					<h:panelGrid columns="1">
 						<h:outputText value="First Name" />
 						<h:inputText binding="#{editFirstNameText}"
-							value="#{employeeListController.editEmployee.firstName}" />
+							value="#{employeeController.editEmployee.firstName}" />
 		
 						<h:outputText value="Last Name" />
 						<h:inputText binding="#{editLastNameText}"
-							value="#{employeeListController.editEmployee.lastName}" />
+							value="#{employeeController.editEmployee.lastName}" />
 		
 						<h:outputText value="Username" />
 						<h:inputText binding="#{editUsernameText}"
-							value="#{employeeListController.editEmployee.userName}" />
+							value="#{employeeController.editEmployee.userName}" />
 		
 						<h:outputText value="Password" />
 						<h:inputText binding="#{editPasswordText}"
-							value="#{employeeListController.editEmployee.password}" />
+							value="#{employeeController.editEmployee.password}" />
 		
 						<h:outputText id="editState" value="State" />
 						<h:inputText binding="#{editStateText}"
-							value="#{employeeListController.editEmployee.state}" />
+							value="#{employeeController.editEmployee.state}" />
 		
 						<h:outputText id="editComment" value="Comment" />
 						<h:inputText binding="#{editCommentText}"
-							value="#{employeeListController.editEmployee.comment}" />
+							value="#{employeeController.editEmployee.comment}" />
 		
 						<p:commandButton
 							update=":formMain:employeeTable :formMain:invalidEmployeeGrowl :formEditDialog"
 							value="Save"
-							action="#{employeeListController.editEmployee(
+							action="#{employeeController.editEmployee(
 		                            editFirstNameText.value,
 		                            editLastNameText.value,
 		                            editUsernameText.value,

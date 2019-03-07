@@ -7,7 +7,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.Table;
 
 @Embeddable
-@Table(name = "WorkPackagePK")
 public class WorkPackagePK implements Serializable {
 
 	/**

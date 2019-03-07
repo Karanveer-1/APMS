@@ -6,7 +6,7 @@
 	<persistence-unit name="apms">
 		<jta-data-source>java:jboss/datasources/apms</jta-data-source>
 		<class>Model.Employee</class>
-		<class>Model.ProAssi</class>
+	<!-- 	<class>Model.ProAssi</class> -->
 <!-- 		<class>Model.ProEmp</class> -->
 		<!-- <class>Model.Project</class> <class>Model.ProjectForm</class> <class>Model.WorkPackage</class> 
 			<class>Model.WorkPackageForm</class> <class>Model.WorkPackageRelationship</class> -->

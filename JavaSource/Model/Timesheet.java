@@ -20,7 +20,7 @@ public class Timesheet implements Serializable {
     @Column(name = "ApprovedEmpNo")
     private Integer approvedEmpNo;
     
-    @Column(name = "State")
+    @Column(name = "State", nullable = false)
     private String state;
     
     @Column(name = "Comment")
