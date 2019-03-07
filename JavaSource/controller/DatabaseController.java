@@ -184,7 +184,10 @@ public class DatabaseController implements Serializable {
         query.setParameter("PLevel", pLevel);
         return query.getSingleResult();
     }
-
+    
+    public void updatePLevel(PLevel e) {
+        manager.merge(e);
+    }
 }
 
 /*

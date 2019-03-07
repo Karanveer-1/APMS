@@ -13,7 +13,11 @@ import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
+import model.EmployeeState;
 import model.PLevel;
+import model.PLevelPK;
+import service.PasswordHash;
+import service.PasswordHash.CannotPerformOperationException;
 
 /**
  * PLevelController.
@@ -22,7 +26,7 @@ import model.PLevel;
  * @version 2017
  */
 @Named("pLevelController")
-@SessionScoped
+@ViewScoped
 public class PLevelController implements Serializable {
 
     @Inject
@@ -72,5 +76,22 @@ public class PLevelController implements Serializable {
         this.editPLevel = editPLevel;
         PrimeFaces.current().executeScript("PF('editPLevelDialog').show();");
     }
+    
+    public void editPLevel(Float wage) {
+        
+        float wagef = wage;
+        System.out.println("Float wage:" + wage);
+        pLevels = database.getPLevels();        
+        if (Float.valueOf(wage) > 0) {
+            editPLevel.setWage(wagef);
+            
+            database.updatePLevel(editPLevel);
+            
+            pLevels = database.getPLevels();
 
+            PrimeFaces.current()
+                    .executeScript("PF('editPLevelDialog').hide();");
+        }
+    }
+    
 }
