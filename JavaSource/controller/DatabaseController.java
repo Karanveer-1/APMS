@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
@@ -29,13 +30,37 @@ public class DatabaseController implements Serializable {
         return manager.createQuery("SELECT e FROM Employee e", Employee.class)
                 .getResultList();
     }
+    
+    public List<Employee> getActiveEmployees() {
+        return manager.createQuery("SELECT e FROM Employee e WHERE e.state = 'Active'", Employee.class)
+                .getResultList();
+    }
 
     public Employee getEmployeeByUsername(String username) {
         TypedQuery<Employee> query = manager.createQuery(
                 "select e from Employee e where e.userName = :username",
                 Employee.class);
         query.setParameter("username", username);
-        return query.getSingleResult();
+        try {
+            Employee emp = query.getSingleResult();
+            return emp;
+        } catch(Exception exp) {
+            return null;
+        }
+        
+    }
+    
+    public Employee getEmployeeById(int id) {
+        TypedQuery<Employee> query = manager.createQuery(
+                "select e from Employee e where e.empNumber = :empNumber",
+                Employee.class);
+        query.setParameter("empNumber", id);
+        try {
+            Employee emp = query.getSingleResult();
+            return emp;
+        } catch(Exception exp) {
+            return null;
+        }
     }
 
     public void addEmployee(Employee e) {
@@ -83,6 +108,14 @@ public class DatabaseController implements Serializable {
     public void removeTimesheet(Timesheet t) {
         manager.remove(manager.contains(t) ? t : manager.merge(t));
     }
+    
+    /**
+     * merge Category record fields into existing database record.
+     * @param category the record to be merged.
+     */
+    public void updateTimesheet(Timesheet t) {
+        manager.merge(t);
+    }    
 
     // #########################################################################
     // # TimesheetRow methods
@@ -133,6 +166,7 @@ public class DatabaseController implements Serializable {
         removeTimesheetRows(getTimesheetRows(t.getTimesheetPk().getEmpNo(),
                 t.getTimesheetPk().getStartDate()));
     }
+
 }
 
 /*

@@ -1,15 +1,13 @@
 package model;
 
-public enum TimesheetState {
-    Draft("Draft"),
-    Pending("Pending"),
-    Approved("Approved"),
-    Submitted("Submitted");
+public enum EmployeeState {
+    Active("Active"),
+    Retired("Retired");
     
     
     private final String value;
     
-    TimesheetState(String value) {
+    EmployeeState(String value) {
         this.value = value;
     }
     
