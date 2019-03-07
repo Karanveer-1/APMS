@@ -27,155 +27,164 @@ import utils.DateUtils;
 @SessionScoped
 public class TimesheetController implements Serializable {
 
-	@Inject
-	private DatabaseController database;
-	private List<Timesheet> timesheets;
+    @Inject
+    private DatabaseController database;
+    private List<Timesheet> timesheets;
 
-	private Timesheet editTimesheet;
-	private List<TimesheetRow> editTimesheetRows;
+    private Timesheet editTimesheet;
+    private List<TimesheetRow> editTimesheetRows;
 
-	private Employee currentEmployee = getLoggedInEmployee();
+    private Employee currentEmployee = getLoggedInEmployee();
+    
+    @PostConstruct
+    public void init() {
+        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
+    }
 
-	@PostConstruct
-	public void init() {
-		
-		timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
-		
-	}
+    public String addTimesheet(Date date) {
+        date = date == null ? DateUtils.today() : date;
+        TimesheetPK pk = new TimesheetPK(currentEmployee.getEmpNumber(),
+                DateUtils.getTimesheetStartDate(date));
+        editTimesheet = new Timesheet(pk, null, null,
+                TimesheetState.Draft.toString(), null);
+        editTimesheetRows = new ArrayList<TimesheetRow>();
 
-	public String addTimesheet(Date date) {
-		TimesheetPK pk = new TimesheetPK(currentEmployee.getEmpNumber(), DateUtils.getTimesheetStartDate(date));
-		editTimesheet = new Timesheet(pk, null, null, TimesheetState.Draft.toString(), null);
-		editTimesheetRows = new ArrayList<TimesheetRow>();
+        return "EditTimesheet.xhtml?faces-redirect=true";
+    }
 
-		return "EditTimesheet.xhtml?faces-redirect=true";
-	}
+    public String editTimesheet(Timesheet t) {
+        editTimesheet = t;
+        editTimesheetRows = database.getTimesheetRows(
+                t.getTimesheetPk().getEmpNo(),
+                t.getTimesheetPk().getStartDate());
 
-	public String editTimesheet(Timesheet t) {
-		editTimesheet = t;
-		editTimesheetRows = database.getTimesheetRows(t.getTimesheetPk().getEmpNo(), t.getTimesheetPk().getStartDate());
+        return "EditTimesheet.xhtml?faces-redirect=true";
+    }
 
-		return "EditTimesheet.xhtml?faces-redirect=true";
-	}
+    public String saveTimesheet() {
+        for (TimesheetRow row : editTimesheetRows) {
+            row.setState(TimesheetRowState.Pending.toString());
+        }
 
-	public String saveTimesheet() {
-		for (TimesheetRow row : editTimesheetRows) {
-			row.setState(TimesheetRowState.Pending.toString());
-		}
+        editTimesheet.setState(TimesheetState.Draft.toString());
 
-		editTimesheet.setState(TimesheetState.Draft.toString());
+        database.removeTimesheetRows(editTimesheet);
 
-		database.removeTimesheetRows(editTimesheet);
+        database.addIfNotExistTimesheetRows(editTimesheetRows);
+        database.addTimesheetIfNotExist(editTimesheet, true);
 
-		database.addIfNotExistTimesheetRows(editTimesheetRows);
-		database.addTimesheetIfNotExist(editTimesheet, true);
+        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
 
-		timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
+        return "Timesheets.xhtml?faces-redirect=true";
+    }
 
-		return "Timesheets.xhtml?faces-redirect=true";
-	}
+    public String discardTimesheetChanges() {
+        editTimesheet = null;
+        editTimesheetRows = null;
 
-	public String discardTimesheetChanges() {
-		editTimesheet = null;
-		editTimesheetRows = null;
+        return "Timesheets.xhtml?faces-redirect=true";
+    }
 
-		return "Timesheets.xhtml?faces-redirect=true";
-	}
+    public void deleteTimesheet(Timesheet t) {
+        database.removeTimesheet(t);
+        database.removeTimesheetRows(
+                database.getTimesheetRows(t.getTimesheetPk().getEmpNo(),
+                        t.getTimesheetPk().getStartDate()));
+        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
+    }
 
-	public void deleteTimesheet(Timesheet t) {
-		database.removeTimesheet(t);
-		database.removeTimesheetRows(
-				database.getTimesheetRows(t.getTimesheetPk().getEmpNo(), t.getTimesheetPk().getStartDate()));
-		timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
-	}
+    public void addTimesheetRow() {
 
-	public void addTimesheetRow() {
+        TimesheetRowPK pk = new TimesheetRowPK(currentEmployee.getEmpNumber(),
+                DateUtils.getTimesheetStartDate(
+                        editTimesheet.getTimesheetPk().getStartDate()),
+                null, null);
+        TimesheetRow row = new TimesheetRow();
 
-		TimesheetRowPK pk = new TimesheetRowPK(currentEmployee.getEmpNumber(),
-				DateUtils.getTimesheetStartDate(editTimesheet.getTimesheetPk().getStartDate()), null, null);
-		TimesheetRow row = new TimesheetRow();
+        row.setTimesheetRowPk(pk);
+        row.setState(TimesheetRowState.Draft.toString());
 
-		row.setTimesheetRowPk(pk);
-		row.setState(TimesheetRowState.Draft.toString());
+        editTimesheetRows.add(row);
+    }
 
-		editTimesheetRows.add(row);
-	}
+    public boolean canEditTimesheet(Timesheet t) {
+        Date start = DateUtils.getTimesheetStartDate(DateUtils.today());
 
-	public boolean canEditTimesheet(Timesheet t) {
-		Date start = DateUtils.getTimesheetStartDate(DateUtils.today());
+        if (t.getTimesheetPk().getStartDate().compareTo(start) >= 0) {
+            return true;
+        }
 
-		if (t.getTimesheetPk().getStartDate().compareTo(start) >= 0) {
-			return true;
-		}
+        return false;
+    }
 
-		return false;
-	}
+    public boolean hasTimesheetForWeek(Date date) {
+        for (Timesheet timesheet : timesheets) {
+            Date start = DateUtils.getTimesheetStartDate(date);
+            Date end = DateUtils.getTimesheetEndDate(date);
 
-	public boolean hasTimesheetForWeek(Date date) {
-		for (Timesheet timesheet : timesheets) {
-			Date start = DateUtils.getTimesheetStartDate(date);
-			Date end = DateUtils.getTimesheetEndDate(date);
+            if (DateUtils.isWithinRange(
+                    timesheet.getTimesheetPk().getStartDate(), start, end)) {
+                return true;
+            }
+        }
 
-			if (DateUtils.isWithinRange(timesheet.getTimesheetPk().getStartDate(), start, end)) {
-				return true;
-			}
-		}
+        return false;
+    }
 
-		return false;
-	}
+    public Date calendarEditMinDate() {
+        return DateUtils.getTimesheetStartDate(
+                editTimesheet.getTimesheetPk().getStartDate());
+    }
 
-	public Date calendarEditMinDate() {
-		return DateUtils.getTimesheetStartDate(editTimesheet.getTimesheetPk().getStartDate());
-	}
+    public Date calendarEditMaxDate() {
+        return DateUtils.getTimesheetEndDate(
+                editTimesheet.getTimesheetPk().getStartDate());
+    }
 
-	public Date calendarEditMaxDate() {
-		return DateUtils.getTimesheetEndDate(editTimesheet.getTimesheetPk().getStartDate());
-	}
+    public Date calendarCurrentTimesheetStartDate() {
+        return DateUtils.getTimesheetStartDate(DateUtils.today());
+    }
+    
+    private static Employee getLoggedInEmployee() {
+        return (Employee) FacesContext.getCurrentInstance().getExternalContext()
+                .getSessionMap().get(LoginController.USER_KEY);
+    }
+    
+    public List<Timesheet> getTimesheets() {
+        return timesheets;
+    }
 
-	public Date calendarCurrentTimesheetStartDate() {
-		return DateUtils.getTimesheetStartDate(DateUtils.today());
-	}
+    public void setTimesheets(List<Timesheet> timesheets) {
+        this.timesheets = timesheets;
+    }
 
-	private static Employee getLoggedInEmployee() {
-		return (Employee) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-				.get(LoginController.USER_KEY);
-	}
+    public Timesheet getEditTimesheet() {
+        return editTimesheet;
+    }
 
-	public List<Timesheet> getTimesheets() {
-		return timesheets;
-	}
+    public void setEditTimesheet(Timesheet editTimesheet) {
+        this.editTimesheet = editTimesheet;
+    }
 
-	public void setTimesheets(List<Timesheet> timesheets) {
-		this.timesheets = timesheets;
-	}
+    public List<TimesheetRow> getEditTimesheetRows() {
+        return editTimesheetRows;
+    }
 
-	public Timesheet getEditTimesheet() {
-		return editTimesheet;
-	}
+    public void setEditTimesheetRows(List<TimesheetRow> editTimesheetRows) {
+        this.editTimesheetRows = editTimesheetRows;
+    }
 
-	public void setEditTimesheet(Timesheet editTimesheet) {
-		this.editTimesheet = editTimesheet;
-	}
-
-	public List<TimesheetRow> getEditTimesheetRows() {
-		return editTimesheetRows;
-	}
-
-	public void setEditTimesheetRows(List<TimesheetRow> editTimesheetRows) {
-		this.editTimesheetRows = editTimesheetRows;
-	}
-
-	public boolean canCreateTimesheet(Date selectedDate) {
-		return hasTimesheetForWeek(selectedDate == null ? DateUtils.today() : selectedDate);
-	}
-
-	public void submitTimesheet(Timesheet t) {
-		t.setState(TimesheetState.Submitted.toString());
-		database.updateTimesheet(t);
-	}
-
-	public void CancelSubmitTimesheet(Timesheet t) {
-		t.setState(TimesheetState.Draft.toString());
-		database.updateTimesheet(t);
-	}
+    public boolean canCreateTimesheet(Date selectedDate) {
+        return hasTimesheetForWeek(selectedDate == null ? DateUtils.today() : selectedDate);
+    }
+    
+    public void submitTimesheet(Timesheet t) {
+        t.setState(TimesheetState.Submitted.toString());
+        database.updateTimesheet(t);
+    }
+    
+    public void cancelSubmitTimesheet(Timesheet t) {
+        t.setState(TimesheetState.Draft.toString());
+        database.updateTimesheet(t);
+    }
 }
