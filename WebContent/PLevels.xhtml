@@ -55,7 +55,9 @@
 
 						<h:outputText value="Wage" />
 						<h:inputText binding="#{editWageText}"
-							value="#{pLevelController.editPLevel.wage}" />
+							value="#{pLevelController.editPLevel.wage}" >
+							<f:validateDoubleRange minimum="0.00" maximum="100000000.00" />
+						</h:inputText>
 					</h:panelGrid>
 					<p:commandButton update=":formMain:pLevelTable :formEditDialog"
 						value="Save"
