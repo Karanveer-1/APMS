@@ -42,6 +42,7 @@ public class TimesheetController implements Serializable {
     }
 
     public String addTimesheet(Date date) {
+        date = date == null ? DateUtils.today() : date;
         TimesheetPK pk = new TimesheetPK(currentEmployee.getEmpNumber(),
                 DateUtils.getTimesheetStartDate(date));
         editTimesheet = new Timesheet(pk, null, null,
@@ -182,7 +183,7 @@ public class TimesheetController implements Serializable {
         database.updateTimesheet(t);
     }
     
-    public void CancelSubmitTimesheet(Timesheet t) {
+    public void cancelSubmitTimesheet(Timesheet t) {
         t.setState(TimesheetState.Draft.toString());
         database.updateTimesheet(t);
     }
