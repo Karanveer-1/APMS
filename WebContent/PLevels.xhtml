@@ -11,14 +11,15 @@
 
 <h:body>
     <ui:composition template="/templates/MasterLayout.xhtml">
-    
-        <ui:define name="windowTitle">PLevels</ui:define>
-        <ui:define name="headerTitle"><h:outputText value="PLevels" class="navbar-brand"/></ui:define>
-        <ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
 
+		<ui:define name="windowTitle">Timesheets</ui:define>
+		<ui:define name="headerTitle">
+			<h:outputText value="Timesheets" class="navbar-brand" />
+		</ui:define>
+		
         <ui:define name="content">
 			<h:form id="formMain">
-				<p:commandButton id="addButton" value="Add Timesheet"
+				<p:commandButton id="addButton" value="Add PLevel"
 					onclick="PF('addPLevelDialog').show();" />
 
 				<p:dataTable id="pLevelTable"
@@ -32,6 +33,7 @@
                     <p:column headerText="Wage">
                         <h:outputText value="#{pLevel.wage}" />
                     </p:column>
+<!-- 
                     <p:column headerText="Edit">
                         <p:commandButton value="Edit" update=":#{p:component('editDialog')}"
                             action="#{pLevelController.setEditPLevel(pLevel)}" />
@@ -40,10 +42,10 @@
                         <p:commandButton value="Not Active" update="employeeTable"
                             action="#{pLevelController.removePLevel(pLevel)}" />
                     </p:column>
-                     -->
+                    -->
                 </p:dataTable>
 			</h:form>
-
+<!--
 			<p:dialog id="addDialog" header="Select Date" modal="true"
 				widgetVar="addPLevelDialog" resizable="false" draggable="false">
 				<h:form id="formAddDialog">
@@ -61,7 +63,7 @@
 						disabled="#{timesheetController.canCreateTimesheet(createTimesheetDate.value)}" />
 				</h:form>
 			</p:dialog>
-
+	-->
 		</ui:define>
     </ui:composition>
 </h:body>
