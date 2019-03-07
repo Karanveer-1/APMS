@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "WorkPackage")
 public class WorkPackage implements Serializable {
-
+	private static String[] STATE = { "OPEN", "CLOSED", "ARCHIVED" };
 	/**
 	 * 
 	 */
@@ -126,4 +126,27 @@ public class WorkPackage implements Serializable {
 		this.comment = comment;
 	}
 
+	public int getProNo() {
+		return workPackagePk.getProNo();
+	}
+
+	public void setProNo(int proNo) {
+		workPackagePk.setProNo(proNo);
+	}
+
+	public String getWpid() {
+		return workPackagePk.getWpid();
+	}
+
+	public void setWpid(String wpid) {
+		workPackagePk.setWpid(wpid);
+	}
+
+	@Override
+	public String toString() {
+		return "WorkPackage [workPackagePk=" + workPackagePk + ", reEmpNo=" + reEmpNo + ", title=" + title
+				+ ", description=" + description + ", parentWPID=" + parentWPID + ", budget=" + budget + ", state="
+				+ state + ", comment=" + comment + "]";
+	}
+	
 }

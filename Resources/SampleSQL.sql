@@ -97,7 +97,9 @@ CREATE TABLE Project
 
 -- Load data into table Project
 
-INSERT INTO APMS.Project VALUES('100', '4', 'Macaroni', 'First Project', '123.45','Open', 'First Project' );
+INSERT INTO APMS.Project VALUES('100', '4', 'Macaroni', 'First Project', '123.45','OPEN', 'First Project' );
+INSERT INTO APMS.Project VALUES('102', '2', 'Pizza', 'Second Project', '14.45','OPEN', 'Second Project' );
+
 
 
 -- Create table ProAssi
@@ -140,6 +142,23 @@ CREATE TABLE WorkPackage
     Comment        VARCHAR(1000)   ,
     PRIMARY KEY(ProNo, WPID)
 );
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP101', '1','COMP101','COMP101',NULL,'10','OPEN',NULL);
+
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP201', '1','COMP201','COMP201','COMP101','10','OPEN',NULL);
+
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP303', '1','COMP303','COMP303','COMP201','10','OPEN',NULL);
+
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP305', '1','COMP305','COMP305','COMP201','10','OPEN',NULL);
+
+
+
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP204', '1','COMP204','COMP204','COMP101','10','OPEN',NULL);
+
+
+INSERT INTO APMS.WorkPackage VALUES('100', 'BUSI101', '1','BUSI101','BUSI101',NULL,'10','OPEN',NULL);
+
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMM101', '1','COMM101','COMM101',NULL,'10','OPEN',NULL);
+
 
 -- Load data into table WorkPackage
 

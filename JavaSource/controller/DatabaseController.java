@@ -17,6 +17,8 @@ import model.Project;
 import model.Timesheet;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
+import model.WorkPackage;
+import model.WorkPackagePK;
 import utils.DateUtils;
 
 @Stateless
@@ -170,12 +172,8 @@ public class DatabaseController implements Serializable {
 	 */
 	public List<Project> getAllProjects() {
 		List<Project> projects = this.manager.createQuery("SELECT p from Project p", Project.class).getResultList();
-		List<Project> result = new ArrayList<Project>();
-		for (Project p : projects) {
-			result.add(p);
-		}
 
-		return result;
+		return projects;
 
 	}
 
@@ -230,6 +228,73 @@ public class DatabaseController implements Serializable {
 		}
 	}
 
+	// #########################################################################
+	// # WorkPackage methods
+	// #########################################################################
+
+	/**
+	 * POST add a new project
+	 * 
+	 * @param newProject
+	 */
+
+	public List<WorkPackage> getAllWp() {
+		return this.manager.createQuery("SELECT wp from WorkPackage wp", WorkPackage.class).getResultList();
+	}
+
+	public List<WorkPackage> getLowerWP(String wpid) {
+		List<WorkPackage> result = new ArrayList<WorkPackage>();
+		if (wpid != null) {
+			for (WorkPackage wp : getAllWp()) {
+				String parentId = wp.getParentWPID();
+				if (parentId != null && parentId.equals(wpid)) {
+					result.add(wp);
+				}
+			}
+		}
+		System.out.println("RESULT " + result);
+		return result;
+	}
+
+	public List<WorkPackage> getRootWP() {
+		List<WorkPackage> result = new ArrayList<WorkPackage>();
+		for (WorkPackage wp : getAllWp()) {
+			if (wp.getParentWPID() == null) {
+				result.add(wp);
+			}
+		}
+		return result;
+	}
+
+	public boolean persistWP(WorkPackage wp) {
+		WorkPackage checkWp = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
+		if (checkWp == null) {
+			this.manager.persist(wp);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean updateWP(WorkPackage wp) {
+		WorkPackage checkWp = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
+		if (checkWp != null) {
+			this.manager.merge(wp);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deleteWorkPackage(final WorkPackagePK key) {
+		WorkPackage wp = this.manager.find(WorkPackage.class, key);
+		try {
+			this.manager.remove(wp);
+			this.manager.flush();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
+	}
 }
 
 /*

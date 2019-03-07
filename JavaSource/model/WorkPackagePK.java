@@ -20,6 +20,11 @@ public class WorkPackagePK implements Serializable {
 	@Column(name = "WPID", nullable = false)
 	private String wpid;
 
+	public WorkPackagePK() {
+		this.proNo = 100;
+		this.wpid = "COMP101";
+	}
+
 	public WorkPackagePK(int proNo, String wpid) {
 		super();
 		this.proNo = proNo;
@@ -41,5 +46,11 @@ public class WorkPackagePK implements Serializable {
 	public void setWpid(String wpid) {
 		this.wpid = wpid;
 	}
+
+	@Override
+	public String toString() {
+		return "WorkPackagePK [proNo=" + proNo + ", wpid=" + wpid + "]";
+	}
+	
 
 }

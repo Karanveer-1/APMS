@@ -1,56 +1,50 @@
-//package Controller;
-//
-//import java.io.Serializable;
-//
-//import javax.inject.Inject;
-//import javax.inject.Named;
-//import javax.persistence.EntityManager;
-//import javax.persistence.PersistenceContext;
-//import javax.persistence.PersistenceContextType;
-//
-//import model.Employee;
-//import model.WorkPackage;
-//
-//@Named("workPackageController")
-//public class WorkPackageController implements Serializable {
-//	@PersistenceContext(unitName = "apms", type = PersistenceContextType.TRANSACTION)
-//	private EntityManager manager;
-//
-////	@Inject
-////	private WorkPackage workPackage;
-////
-////	private Employee employee;
-////
-////	private Integer parentWPID;
-//
-//	public WorkPackage find(final Integer id) {
-//		if (id != null)
-//			return manager.find(WorkPackage.class, id);
-//		else
-//			return null;
-//	}
-//
-////	public void remove(final WorkPackage workPackage) {
-////		WorkPackage wp = manager.find(workPackage.getWorkPackagePk());
-////		manager.remove(wp);
-////	}
-//
-//	public void merge(final WorkPackage workPackage) {
-//		manager.merge(workPackage);
-//	}
-//
-////	public void persist(final WorkPackage newWorkPackage) {
-////		WorkPackage match = manager.find(WorkPackage.class, newWorkPackage.getId());
-////
-////		if (match != null) {
-////			logger.warn("Record(WorkPackage) already exist! ");
-////		} else {
-////			if (!newWorkPackage.isLeaf())
-////				newWorkPackage.setBudget(null);
-////			manager.persist(newWorkPackage);
-////			logger.info("Workpackage added: " + newWorkPackage.getId() + ", " + newWorkPackage.getName());
-////		}
-//
-//	// }
-//
-//}
+package controller;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
+
+import model.Employee;
+import model.WorkPackage;
+
+@Named("wpController")
+@ViewScoped
+public class WorkPackageController implements Serializable {
+	@Inject
+	private DatabaseController database;
+
+	private TreeNode root;
+
+	@PostConstruct
+	public void init() {
+		root = new DefaultTreeNode(new WorkPackage(), null);
+		for (WorkPackage wp : database.getRootWP()) {
+			TreeNode wpNode = new DefaultTreeNode(wp, root);
+			System.out.println(wp);
+			getTree(wpNode, wp);
+		}
+	}
+
+	public void getTree(TreeNode parentNode, WorkPackage parentWp) {
+		List<WorkPackage> childList = database.getLowerWP(parentWp.getWpid());
+		for (WorkPackage childWp : childList) {
+			TreeNode childNode = new DefaultTreeNode(childWp, parentNode);
+			getTree(childNode, childWp);
+		}
+	}
+
+	public TreeNode getRoot() {
+		return root;
+	}
+}
