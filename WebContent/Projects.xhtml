@@ -64,10 +64,10 @@
 							</f:facet>
 							<f:facet name="input">
 								<h:selectOneMenu value="#{project.proMgrEmpNo}"
-									style="width:100%">
+									style="width:100%; color:black">
 									<f:selectItems value="#{projectController.employeeList}"
 										var="emp" itemLabel="#{emp.userName}"
-										itemValue="#{emp.empNumber}" />
+										itemValue="#{emp.empNumber}" style="color:black" />
 								</h:selectOneMenu>
 							</f:facet>
 						</p:cellEditor>
@@ -124,7 +124,7 @@
 
 					</p:column>
 					<p:column style="text-align:center">
-						<p:commandButton value="Delete" update="project"
+						<p:commandButton value="Delete" update="project"  process="@this"
 							action="#{projectController.deleteProject(project)}" />
 
 					</p:column>
@@ -132,9 +132,9 @@
 
 				<div class="ui-g">
 					<div class="ui-g-12">
-						<p:commandButton value="Add new row"
+						<p:commandButton value="Add new row" 
 							styleClass="ui-priority-primary" process="@this"
-							update=":form:msgs" action="#{projectController.addProject()}"
+							action="#{projectController.addProject()}"
 							oncomplete="PF('project').addRow();" />
 					</div>
 				</div>
