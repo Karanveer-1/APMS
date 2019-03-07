@@ -19,7 +19,7 @@
 
 		<ui:define name="content">
 			<h:form id="form">
-				<p:treeTable value="#{wpController.root}" var="wp">
+				<p:treeTable value="#{wpController.root}" var="wp" id="wp">
 
 					<p:column headerText="ID">
 						<h:outputText value="#{wp.wpid}" />
@@ -48,6 +48,11 @@
 					</p:column>
 					<p:column headerText="Comment">
 						<h:outputText value="#{wp.comment}" />
+					</p:column>
+						<p:column style="text-align:center">
+						<p:commandButton value="Delete" update="wp"  
+							action="#{wpController.deleteWp(wp)}" />
+
 					</p:column>
 
 

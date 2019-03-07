@@ -252,7 +252,6 @@ public class DatabaseController implements Serializable {
 				}
 			}
 		}
-		System.out.println("RESULT " + result);
 		return result;
 	}
 

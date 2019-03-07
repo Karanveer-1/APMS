@@ -19,7 +19,7 @@ import model.Employee;
 import model.WorkPackage;
 
 @Named("wpController")
-@ViewScoped
+
 public class WorkPackageController implements Serializable {
 	@Inject
 	private DatabaseController database;
@@ -31,7 +31,6 @@ public class WorkPackageController implements Serializable {
 		root = new DefaultTreeNode(new WorkPackage(), null);
 		for (WorkPackage wp : database.getRootWP()) {
 			TreeNode wpNode = new DefaultTreeNode(wp, root);
-			System.out.println(wp);
 			getTree(wpNode, wp);
 		}
 	}
@@ -46,5 +45,9 @@ public class WorkPackageController implements Serializable {
 
 	public TreeNode getRoot() {
 		return root;
+	}
+
+	public void deleteWp(WorkPackage wp) {
+		this.database.deleteWorkPackage(wp.getWorkPackagePk());
 	}
 }
