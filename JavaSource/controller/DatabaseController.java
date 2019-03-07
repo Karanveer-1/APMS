@@ -14,6 +14,7 @@ import javax.persistence.TypedQuery;
 
 import model.Employee;
 import model.Project;
+import model.PLevel;
 import model.Timesheet;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
@@ -25,6 +26,7 @@ import utils.DateUtils;
 public class DatabaseController implements Serializable {
 	@PersistenceContext(unitName = "apms", type = PersistenceContextType.TRANSACTION)
 	private EntityManager manager;
+
 
 	// #########################################################################
 	// # Employee methods
@@ -294,6 +296,34 @@ public class DatabaseController implements Serializable {
 		}
 
 	}
+    /**
+     * @return
+     */
+    public List<PLevel> getPLevels() {
+        return manager.createQuery("SELECT p FROM PLevel p", PLevel.class)
+                .getResultList();
+    }
+    
+    public PLevel getPLevelByPK(Date startDate, String pLevel) {
+        TypedQuery<PLevel> query = manager.createQuery(
+                "select p from PLevel p where p.StartDate = :StartDate AND p.PLevel = :PLevel",
+                PLevel.class);
+        query.setParameter("StartDate", startDate);
+        query.setParameter("PLevel", pLevel);
+        return query.getSingleResult();
+    }
+    
+    public void updatePLevel(PLevel e) {
+        manager.merge(e);
+    }
+    
+    public void addPLevel(PLevel e) {
+        manager.persist(e);
+    }
+    
+    public void removePLevel(PLevel e) {
+        manager.remove(manager.contains(e) ? e : manager.merge(e));
+    }
 }
 
 /*
