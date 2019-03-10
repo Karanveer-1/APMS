@@ -64,3 +64,6 @@ client/shade/dependency-reduced-pom.xml
 
 # npm packages
 **/node_modules/
+
+# generated SQL files
+Resources/seedData/output/
