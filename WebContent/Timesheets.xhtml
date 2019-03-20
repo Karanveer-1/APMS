@@ -18,6 +18,7 @@
 		</ui:define>
 
 		<ui:define name="content">
+
 			<h:form id="formMain">
 				<p:commandButton id="addButton" value="Add Timesheet"
 					onclick="PF('addTimesheetDialog').show();" />
@@ -75,9 +76,7 @@
 					<p:calendar id="datePicker" pattern="MMM. dd, yyyy" mode="inline"
 						binding="#{createTimesheetDate}"
 						mindate="#{timesheetController.calendarCurrentTimesheetStartDate()}">
-						<p:ajax event="dateSelect"
-
-							update="createButton" />
+						<p:ajax event="dateSelect" update="createButton" />
 					</p:calendar>
 					<p:commandButton id="createButton" value="Create"
 						action="#{timesheetController.addTimesheet(createTimesheetDate.value)}"

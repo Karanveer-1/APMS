@@ -7,12 +7,10 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.event.SelectEvent;
 
 import model.Employee;
 import model.Timesheet;
@@ -81,6 +79,8 @@ public class TimesheetController implements Serializable {
     public String discardTimesheetChanges() {
         editTimesheet = null;
         editTimesheetRows = null;
+        
+        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
 
         return "Timesheets.xhtml?faces-redirect=true";
     }
