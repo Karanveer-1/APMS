@@ -44,7 +44,7 @@ public class TimesheetController implements Serializable {
         TimesheetPK pk = new TimesheetPK(currentEmployee.getEmpNumber(),
                 DateUtils.getTimesheetStartDate(date));
         editTimesheet = new Timesheet(pk, null, null,
-                TimesheetState.Draft.toString(), null);
+                TimesheetState.DRAFT, null);
         editTimesheetRows = new ArrayList<TimesheetRow>();
 
         return "EditTimesheet.xhtml?faces-redirect=true";
@@ -61,10 +61,10 @@ public class TimesheetController implements Serializable {
 
     public String saveTimesheet() {
         for (TimesheetRow row : editTimesheetRows) {
-            row.setState(TimesheetRowState.Pending.toString());
+            row.setState(TimesheetRowState.PENDING);
         }
 
-        editTimesheet.setState(TimesheetState.Draft.toString());
+        editTimesheet.setState(TimesheetState.DRAFT);
 
         database.removeTimesheetRows(editTimesheet);
 
@@ -102,7 +102,7 @@ public class TimesheetController implements Serializable {
         TimesheetRow row = new TimesheetRow();
 
         row.setTimesheetRowPk(pk);
-        row.setState(TimesheetRowState.Draft.toString());
+        row.setState(TimesheetRowState.DRAFT);
 
         editTimesheetRows.add(row);
     }
@@ -179,12 +179,12 @@ public class TimesheetController implements Serializable {
     }
     
     public void submitTimesheet(Timesheet t) {
-        t.setState(TimesheetState.Submitted.toString());
+        t.setState(TimesheetState.SUBMTTED);
         database.updateTimesheet(t);
     }
     
     public void cancelSubmitTimesheet(Timesheet t) {
-        t.setState(TimesheetState.Draft.toString());
+        t.setState(TimesheetState.DRAFT);
         database.updateTimesheet(t);
     }
 }

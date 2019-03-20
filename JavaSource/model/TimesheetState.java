@@ -1,20 +1,8 @@
 package model;
 
-public enum TimesheetState {
-    Draft("Draft"),
-    Pending("Pending"),
-    Approved("Approved"),
-    Submitted("Submitted");
-    
-    
-    private final String value;
-    
-    TimesheetState(String value) {
-        this.value = value;
-    }
-    
-    @Override
-    public String toString() {
-        return value;
-    }
+public interface TimesheetState {
+    public static final String DRAFT = "Draft";
+    public static final String PENDING = "Pending";
+    public static final String APPROVED = "Approved";
+    public static final String SUBMTTED = "Submitted";
 }
