@@ -170,13 +170,13 @@ public class TimesheetController implements Serializable {
     public void submitTimesheet(Timesheet t) {
         t.setState(TimesheetState.SUBMTTED);
         database.updateTimesheet(t);
-        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
+//        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
     }
 
     public void cancelSubmitTimesheet(Timesheet t) {
         t.setState(TimesheetState.DRAFT);
         database.updateTimesheet(t);
-        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
+//        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
     }
 
     private static Employee getLoggedInEmployee() {
