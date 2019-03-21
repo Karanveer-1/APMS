@@ -7,20 +7,21 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 import model.Employee;
-import model.Project;
 import model.PLevel;
+import model.Project;
+import model.Signature;
 import model.Timesheet;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
 import model.WorkPackage;
 import model.WorkPackagePK;
 import utils.DateUtils;
+
 
 @Stateless
 public class DatabaseController implements Serializable {
@@ -239,7 +240,6 @@ public class DatabaseController implements Serializable {
      * 
      * @param newProject
      */
-
     public List<WorkPackage> getAllWp() {
         return this.manager.createQuery("SELECT wp from WorkPackage wp", WorkPackage.class).getResultList();
     }
@@ -296,9 +296,10 @@ public class DatabaseController implements Serializable {
         }
 
     }
-    /**
-     * @return
-     */
+    
+    // #########################################################################
+    // # PLevel methods
+    // #########################################################################
     public List<PLevel> getPLevels() {
         return manager.createQuery("SELECT p FROM PLevel p", PLevel.class)
                 .getResultList();
@@ -324,6 +325,13 @@ public class DatabaseController implements Serializable {
     public void removePLevel(PLevel e) {
         manager.remove(manager.contains(e) ? e : manager.merge(e));
     }
+    
+    
+    
+    public void addSignature(final Signature newSignature) {
+        manager.persist(newSignature);
+    }
+
 }
 
 /*

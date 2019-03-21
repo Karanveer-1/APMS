@@ -5,20 +5,13 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.event.ActionEvent;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
-import model.EmployeeState;
 import model.PLevel;
-import model.PLevelPK;
-import service.PasswordHash;
-import service.PasswordHash.CannotPerformOperationException;
 
 /**
  * PLevelController.

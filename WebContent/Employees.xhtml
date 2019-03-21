@@ -39,6 +39,9 @@
                     <p:column headerText="State">
                         <h:outputText value="#{employee.state}" />
                     </p:column>
+        			<p:column headerText="Supervisor">
+		        		<h:outputText value="#{employeesController.getEmployeeById(employee.superEmpNo).userName}"/>
+		    		</p:column>
                     <p:column headerText="Comment">
                         <h:outputText value="#{employee.comment}" />
                     </p:column>
@@ -72,6 +75,12 @@
 
                         <h:outputText id="addPassword" value="Password" />
                         <h:inputText binding="#{addPasswordText}" />
+                        
+						<h:outputText id="addSupervisor" value="Supervisor" />
+                        <h:selectOneMenu binding="#{addSupervisorText}"> 
+   							<f:selectItems value="#{employeesController.employees}" var="e"
+   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+   						</h:selectOneMenu>
         
                         <h:outputText id="addComment" value="Comment" />
                         <h:inputText binding="#{addCommentText}" />
@@ -85,6 +94,7 @@
                                     addLastNameText.value,
                                     addUsernameText.value,
                                     addPasswordText.value,
+                                    addSupervisorText.value,
                                     addCommentText.value)}" />
                     </h:panelGrid>
                 </h:form>
@@ -110,6 +120,12 @@
                         <h:outputText value="Password" />
                         <h:inputText binding="#{editPasswordText}"
                             value="#{employeesController.editEmployee.password}" />
+                            
+                        <h:outputText value="Supervisor" />
+                        <h:selectOneMenu value="#{employeesController.editEmployee.superEmpNo}" binding="#{editSupervisorText}"> 
+   							<f:selectItems value="#{employeesController.employees}" var="e"
+   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+   						</h:selectOneMenu>
         
                         <h:outputText id="editComment" value="Comment" />
                         <h:inputText binding="#{editCommentText}"
@@ -123,6 +139,7 @@
                                     editLastNameText.value,
                                     editUsernameText.value,
                                     editPasswordText.value,
+                                    editSupervisorText.value,
                                     editCommentText.value)}" />
                     </h:panelGrid>
                 </h:form>
