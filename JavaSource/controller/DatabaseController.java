@@ -7,13 +7,13 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 import model.Employee;
 import model.Project;
+import model.Signature;
 import model.Timesheet;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
@@ -294,6 +294,13 @@ public class DatabaseController implements Serializable {
 		}
 
 	}
+	
+	
+	
+	public void addSignature(final Signature newSignature) {
+        manager.persist(newSignature);
+    }
+
 }
 
 /*

@@ -1,18 +1,19 @@
 package controller;
 
 import java.io.Serializable;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.Signature;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.primefaces.event.SelectEvent;
 
 import model.Employee;
 import model.Timesheet;
@@ -179,6 +180,31 @@ public class TimesheetController implements Serializable {
     }
     
     public void submitTimesheet(Timesheet t) {
+        byte[] privateKey = currentEmployee.getPrivateKey();
+        byte[] publicKey = currentEmployee.getPublicKey();
+        
+        try {
+            PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(privateKey);
+            KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");
+            PrivateKey privKey = keyFactory.generatePrivate(privKeySpec);
+            
+            Signature dsa = Signature.getInstance("SHA1withDSA", "SUN");
+            dsa.initSign(privKey);
+            
+            String data = t.toString();
+            byte[] dataBytes = data.getBytes();
+            
+            dsa.update(dataBytes);
+            
+            byte[] signature = dsa.sign();
+            model.Signature sig = new model.Signature(signature, publicKey);
+            sig.setTimesheetPk(t.getTimesheetPk());
+            
+            database.addSignature(sig);
+        } catch (Exception e1) {
+            System.out.println("Submit timesheet:" + e1.toString());
+        }
+        
         t.setState(TimesheetState.Submitted.toString());
         database.updateTimesheet(t);
     }

@@ -2,7 +2,7 @@ package model;
 
 public enum EmployeeState {
     Active("Active"),
-    Retired("Retired");
+    Retired("Not Active");
     
     
     private final String value;

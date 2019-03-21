@@ -23,6 +23,25 @@
 			    <p:outputLabel value="User Name: "/>
 			    <p:outputLabel id="userName" value="#{loginController.currentEmployee.userName}"/>
 			</h:panelGrid>
+			
+			<h:form><p:commandButton onclick="PF('keyPhraseDialog').show();" value="Generate Key Pairs" /></h:form>
+            
+            <p:dialog id="keyPhrase" header="Enter a phrase" modal="true" width="400"
+                widgetVar="keyPhraseDialog" resizable="false" draggable="false">
+                
+                <h:form id="formAddDialog">
+                    <h:panelGrid columns="1">
+                        <h:outputText id="addKeyPhrase" value="Key Phrase" />
+                        <h:inputText binding="#{addKeyPhrase}" />
+                        
+                        <p:commandButton value="Enter" resetValues="true" update=":formAddDialog"
+                            action="#{sig.encryptWithPhrase(addKeyPhrase.value)}" />
+                    </h:panelGrid>
+                    
+                    <p:messages id="messages" showSummary="false" showDetail="true" closable="true"/>
+                    <p:autoUpdate/>
+                </h:form>
+            </p:dialog>
             
         </ui:define>
 	</ui:composition>
