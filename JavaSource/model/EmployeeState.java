@@ -1,18 +1,6 @@
 package model;
 
-public enum EmployeeState {
-    Active("Active"),
-    Retired("Retired");
-    
-    
-    private final String value;
-    
-    EmployeeState(String value) {
-        this.value = value;
-    }
-    
-    @Override
-    public String toString() {
-        return value;
-    }
+public interface EmployeeState {
+    public static final String ACTIVE = "Active";
+    public static final String RETIRED = "Retired";
 }

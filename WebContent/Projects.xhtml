@@ -18,8 +18,16 @@
 		</ui:define>
 
 		<ui:define name="content">
+
 			<h:form id="form">
 				<p:growl id="msgs" showDetail="true" />
+
+
+				<p:commandButton value="Add new row"
+					styleClass="ui-priority-primary" process="@this"
+					action="#{projectController.addProject()}"
+					oncomplete="PF('project').addRow();" />
+
 
 				<p:dataTable id="project" var="project" widgetVar="project"
 					value="#{projectController.projects}" editable="true"
@@ -124,20 +132,13 @@
 
 					</p:column>
 					<p:column style="text-align:center">
-						<p:commandButton value="Delete" update="project"  process="@this"
+						<p:commandButton value="Delete" update="project"
 							action="#{projectController.deleteProject(project)}" />
 
 					</p:column>
 				</p:dataTable>
 
-				<div class="ui-g">
-					<div class="ui-g-12">
-						<p:commandButton value="Add new row" 
-							styleClass="ui-priority-primary" process="@this"
-							action="#{projectController.addProject()}"
-							oncomplete="PF('project').addRow();" />
-					</div>
-				</div>
+
 
 			</h:form>
 
