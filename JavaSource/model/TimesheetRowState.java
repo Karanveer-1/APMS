@@ -1,6 +1,6 @@
 package model;
 
-public interface TimesheetRowState {
+public class TimesheetRowState {
     public static final String DRAFT = "Draft";
     public static final String PENDING = "Pending";
 }

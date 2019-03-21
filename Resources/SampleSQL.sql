@@ -40,9 +40,19 @@ CREATE TABLE Employee
     ApproEmpNo      INTEGER         NOT NULL,
     State           VARCHAR(30)     NOT NULL,
     Comment         VARCHAR(1000)   ,
+    PublicKey 	   	BLOB 		    NULL,
+    PrivateKey 	 	BLOB 		    NULL,
     PRIMARY KEY(EmpNo)
 );
 
+<<<<<<< HEAD
+
+-- Load data into table Employee
+INSERT INTO APMS.Employee VALUES('1', 'Admin', 'Admin', 'admin', 'sha1:64000:18:6BMHQNrAa7QUpYtffRlt8RSaxuoeoy6o:nn4ooDmw3agMFtiFfwcyiok6', '1', '1', 'Active', '', NULL, NULL);
+INSERT INTO APMS.Employee VALUES('2', 'Karanveer', 'Khanna', 'karan', 'sha1:64000:18:XLut11LQ4mTSfG/qtpIlx+0pV22c3CWw:TLNw6ESsnrM512eCYCSl+8bu', '1', '1', 'Active', '', NULL, NULL);
+INSERT INTO APMS.Employee VALUES('3', 'Ryan', 'Liang', 'ryan', 'sha1:64000:18:CoHbU5wqpLwD9vhz0ristkDVhHcDrNa/:w8M4ttFIRj2KgUjgSrTFTDZI', '1', '2', 'Active', '', NULL, NULL);
+INSERT INTO APMS.Employee VALUES('4', 'Test', 'Test', 'test', 'sha1:64000:18:Gva6Da/2KniKBQFetzoF/ApJppU18smV:DWMsNXsx4DtG0BJlLRDB7Ngf', '2', '3', 'Active', '', NULL, NULL);
+=======
 INSERT INTO APMS.Employee VALUES ('1', 'Admin', 'Admin', 'admin', 'sha1:64000:18:N0Iez+Sidz0ul3va+Qz94inOsDZZsf8E:K2muqi03BKskKSFzVhYpwqLh', '4', '67', 'Left', 'Occaecati odit quia.');
 INSERT INTO APMS.Employee VALUES ('2', 'Amy', 'Hong', 'amy', 'sha1:64000:18:RGTXMi9UDbk4UBr+4Py1yjz7NITF8tqR:P3mGVCiKBFoZB3/oKVyJQ+0I', '1', '71', 'Active', 'Sint vel dolorem iste necessitatibus et alias quia voluptas.');
 INSERT INTO APMS.Employee VALUES ('3', 'Andy', 'Tang', 'andy', 'sha1:64000:18:pzaYQSaQXWFxRtgxPgTlA2f89Zq11ngF:qoYwJ1clkjm0E5qpemvRyrkh', '14', '31', 'Active', 'Nesciunt id fugiat aut aliquam maiores dolores consequuntur accusamus.');
@@ -58,6 +68,7 @@ INSERT INTO APMS.Employee VALUES ('12', 'Ryan', 'Liang', 'ryan', 'sha1:64000:18:
 INSERT INTO APMS.Employee VALUES ('13', 'Tommy', 'Yeh', 'tommy', 'sha1:64000:18:rn+JlfNIudfumliiBpwoyMpuGYZR/o61:PikclcAyFNt7cjgidwYmHmBd', '6', '84', 'Deleted', 'Neque dolores id magni nobis et sit debitis.');
 INSERT INTO APMS.Employee VALUES ('14', 'Test', 'Test', 'test', 'sha1:64000:18:Gva6Da/2KniKBQFetzoF/ApJppU18smV:DWMsNXsx4DtG0BJlLRDB7Ngf', '6', '60', 'Left', 'Nihil cumque dolorum doloribus adipisci.');
 INSERT INTO APMS.Employee VALUES ('15', 'Bruce', 'Link', 'bruce', 'sha1:64000:18:Vk1SQ24USA0J1vlnf9Ayb1O+SVRrImXE:hEZt0FSf1PvMq5GpdkK6HLky', '8', '10', 'Retired', 'Numquam doloribus harum.');
+>>>>>>> 917eeb8f2e578883060380623dcf68f570d4a941
 
 
 
@@ -243,8 +254,8 @@ CREATE TABLE Role
 CREATE TABLE Signature(
 	EmpNo          INTEGER         NOT NULL,
     StartDate      DATE            NOT NULL,
-	signature 	   TINYBLOB 	   NOT NULL, 
-	publicKey 	   BLOB 		   NOT NULL,
+	Signature 	   TINYBLOB 	   NOT NULL, 
+	PublicKey 	   BLOB 		   NOT NULL,
 	PRIMARY KEY(EmpNo, StartDate)
 );
 
