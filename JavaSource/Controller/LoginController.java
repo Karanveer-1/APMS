@@ -32,7 +32,7 @@ public class LoginController implements Serializable {
     public String login() {
         Employee result = database.getEmployeeByUsername(credential.getUserName());
         
-        if (result != null && !result.getState().equals(EmployeeState.Retired.toString())) {
+        if (result != null && !result.getState().equals(EmployeeState.RETIRED)) {
             try {
                 if (PasswordHash.verifyPassword(credential.getPassword(), result.getPassword())) {
                     currentEmployee = result;

@@ -2,11 +2,10 @@ package controller;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 
 import javax.faces.context.FacesContext;
@@ -14,14 +13,13 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
 import model.Employee;
 import model.Project;
 
 @Named("projectController")
-@RequestScoped
+@ConversationScoped
 public class ProjectController implements Serializable {
 
 	@Inject
@@ -51,8 +49,9 @@ public class ProjectController implements Serializable {
 	public void init() {
 		projects = database.getAllProjects();
 		addProject = new Project();
-		employeeList = database.getEmployees();
+		employeeList = database.getActiveEmployees();
 		editProject = new Project();
+		System.out.println(projects);
 	}
 
 	public List<Project> getProjects() {
@@ -85,7 +84,6 @@ public class ProjectController implements Serializable {
 		boolean addSuccess = database.persistProject(addProject);
 
 		if (addSuccess) {
-			System.out.println(projects);
 			FacesMessage msg = new FacesMessage("New Project Added");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
@@ -93,7 +91,7 @@ public class ProjectController implements Serializable {
 			FacesMessage msg = new FacesMessage("Failed To Add New Project");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
-		FacesContext.getCurrentInstance().getExternalContext().redirect("Projects.xhtml");
+//		FacesContext.getCurrentInstance().getExternalContext().redirect("Projects.xhtml");
 
 	}
 
@@ -102,6 +100,7 @@ public class ProjectController implements Serializable {
 		boolean updateSuccess = this.database.updateProject(editProject);
 
 		if (updateSuccess) {
+
 			FacesMessage msg = new FacesMessage("Project #" + editProject.getProNo() + " Edited");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} else {
@@ -118,7 +117,8 @@ public class ProjectController implements Serializable {
 
 	public void deleteProject(Project project) throws IOException {
 		this.database.deleteProjectByProNo(project.getProNo());
-		FacesContext.getCurrentInstance().getExternalContext().redirect("Projects.xhtml");
+		projects = this.database.getAllProjects();
+//		FacesContext.getCurrentInstance().getExternalContext().redirect("Projects.xhtml");
 
 	}
 

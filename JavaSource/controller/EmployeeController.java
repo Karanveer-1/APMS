@@ -38,7 +38,8 @@ public class EmployeeController implements Serializable {
 
 	public void addEmployee(String empNo, String firstName, String lastName, String username, String password, int supervisorId, String comment) {
 		activeEmployees = database.getActiveEmployees();
-		String state = EmployeeState.Active.toString();
+		String state = EmployeeState.ACTIVE;
+
 
 		if (validateEmployee(empNo, firstName, lastName, username, password, state, comment, false)) {
 			try {
@@ -61,7 +62,7 @@ public class EmployeeController implements Serializable {
 
 	public void editEmployee(String firstName, String lastName, String username, String password, int supervisorId, String comment) {
 		activeEmployees = database.getActiveEmployees();
-		String state = EmployeeState.Active.toString();
+		String state = EmployeeState.ACTIVE;
 		
 		if (password.isEmpty()) {
 		    password = this.editPassword;
@@ -90,7 +91,7 @@ public class EmployeeController implements Serializable {
 	}
 
 	public void deleteEmployee(Employee e) {
-		e.setState(EmployeeState.Retired.toString());
+		e.setState(EmployeeState.RETIRED);
 		activeEmployees.remove(e);
 		database.updateEmployee(e);
 	}
