@@ -16,7 +16,9 @@
 		<ui:define name="headerTitle">
 			<h:outputText value="Projects" class="navbar-brand" />
 		</ui:define>
-
+		<ui:define name="navBar">
+			<ui:include src="/sections/ProjectNavigationBar.xhtml" />
+		</ui:define>
 		<ui:define name="content">
 
 			<h:form id="form">
@@ -131,7 +133,11 @@
 						<p:rowEditor />
 
 					</p:column>
-					<p:column style="text-align:center">
+					<p:column style="text-align:center;width:100px">
+						<p:commandButton value="View"
+							action="#{projectController.viewProject(project)}" />
+					</p:column>
+					<p:column style="text-align:center;width:100px">
 						<p:commandButton value="Delete" update="project"
 							action="#{projectController.deleteProject(project)}" />
 

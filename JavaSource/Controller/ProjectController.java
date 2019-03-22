@@ -33,6 +33,8 @@ public class ProjectController implements Serializable {
 
 	private List<Employee> employeeList;
 
+	private Employee currentEmployee;
+
 	public Project getAddProject() {
 		return addProject;
 	}
@@ -51,8 +53,15 @@ public class ProjectController implements Serializable {
 		addProject = new Project();
 		employeeList = database.getActiveEmployees();
 		editProject = new Project();
-		System.out.println(projects);
+		currentEmployee = getLoggedInEmployee();
 	}
+
+//	public List<Employee> getAssignedEmployeeList(){
+//		private List<Employee> el;
+//		for(Employee e: database.getActiveEmployees()) {
+//			if(e.get)
+//		}
+//	}
 
 	public List<Project> getProjects() {
 		return projects;
@@ -91,7 +100,6 @@ public class ProjectController implements Serializable {
 			FacesMessage msg = new FacesMessage("Failed To Add New Project");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
-//		FacesContext.getCurrentInstance().getExternalContext().redirect("Projects.xhtml");
 
 	}
 
@@ -120,6 +128,19 @@ public class ProjectController implements Serializable {
 		projects = this.database.getAllProjects();
 //		FacesContext.getCurrentInstance().getExternalContext().redirect("Projects.xhtml");
 
+	}
+
+	private static Employee getLoggedInEmployee() {
+		return (Employee) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.get(LoginController.USER_KEY);
+	}
+
+	public Employee getCurrentEmployee() {
+		return currentEmployee;
+	}
+
+	public void viewProject(Project project) {
+		
 	}
 
 }

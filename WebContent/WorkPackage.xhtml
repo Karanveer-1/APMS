@@ -14,9 +14,12 @@
 
 		<ui:define name="windowTitle">Projects</ui:define>
 		<ui:define name="headerTitle">
-			<h:outputText value="Work Packages" class="navbar-brand" />
+			<h:outputText value="Projects" class="navbar-brand" />
 		</ui:define>
-
+		<ui:define name="navBar">
+			<ui:include src="/sections/ProjectNavigationBar.xhtml" />
+		</ui:define>
+		
 		<ui:define name="content">
 			<h:form id="form">
 				<p:treeTable value="#{wpController.root}" var="wp" id="wp">
@@ -46,8 +49,8 @@
 					<p:column headerText="Comment">
 						<h:outputText value="#{wp.comment}" />
 					</p:column>
-						<p:column style="text-align:center">
-						<p:commandButton value="Delete" update="wp"  
+					<p:column style="text-align:center">
+						<p:commandButton value="Delete" update="wp"
 							action="#{wpController.deleteWp(wp)}" />
 
 					</p:column>
