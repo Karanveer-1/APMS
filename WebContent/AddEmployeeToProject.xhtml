@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/MasterLayout.xhtml">
+		<ui:define name="windowTitle">Assign Employees</ui:define>
+        <ui:define name="headerTitle"><h:outputText value="Assign Employees" class="navbar-brand"/></ui:define>
+        
+        <ui:define name="content">
+        	<h:panelGrid style="margin:20px" columns="2" cellpadding="10" cellspacing="10">
+		        <p:outputLabel value="Project Number:  "/>
+		        <p:outputLabel value="#{assignProject.project.proNo}"/>
+		        <p:outputLabel value="Project Manager:  "/>
+		        <p:outputLabel value="#{assign.getEmployeeById(assignProject.project.proMgrEmpNo).userName}"/>
+		        <p:outputLabel value="Project Name:  "/>
+		        <p:outputLabel value="#{assignProject.project.proName}"/>
+		        <p:outputLabel value="Project Budget:  "/>
+		        <p:outputLabel value="#{assignProject.project.budget}"/>
+		        <p:outputLabel value="Project Description:&nbsp;&nbsp;"/>
+		        <p:outputLabel value="#{assignProject.project.proDesc}"/>
+	    	</h:panelGrid>
+	    	
+	    	<h:form id="formMain">
+				<p:commandButton value="Add Employee" update=":formMain:invalidEmployee" action="#{assignProject.checkIfHaveAnyEmployee()}"/>
+                <p:growl id="invalidEmployee" sticky="false" />
+                
+		    	<p:dataTable id="employeeTable" value="#{assignProject.getAssignedEmployee()}" 
+		    				 var="emp" style="margin-bottom:20px;width:50%">
+					<f:facet name="header">Employees</f:facet>
+					<p:column>
+						<f:facet name="header">Employee Number</f:facet>
+						#{emp.empNumber}
+					</p:column>
+					<p:column>
+					<f:facet name="header">Employee Name</f:facet>
+						#{emp.firstName} #{emp.lastName}
+					</p:column>
+					<p:column>
+					<f:facet name="header">Username</f:facet>
+						#{emp.userName}
+					</p:column>
+				</p:dataTable>
+	    	</h:form>
+	    	
+	    	
+	    	<p:dialog id="addDialog" header="Add Employee" modal="true" width="400"
+                widgetVar="addEmployeeDialog" resizable="false" draggable="false">
+                <h:form id="formAddDialog">
+                    <h:panelGrid columns="1">
+						<h:outputText id="addEmployee" value="Employee" />
+                        <h:selectOneMenu binding="#{addEmployeeText}"> 
+   							<f:selectItems value="#{assignProject.getSupervisorEmployee()}" var="e"
+   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+   						</h:selectOneMenu>
+        
+                        <p:commandButton resetValues="true"
+                            update=":formMain:employeeTable :formAddDialog"
+                            value="Save"
+                            action="#{assignProject.assignEmployee(addEmployeeText.value)}" />
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
+	    	
+	    	
+	    	
+		</ui:define>
+	</ui:composition>
+</html>

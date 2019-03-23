@@ -132,6 +132,10 @@
 
 					</p:column>
 					<p:column style="text-align:center">
+						<p:commandButton value="Assign" action="#{assignProject.addEmployees(project)}" />
+					</p:column>
+					
+					<p:column style="text-align:center">
 						<p:commandButton value="Delete" update="project"
 							action="#{projectController.deleteProject(project)}" />
 

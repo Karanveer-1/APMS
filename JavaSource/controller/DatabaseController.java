@@ -13,6 +13,8 @@ import javax.persistence.TypedQuery;
 
 import model.Employee;
 import model.PLevel;
+import model.ProEmp;
+import model.ProEmpPK;
 import model.Project;
 import model.Signature;
 import model.Timesheet;
@@ -230,6 +232,32 @@ public class DatabaseController implements Serializable {
             return false;
         }
     }
+    
+    /**
+     * GET
+     * 
+     * @return all projects
+     */
+    public List<Employee> getEmployeeForProject(int projectId) {
+        TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.proNo = :projectId", ProEmp.class);
+        query.setParameter("projectId", projectId);
+        List<ProEmp> data = query.getResultList();
+        
+        List<Employee> empList = new ArrayList<>();
+        for (ProEmp e : data) {
+            empList.add(getEmployeeById(e.getProEmp().getEmpNo()));
+        }
+
+        return empList;
+    }
+    
+    public void addNewEmployeeToProject(int employeeNumber, int proNo) {
+        ProEmp temp = new ProEmp();
+        temp.setProEmp(new ProEmpPK(proNo, employeeNumber));
+        
+        manager.persist(temp);
+    }
+
 
     // #########################################################################
     // # WorkPackage methods
