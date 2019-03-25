@@ -12,14 +12,16 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 import model.Employee;
-import model.Project;
 import model.PLevel;
+import model.Project;
+import model.Signature;
 import model.Timesheet;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
 import model.WorkPackage;
 import model.WorkPackagePK;
 import utils.DateUtils;
+
 
 @Stateless
 public class DatabaseController implements Serializable {
@@ -323,6 +325,13 @@ public class DatabaseController implements Serializable {
     public void removePLevel(PLevel e) {
         manager.remove(manager.contains(e) ? e : manager.merge(e));
     }
+    
+    
+    
+    public void addSignature(final Signature newSignature) {
+        manager.persist(newSignature);
+    }
+
 }
 
 /*

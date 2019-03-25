@@ -1,6 +1,10 @@
 package controller;
 
 import java.io.Serializable;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.Signature;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +23,7 @@ import model.TimesheetRowPK;
 import model.TimesheetRowState;
 import model.TimesheetState;
 import utils.DateUtils;
+
 
 @Named("timesheetController")
 @SessionScoped
@@ -167,18 +172,6 @@ public class TimesheetController implements Serializable {
         return false;
     }
 
-    public void submitTimesheet(Timesheet t) {
-        t.setState(TimesheetState.SUBMTTED);
-        database.updateTimesheet(t);
-//        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
-    }
-
-    public void cancelSubmitTimesheet(Timesheet t) {
-        t.setState(TimesheetState.DRAFT);
-        database.updateTimesheet(t);
-//        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
-    }
-
     private static Employee getLoggedInEmployee() {
         return (Employee) FacesContext.getCurrentInstance().getExternalContext()
                 .getSessionMap().get(LoginController.USER_KEY);
@@ -207,4 +200,41 @@ public class TimesheetController implements Serializable {
     public void setEditTimesheetRows(List<TimesheetRow> editTimesheetRows) {
         this.editTimesheetRows = editTimesheetRows;
     }
+
+    
+    public void submitTimesheet(Timesheet t) {
+        byte[] privateKey = currentEmployee.getPrivateKey();
+        byte[] publicKey = currentEmployee.getPublicKey();
+        
+        try {
+            PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(privateKey);
+            KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");
+            PrivateKey privKey = keyFactory.generatePrivate(privKeySpec);
+            
+            Signature dsa = Signature.getInstance("SHA1withDSA", "SUN");
+            dsa.initSign(privKey);
+            
+            String data = t.toString();
+            byte[] dataBytes = data.getBytes();
+            
+            dsa.update(dataBytes);
+            
+            byte[] signature = dsa.sign();
+            model.Signature sig = new model.Signature(signature, publicKey);
+            sig.setTimesheetPk(t.getTimesheetPk());
+            
+            database.addSignature(sig);
+        } catch (Exception e1) {
+            System.out.println("Submit timesheet:" + e1.toString());
+        }
+        
+        t.setState(TimesheetState.SUBMTTED);
+        database.updateTimesheet(t);
+    }
+    
+    public void cancelSubmitTimesheet(Timesheet t) {
+        t.setState(TimesheetState.DRAFT);
+        database.updateTimesheet(t);
+    }
+
 }

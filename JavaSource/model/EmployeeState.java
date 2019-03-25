@@ -1,6 +1,7 @@
 package model;
 
-public interface EmployeeState {
+
+public class EmployeeState {
     public static final String ACTIVE = "Active";
-    public static final String RETIRED = "Retired";
+    public static final String RETIRED = "Not Active";
 }
