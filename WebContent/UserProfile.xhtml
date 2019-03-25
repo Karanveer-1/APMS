@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/templates/MasterLayout.xhtml">
+	
+		<ui:define name="windowTitle">My Profile</ui:define>
+        <ui:define name="headerTitle"><h:outputText value="My Profile" class="navbar-brand"/></ui:define>
+        <ui:define name="navBar"><ui:include src="/sections/DashboardNavigationBar.xhtml" /></ui:define>
+        
+        <ui:define name="content">
+        
+	        <h:panelGrid columns="2" id="grid" cellpadding="5" >
+	        	<p:outputLabel value="Employee Number: "/>
+	        	<p:outputLabel id="empNo" value="#{loginController.currentEmployee.empNumber}"/>
+			    <p:outputLabel value="First Name: "/>
+			    <p:outputLabel id="firstName" value="#{loginController.currentEmployee.firstName}"/>
+			    <p:outputLabel value="Last Name: "/>
+			    <p:outputLabel id="lastName" value="#{loginController.currentEmployee.lastName}"/>
+			    <p:outputLabel value="User Name: "/>
+			    <p:outputLabel id="userName" value="#{loginController.currentEmployee.userName}"/>
+			</h:panelGrid>
+			
+			<h:form><p:commandButton onclick="PF('keyPhraseDialog').show();" value="Generate Key Pairs" /></h:form>
+            
+            <p:dialog id="keyPhrase" header="Enter a phrase" modal="true" width="400"
+                widgetVar="keyPhraseDialog" resizable="false" draggable="false">
+                
+                <h:form id="formAddDialog">
+                    <h:panelGrid columns="1">
+                        <h:outputText id="addKeyPhrase" value="Key Phrase" />
+                        <h:inputText binding="#{addKeyPhrase}" />
+                        
+                        <p:commandButton value="Enter" resetValues="true" update=":formAddDialog"
+                            action="#{sig.encryptWithPhrase(addKeyPhrase.value)}" />
+                    </h:panelGrid>
+                    
+                    <p:messages id="messages" showSummary="false" showDetail="true" closable="true"/>
+                    <p:autoUpdate/>
+                </h:form>
+            </p:dialog>
+            
+        </ui:define>
+	</ui:composition>
+</html>
