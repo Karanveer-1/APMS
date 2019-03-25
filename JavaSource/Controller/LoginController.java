@@ -9,6 +9,7 @@ import javax.inject.Named;
 
 import model.Credential;
 import model.Employee;
+import model.EmployeeState;
 import service.PasswordHash;
 import service.PasswordHash.CannotPerformOperationException;
 import service.PasswordHash.InvalidHashException;
@@ -31,7 +32,7 @@ public class LoginController implements Serializable {
     public String login() {
         Employee result = database.getEmployeeByUsername(credential.getUserName());
         
-        if (result != null) {
+        if (result != null && !result.getState().equals(EmployeeState.RETIRED)) {
             try {
                 if (PasswordHash.verifyPassword(credential.getPassword(), result.getPassword())) {
                     currentEmployee = result;

@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui">
 
 	<ui:composition template="/templates/MasterLayout.xhtml">
-		<ui:define name="windowTitle">Assign Employees</ui:define>
+		<ui:define name="windowTitle">Assign Approvers</ui:define>
         <ui:define name="headerTitle"><h:outputText value="Assign Employees" class="navbar-brand"/></ui:define>
         <ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
         
@@ -17,19 +17,13 @@
 			</h:panelGrid>
 			<p:growl id="invalidEmployeeGrowl" sticky="false" />
 			
-	        <p:dataTable id="assignTable" var="emp" value="#{assign.activeEmployees}">
-			    <p:column headerText="Employee">
-	        		<h:outputText value="#{emp.empNumber}: #{emp.userName}" />
+	        <p:dataTable id="assignTable" var="emp" value="#{assign.getEmployeesAssignedToSupervisor()}">
+			    <p:column headerText="Employee Username">
+	        		<h:outputText value="#{emp.userName}" />
 	    		</p:column>
 	 
-			    <p:column headerText="Supervisor">
-			    	<h:outputText rendered="#{assign.getEmployeeById(emp.superEmpNo) == null}" value=" "/>
-	        		<h:outputText rendered="#{assign.getEmployeeById(emp.superEmpNo) != null}" value="#{assign.getEmployeeById(emp.superEmpNo).userName}"/>
-	    		</p:column>
-	 
-			    <p:column headerText="Approver">
-			    	<h:outputText rendered="#{assign.getEmployeeById(emp.approEmpNo) == null}" value=" "/>
-	        		<h:outputText rendered="#{assign.getEmployeeById(emp.approEmpNo) != null}" value="#{assign.getEmployeeById(emp.approEmpNo).userName}"/>
+			    <p:column headerText="Approver Username">
+	        		<h:outputText value="#{assign.getEmployeeById(emp.approEmpNo).userName}"/>
 	    		</p:column>
 	    		
 	    		<p:column headerText="Assign/Update">
@@ -44,12 +38,7 @@
                 
                 <h:form id="formEditDialog">
                     <h:panelGrid columns="1">
-                        <h:outputText value="Supervisor" />
-                        <h:selectOneMenu value="#{assign.editEmployee.superEmpNo}" binding="#{editSupervisorText}"> 
-   							<f:selectItems value="#{assign.activeEmployees}" var="e"
-   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
-   						</h:selectOneMenu>
-        
+                    
                         <h:outputText value="Approver" />
                         <h:selectOneMenu value="#{assign.editEmployee.approEmpNo}" binding="#{editApproverText}">
    							<f:selectItems value="#{assign.activeEmployees}" var="e"
@@ -59,7 +48,7 @@
                         <p:commandButton
                             update=":formMain:assignTable :formMain:invalidEmployeeGrowl :formEditDialog"
                             value="Save"
-                            action="#{assign.updateApprover(editSupervisorText.value, editApproverText.value)}" />
+                            action="#{assign.updateApprover(editApproverText.value)}" />
         
                     </h:panelGrid>
                     
