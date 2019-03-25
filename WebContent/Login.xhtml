@@ -27,8 +27,7 @@
                        	<p:password class="form-control" id="passwordInput" value="#{credential.password}" required="true"/>
                        	<p:spacer height="10" />
                     	<p:commandButton class="btn btn-primary btn-block" value="Login" action="#{loginController.login}"/>
-                    	<p:messages id="messages" showSummary="false" showDetail="true" closable="true"/>
-                    	<p:autoUpdate/>
+                    	<p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" closable="true"/>
                 	</h:form>
             	</div>
         	</div>

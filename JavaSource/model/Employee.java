@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -39,14 +38,6 @@ public class Employee implements Serializable {
 
     @Column(name = "Comment")
     private String comment;
-    
-    @Lob
-    @Column(name = "PublicKey", columnDefinition = "blob")
-    private byte[] publicKey;
-    
-    @Lob
-    @Column(name = "PrivateKey", columnDefinition = "blob")
-    private byte[] privateKey;
 
     public Employee() {
     }
@@ -134,22 +125,6 @@ public class Employee implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-    
-    public byte[] getPublicKey() {
-        return publicKey;
-    }
-
-    public void setPublicKey(byte[] publicKey) {
-        this.publicKey = publicKey;
-    }
-
-    public byte[] getPrivateKey() {
-        return privateKey;
-    }
-
-    public void setPrivateKey(byte[] privateKey) {
-        this.privateKey = privateKey;
     }
     
     @Override

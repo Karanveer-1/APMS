@@ -40,11 +40,10 @@ CREATE TABLE Employee
     ApproEmpNo      INTEGER         NOT NULL,
     State           VARCHAR(30)     NOT NULL,
     Comment         VARCHAR(1000)   ,
-    PublicKey 	   	BLOB 		    NULL,
-    PrivateKey 	 	BLOB 		    NULL,
     PRIMARY KEY(EmpNo)
 );
 
+<<<<<<< HEAD
 INSERT INTO APMS.Employee VALUES ('1', 'Admin', 'Admin', 'admin', 'sha1:64000:18:N0Iez+Sidz0ul3va+Qz94inOsDZZsf8E:K2muqi03BKskKSFzVhYpwqLh', '4', '67', 'Left', 'Occaecati odit quia.', NULL, NULL);
 INSERT INTO APMS.Employee VALUES ('2', 'Amy', 'Hong', 'amy', 'sha1:64000:18:RGTXMi9UDbk4UBr+4Py1yjz7NITF8tqR:P3mGVCiKBFoZB3/oKVyJQ+0I', '1', '71', 'Active', 'Sint vel dolorem iste necessitatibus et alias quia voluptas.', NULL, NULL);
 INSERT INTO APMS.Employee VALUES ('3', 'Andy', 'Tang', 'andy', 'sha1:64000:18:pzaYQSaQXWFxRtgxPgTlA2f89Zq11ngF:qoYwJ1clkjm0E5qpemvRyrkh', '14', '31', 'Active', 'Nesciunt id fugiat aut aliquam maiores dolores consequuntur accusamus.', NULL, NULL);
@@ -60,6 +59,23 @@ INSERT INTO APMS.Employee VALUES ('12', 'Ryan', 'Liang', 'ryan', 'sha1:64000:18:
 INSERT INTO APMS.Employee VALUES ('13', 'Tommy', 'Yeh', 'tommy', 'sha1:64000:18:rn+JlfNIudfumliiBpwoyMpuGYZR/o61:PikclcAyFNt7cjgidwYmHmBd', '6', '84', 'Deleted', 'Neque dolores id magni nobis et sit debitis.', NULL, NULL);
 INSERT INTO APMS.Employee VALUES ('14', 'Test', 'Test', 'test', 'sha1:64000:18:Gva6Da/2KniKBQFetzoF/ApJppU18smV:DWMsNXsx4DtG0BJlLRDB7Ngf', '6', '60', 'Left', 'Nihil cumque dolorum doloribus adipisci.', NULL, NULL);
 INSERT INTO APMS.Employee VALUES ('15', 'Bruce', 'Link', 'bruce', 'sha1:64000:18:Vk1SQ24USA0J1vlnf9Ayb1O+SVRrImXE:hEZt0FSf1PvMq5GpdkK6HLky', '8', '10', 'Retired', 'Numquam doloribus harum.', NULL, NULL);
+=======
+INSERT INTO APMS.Employee VALUES ('1', 'Admin', 'Admin', 'admin', 'sha1:64000:18:N0Iez+Sidz0ul3va+Qz94inOsDZZsf8E:K2muqi03BKskKSFzVhYpwqLh', '4', '67', 'Left', 'Occaecati odit quia.');
+INSERT INTO APMS.Employee VALUES ('2', 'Amy', 'Hong', 'amy', 'sha1:64000:18:RGTXMi9UDbk4UBr+4Py1yjz7NITF8tqR:P3mGVCiKBFoZB3/oKVyJQ+0I', '1', '71', 'Active', 'Sint vel dolorem iste necessitatibus et alias quia voluptas.');
+INSERT INTO APMS.Employee VALUES ('3', 'Andy', 'Tang', 'andy', 'sha1:64000:18:pzaYQSaQXWFxRtgxPgTlA2f89Zq11ngF:qoYwJ1clkjm0E5qpemvRyrkh', '14', '31', 'Active', 'Nesciunt id fugiat aut aliquam maiores dolores consequuntur accusamus.');
+INSERT INTO APMS.Employee VALUES ('4', 'Aska', 'Fang', 'aska', 'sha1:64000:18:Kdf52cVlVCfnTthr1/+ZLFhoHLzdarpi:s6cPghO8LiPAH90qPhpp0SU7', '11', '40', 'Active', 'Omnis in ipsum id quas error.');
+INSERT INTO APMS.Employee VALUES ('5', 'Eva', 'Au', 'eva', 'sha1:64000:18:5NFKhO5HdEu3xfNmnc8IOvztcj3m/ALF:Et2SP6Wy8HIoUDIZIuNBztS2', '6', '47', 'Retired', 'Et sit quos et.');
+INSERT INTO APMS.Employee VALUES ('6', 'Greg', 'Mercer', 'greg', 'sha1:64000:18:rw1b/bF0ke3Br42BLIErOlAQj40XaEkd:eNjaQLp82C4br0w0h9XEyEDx', '25', '95', 'Active', 'Et omnis eos modi ut quia rerum aut facere.');
+INSERT INTO APMS.Employee VALUES ('7', 'Hank', 'Chang', 'hank', 'sha1:64000:18:0p9Ll2s4sFDPkRYd8jWikMYYKhiJqzPh:2MBr1VoQbV41007o20BvYD5l', '4', '81', 'Deleted', 'Molestias quis laborum alias aut necessitatibus non soluta sint.');
+INSERT INTO APMS.Employee VALUES ('8', 'Helen', 'Han', 'helen', 'sha1:64000:18:zLg6vAfZGt1oV9Hh/K/VskKG/W5YPGL9:OB+sufOeYvKW71OQua+2ZyC0', '17', '3', 'Left', 'Sunt quasi atque minus qui eum qui vero.');
+INSERT INTO APMS.Employee VALUES ('9', 'Karanveer', 'Khanna', 'karan', 'sha1:64000:18:dDr0eN1tjJmxu6i9HNR5qjfSmbiMGb19:BXPqMAyFJr8BBS4bPk+c3TSE', '17', '48', 'Left', 'Repudiandae libero quibusdam suscipit culpa alias commodi atque harum.');
+INSERT INTO APMS.Employee VALUES ('10', 'Mike', 'Hoang', 'mike', 'sha1:64000:18:isoZHrHsHNL7fK3E7EFWj0V+WmFLjOyp:Qlau9OZSnbiRyND9iPH5sapi', '10', '56', 'Left', 'Praesentium cumque pariatur impedit tempora optio aut quo ea id.');
+INSERT INTO APMS.Employee VALUES ('11', 'Nirajan', 'Manandhar', 'nirajan', 'sha1:64000:18:+XO6H1APKuKYrietN6YsM2weZkCsYmqV:uY7NMteEx3hyFsrTnPXhD42d', '24', '12', 'Active', 'Qui reiciendis qui.');
+INSERT INTO APMS.Employee VALUES ('12', 'Ryan', 'Liang', 'ryan', 'sha1:64000:18:XABnXYtLhiRlzuBIBmVcDCdwftZm3vJR:CUaIjka40w2/x/t4ZreN0cZW', '24', '5', 'Active', 'Omnis voluptas ut doloribus nesciunt id numquam qui architecto.');
+INSERT INTO APMS.Employee VALUES ('13', 'Tommy', 'Yeh', 'tommy', 'sha1:64000:18:rn+JlfNIudfumliiBpwoyMpuGYZR/o61:PikclcAyFNt7cjgidwYmHmBd', '6', '84', 'Deleted', 'Neque dolores id magni nobis et sit debitis.');
+INSERT INTO APMS.Employee VALUES ('14', 'Test', 'Test', 'test', 'sha1:64000:18:Gva6Da/2KniKBQFetzoF/ApJppU18smV:DWMsNXsx4DtG0BJlLRDB7Ngf', '6', '60', 'Left', 'Nihil cumque dolorum doloribus adipisci.');
+INSERT INTO APMS.Employee VALUES ('15', 'Bruce', 'Link', 'bruce', 'sha1:64000:18:Vk1SQ24USA0J1vlnf9Ayb1O+SVRrImXE:hEZt0FSf1PvMq5GpdkK6HLky', '8', '10', 'Retired', 'Numquam doloribus harum.');
+>>>>>>> parent of 6b2e2b4... Merge pull request #52 from Karanveer-1/Karan_Dev
 
 
 
@@ -233,7 +249,7 @@ CREATE TABLE Role
 CREATE TABLE Signature(
 	EmpNo          INTEGER         NOT NULL,
     StartDate      DATE            NOT NULL,
-	Signature 	   TINYBLOB 	   NOT NULL, 
-	PublicKey 	   BLOB 		   NOT NULL,
+	signature 	   TINYBLOB 	   NOT NULL, 
+	publicKey 	   BLOB 		   NOT NULL,
 	PRIMARY KEY(EmpNo, StartDate)
 );

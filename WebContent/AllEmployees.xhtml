@@ -35,6 +35,10 @@
                <p:column headerText="Comment">
                    <h:outputText value="#{employee.comment}" />
                </p:column>
+               <p:column headerText="Delete">
+                   <p:commandButton value="Delete" update="employeeTable"
+                       action="#{employeesController.deletePermanentEmployee(employee)}" />
+               </p:column>
            </p:dataTable>
                 
         </ui:define>
