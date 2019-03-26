@@ -16,44 +16,45 @@
 		<ui:define name="headerTitle">
 			<h:outputText value="Timesheets" class="navbar-brand" />
 		</ui:define>
-
+		<ui:define name="navBar"><ui:include src="/sections/tsDashboardNavigationBar.xhtml" /></ui:define>
 		<ui:define name="content">
 
 			<h:form id="formMain">
-				<p:commandButton id="addButton" value="Add Timesheet"
-					onclick="PF('addTimesheetDialog').show();" />
-
+				<p:commandButton id="addButton" value="+Add TimeSheet" style="background:transparent; color: #88AA00; border-color:#88AA00;" onclick="PF('addTimesheetDialog').show();" />
+								
 				<p:dataTable id="viewTable"
-					value="#{timesheetController.timesheets}" var="timesheet">
-					<p:column headerText="Date">
+					value="#{timesheetController.timesheets}" var="timesheet"
+					style="width:100%;" scrollable="true"
+					 paginatorPosition="bottom"  >
+					<p:column headerText="Date" style="width:100px;">
 						<h:outputText value="#{timesheet.timesheetPk.startDate}">
 							<f:convertDateTime pattern="MMM. dd, yyyy" />
 						</h:outputText>
 					</p:column>
-					<p:column headerText="State">
+					<p:column headerText="State" style="width:100px;">
 						<h:outputText value="#{timesheet.state}" />
 					</p:column>
-					<p:column headerText="Signature">
+					<p:column headerText="Signature" style="width:100px;">
 						<h:outputText value="#{timesheet.signature}" />
 					</p:column>
-					<p:column headerText="Approved Emp No">
+					<p:column headerText="Approved Emp No" style="width:100px;">
 						<h:outputText value="#{timesheet.approvedEmpNo}" />
 					</p:column>
-					<p:column headerText="Comment">
+					<p:column headerText="Comment" style="width:100px;">
 						<h:outputText value="#{timesheet.comment}" />
 					</p:column>
-					<p:column headerText="Edit">
+					<p:column headerText="Edit" style="width:100px;">
 						<p:commandButton value="Edit"
 							action="#{timesheetController.editTimesheet(timesheet)}"
 							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"/>
 					</p:column>
-					<p:column headerText="Delete">
+					<p:column headerText="Delete" style="width:100px;">
 						<p:commandButton value="Delete"
 							action="#{timesheetController.deleteTimesheet(timesheet)}"
 							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
 							update=":formMain" />
 					</p:column>
-					<p:column headerText="Submit / Cancel">
+					<p:column headerText="Submit / Cancel" style="width:100px;">
 						<p:commandButton value="Submit"
 							action="#{timesheetController.submitTimesheet(timesheet)}"
 							rendered="#{timesheetController.canSubmitTimesheet(timesheet)}"
@@ -64,6 +65,7 @@
 							update=":formMain" />
 					</p:column>
 				</p:dataTable>
+				
 			</h:form>
 
 			<p:dialog id="addDialog" header="Select Date" modal="true"
