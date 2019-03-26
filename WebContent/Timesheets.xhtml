@@ -18,13 +18,16 @@
 		</ui:define>
 		<ui:define name="navBar"><ui:include src="/sections/tsDashboardNavigationBar.xhtml" /></ui:define>
 		<ui:define name="content">
+			 <p:panel id="basic" 
+           			header="Timesheet" footer="This table shows all timesheets" 
+           			style="margin-left:50px; margin-right:50px;">
 
 			<h:form id="formMain">
 				<p:commandButton id="addButton" value="+Add TimeSheet" style="background:transparent; color: #88AA00; border-color:#88AA00;" onclick="PF('addTimesheetDialog').show();" />
 								
 				<p:dataTable id="viewTable"
 					value="#{timesheetController.timesheets}" var="timesheet"
-					style="width:100%;" scrollable="true"
+					style="margin-left:8px; text-align:center; margin-top:30px; margin-bottom:50px"
 					 paginatorPosition="bottom"  >
 					<p:column headerText="Date" style="width:100px;">
 						<h:outputText value="#{timesheet.timesheetPk.startDate}">
@@ -66,8 +69,9 @@
 					</p:column>
 				</p:dataTable>
 				
+				
 			</h:form>
-
+			</p:panel>
 			<p:dialog id="addDialog" header="Select Date" modal="true"
 				widgetVar="addTimesheetDialog" resizable="false" draggable="false">
 				<h:form id="formAddDialog">
