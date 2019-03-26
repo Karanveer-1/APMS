@@ -18,7 +18,9 @@
 		</ui:define>
 
 		<ui:define name="content">
-
+			<f:event listener="#{timesheetController.init}"
+				type="preRenderView" />
+				
 			<h:form id="formMain">
 				<p:commandButton id="addButton" value="Add Timesheet"
 					onclick="PF('addTimesheetDialog').show();" />
@@ -45,7 +47,7 @@
 					<p:column headerText="Edit">
 						<p:commandButton value="Edit"
 							action="#{timesheetController.editTimesheet(timesheet)}"
-							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"/>
+							disabled="#{!timesheetController.canEditTimesheet(timesheet)}" />
 					</p:column>
 					<p:column headerText="Delete">
 						<p:commandButton value="Delete"
