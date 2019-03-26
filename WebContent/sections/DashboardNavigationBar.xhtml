@@ -15,39 +15,39 @@
 				</div>
 				<ul class="nav">
 					<li class="active">
-						<h:commandLink action="Dashboard.xhtml?faces-redirect=true">
+						<h:commandLink id="nav-dashboard" action="Dashboard.xhtml?faces-redirect=true">
 							<i class="ti-panel"></i>
 							Dashboard
 						</h:commandLink>	
 					</li>
 					<li>
-						<h:commandLink action="Employees.xhtml?faces-redirect=true">
+						<h:commandLink id="nav-employee" action="Employees.xhtml?faces-redirect=true">
 							<i class="ti-user"></i>
 							Employee
 						</h:commandLink>				
 					</li>
 					<li>
-						<h:commandLink action="UserProfile.xhtml?faces-redirect=true">
+						<h:commandLink id="nav-my-profile" action="UserProfile.xhtml?faces-redirect=true">
 							<i class="ti-user"></i>
 							My Profile
 						</h:commandLink>				
 					</li>
 					
 					<li>
-						<h:commandLink action="Projects.xhtml?faces-redirect=true">
+						<h:commandLink id="nav-projects" action="Projects.xhtml?faces-redirect=true">
 							<i class="ti-view-list-alt"></i>
 							Projects
 						</h:commandLink>				
 					</li>
 					
 					<li>
-						<h:commandLink action="WorkPackage.xhtml?faces-redirect=true">
+						<h:commandLink id="nav-work-packages" action="WorkPackage.xhtml?faces-redirect=true">
 							<i class="ti-package"></i>
 							Work Packages
 						</h:commandLink>				
 					</li>
 					<li>
-						<h:commandLink action="Timesheets.xhtml?faces-redirect=true">
+						<h:commandLink id="nav-timesheets" action="Timesheets.xhtml?faces-redirect=true">
 							<i class="ti-alarm-clock"></i>
 							Timesheets
 						</h:commandLink>				
@@ -59,13 +59,13 @@
                         </h:commandLink>                
                     </li>   					
 					<li>
-						<h:commandLink action="PLevels.xhtml?faces-redirect=true">
+						<h:commandLink id="nav-p-levels" action="PLevels.xhtml?faces-redirect=true">
 							<i class="ti-alarm-clock"></i>
 							PLevels
 						</h:commandLink>				
 					</li>
 					<li>
-						<h:commandLink action="#{loginController.logout()}">
+						<h:commandLink id="nav-logout" action="#{loginController.logout()}">
 							<i class="ti-angle-left"></i>
 							Log Out
 						</h:commandLink>
