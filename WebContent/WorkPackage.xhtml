@@ -17,6 +17,8 @@
 		<ui:define name="headerTitle">
 			<h:outputText value="Work Packages" class="navbar-brand" />
 		</ui:define>
+		<ui:define name="navBar"><ui:include src="/sections/wpDashboard.xhtml" /></ui:define>
+
 		<ui:define name="content">
 			<h:form id="form">
 				<p:treeTable value="#{wpController.root}" var="wp" id="wp" style="table-layout:fixed;">

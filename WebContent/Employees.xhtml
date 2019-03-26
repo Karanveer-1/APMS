@@ -26,9 +26,6 @@
             
             <img src="resources/images/ActiveEmployee.png" style="max-width:20%; height: 100%; width: 100%; object-fit: contain"></img>
             
-            
-            
-                
                 <p:dataTable id="employeeTable" scrollable="true" scrollHeight="3%"
                     value="#{employeesController.employees}" var="employee" style="display:block; margin-top: 20px; margin-left:30px;">
                     <p:column headerText="Employee No">
@@ -64,13 +61,12 @@
                            <h:graphicImage value="resources/images/error.png" style="max-width:40%; max-height:40%"/>	
                         </p:commandLink>
                     </p:column>
-                    
                 </p:dataTable>
+                
                 <p:commandLink onclick="PF('addEmployeeDialog').show();"
                 	style="float: right; margin-top: 15px; margin-bottom:30px">
-                    <h:graphicImage value="resources/images/plus.png" style="max-width:20%; max-height:30%; float: right;"/>               	
+                    <h:graphicImage value="resources/images/plus.png" style="max-width:15%; max-height:30%; float: right;"/>               	
                 </p:commandLink>
-                
                 <p:growl id="invalidEmployeeGrowl" sticky="false" />
 				
                 

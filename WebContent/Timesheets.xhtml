@@ -16,17 +16,15 @@
 		<ui:define name="headerTitle">
 			<h:outputText value="Timesheets" class="navbar-brand" />
 		</ui:define>
+		<ui:define name="navBar"><ui:include src="/sections/DashboardNavigationBar.xhtml" /></ui:define>
 		<ui:define name="content">
-			 <p:panel id="basic" 
-           			header="Timesheet" footer="This table shows all timesheets" 
-           			style="margin-left:50px; margin-right:50px;">
 
 			<h:form id="formMain">
 				<p:commandButton id="addButton" value="+Add TimeSheet" style="background:transparent; color: #88AA00; border-color:#88AA00;" onclick="PF('addTimesheetDialog').show();" />
 								
 				<p:dataTable id="viewTable"
 					value="#{timesheetController.timesheets}" var="timesheet"
-					style="margin-left:8px; text-align:center; margin-top:30px; margin-bottom:50px"
+					style="width:100%;" scrollable="true"
 					 paginatorPosition="bottom"  >
 					<p:column headerText="Date" style="width:100px;">
 						<h:outputText value="#{timesheet.timesheetPk.startDate}">
@@ -46,37 +44,30 @@
 						<h:outputText value="#{timesheet.comment}" />
 					</p:column>
 					<p:column headerText="Edit" style="width:100px;">
-						<p:commandLink action="#{timesheetController.editTimesheet(timesheet)}">
-							<h:graphicImage value="resources/images/edit.png" style="max-width:40%; max-height:40%"/>						
-						</p:commandLink>
+						<p:commandButton value="Edit"
+							action="#{timesheetController.editTimesheet(timesheet)}"
+							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"/>
 					</p:column>
 					<p:column headerText="Delete" style="width:100px;">
-						<p:commandLink
-							action="#{timesheetController.deleteTimesheet(timesheet)}"							
-							update=":formMain">
-							  <h:graphicImage value="resources/images/delete.png" style="max-width:40%; max-height:40%"/>	
-						</p:commandLink>
+						<p:commandButton value="Delete"
+							action="#{timesheetController.deleteTimesheet(timesheet)}"
+							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
+							update=":formMain" />
 					</p:column>
 					<p:column headerText="Submit / Cancel" style="width:100px;">
-						<p:commandLink
+						<p:commandButton value="Submit"
 							action="#{timesheetController.submitTimesheet(timesheet)}"
 							rendered="#{timesheetController.canSubmitTimesheet(timesheet)}"
-							update=":formMain">
-						  	<h:graphicImage value="resources/images/submit.png" style="max-width:40%; max-height:40%"/>	
-						</p:commandLink>
-							
-						<p:commandLink
+							update=":formMain" />
+						<p:commandButton value="Cancel"
 							action="#{timesheetController.cancelSubmitTimesheet(timesheet)}"
 							rendered="#{timesheetController.canCancelSubmitTimesheet(timesheet)}"
-							update=":formMain">
-						  	<h:graphicImage value="resources/images/error.png" style="max-width:40%; max-height:40%"/>								
-						</p:commandLink>
+							update=":formMain" />
 					</p:column>
 				</p:dataTable>
 				
-				
 			</h:form>
-			</p:panel>
+
 			<p:dialog id="addDialog" header="Select Date" modal="true"
 				widgetVar="addTimesheetDialog" resizable="false" draggable="false">
 				<h:form id="formAddDialog">
