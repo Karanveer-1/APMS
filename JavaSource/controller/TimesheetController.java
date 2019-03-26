@@ -45,7 +45,7 @@ public class TimesheetController implements Serializable {
         currentEmployee = getLoggedInEmployee();
         timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
     }
-
+    
     public String addTimesheet(Date date) {
         date = date == null ? DateUtils.today() : date;
         TimesheetPK pk = new TimesheetPK(currentEmployee.getEmpNumber(),
