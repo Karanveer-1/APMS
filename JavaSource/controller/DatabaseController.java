@@ -110,8 +110,9 @@ public class DatabaseController implements Serializable {
         List<Timesheet> result = new ArrayList<Timesheet>();
         for (Timesheet timesheet : timesheets) {
             Employee e = getEmployeeById(timesheet.getTimesheetPk().getEmpNo());
-            
-//            System.out.println("timesheet:" + e.getApproEmpNo() + ", approver: " + empNo);
+
+            // System.out.println("timesheet:" + e.getApproEmpNo() + ",
+            // approver: " + empNo);
 
             if (e.getApproEmpNo() == empNo && timesheet.getState()
                     .equalsIgnoreCase(TimesheetState.SUBMTTED)) {
@@ -220,6 +221,14 @@ public class DatabaseController implements Serializable {
 
     }
 
+    public List<Integer> getAllProjectNo() {
+        List<Integer> ids = manager
+                .createQuery("SELECT p.proNo from Project p", Integer.class)
+                .getResultList();
+
+        return ids;
+    }
+
     /**
      * GET
      * 
@@ -311,6 +320,18 @@ public class DatabaseController implements Serializable {
         return this.manager
                 .createQuery("SELECT wp from WorkPackage wp", WorkPackage.class)
                 .getResultList();
+    }
+
+    public List<String> getWpIdByProjectNo(int proNo) {
+        List<WorkPackage> wps = getAllWp();
+        List<String> ids = new ArrayList<String>();
+        
+        for (WorkPackage wp : wps) {
+            if (wp.getProNo() == proNo) {
+                ids.add(wp.getWpid());
+            }
+        }
+        return ids;
     }
 
     public List<WorkPackage> getLowerWP(String wpid) {
