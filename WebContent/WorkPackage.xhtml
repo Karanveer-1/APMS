@@ -7,6 +7,7 @@
 
 <h:head>
 	<title>IGNORED!</title>
+
 </h:head>
 
 <h:body>
@@ -16,37 +17,38 @@
 		<ui:define name="headerTitle">
 			<h:outputText value="Work Packages" class="navbar-brand" />
 		</ui:define>
+		<ui:define name="navBar"><ui:include src="/sections/wpDashboard.xhtml" /></ui:define>
 
 		<ui:define name="content">
 			<h:form id="form">
-				<p:treeTable value="#{wpController.root}" var="wp" id="wp">
+				<p:treeTable value="#{wpController.root}" var="wp" id="wp" style="table-layout:fixed;">
 
-					<p:column headerText="ID">
+					<p:column headerText="ID" style="width:150px;">
 						<h:outputText value="#{wp.wpid}" />
 					</p:column>
 
-					<p:column headerText="Project Number">
+					<p:column headerText="Project Number" style="width:128px; text-align:center;">
 						<h:outputText value="#{wp.proNo}" />
 					</p:column>
 
-					<p:column headerText="Title">
+					<p:column headerText="Title" style="width:100px;">
 						<h:outputText value="#{wp.title}" />
 					</p:column>
 
-					<p:column headerText="Description">
+					<p:column headerText="Description" style="width:150px;">
 						<h:outputText value="#{wp.description}" />
 					</p:column>
-					<p:column headerText="Budget">
+					<p:column headerText="Budget" style="width:100px; text-align:center">
 						<h:outputText value="#{wp.budget}" />
 					</p:column>
 
-					<p:column headerText="State">
+					<p:column headerText="State" style="width:100px; text-align:center">
 						<h:outputText value="#{wp.state}" />
 					</p:column>
-					<p:column headerText="Comment">
+					<p:column headerText="Comment" style="width:200px;">
 						<h:outputText value="#{wp.comment}" />
 					</p:column>
-						<p:column style="text-align:center">
+						<p:column style="text-align:center; width:100px;">
 						<p:commandButton value="Delete" update="wp"  
 							action="#{wpController.deleteWp(wp)}" />
 

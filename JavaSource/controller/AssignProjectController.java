@@ -50,7 +50,7 @@ public class AssignProjectController implements Serializable {
     public List<Employee> getSupervisorEmployee() {
         List<Employee> supervisorEmployees = assign.getEmployeesAssignedToSupervisor();
         List<Employee> alreadyAssigned = getAssignedEmployee();
-        List<Employee> temp = new ArrayList<>(); 
+        List<Employee> temp = new ArrayList<Employee>(); 
         
         for(Employee e : supervisorEmployees) {
             if(!alreadyAssigned.contains(e) && e.getEmpNumber() != project.getProMgrEmpNo()) {

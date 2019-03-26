@@ -243,7 +243,7 @@ public class DatabaseController implements Serializable {
         query.setParameter("projectId", projectId);
         List<ProEmp> data = query.getResultList();
         
-        List<Employee> empList = new ArrayList<>();
+        List<Employee> empList = new ArrayList<Employee>();
         for (ProEmp e : data) {
             empList.add(getEmployeeById(e.getProEmp().getEmpNo()));
         }
