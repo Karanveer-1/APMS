@@ -1,10 +1,12 @@
 package controller;
 
 import java.io.Serializable;
-import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.SecureRandom;
 import java.security.Signature;
-import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -203,29 +205,33 @@ public class TimesheetController implements Serializable {
 
     
     public void submitTimesheet(Timesheet t) {
-        byte[] privateKey = currentEmployee.getPrivateKey();
-        byte[] publicKey = currentEmployee.getPublicKey();
-        
         try {
-            PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(privateKey);
-            KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");
-            PrivateKey privKey = keyFactory.generatePrivate(privKeySpec);
+            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+            keyGen.initialize(1024, random);
+            
+            KeyPair pair = keyGen.generateKeyPair();
+            PrivateKey priv = pair.getPrivate();
+            PublicKey pub = pair.getPublic();
             
             Signature dsa = Signature.getInstance("SHA1withDSA", "SUN");
-            dsa.initSign(privKey);
+            dsa.initSign(priv);
             
             String data = t.toString();
+            System.out.println("Signing: " + data);
+
             byte[] dataBytes = data.getBytes();
             
             dsa.update(dataBytes);
-            
             byte[] signature = dsa.sign();
+            byte[] publicKey = pub.getEncoded();
+            
             model.Signature sig = new model.Signature(signature, publicKey);
             sig.setTimesheetPk(t.getTimesheetPk());
-            
             database.addSignature(sig);
-        } catch (Exception e1) {
-            System.out.println("Submit timesheet:" + e1.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         
         t.setState(TimesheetState.SUBMTTED);
@@ -233,6 +239,10 @@ public class TimesheetController implements Serializable {
     }
     
     public void cancelSubmitTimesheet(Timesheet t) {
+        model.Signature sig = database.findSignature(t.getTimesheetPk());
+        if (sig != null) {
+            database.removeSignature(sig);
+        }
         t.setState(TimesheetState.DRAFT);
         database.updateTimesheet(t);
     }

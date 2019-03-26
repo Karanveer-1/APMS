@@ -133,11 +133,13 @@
 						<p:rowEditor />
 
 					</p:column>
-					<p:column style="text-align:center;width:100px">
-						<p:commandButton value="View"
-							action="#{projectController.viewProject(project)}" />
+
+					<p:column style="text-align:center">
+						<p:commandButton value="Assign" action="#{assignProject.addEmployees(project)}" />
 					</p:column>
-					<p:column style="text-align:center;width:100px">
+					
+					<p:column style="text-align:center">
+
 						<p:commandButton value="Delete" update="project"
 							action="#{projectController.deleteProject(project)}" />
 

@@ -53,7 +53,7 @@ public class ViewProjectController implements Serializable {
 		project = database.findByProjectNo(100);
 		wpList = database.getAllWp();
 
-		proAssi = this.database.getEmployeeByProAssi(100);
+//		proAssi = this.database.getEmployeeByProAssi(100);
 		System.out.println(proAssi.get(0).getEmpNumber());
 
 	}
