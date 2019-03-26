@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -12,10 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -40,11 +38,10 @@ public class TimesheetController implements Serializable {
     private List<TimesheetRow> editTimesheetRows;
 
     private Employee currentEmployee;
+    
+    private List<Integer> projectNumbers;
+    private List<String> wpids;
 
-    /*
-     * PostConstruct cannot happen if phase listener is overwritten by another
-     * event!
-     */
     public void init() {
         try {
             currentEmployee = getLoggedInEmployee();
@@ -67,6 +64,9 @@ public class TimesheetController implements Serializable {
         editTimesheet = new Timesheet(pk, null, null, TimesheetState.DRAFT,
                 null);
         editTimesheetRows = new ArrayList<TimesheetRow>();
+        
+        projectNumbers = database.getAllProjectNo();
+//        wpids = database.getWpIdByProjectNo(projectNumbers.get(0));
 
         return "EditTimesheet.xhtml?faces-redirect=true";
     }
@@ -76,8 +76,18 @@ public class TimesheetController implements Serializable {
         editTimesheetRows = database.getTimesheetRows(
                 t.getTimesheetPk().getEmpNo(),
                 t.getTimesheetPk().getStartDate());
-
+        
+        projectNumbers = database.getAllProjectNo();
+    
         return "EditTimesheet.xhtml?faces-redirect=true";
+    }
+    
+    public List<String> getRelaventWpIds(TimesheetRow row) {
+        if (row.getTimesheetRowPk().getProNo() == null) {
+            return new ArrayList<String>();
+        }
+        
+        return database.getWpIdByProjectNo(row.getTimesheetRowPk().getProNo());
     }
 
     public String saveTimesheet() {
@@ -124,6 +134,7 @@ public class TimesheetController implements Serializable {
 
         row.setTimesheetRowPk(pk);
         row.setState(TimesheetRowState.DRAFT);
+        row.getTimesheetRowPk().setProNo(database.getAllProjectNo().get(0));
 
         editTimesheetRows.add(row);
     }
@@ -217,6 +228,14 @@ public class TimesheetController implements Serializable {
 
     public void setEditTimesheetRows(List<TimesheetRow> editTimesheetRows) {
         this.editTimesheetRows = editTimesheetRows;
+    }
+    
+    public List<Integer> getProjectNumbers() {
+        return projectNumbers;
+    }
+
+    public void setProjectNumbers(List<Integer> projectNumbers) {
+        this.projectNumbers = projectNumbers;
     }
 
     public void submitTimesheet(Timesheet t) {
