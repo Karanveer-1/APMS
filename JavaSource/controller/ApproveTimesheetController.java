@@ -47,7 +47,6 @@ public class ApproveTimesheetController implements Serializable {
     public String viewTimesheet(Timesheet t) {
         viewTimesheetRows = database.getTimesheetRows(t.getTimesheetPk().getEmpNo(),
                 t.getTimesheetPk().getStartDate());
-        System.out.println(viewTimesheetRows.size());
         
         return "ApproveTimesheetView.xhtml?faces-redirect=true";
     }
