@@ -109,7 +109,11 @@ public class DatabaseController implements Serializable {
 
         List<Timesheet> result = new ArrayList<Timesheet>();
         for (Timesheet timesheet : timesheets) {
-            if (/* timesheet.getApprovedEmpNo() == empNo */ timesheet.getState()
+            Employee e = getEmployeeById(timesheet.getTimesheetPk().getEmpNo());
+            
+//            System.out.println("timesheet:" + e.getApproEmpNo() + ", approver: " + empNo);
+
+            if (e.getApproEmpNo() == empNo && timesheet.getState()
                     .equalsIgnoreCase(TimesheetState.SUBMTTED)) {
                 result.add(timesheet);
             }
@@ -144,7 +148,7 @@ public class DatabaseController implements Serializable {
         if (manager.contains(t)) {
             removeTimesheet(t);
         }
-        
+
         manager.merge(t);
     }
 
@@ -396,11 +400,11 @@ public class DatabaseController implements Serializable {
     public Signature findSignature(TimesheetPK tpk) {
         return manager.find(Signature.class, tpk);
     }
-    
+
     public void removeSignature(Signature sig) {
         manager.remove(manager.contains(sig) ? sig : manager.merge(sig));
     }
-    
+
     public void addSignature(final Signature newSignature) {
         manager.persist(newSignature);
     }
