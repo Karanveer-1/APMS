@@ -109,8 +109,9 @@ CREATE TABLE ProAssi
     PRIMARY KEY(ProNo, ProAssiEmpNo)
 );
 
--- Load data into table ProAssi
 
+-- Load data into table ProAssi
+INSERT INTO APMS.ProAssi VALUES('100', '2');
 
 
 

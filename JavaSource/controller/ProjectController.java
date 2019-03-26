@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -49,25 +50,43 @@ public class ProjectController implements Serializable {
 
 	@PostConstruct
 	public void init() {
+
 		projects = database.getAllProjects();
 		addProject = new Project();
 		employeeList = database.getActiveEmployees();
 		editProject = new Project();
 		currentEmployee = getLoggedInEmployee();
+//		projects = 	database.getProjectsBySupervisor(currentEmployee.getEmpNumber());
+
 	}
 
-//	public List<Employee> getAssignedEmployeeList(){
-//		private List<Employee> el;
-//		for(Employee e: database.getActiveEmployees()) {
-//			if(e.get)
-//		}
-//	}
+	/**
+	 * Returns of list of employee that is supervised under current user
+	 * 
+	 * @return
+	 */
+	public List<Employee> getAssignedEmployeeList() {
+		List<Employee> el = new ArrayList<Employee>();
+		for (Employee e : database.getActiveEmployees()) {
+			if (e.getSuperEmpNo() == currentEmployee.getEmpNumber()) {
+				el.add(e);
+			}
+		}
+		return el;
+	}
 
+	/**
+	 * Get All the Current projects
+	 * 
+	 * @return
+	 */
 	public List<Project> getProjects() {
+
 		return projects;
 	}
 
 	public void setProjects(List<Project> projects) {
+
 		this.projects = projects;
 	}
 
@@ -106,9 +125,7 @@ public class ProjectController implements Serializable {
 	public void onRowEdit(RowEditEvent event) {
 		editProject = (Project) event.getObject();
 		boolean updateSuccess = this.database.updateProject(editProject);
-
 		if (updateSuccess) {
-
 			FacesMessage msg = new FacesMessage("Project #" + editProject.getProNo() + " Edited");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} else {
@@ -126,8 +143,6 @@ public class ProjectController implements Serializable {
 	public void deleteProject(Project project) throws IOException {
 		this.database.deleteProjectByProNo(project.getProNo());
 		projects = this.database.getAllProjects();
-//		FacesContext.getCurrentInstance().getExternalContext().redirect("Projects.xhtml");
-
 	}
 
 	private static Employee getLoggedInEmployee() {
@@ -139,8 +154,9 @@ public class ProjectController implements Serializable {
 		return currentEmployee;
 	}
 
-	public void viewProject(Project project) {
-		
+	public String viewProject(Project project) {
+		return "/ViewProject.xhtml?proNo=" + project.getProNo() + "&faces-redirect=true";
+
 	}
 
 }
