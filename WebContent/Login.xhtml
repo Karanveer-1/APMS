@@ -2,21 +2,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
-
-	<ui:composition template="/templates/MasterLayout.xhtml">
-		<ui:define name="windowTitle">
-			<h:outputText value="Login" />
-		</ui:define>
-		
-		<ui:define name="content">
-			<h:form>
-				<h:outputLabel id="usernameLabel" value="Username: " for="usernameInput"/>
-				<h:inputText id="usernameInput" value="#{credential.userName}" />
-				<h:outputLabel id="passwordLabel" value="Password: " for="passwordInput"/>
-				<h:inputText id="passwordInput" value="#{credential.password}" />
-				<h:commandButton value="Login" action="#{loginController.login}" />
-			</h:form>
-		</ui:define>
-	</ui:composition>
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+      
+    <h:head>
+    	<title>Login</title>
+	    <!-- Bootstrap core CSS-->
+	    <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+	    <!-- Custom fonts for this template-->
+	    <link href="resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+	    <!-- Custom styles for this template-->
+	    <link href="resources/css/sb-admin.css" rel="stylesheet"/>
+    </h:head>
+	
+	<h:body>
+		<div class="container">
+      		<div class="card card-login mx-auto mt-5  border-info">
+            	<div class="card-header">Employee Login</div>
+            	<div class="card-body">
+                	<h:form id="loginGrid">
+                		<p:outputLabel id="usernameLabel" value="Username" for="usernameInput"/>
+                       	<p:inputText class="form-control" id="usernameInput" value="#{credential.userName}" required="true"/>
+                       	<p:outputLabel id="passwordLabel" value="Password" for="passwordInput"/>
+                       	<p:password class="form-control" id="passwordInput" value="#{credential.password}" required="true"/>
+                       	<p:spacer height="10" />
+                    	<p:commandButton class="btn btn-primary btn-block" value="Login" action="#{loginController.login}"/>
+                    	<p:messages id="messages" showSummary="false" showDetail="true" closable="true"/>
+                    	<p:autoUpdate/>
+                	</h:form>
+            	</div>
+        	</div>
+    	</div>
+	</h:body>
 </html>

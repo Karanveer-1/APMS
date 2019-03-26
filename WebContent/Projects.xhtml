@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>IGNORED!</title>
+</h:head>
+
+<h:body>
+	<ui:composition template="/templates/MasterLayout.xhtml">
+
+		<ui:define name="windowTitle">Projects</ui:define>
+		<ui:define name="headerTitle">
+			<h:outputText value="Projects" class="navbar-brand" />
+		</ui:define>
+
+		<ui:define name="content">
+
+			<h:form id="form">
+				<p:growl id="msgs" showDetail="true" />
+
+
+				<p:commandButton value="Add new row"
+					styleClass="ui-priority-primary" process="@this"
+					action="#{projectController.addProject()}"
+					oncomplete="PF('project').addRow();" />
+
+
+				<p:dataTable id="project" var="project" widgetVar="project"
+					value="#{projectController.projects}" editable="true"
+					style="margin-bottom:20px">
+					<f:facet name="header">
+           Projects
+        </f:facet>
+
+					<p:ajax event="rowEdit" listener="#{projectController.onRowEdit}"
+						update=":form:msgs" />
+					<p:ajax event="rowEditCancel"
+						listener="#{projectController.onRowCancel}" update=":form:msgs" />
+
+					<p:column headerText="Project Number">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{project.proNo}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="modelInput" value="#{project.proNo}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Project Project">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{project.proName}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{project.proName}" style="width:100%"
+									label="Project Project" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Project Manager">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{project.proMgrEmpNo}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:selectOneMenu value="#{project.proMgrEmpNo}"
+									style="width:100%; color:black">
+									<f:selectItems value="#{projectController.employeeList}"
+										var="emp" itemLabel="#{emp.userName}"
+										itemValue="#{emp.empNumber}" style="color:black" />
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Description">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{project.proDesc}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{project.proDesc}" style="width:100%"
+									label="Description" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Budget">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{project.budget}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{project.budget}" style="width:100%"
+									label="Budget" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="State">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{project.state}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{project.state}" style="width:100%"
+									label="State" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="Comment">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{project.comment}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{project.comment}" style="width:100%"
+									label="Comment" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column style="width:32px">
+						<p:rowEditor />
+
+					</p:column>
+					<p:column style="text-align:center">
+						<p:commandButton value="Assign" action="#{assignProject.addEmployees(project)}" />
+					</p:column>
+					
+					<p:column style="text-align:center">
+						<p:commandButton value="Delete" update="project"
+							action="#{projectController.deleteProject(project)}" />
+
+					</p:column>
+				</p:dataTable>
+
+
+
+			</h:form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

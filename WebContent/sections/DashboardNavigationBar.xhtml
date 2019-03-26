@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+	<!-- Nav BAR -->
+	<ui:composition>
+		<h:form>
+		<div class="sidebar" data-background-color="black" data-active-color="danger">
+			<div class="sidebar-wrapper">
+				<div class="logo">
+					<span class="simple-text" style="margin-top: 30px">
+						APMS
+					</span>
+				</div>
+				<ul class="nav">
+					<li class="active">
+						<h:commandLink action="Dashboard.xhtml?faces-redirect=true">
+							<i class="ti-panel"></i>
+							Dashboard
+						</h:commandLink>	
+					</li>
+					<li>
+						<h:commandLink action="Employees.xhtml?faces-redirect=true">
+							<i class="ti-user"></i>
+							Employee
+						</h:commandLink>				
+					</li>
+					<li>
+						<h:commandLink action="UserProfile.xhtml?faces-redirect=true">
+							<i class="ti-user"></i>
+							My Profile
+						</h:commandLink>				
+					</li>
+					
+					<li>
+						<h:commandLink action="Projects.xhtml?faces-redirect=true">
+							<i class="ti-view-list-alt"></i>
+							Projects
+						</h:commandLink>				
+					</li>
+					
+					<li>
+						<h:commandLink action="WorkPackage.xhtml?faces-redirect=true">
+							<i class="ti-package"></i>
+							Work Packages
+						</h:commandLink>				
+					</li>
+					<li>
+						<h:commandLink action="Timesheets.xhtml?faces-redirect=true">
+							<i class="ti-alarm-clock"></i>
+							Timesheets
+						</h:commandLink>				
+					</li>					
+					<li>
+						<h:commandLink action="PLevels.xhtml?faces-redirect=true">
+							<i class="ti-alarm-clock"></i>
+							PLevels
+						</h:commandLink>				
+					</li>
+					<li>
+						<h:commandLink action="#{loginController.logout()}">
+							<i class="ti-angle-left"></i>
+							Log Out
+						</h:commandLink>
+					</li>
+				</ul>
+			</div>
+		</div>
+		</h:form>
+	</ui:composition>
+	<!-- END OF SIDE NAVIGATION BAR -->
+
+</html>

@@ -3,8 +3,18 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
-
+      
+	<!-- This panel is where the information for each page will be displayed -->
 	<ui:composition>
-		<h:outputText value="This is header" />
+		<div class="main-panel">
+			<div class="navbar navbar-default">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<ui:insert name="headerTitle" class="navbar-brand"/>
+					</div>
+				</div>
+			</div>
+		</div>
 	</ui:composition>
+	<!-- This is the end. -->
 </html>
