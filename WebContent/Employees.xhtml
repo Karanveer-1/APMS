@@ -22,7 +22,7 @@
            			header="List of Currently Active Employees" footer="This table includes present employees" 
            			style="margin-left:50px; margin-right:50px; text-align:center">
         
-            <h:form id="formMain">
+            <h:form id="formMain" style="margin-top:20px">
             
             <img src="resources/images/ActiveEmployee.png" style="max-width:20%; height: 100%; width: 100%; object-fit: contain"></img>
             
@@ -53,17 +53,23 @@
                         <h:outputText value="#{employee.comment}" />
                     </p:column>
                     <p:column headerText="Edit">
-                        <p:commandButton value="Edit" update=":#{p:component('editDialog')}"
-                            action="#{employeesController.setEditEmployee(employee)}" />
+                        <p:commandLink update=":#{p:component('editDialog')}"
+                            action="#{employeesController.setEditEmployee(employee)}">
+                            <h:graphicImage value="resources/images/edit.png" style="max-width:40%; max-height:40%"/>
+                        </p:commandLink>
                     </p:column>
                     <p:column headerText="Remove">
-                        <p:commandButton value="Not Active" update="employeeTable"
-                            action="#{employeesController.deleteEmployee(employee)}" />
+                        <p:commandLink update="employeeTable"
+                            action="#{employeesController.deleteEmployee(employee)}">
+                           <h:graphicImage value="resources/images/error.png" style="max-width:40%; max-height:40%"/>	
+                        </p:commandLink>
                     </p:column>
                 </p:dataTable>
                 
-                <p:commandButton value="Add Employee" onclick="PF('addEmployeeDialog').show();"
-                	style="float: right; margin-top: 15px; margin-bottom:30px"/>
+                <p:commandLink onclick="PF('addEmployeeDialog').show();"
+                	style="float: right; margin-top: 15px; margin-bottom:30px">
+                    <h:graphicImage value="resources/images/plus.png" style="max-width:20%; max-height:30%; float: right;"/>               	
+                </p:commandLink>
                 <p:growl id="invalidEmployeeGrowl" sticky="false" />
 				
                 
@@ -71,8 +77,10 @@
         	
             <p:dialog id="addDialog" header="Add Employee" modal="true" width="400"
                 widgetVar="addEmployeeDialog" resizable="false" draggable="false">
+                
+                
                 <h:form id="formAddDialog">
-                    <h:panelGrid columns="1">
+                <h:panelGrid columns="2" cellpadding = "10" cellspacing = "5">
                         <h:outputText value="Employee Number" />
                         <h:inputText id="addEmpNo" binding="#{addEmpNoText}" />
         
@@ -96,7 +104,8 @@
         
                         <h:outputText id="addComment" value="Comment" />
                         <h:inputText binding="#{addCommentText}" />
-        
+        				</h:panelGrid>
+        				
                         <p:commandButton resetValues="true"
                             update=":formMain:employeeTable :formMain:invalidEmployeeGrowl :formAddDialog"
                             value="Save"
@@ -108,7 +117,6 @@
                                     addPasswordText.value,
                                     addSupervisorText.value,
                                     addCommentText.value)}" />
-                    </h:panelGrid>
                 </h:form>
             </p:dialog>
 
