@@ -58,6 +58,4 @@ public class ApproveTimesheetController implements Serializable {
     public void setSubmittedTimesheets(List<Timesheet> submittedTimesheets) {
         this.submittedTimesheets = submittedTimesheets;
     }
-
-    
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,7 +27,6 @@ import model.TimesheetRowPK;
 import model.TimesheetRowState;
 import model.TimesheetState;
 import utils.DateUtils;
-
 
 @Named("timesheetController")
 @SessionScoped
@@ -40,12 +41,24 @@ public class TimesheetController implements Serializable {
 
     private Employee currentEmployee;
 
-    @PostConstruct
+    
+//    @PostConstruct
+    /*
+     * PostConstruct cannot happen if phase listener is overwritten by
+     * another event!
+     */
     public void init() {
         currentEmployee = getLoggedInEmployee();
+        if (currentEmployee == null) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("Login.xhtml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
     }
-    
+
     public String addTimesheet(Date date) {
         date = date == null ? DateUtils.today() : date;
         TimesheetPK pk = new TimesheetPK(currentEmployee.getEmpNumber(),
@@ -146,7 +159,8 @@ public class TimesheetController implements Serializable {
         Date start = DateUtils.getTimesheetStartDate(DateUtils.today());
 
         if (t.getTimesheetPk().getStartDate().compareTo(start) >= 0
-                && !t.getState().equalsIgnoreCase(TimesheetState.SUBMTTED)) {
+                && !t.getState().equalsIgnoreCase(TimesheetState.SUBMTTED)
+                && !t.getState().equalsIgnoreCase(TimesheetState.APPROVED)) {
             return true;
         }
 
@@ -159,10 +173,11 @@ public class TimesheetController implements Serializable {
     }
 
     public boolean canSubmitTimesheet(Timesheet t) {
-        if (!t.getState().equalsIgnoreCase(TimesheetState.SUBMTTED)) {
+        if (!t.getState().equalsIgnoreCase(TimesheetState.SUBMTTED)
+                && !t.getState().equalsIgnoreCase(TimesheetState.APPROVED)) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -170,7 +185,7 @@ public class TimesheetController implements Serializable {
         if (t.getState().equalsIgnoreCase(TimesheetState.SUBMTTED)) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -203,29 +218,29 @@ public class TimesheetController implements Serializable {
         this.editTimesheetRows = editTimesheetRows;
     }
 
-    
     public void submitTimesheet(Timesheet t) {
         try {
-            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
+            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA",
+                    "SUN");
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
             keyGen.initialize(1024, random);
-            
+
             KeyPair pair = keyGen.generateKeyPair();
             PrivateKey priv = pair.getPrivate();
             PublicKey pub = pair.getPublic();
-            
+
             Signature dsa = Signature.getInstance("SHA1withDSA", "SUN");
             dsa.initSign(priv);
-            
+
             String data = t.toString();
             System.out.println("Signing: " + data);
 
             byte[] dataBytes = data.getBytes();
-            
+
             dsa.update(dataBytes);
             byte[] signature = dsa.sign();
             byte[] publicKey = pub.getEncoded();
-            
+
             model.Signature sig = new model.Signature(signature, publicKey);
             sig.setTimesheetPk(t.getTimesheetPk());
             database.addSignature(sig);
@@ -233,11 +248,11 @@ public class TimesheetController implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         t.setState(TimesheetState.SUBMTTED);
         database.updateTimesheet(t);
     }
-    
+
     public void cancelSubmitTimesheet(Timesheet t) {
         model.Signature sig = database.findSignature(t.getTimesheetPk());
         if (sig != null) {

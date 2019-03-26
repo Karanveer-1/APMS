@@ -141,6 +141,10 @@ public class DatabaseController implements Serializable {
      *            the record to be merged.
      */
     public void updateTimesheet(Timesheet t) {
+        if (manager.contains(t)) {
+            removeTimesheet(t);
+        }
+        
         manager.merge(t);
     }
 
