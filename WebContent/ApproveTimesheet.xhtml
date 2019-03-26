@@ -18,6 +18,9 @@
 		</ui:define>
 
 		<ui:define name="content">
+			<f:event listener="#{approveTimesheetController.init}"
+				type="preRenderView" />
+
 			<h:form id="formMain">
 				<h:outputText value="&nbsp;" />
 
@@ -37,6 +40,11 @@
 					</p:column>
 					<p:column headerText="Comment">
 						<h:outputText value="#{timesheet.comment}" />
+					</p:column>
+					<p:column headerText="View">
+						<p:commandButton value="View"
+							action="#{approveTimesheetController.viewTimesheet(timesheet)}"
+							style="width: 100%" />
 					</p:column>
 					<p:column headerText="Approve">
 						<p:commandButton value="Approve"
