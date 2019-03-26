@@ -41,22 +41,23 @@ public class TimesheetController implements Serializable {
 
     private Employee currentEmployee;
 
-    
-//    @PostConstruct
     /*
-     * PostConstruct cannot happen if phase listener is overwritten by
-     * another event!
+     * PostConstruct cannot happen if phase listener is overwritten by another
+     * event!
      */
     public void init() {
-        currentEmployee = getLoggedInEmployee();
-        if (currentEmployee == null) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("Login.xhtml");
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            currentEmployee = getLoggedInEmployee();
+
+            if (currentEmployee == null) {
+                return;
             }
+
+            timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
+
+        } catch (NullPointerException e) {
+            // e.printStackTrace();
         }
-        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
     }
 
     public String addTimesheet(Date date) {

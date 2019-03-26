@@ -18,9 +18,8 @@
 		</ui:define>
 
 		<ui:define name="content">
-			<f:event listener="#{timesheetController.init}"
-				type="preRenderView" />
-				
+			<f:event listener="#{timesheetController.init}" type="preRenderView" />
+
 			<h:form id="formMain">
 				<p:commandButton id="addButton" value="Add Timesheet"
 					onclick="PF('addTimesheetDialog').show();" />
@@ -47,23 +46,24 @@
 					<p:column headerText="Edit">
 						<p:commandButton value="Edit"
 							action="#{timesheetController.editTimesheet(timesheet)}"
-							disabled="#{!timesheetController.canEditTimesheet(timesheet)}" />
+							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
+							style="width: 100%" />
 					</p:column>
 					<p:column headerText="Delete">
 						<p:commandButton value="Delete"
 							action="#{timesheetController.deleteTimesheet(timesheet)}"
 							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
-							update=":formMain" />
+							update=":formMain" style="width: 100%" />
 					</p:column>
 					<p:column headerText="Submit / Cancel">
 						<p:commandButton value="Submit"
 							action="#{timesheetController.submitTimesheet(timesheet)}"
 							rendered="#{timesheetController.canSubmitTimesheet(timesheet)}"
-							update=":formMain" />
+							update=":formMain" style="width: 100%" />
 						<p:commandButton value="Cancel"
 							action="#{timesheetController.cancelSubmitTimesheet(timesheet)}"
 							rendered="#{timesheetController.canCancelSubmitTimesheet(timesheet)}"
-							update=":formMain" />
+							update=":formMain" style="width: 100%" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
