@@ -1,17 +1,18 @@
-/*!
- * Start Bootstrap - SB Admin v5.0.2 (https://startbootstrap.com/template-overviews/sb-admin)
- * Copyright 2013-2018 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-sb-admin/blob/master/LICENSE)
- */
-
 html {
   position: relative;
   min-height: 100%;
 }
 
 body {
+  style="background-image:url(#{request.contextPath}/resources/back.png);"
   height: 100%;
+  position: relative;
+  background-repeat:no-repeat;
+  background-size:100% 100vh;
+  
 }
+
+.form-required { visibility:hidden;}
 
 #wrapper {
   display: -webkit-box;
@@ -43,6 +44,15 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
     padding-left: 90px;
   }
 }
+
+.appBackground {
+    position: relative;
+    background-image: url("resources/back.png");
+    background-repeat:no-repeat;
+    background-size:100% 100vh;
+}
+
+
 
 .scroll-to-top {
   position: fixed;
