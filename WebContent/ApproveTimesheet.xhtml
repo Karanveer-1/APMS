@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>IGNORED!</title>
+</h:head>
+
+<h:body>
+	<ui:composition template="/templates/MasterLayout.xhtml">
+
+		<ui:define name="windowTitle">Approve Timesheet</ui:define>
+		<ui:define name="headerTitle">
+			<h:outputText value="Approve Timesheet" class="navbar-brand" />
+		</ui:define>
+
+		<ui:define name="content">
+			<f:event listener="#{approveTimesheetController.init}"
+				type="preRenderView" />
+
+			<h:form id="formMain">
+				<h:outputText value="&nbsp;" />
+
+				<p:dataTable id="viewTable"
+					value="#{approveTimesheetController.submittedTimesheets}"
+					var="timesheet">
+					<p:column headerText="Employee No">
+						<h:outputText value="#{timesheet.timesheetPk.empNo}" />
+					</p:column>
+					<p:column headerText="Date">
+						<h:outputText value="#{timesheet.timesheetPk.startDate}">
+							<f:convertDateTime pattern="MMM. dd, yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="State">
+						<h:outputText value="#{timesheet.state}" />
+					</p:column>
+					<p:column headerText="Comment">
+						<h:outputText value="#{timesheet.comment}" />
+					</p:column>
+					<p:column headerText="View">
+						<p:commandButton value="View"
+							action="#{approveTimesheetController.viewTimesheet(timesheet)}"
+							style="width: 100%" />
+					</p:column>
+					<p:column headerText="Approve">
+						<p:commandButton value="Approve"
+							action="#{approveTimesheetController.approveTimesheet(timesheet)}"
+							update=":formMain" style="width: 100%" />
+					</p:column>
+					<p:column headerText="Return">
+						<p:commandButton value="Return"
+							action="#{approveTimesheetController.returnTimesheet(timesheet)}"
+							update=":formMain" style="width: 100%" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

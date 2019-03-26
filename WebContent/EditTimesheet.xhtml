@@ -32,17 +32,20 @@
 					value="#{timesheetController.editTimesheetRows}" var="row">
 
 					<p:column headerText="Project No">
-						<p:inputText value="#{row.timesheetRowPk.proNo}"
-							autocomplete="off" style="width: 100%">
-							<p:ajax event="keyup" />
-						</p:inputText>
+						<p:selectOneMenu value="#{row.timesheetRowPk.proNo}"
+							style="width:100%" dynamic="true">
+							<f:selectItems value="#{timesheetController.projectNumbers}" />
+							<p:ajax update=":formMain" />
+						</p:selectOneMenu>
 					</p:column>
 
 					<p:column headerText="WPID">
-						<p:inputText value="#{row.timesheetRowPk.wpid}" autocomplete="off"
-							style="width: 100%">
-							<p:ajax event="keyup" />
-						</p:inputText>
+						<p:selectOneMenu value="#{row.timesheetRowPk.wpid}"
+							style="width:100%" dynamic="true" update=":formMain">
+							<f:selectItems
+								value="#{timesheetController.getRelaventWpIds(row)}" />
+							<p:ajax update=":formMain" />
+						</p:selectOneMenu>
 					</p:column>
 
 					<p:column headerText="Start Date">
