@@ -16,7 +16,6 @@
 		<ui:define name="headerTitle">
 			<h:outputText value="Timesheets" class="navbar-brand" />
 		</ui:define>
-		<ui:define name="navBar"><ui:include src="/sections/tsDashboardNavigationBar.xhtml" /></ui:define>
 		<ui:define name="content">
 			 <p:panel id="basic" 
            			header="Timesheet" footer="This table shows all timesheets" 
@@ -47,25 +46,31 @@
 						<h:outputText value="#{timesheet.comment}" />
 					</p:column>
 					<p:column headerText="Edit" style="width:100px;">
-						<p:commandButton value="Edit"
-							action="#{timesheetController.editTimesheet(timesheet)}"
-							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"/>
+						<p:commandLink action="#{timesheetController.editTimesheet(timesheet)}">
+							<h:graphicImage value="resources/images/edit.png" style="max-width:40%; max-height:40%"/>						
+						</p:commandLink>
 					</p:column>
 					<p:column headerText="Delete" style="width:100px;">
-						<p:commandButton value="Delete"
-							action="#{timesheetController.deleteTimesheet(timesheet)}"
-							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
-							update=":formMain" />
+						<p:commandLink
+							action="#{timesheetController.deleteTimesheet(timesheet)}"							
+							update=":formMain">
+							  <h:graphicImage value="resources/images/delete.png" style="max-width:40%; max-height:40%"/>	
+						</p:commandLink>
 					</p:column>
 					<p:column headerText="Submit / Cancel" style="width:100px;">
-						<p:commandButton value="Submit"
+						<p:commandLink
 							action="#{timesheetController.submitTimesheet(timesheet)}"
 							rendered="#{timesheetController.canSubmitTimesheet(timesheet)}"
-							update=":formMain" />
-						<p:commandButton value="Cancel"
+							update=":formMain">
+						  	<h:graphicImage value="resources/images/submit.png" style="max-width:40%; max-height:40%"/>	
+						</p:commandLink>
+							
+						<p:commandLink
 							action="#{timesheetController.cancelSubmitTimesheet(timesheet)}"
 							rendered="#{timesheetController.canCancelSubmitTimesheet(timesheet)}"
-							update=":formMain" />
+							update=":formMain">
+						  	<h:graphicImage value="resources/images/error.png" style="max-width:40%; max-height:40%"/>								
+						</p:commandLink>
 					</p:column>
 				</p:dataTable>
 				
