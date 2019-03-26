@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /controller/
 /service/
 /model/
@@ -10,3 +11,8 @@
 /utils/
 /validator/
 >>>>>>> c53e309ac9c13aafbcb628ec8ba8ef3d7e7ea35c
+=======
+/Controller/
+/controller/
+/service/
+>>>>>>> parent of aeeaedd... not much progress
