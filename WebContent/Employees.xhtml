@@ -19,12 +19,12 @@
         <ui:define name="content">
         
             <p:panel id="basic" 
-           			header="List of All Employees" footer="This table includes past and present employees" 
+           			header="List of Currently Active Employees" footer="This table includes present employees" 
            			style="margin-left:50px; margin-right:50px; text-align:center">
         
             <h:form id="formMain">
             
-            <img src="resources/images/employees.png" style="height: 100%; width: 100%; object-fit: contain"></img>
+            <img src="resources/images/ActiveEmployee.png" style="max-width:20%; height: 100%; width: 100%; object-fit: contain"></img>
             
             
             
@@ -62,7 +62,8 @@
                     </p:column>
                 </p:dataTable>
                 
-                <p:commandButton value="Add Employee" onclick="PF('addEmployeeDialog').show();"/>
+                <p:commandButton value="Add Employee" onclick="PF('addEmployeeDialog').show();"
+                	style="float: right; margin-top: 15px; margin-bottom:30px"/>
                 <p:growl id="invalidEmployeeGrowl" sticky="false" />
 				
                 
