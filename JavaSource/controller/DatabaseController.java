@@ -20,30 +20,33 @@ import model.Signature;
 import model.Timesheet;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
+import model.TimesheetState;
 import model.WorkPackage;
 import model.WorkPackagePK;
 import utils.DateUtils;
-
 
 @Stateless
 public class DatabaseController implements Serializable {
     @PersistenceContext(unitName = "apms", type = PersistenceContextType.TRANSACTION)
     private EntityManager manager;
 
-
     // #########################################################################
     // # Employee methods
     // #########################################################################
     public List<Employee> getEmployees() {
-        return manager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
+        return manager.createQuery("SELECT e FROM Employee e", Employee.class)
+                .getResultList();
     }
 
     public List<Employee> getActiveEmployees() {
-        return manager.createQuery("SELECT e FROM Employee e WHERE e.state = 'Active'", Employee.class).getResultList();
+        return manager.createQuery(
+                "SELECT e FROM Employee e WHERE e.state = 'Active'",
+                Employee.class).getResultList();
     }
 
     public Employee getEmployeeByUsername(String username) {
-        TypedQuery<Employee> query = manager.createQuery("select e from Employee e where e.userName = :username",
+        TypedQuery<Employee> query = manager.createQuery(
+                "select e from Employee e where e.userName = :username",
                 Employee.class);
         query.setParameter("username", username);
         try {
@@ -56,7 +59,8 @@ public class DatabaseController implements Serializable {
     }
 
     public Employee getEmployeeById(int id) {
-        TypedQuery<Employee> query = manager.createQuery("select e from Employee e where e.empNumber = :empNumber",
+        TypedQuery<Employee> query = manager.createQuery(
+                "select e from Employee e where e.empNumber = :empNumber",
                 Employee.class);
         query.setParameter("empNumber", id);
         try {
@@ -83,11 +87,29 @@ public class DatabaseController implements Serializable {
     // # Timesheet methods
     // #########################################################################
     public List<Timesheet> getTimesheets(int empNo) {
-        List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
+        List<Timesheet> timesheets = manager
+                .createQuery("SELECT t from Timesheet t", Timesheet.class)
+                .getResultList();
 
         List<Timesheet> result = new ArrayList<Timesheet>();
         for (Timesheet timesheet : timesheets) {
             if (timesheet.getTimesheetPk().getEmpNo() == empNo) {
+                result.add(timesheet);
+            }
+        }
+
+        return result;
+    }
+
+    public List<Timesheet> getSubmittedTimesheets(int empNo) {
+        List<Timesheet> timesheets = manager
+                .createQuery("SELECT t from Timesheet t", Timesheet.class)
+                .getResultList();
+
+        List<Timesheet> result = new ArrayList<Timesheet>();
+        for (Timesheet timesheet : timesheets) {
+            if (/* timesheet.getApprovedEmpNo() == empNo */ timesheet.getState()
+                    .equalsIgnoreCase(TimesheetState.SUBMTTED)) {
                 result.add(timesheet);
             }
         }
@@ -114,7 +136,8 @@ public class DatabaseController implements Serializable {
     /**
      * merge Category record fields into existing database record.
      * 
-     * @param category the record to be merged.
+     * @param category
+     *            the record to be merged.
      */
     public void updateTimesheet(Timesheet t) {
         manager.merge(t);
@@ -124,7 +147,8 @@ public class DatabaseController implements Serializable {
     // # TimesheetRow methods
     // #########################################################################
     private List<TimesheetRow> getTimesheetRows() {
-        return manager.createQuery("SELECT tr from TimesheetRow tr", TimesheetRow.class).getResultList();
+        return manager.createQuery("SELECT tr from TimesheetRow tr",
+                TimesheetRow.class).getResultList();
     }
 
     public List<TimesheetRow> getTimesheetRows(int empNo, Date startDate) {
@@ -138,7 +162,8 @@ public class DatabaseController implements Serializable {
         for (TimesheetRow row : timesheetRows) {
             TimesheetRowPK pk = row.getTimesheetRowPk();
 
-            if (pk.getEmpNo() == empNo && DateUtils.isWithinRange(pk.getStartDate(), start, end)) {
+            if (pk.getEmpNo() == empNo
+                    && DateUtils.isWithinRange(pk.getStartDate(), start, end)) {
                 relatedTimesheetRows.add(row);
             }
         }
@@ -148,7 +173,8 @@ public class DatabaseController implements Serializable {
 
     public void addIfNotExistTimesheetRows(List<TimesheetRow> rows) {
         for (TimesheetRow row : rows) {
-            if (manager.find(TimesheetRow.class, row.getTimesheetRowPk()) != null) {
+            if (manager.find(TimesheetRow.class,
+                    row.getTimesheetRowPk()) != null) {
                 manager.merge(row);
             } else {
                 manager.persist(row);
@@ -163,7 +189,8 @@ public class DatabaseController implements Serializable {
     }
 
     public void removeTimesheetRows(Timesheet t) {
-        removeTimesheetRows(getTimesheetRows(t.getTimesheetPk().getEmpNo(), t.getTimesheetPk().getStartDate()));
+        removeTimesheetRows(getTimesheetRows(t.getTimesheetPk().getEmpNo(),
+                t.getTimesheetPk().getStartDate()));
     }
 
     // #########################################################################
@@ -176,7 +203,9 @@ public class DatabaseController implements Serializable {
      * @return all projects
      */
     public List<Project> getAllProjects() {
-        List<Project> projects = this.manager.createQuery("SELECT p from Project p", Project.class).getResultList();
+        List<Project> projects = this.manager
+                .createQuery("SELECT p from Project p", Project.class)
+                .getResultList();
 
         return projects;
 
@@ -232,17 +261,19 @@ public class DatabaseController implements Serializable {
             return false;
         }
     }
-    
+
     /**
      * GET
      * 
      * @return all projects
      */
     public List<Employee> getEmployeeForProject(int projectId) {
-        TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.proNo = :projectId", ProEmp.class);
+        TypedQuery<ProEmp> query = manager.createQuery(
+                "select p from ProEmp p where p.proEmp.proNo = :projectId",
+                ProEmp.class);
         query.setParameter("projectId", projectId);
         List<ProEmp> data = query.getResultList();
-        
+
         List<Employee> empList = new ArrayList<>();
         for (ProEmp e : data) {
             empList.add(getEmployeeById(e.getProEmp().getEmpNo()));
@@ -250,14 +281,13 @@ public class DatabaseController implements Serializable {
 
         return empList;
     }
-    
+
     public void addNewEmployeeToProject(int employeeNumber, int proNo) {
         ProEmp temp = new ProEmp();
         temp.setProEmp(new ProEmpPK(proNo, employeeNumber));
-        
+
         manager.persist(temp);
     }
-
 
     // #########################################################################
     // # WorkPackage methods
@@ -269,7 +299,9 @@ public class DatabaseController implements Serializable {
      * @param newProject
      */
     public List<WorkPackage> getAllWp() {
-        return this.manager.createQuery("SELECT wp from WorkPackage wp", WorkPackage.class).getResultList();
+        return this.manager
+                .createQuery("SELECT wp from WorkPackage wp", WorkPackage.class)
+                .getResultList();
     }
 
     public List<WorkPackage> getLowerWP(String wpid) {
@@ -296,7 +328,8 @@ public class DatabaseController implements Serializable {
     }
 
     public boolean persistWP(WorkPackage wp) {
-        WorkPackage checkWp = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
+        WorkPackage checkWp = this.manager.find(WorkPackage.class,
+                wp.getWorkPackagePk());
         if (checkWp == null) {
             this.manager.persist(wp);
             return true;
@@ -305,7 +338,8 @@ public class DatabaseController implements Serializable {
     }
 
     public boolean updateWP(WorkPackage wp) {
-        WorkPackage checkWp = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
+        WorkPackage checkWp = this.manager.find(WorkPackage.class,
+                wp.getWorkPackagePk());
         if (checkWp != null) {
             this.manager.merge(wp);
             return true;
@@ -324,7 +358,7 @@ public class DatabaseController implements Serializable {
         }
 
     }
-    
+
     // #########################################################################
     // # PLevel methods
     // #########################################################################
@@ -353,9 +387,7 @@ public class DatabaseController implements Serializable {
     public void removePLevel(PLevel e) {
         manager.remove(manager.contains(e) ? e : manager.merge(e));
     }
-    
-    
-    
+
     public void addSignature(final Signature newSignature) {
         manager.persist(newSignature);
     }
