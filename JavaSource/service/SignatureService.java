@@ -1,13 +1,5 @@
 package service;
 
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.SecureRandom;
-
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -19,6 +11,7 @@ import org.primefaces.PrimeFaces;
 import controller.DatabaseController;
 import controller.LoginController;
 import model.Employee;
+import service.PasswordHash.CannotPerformOperationException;
 
 
 @Named("sig")
@@ -32,30 +25,11 @@ public class SignatureService {
             addErrorMessage("Please enter the value");
         } else {
             try {
-                // Setting up key generator
-                KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
-                SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-                keyGen.initialize(1024, random);
-                
-                // Generating a key pair
-                KeyPair pair = keyGen.generateKeyPair();
-                PrivateKey priv = pair.getPrivate();
-                PublicKey pub = pair.getPublic();
-                
-//                System.out.println("Private key: " +  pub.toString());
-//                System.out.println("Private Key: " + priv.toString());
-                
-                byte[] privKey = priv.getEncoded();
-                byte[] pubKey = pub.getEncoded();
-                
+                String hashedPhrase = PasswordHash.createHash(phrase);
                 Employee currentEmployee = login.getCurrentEmployee();
-                currentEmployee.setPublicKey(pubKey);
-                currentEmployee.setPrivateKey(privKey);
-                
+                currentEmployee.setPassphrase(hashedPhrase);
                 database.updateEmployee(currentEmployee);
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (NoSuchProviderException e) {
+            } catch (CannotPerformOperationException e) {
                 e.printStackTrace();
             }
             
@@ -68,6 +42,5 @@ public class SignatureService {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-
 
 }

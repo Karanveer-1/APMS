@@ -18,6 +18,7 @@ import model.ProEmpPK;
 import model.Project;
 import model.Signature;
 import model.Timesheet;
+import model.TimesheetPK;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
 import model.WorkPackage;
@@ -355,6 +356,13 @@ public class DatabaseController implements Serializable {
     }
     
     
+    public Signature findSignature(TimesheetPK tpk) {
+        return manager.find(Signature.class, tpk);
+    }
+    
+    public void removeSignature(Signature sig) {
+        manager.remove(manager.contains(sig) ? sig : manager.merge(sig));
+    }
     
     public void addSignature(final Signature newSignature) {
         manager.persist(newSignature);
