@@ -40,8 +40,6 @@ public class ApproveTimesheetController implements Serializable {
         } catch (NullPointerException e) {
             // e.printStackTrace();
         }
-
-        currentEmployee = getLoggedInEmployee();
     }
 
     public String viewTimesheet(Timesheet t) {
