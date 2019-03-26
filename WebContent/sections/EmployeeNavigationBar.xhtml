@@ -4,40 +4,53 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-      
+     
+	    
 	<!-- Nav BAR -->
 	<ui:composition>
 		<h:form>
 		<div class="sidebar" data-background-color="black" data-active-color="danger">
 			<div class="sidebar-wrapper">
 				<div class="logo">
-					<span class="simple-text" style="margin-top: 30px">
+					<img src="resources/images/employeeIcon.png" style=" margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 30%;"/>						
+
+					<span class="simple-text" style="margin-top: 30px; font-size:150%">
 						APMS
 					</span>
+					<span class="simple-text" style="color:gray">
+						Employees
+					</span>
+					
+					
 				</div>
 				<ul class="nav">
 					<li>
 						<p:commandLink action="AllEmployees.xhtml?faces-redirect=true">
-							View All Employees
+							<i class="ti-clipboard"></i>
+							All Employees
 						</p:commandLink>
 					</li>
 					<li>
 						<p:commandLink action="Employees.xhtml?faces-redirect=true">
-							View Active Employees
+							<i class="ti-pulse"></i>
+							Active Employees
 						</p:commandLink>
 					</li>
 					<li>
 						<p:commandLink action="AssignEmployee.xhtml?faces-redirect=true">
+							<i class="ti-check-box"></i>
 							Assign Approvers
 						</p:commandLink>
 					</li>
 					<li>
 						<p:commandLink action="#">
+							<i class="ti-bar-chart-alt"></i>
 							P Level
 						</p:commandLink>
 					</li>
 					<li>
 						<p:commandLink action="Dashboard.xhtml?faces-redirect=true">
+							<i class="ti-arrow-circle-left"></i>
 							Back
 						</p:commandLink>
 					</li>

@@ -15,19 +15,28 @@
 	    <link href="resources/css/sb-admin.css" rel="stylesheet"/>
     </h:head>
 	
-	<h:body>
+	<h:body style="background-image: url(resources/images/back.png)">
 		<div class="container">
+			<img src="resources/images/APMS_Logo_Transparent.png" style="margin-top:50px; margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 20%;"/>	
+			
       		<div class="card card-login mx-auto mt-5  border-info">
-            	<div class="card-header">Employee Login</div>
+            	<div class="card-header">
+            		<p:outputLabel value="Employee Login" style="margin-top:10px; text-align: center"/>
+            		<img src="resources/images/login_lock.png" style="width:40px; height:auto; float:right"/>
+            	</div>
             	<div class="card-body">
                 	<h:form id="loginGrid">
-                		<p:outputLabel id="usernameLabel" value="Username" for="usernameInput"/>
-                       	<p:inputText class="form-control" id="usernameInput" value="#{credential.userName}" required="true"/>
-                       	<p:outputLabel id="passwordLabel" value="Password" for="passwordInput"/>
+                	    <h:panelGrid columns="2" cellpadding = "10" cellspacing = "1">
+                	    <p:outputLabel id="usernameLabel" value="Username" for="usernameInput" indicateRequired="false"/>
+          
+                			<p:inputText class="form-control" id="usernameInput" value="#{credential.userName}" required="true"/>
+                       	<p:outputLabel id="passwordLabel" value="Password" for="passwordInput" indicateRequired="false"/>
                        	<p:password class="form-control" id="passwordInput" value="#{credential.password}" required="true"/>
                        	<p:spacer height="10" />
                     	<p:commandButton class="btn btn-primary btn-block" value="Login" action="#{loginController.login}"/>
-                    	<p:messages id="messages" showSummary="false" showDetail="true" closable="true"/>
+                    	</h:panelGrid>
+                    	<p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" closable="true"/>
+                    	
                     	<p:autoUpdate/>
                 	</h:form>
             	</div>
