@@ -11,12 +11,16 @@
         <ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
         
         <ui:define name="content">
+        	
         	<h:panelGrid columns="2" cellpadding="10">
 				<p:outputLabel value="msg" style="opacity:0"/>
 			</h:panelGrid>
-            
-           <p:dataTable id="employeeTable"
-               value="#{employeesController.allEmployees}" var="employee">
+           
+           <p:panel id="basic" 
+           			header="List of All Employees" footer="This table includes past and present employees" 
+           			style="display:block; margin-left:50px; margin-right:50px; text-align:center">
+           <p:dataTable id="employeeTable" scrollable="true" scrollHeight="3%" paginator="true" row="5" paginatorPosition="bottom"
+               value="#{employeesController.allEmployees}" var="employee" style="margin-left:30px; text-align:center; margin-top:30px; margin-bottom:50px">
                <p:column headerText="Employee No">
                    <h:outputText value="#{employee.empNumber}" />
                </p:column>
@@ -36,6 +40,9 @@
                    <h:outputText value="#{employee.comment}" />
                </p:column>
            </p:dataTable>
+           
+           <img src="resources/images/employees.png" style="height: 100%; width: 100%; object-fit: contain"></img>
+           </p:panel>
                 
         </ui:define>
 	</ui:composition>

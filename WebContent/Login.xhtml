@@ -15,10 +15,15 @@
 	    <link href="resources/css/sb-admin.css" rel="stylesheet"/>
     </h:head>
 	
-	<h:body>
+	<h:body style="background-image: url(resources/images/back.png)">
 		<div class="container">
+			<img src="resources/images/APMS_Logo_Transparent.png" style="margin-top:50px; margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 20%;"/>	
+			
       		<div class="card card-login mx-auto mt-5  border-info">
-            	<div class="card-header"><p:outputLabel value="Employee Login" style="margin-top:10px"/><img src="resources/login_lock.png" style="width:40px; height:auto; float:right"/></div>
+            	<div class="card-header">
+            		<p:outputLabel value="Employee Login" style="margin-top:10px; text-align: center"/>
+            		<img src="resources/images/login_lock.png" style="width:40px; height:auto; float:right"/>
+            	</div>
             	<div class="card-body">
                 	<h:form id="loginGrid">
                 	    <h:panelGrid columns="2" cellpadding = "10" cellspacing = "1">
