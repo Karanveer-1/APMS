@@ -20,7 +20,7 @@
 			<ui:include src="/sections/ProjectNavigationBar.xhtml" />
 		</ui:define>
 		<ui:define name="content">
-			<h:form id="form">
+			<h:form id="vpForm">
 
 
 				<p:growl id="msgs" showDetail="true" />
@@ -35,21 +35,21 @@
 
 
 					<p:column headerText="Project Number">
-					
-							<f:facet name="output">
-								<h:outputText value="#{emp.empNumber}" />
-							</f:facet>
 
+						
+							<h:outputText value="#{emp.empNumber}" />
 					
+
+
 					</p:column>
-					
-					<p:column headerText="Project Number">
-					
-							<f:facet name="output">
-								<h:outputText value="#{emp.firstName}" />
-							</f:facet>
 
-					
+					<p:column headerText="Project Number">
+
+						
+							<h:outputText value="#{emp.firstName}" />
+						
+
+
 					</p:column>
 
 
@@ -61,6 +61,7 @@
 
 			</h:form>
 
+			<h:outputText value="#{vpController.getLength()}"></h:outputText>
 
 		</ui:define>
 	</ui:composition>

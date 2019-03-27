@@ -2,6 +2,7 @@ package controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ import model.Project;
 import model.WorkPackage;
 
 @Named("vpController")
-
+@ConversationScoped
 public class ViewProjectController implements Serializable {
 
 	/**
@@ -76,6 +77,7 @@ public class ViewProjectController implements Serializable {
 	}
 
 	public List<Employee> getProAssi() {
+		System.out.println("Print from GET " + proAssi);
 		return proAssi;
 	}
 
@@ -83,6 +85,10 @@ public class ViewProjectController implements Serializable {
 		this.proAssi = proAssi;
 	}
 	
-
+	public String getLength() {
+		return "This is the lenght of emp List" + this.proAssi.size();
+	}
+	
+	
 
 }

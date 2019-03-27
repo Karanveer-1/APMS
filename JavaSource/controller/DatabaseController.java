@@ -11,6 +11,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
+import com.sun.corba.se.spi.orbutil.threadpool.Work;
+
 import model.Employee;
 import model.PLevel;
 import model.ProAssi;
@@ -177,7 +179,6 @@ public class DatabaseController implements Serializable {
 		List<Project> projects = this.manager.createQuery("SELECT p from Project p", Project.class).getResultList();
 
 		return projects;
-
 	}
 
 	/**
@@ -252,7 +253,6 @@ public class DatabaseController implements Serializable {
 
 	public List<ProAssi> getAllProAssi() {
 		List<ProAssi> projects = this.manager.createQuery("SELECT p from ProAssi p", ProAssi.class).getResultList();
-
 		return projects;
 	}
 
@@ -390,6 +390,17 @@ public class DatabaseController implements Serializable {
 
 	}
 
+	public List<WorkPackage> getWPByEmpNo(int empNo) {
+		List<WorkPackage> wpList = new ArrayList<WorkPackage>();
+		for (WorkPackage wp : getAllWp()) {
+			if (wp.getReEmpNo() == empNo) {
+				wpList.add(wp);
+			}
+		}
+		return wpList;
+	}
+
+	
 	// #########################################################################
 	// # PLevel methods
 	// #########################################################################

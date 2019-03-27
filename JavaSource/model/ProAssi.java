@@ -27,5 +27,20 @@ public class ProAssi implements Serializable {
 	public ProAssiPK getPk() {
 		return pk;
 	}
- 
+
+	public int getProNo() {
+		return pk.getProNo();
+	}
+
+	public void setProNo(int proNo) {
+		pk.setProNo(proNo);
+	}
+
+	public int getEmpNo() {
+		return pk.getEmpNo();
+	}
+
+	public void setEmpNo(int empNo) {
+		pk.setEmpNo(empNo);
+	}
 }

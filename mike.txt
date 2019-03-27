@@ -1,0 +1,30 @@
+Supervisor => Project Manager (Project) Project Manager => Project Assistant (Project)
+Project Manager create WorkPackages (fully CRUD)  Employee don’t have anything Project Manager can Crud work packager and VIEW their project
+
+Supervisor can see all the projects and work packages
+ 
+
+Supervisor assign people that he supervised only to ProEmp (1) Project Manager can assign people from (1) to work packages
+Project assign assistant from list (1)
+We can get supervisor by going
+ Assign
+
+Supervisor can see other projects. Any supervisor can assign their own team member to any projects 
+Project Manager assign their assistant to projects
+
+Assistant can’t assign another assistant  Project Manager/Assistant create work package  assign engineer from (1)
+
+ReEmp can modify workpakcage
+
+Project ( Supervisor ) (add/delete)
+ ViewProject  (only manager/assistant edit/read/ )
+---—|
+    |—— WorkPackages
+WorkPackages ( engineer)
+
+
+
+
+
+PROBLEM:
+Who are the supervisor ? How can we add new supervisors ?
