@@ -32,6 +32,12 @@ public class ProjectAuthenticationController implements Serializable {
 	}
 
 	public boolean isSupervisor() {
+		List<Employee> empList = this.database.getEmployees();
+		for (Employee emp : empList) {
+			if (emp.getSuperEmpNo() == currentEmployee.getEmpNumber()) {
+				return true;
+			}
+		}
 		return false;
 	}
 
