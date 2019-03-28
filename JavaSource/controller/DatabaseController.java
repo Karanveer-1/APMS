@@ -225,6 +225,32 @@ public class DatabaseController implements Serializable {
 		}
 	}
 
+	public List<Project> getProjectsByManagerNo(int id) {
+		List<Project> allP = getAllProjects();
+		List<Project> result = new ArrayList<Project>();
+		for (Project p : allP) {
+			if (p.getProMgrEmpNo() == id) {
+				result.add(p);
+			}
+		}
+		return result;
+	}
+
+	public List<Project> getProjectsByAssistantNo(int id) {
+		List<Project> result = new ArrayList<Project>();
+
+		List<ProAssi> allPa = getAllProAssi();
+		for (ProAssi pa : allPa) {
+			if (pa.getEmpNo() == id) {
+				result.add(findByProjectNo(pa.getProNo()));
+			}
+		}
+		return result;
+
+	}
+	
+	
+
 	/**
 	 * POST
 	 * 
@@ -400,7 +426,6 @@ public class DatabaseController implements Serializable {
 		return wpList;
 	}
 
-	
 	// #########################################################################
 	// # PLevel methods
 	// #########################################################################

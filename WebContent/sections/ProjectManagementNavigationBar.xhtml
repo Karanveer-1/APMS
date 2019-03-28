@@ -15,26 +15,25 @@
 					<span class="simple-text" style="margin-top: 30px"> APMS </span>
 				</div>
 				<ul class="nav">
-					<li><p:commandLink action="Projects.xhtml?faces-redirect=true"
-							rendered="#{paController.isSupervisor()}">
-							All Projects
-						</p:commandLink></li>
-
 					<li><p:commandLink
-							action="ProjectManagement.xhtml?faces-redirect=true"
+							action="ProjectDetail.xhtml?faces-redirect=true"
 							rendered="#{paController.isPMorPA()}">
-							 Project Management
+							 Project Detail
 						</p:commandLink></li>
 
 					<li><p:commandLink
-							action="WorkPackage.xhtml?faces-redirect=true"
-							rendered="#{paController.isREEmp()}">
-							Work Packages Management
+							action="WorkPackagesDetail.xhtml?faces-redirect=true"
+							rendered="#{paController.isPMorPA()}">
+							Work Packages Detail
+						</p:commandLink></li>
+					<li><p:commandLink
+							action="AssignAssistant.xhtml?faces-redirect=true"
+							rendered="#{paController.isProjectManager()}">
+							 Assign Assistant Manager
 						</p:commandLink></li>
 
-
 					<li><p:commandLink
-							action="Dashboard.xhtml?faces-redirect=true">
+							action="ProjectManagement.xhtml?faces-redirect=true">
 							Back
 						</p:commandLink></li>
 				</ul>

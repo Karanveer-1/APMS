@@ -19,8 +19,11 @@ ReEmp can modify workpakcage
 Project ( Supervisor ) (add/delete)
  ViewProject  (only manager/assistant edit/read/ )
 ---—|
-    |—— WorkPackages
-WorkPackages ( engineer)
+    |__ Project Detail (RU) 
+    |__ WorkPackages (CRUD) assign engineer
+    |__ Assign Assistant (CRUD)
+
+WorkPackages ( engineer) (U)
 
 
 
