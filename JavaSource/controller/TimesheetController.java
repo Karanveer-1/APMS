@@ -37,7 +37,7 @@ public class TimesheetController implements Serializable {
     private List<TimesheetRow> editTimesheetRows;
 
     private Employee currentEmployee;
-    
+
     private List<Integer> projectNumbers;
 
     public void init() {
@@ -62,7 +62,7 @@ public class TimesheetController implements Serializable {
         editTimesheet = new Timesheet(pk, null, null, TimesheetState.DRAFT,
                 null);
         editTimesheetRows = new ArrayList<TimesheetRow>();
-        
+
         projectNumbers = database.getAllProjectNo();
 
         return "EditTimesheet.xhtml?faces-redirect=true";
@@ -73,25 +73,21 @@ public class TimesheetController implements Serializable {
         editTimesheetRows = database.getTimesheetRows(
                 t.getTimesheetPk().getEmpNo(),
                 t.getTimesheetPk().getStartDate());
-        
+
         projectNumbers = database.getAllProjectNo();
-    
+
         return "EditTimesheet.xhtml?faces-redirect=true";
     }
-    
+
     public List<String> getRelaventWpIds(TimesheetRow row) {
         if (row.getTimesheetRowPk().getProNo() == null) {
             return new ArrayList<String>();
         }
-        
+
         return database.getWpIdByProjectNo(row.getTimesheetRowPk().getProNo());
     }
 
     public String saveTimesheet() {
-        for (TimesheetRow row : editTimesheetRows) {
-            row.setState(TimesheetRowState.PENDING);
-        }
-
         editTimesheet.setState(TimesheetState.DRAFT);
 
         database.removeTimesheetRows(editTimesheet);
@@ -118,6 +114,7 @@ public class TimesheetController implements Serializable {
         database.removeTimesheetRows(
                 database.getTimesheetRows(t.getTimesheetPk().getEmpNo(),
                         t.getTimesheetPk().getStartDate()));
+        
         timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
     }
 
@@ -136,7 +133,7 @@ public class TimesheetController implements Serializable {
 
         editTimesheetRows.add(row);
     }
-    
+
     public void deleteTimesheetRow(TimesheetRow row) {
         editTimesheetRows.remove(row);
     }
@@ -170,10 +167,11 @@ public class TimesheetController implements Serializable {
     }
 
     public boolean canEditTimesheet(Timesheet t) {
-        Date start = DateUtils.getTimesheetStartDate(DateUtils.today());
+//        Date start = DateUtils.getTimesheetStartDate(DateUtils.today());
 
-        if (t.getTimesheetPk().getStartDate().compareTo(start) >= 0
-                && !t.getState().equalsIgnoreCase(TimesheetState.PENDING)
+        if (/*
+             * t.getTimesheetPk().getStartDate().compareTo(start) >= 0 &&
+             */ !t.getState().equalsIgnoreCase(TimesheetState.PENDING)
                 && !t.getState().equalsIgnoreCase(TimesheetState.APPROVED)) {
             return true;
         }
@@ -231,7 +229,7 @@ public class TimesheetController implements Serializable {
     public void setEditTimesheetRows(List<TimesheetRow> editTimesheetRows) {
         this.editTimesheetRows = editTimesheetRows;
     }
-    
+
     public List<Integer> getProjectNumbers() {
         return projectNumbers;
     }
@@ -241,7 +239,7 @@ public class TimesheetController implements Serializable {
     }
 
     public void submitTimesheet(Timesheet t) {
-        
+
         try {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA",
                     "SUN");
@@ -274,7 +272,8 @@ public class TimesheetController implements Serializable {
 
         t.setState(TimesheetState.PENDING);
         database.updateTimesheet(t);
-        updateTimesheetRowsState(database.getTimesheetRows(t), TimesheetState.PENDING);
+        updateTimesheetRowsState(database.getTimesheetRows(t),
+                TimesheetState.PENDING);
     }
 
     public void cancelSubmitTimesheet(Timesheet t) {
@@ -284,19 +283,17 @@ public class TimesheetController implements Serializable {
         }
         t.setState(TimesheetState.DRAFT);
         database.updateTimesheet(t);
-        updateTimesheetRowsState(database.getTimesheetRows(t), TimesheetState.DRAFT);
+        updateTimesheetRowsState(database.getTimesheetRows(t),
+                TimesheetState.DRAFT);
     }
-    
-    
-    private void updateTimesheetRowsState(List<TimesheetRow> rows, String state) {
-        for (TimesheetRow row: rows) {
+
+    private void updateTimesheetRowsState(List<TimesheetRow> rows,
+            String state) {
+        for (TimesheetRow row : rows) {
             row.setState(state);
         }
-        
+
         database.updateTimesheetRows(rows);
     }
-    
-    
-    
-    
+
 }

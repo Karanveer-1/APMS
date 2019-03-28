@@ -22,7 +22,9 @@
 
 			<h:form id="formMain">
 				<p:commandButton id="addButton" value="Add Timesheet"
-					onclick="PF('addTimesheetDialog').show();" />
+					onclick="PF('addTimesheetDialog').show();">           
+                    <p:ajax update=":formAddDialog:createButton" />
+				</p:commandButton>
 
 				<p:dataTable id="viewTable"
 					value="#{timesheetController.timesheets}" var="timesheet">
@@ -76,6 +78,7 @@
 						mindate="#{timesheetController.calendarCurrentTimesheetStartDate()}">
 						<p:ajax event="dateSelect" update="createButton" />
 					</p:calendar>
+
 					<p:commandButton id="createButton" value="Create"
 						action="#{timesheetController.addTimesheet(createTimesheetDate.value)}"
 						disabled="#{timesheetController.canCreateTimesheet(createTimesheetDate.value)}" />
