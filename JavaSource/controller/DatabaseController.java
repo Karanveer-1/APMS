@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
+import model.EmpPLevel;
 import model.Employee;
 import model.PLevel;
 import model.ProEmp;
@@ -428,6 +429,14 @@ public class DatabaseController implements Serializable {
 
     public void addSignature(final Signature newSignature) {
         manager.persist(newSignature);
+    }
+
+    /**
+     * @return
+     */
+    public List<EmpPLevel> getEmpPLevels() {
+        return manager.createQuery("SELECT p FROM EmpPLevel p", EmpPLevel.class)
+                .getResultList();
     }
 
 }
