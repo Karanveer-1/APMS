@@ -16,11 +16,9 @@ V0.2.3
 */
 
 
--- Create database
 DROP DATABASE APMS;
 CREATE DATABASE APMS;
 
--- Create admin user
 DROP USER 'employee'@'localhost';
 DROP USER 'employee'@'%';
 CREATE USER 'employee'@'localhost' IDENTIFIED BY 'P@$$w0rd';
@@ -30,7 +28,7 @@ GRANT ALL PRIVILEGES ON APMS.* TO 'employee'@'%' WITH GRANT OPTION;
 
 USE APMS;
 
--- Create table Employee
+
 CREATE TABLE Employee
 (
     EmpNo           INTEGER         NOT NULL,
@@ -42,15 +40,15 @@ CREATE TABLE Employee
     ApproEmpNo      INTEGER         NOT NULL,
     State           VARCHAR(30)     NOT NULL,
     Comment         VARCHAR(1000)   ,
+    Passphrase        VARCHAR(512)  NULL,
     PRIMARY KEY(EmpNo)
 );
 
-
 -- Load data into table Employee
-INSERT INTO APMS.Employee VALUES('1', 'Admin', 'Admin', 'admin', 'sha1:64000:18:6BMHQNrAa7QUpYtffRlt8RSaxuoeoy6o:nn4ooDmw3agMFtiFfwcyiok6', '1', '1', 'Active', '');
-INSERT INTO APMS.Employee VALUES('2', 'Karanveer', 'Khanna', 'karan', 'sha1:64000:18:XLut11LQ4mTSfG/qtpIlx+0pV22c3CWw:TLNw6ESsnrM512eCYCSl+8bu', '1', '1', 'Active', '');
-INSERT INTO APMS.Employee VALUES('3', 'Ryan', 'Liang', 'ryan', 'sha1:64000:18:CoHbU5wqpLwD9vhz0ristkDVhHcDrNa/:w8M4ttFIRj2KgUjgSrTFTDZI', '1', '2', 'Active', '');
-INSERT INTO APMS.Employee VALUES('4', 'Test', 'Test', 'test', 'sha1:64000:18:Gva6Da/2KniKBQFetzoF/ApJppU18smV:DWMsNXsx4DtG0BJlLRDB7Ngf', '2', '3', 'Active', '');
+INSERT INTO APMS.Employee VALUES('1', 'Admin', 'Admin', 'admin', 'sha1:64000:18:6BMHQNrAa7QUpYtffRlt8RSaxuoeoy6o:nn4ooDmw3agMFtiFfwcyiok6', '1', '1', 'Active', '', NULL);
+INSERT INTO APMS.Employee VALUES('2', 'Karanveer', 'Khanna', 'karan', 'sha1:64000:18:XLut11LQ4mTSfG/qtpIlx+0pV22c3CWw:TLNw6ESsnrM512eCYCSl+8bu', '1', '1', 'Active', '', NULL);
+INSERT INTO APMS.Employee VALUES('3', 'Ryan', 'Liang', 'ryan', 'sha1:64000:18:CoHbU5wqpLwD9vhz0ristkDVhHcDrNa/:w8M4ttFIRj2KgUjgSrTFTDZI', '1', '2', 'Active', '', NULL);
+INSERT INTO APMS.Employee VALUES('4', 'Test', 'Test', 'test', 'sha1:64000:18:Gva6Da/2KniKBQFetzoF/ApJppU18smV:DWMsNXsx4DtG0BJlLRDB7Ngf', '2', '3', 'Active', '', NULL);
 
 
 
@@ -98,7 +96,7 @@ CREATE TABLE Project
 -- Load data into table Project
 
 INSERT INTO APMS.Project VALUES('100', '4', 'Macaroni', 'First Project', '123.45','OPEN', 'First Project' );
-INSERT INTO APMS.Project VALUES('102', '2', 'Pizza', 'Second Project', '14.45','OPEN', 'Second Project' );
+INSERT INTO APMS.Project VALUES('101', '2', 'Pizza', 'Second Project', '14.45','OPEN', 'Second Project' );
 
 
 
@@ -125,6 +123,8 @@ CREATE TABLE ProEmp
 
 -- Load data into table ProEmp
 
+INSERT INTO APMS.ProEmp VALUES('100', '1');
+INSERT INTO APMS.ProEmp VALUES('101', '1');
 
 
 
@@ -236,10 +236,8 @@ CREATE TABLE Role
 CREATE TABLE Signature(
 	EmpNo          INTEGER         NOT NULL,
     StartDate      DATE            NOT NULL,
-	signature 	   TINYBLOB 	   NOT NULL, 
-	publicKey 	   BLOB 		   NOT NULL,
+	Signature 	   TINYBLOB 	   NOT NULL, 
+	PublicKey 	   BLOB 		   NOT NULL,
 	PRIMARY KEY(EmpNo, StartDate)
 );
-
-
 

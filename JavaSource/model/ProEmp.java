@@ -1,49 +1,25 @@
 package model;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Embeddable
-//@Table(name = "ProEmp")
-public class ProEmp implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "ProEmp")
+public class ProEmp {
+    
+    @EmbeddedId
+    private ProEmpPK proEmp;
 
-	@Column(name = "ProNo", nullable = false)
-	private int proNo;
+    public ProEmp() { }
 
-	@Column(name = "EmpNo", nullable = false)
-	private int empNo;
+    public ProEmpPK getProEmp() {
+        return proEmp;
+    }
 
-	public ProEmp() {
-	}
+    public void setProEmp(ProEmpPK proEmp) {
+        this.proEmp = proEmp;
+    }
 
-	public ProEmp(int proNo, int empNo) {
-		super();
-		this.proNo = proNo;
-		this.empNo = empNo;
-	}
-
-	public int getProNo() {
-		return proNo;
-	}
-
-	public void setProNo(int proNo) {
-		this.proNo = proNo;
-	}
-
-	public int getEmpNo() {
-		return empNo;
-	}
-
-	public void setEmpNo(int empNo) {
-		this.empNo = empNo;
-	}
-
+    
 }

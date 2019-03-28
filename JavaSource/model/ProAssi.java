@@ -4,15 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 
 @Embeddable
 @Table(name = "ProAssi")
 public class ProAssi implements Serializable {
-	private static final long serialVersionID = 1L;
 
 	/**
 	 * Project ID as Primary Key

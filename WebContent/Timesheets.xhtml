@@ -18,6 +18,8 @@
 		</ui:define>
 
 		<ui:define name="content">
+			<f:event listener="#{timesheetController.init}" type="preRenderView" />
+
 			<h:form id="formMain">
 				<p:commandButton id="addButton" value="Add Timesheet"
 					onclick="PF('addTimesheetDialog').show();" />
@@ -44,25 +46,24 @@
 					<p:column headerText="Edit">
 						<p:commandButton value="Edit"
 							action="#{timesheetController.editTimesheet(timesheet)}"
-							disabled="#{!timesheetController.canEditTimesheet(timesheet) ||
-										(timesheet.state == 'Submitted')}" />
+							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
+							style="width: 100%" />
 					</p:column>
 					<p:column headerText="Delete">
 						<p:commandButton value="Delete"
 							action="#{timesheetController.deleteTimesheet(timesheet)}"
-							disabled="#{!timesheetController.canEditTimesheet(timesheet) || 
-										(timesheet.state == 'Submitted')}"
-							update=":formMain :formAddDialog:createButton" />
+							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
+							update=":formMain" style="width: 100%" />
 					</p:column>
 					<p:column headerText="Submit / Cancel">
 						<p:commandButton value="Submit"
 							action="#{timesheetController.submitTimesheet(timesheet)}"
-							rendered="#{!(timesheet.state == 'Submitted')}"
-							update=":formMain" />
+							rendered="#{timesheetController.canSubmitTimesheet(timesheet)}"
+							update=":formMain" style="width: 100%" />
 						<p:commandButton value="Cancel"
 							action="#{timesheetController.cancelSubmitTimesheet(timesheet)}"
-							rendered="#{!(timesheet.state != 'Submitted')}"
-							update=":formMain" />
+							rendered="#{timesheetController.canCancelSubmitTimesheet(timesheet)}"
+							update=":formMain" style="width: 100%" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
@@ -75,9 +76,7 @@
 					<p:calendar id="datePicker" pattern="MMM. dd, yyyy" mode="inline"
 						binding="#{createTimesheetDate}"
 						mindate="#{timesheetController.calendarCurrentTimesheetStartDate()}">
-						<p:ajax event="dateSelect"
-
-							update="createButton" />
+						<p:ajax event="dateSelect" update="createButton" />
 					</p:calendar>
 					<p:commandButton id="createButton" value="Create"
 						action="#{timesheetController.addTimesheet(createTimesheetDate.value)}"

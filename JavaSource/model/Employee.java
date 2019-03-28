@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -38,6 +39,9 @@ public class Employee implements Serializable {
 
     @Column(name = "Comment")
     private String comment;
+        
+    @Column(name = "Passphrase", nullable = false)
+    private String passphrase;
 
     public Employee() {
     }
@@ -127,6 +131,14 @@ public class Employee implements Serializable {
         this.comment = comment;
     }
     
+    public String getPassphrase() {
+        return passphrase;
+    }
+
+    public void setPassphrase(String passphrase) {
+        this.passphrase = passphrase;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null) {

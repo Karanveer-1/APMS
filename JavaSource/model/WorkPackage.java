@@ -1,25 +1,16 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "WorkPackage")
 public class WorkPackage implements Serializable {
 	private static String[] STATE = { "OPEN", "CLOSED", "ARCHIVED" };
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private WorkPackagePK workPackagePk;
