@@ -22,6 +22,7 @@ import model.Signature;
 import model.Timesheet;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
+import model.WPEmp;
 import model.WorkPackage;
 import model.WorkPackagePK;
 import utils.DateUtils;
@@ -248,8 +249,6 @@ public class DatabaseController implements Serializable {
 		return result;
 
 	}
-	
-	
 
 	/**
 	 * POST
@@ -424,6 +423,42 @@ public class DatabaseController implements Serializable {
 			}
 		}
 		return wpList;
+	}
+
+	public List<WPEmp> getAllWPEmp() {
+		return this.manager.createQuery("SELECT wp from WPEmp wp", WPEmp.class).getResultList();
+	}
+
+	public boolean persistWPEmp(WPEmp wpe) {
+		WPEmp checkWp = this.manager.find(WPEmp.class, wpe.getPk());
+		if (checkWp == null) {
+			this.manager.persist(wpe);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean updateWPEmp(WPEmp wpe) {
+		WPEmp checkWp = this.manager.find(WPEmp.class, wpe.getPk());
+		if (checkWp == null) {
+			this.manager.merge(wpe);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deleteWPEmp(final WPEmp wpe) {
+		WPEmp checkWp = this.manager.find(WPEmp.class, wpe.getPk());
+		if (checkWp != null) {
+			try {
+				this.manager.remove(wpe);
+				this.manager.flush();
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
+		}
+		return false;
 	}
 
 	// #########################################################################
