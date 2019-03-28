@@ -115,7 +115,7 @@ public class DatabaseController implements Serializable {
             // approver: " + empNo);
 
             if (e.getApproEmpNo() == empNo && timesheet.getState()
-                    .equalsIgnoreCase(TimesheetState.SUBMTTED)) {
+                    .equalsIgnoreCase(TimesheetState.PENDING)) {
                 result.add(timesheet);
             }
         }
@@ -160,6 +160,12 @@ public class DatabaseController implements Serializable {
         return manager.createQuery("SELECT tr from TimesheetRow tr",
                 TimesheetRow.class).getResultList();
     }
+    
+    public List<TimesheetRow> getTimesheetRows(Timesheet t) {
+        int empNo = t.getTimesheetPk().getEmpNo();
+        Date startDate = t.getTimesheetPk().getStartDate();
+        return getTimesheetRows(empNo, startDate);
+    }
 
     public List<TimesheetRow> getTimesheetRows(int empNo, Date startDate) {
         List<TimesheetRow> timesheetRows = getTimesheetRows();
@@ -201,6 +207,12 @@ public class DatabaseController implements Serializable {
     public void removeTimesheetRows(Timesheet t) {
         removeTimesheetRows(getTimesheetRows(t.getTimesheetPk().getEmpNo(),
                 t.getTimesheetPk().getStartDate()));
+    }
+    
+    public void updateTimesheetRows(List<TimesheetRow> rows) {
+        for (TimesheetRow row : rows) {
+            manager.merge(row);
+        }
     }
 
     // #########################################################################

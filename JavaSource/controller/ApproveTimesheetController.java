@@ -50,6 +50,7 @@ public class ApproveTimesheetController implements Serializable {
     public String approveTimesheet() {
         Timesheet t = viewTimesheet;
         t.setState(TimesheetState.APPROVED);
+        t.setApprovedEmpNo(currentEmployee.getEmpNumber());
         database.updateTimesheet(t);
         submittedTimesheets = databaseGetSubmittedTimesheets();
         return "ApproveTimesheet.xhtml?faces-redirect=true";

@@ -173,7 +173,7 @@ public class TimesheetController implements Serializable {
         Date start = DateUtils.getTimesheetStartDate(DateUtils.today());
 
         if (t.getTimesheetPk().getStartDate().compareTo(start) >= 0
-                && !t.getState().equalsIgnoreCase(TimesheetState.SUBMTTED)
+                && !t.getState().equalsIgnoreCase(TimesheetState.PENDING)
                 && !t.getState().equalsIgnoreCase(TimesheetState.APPROVED)) {
             return true;
         }
@@ -187,7 +187,7 @@ public class TimesheetController implements Serializable {
     }
 
     public boolean canSubmitTimesheet(Timesheet t) {
-        if (!t.getState().equalsIgnoreCase(TimesheetState.SUBMTTED)
+        if (!t.getState().equalsIgnoreCase(TimesheetState.PENDING)
                 && !t.getState().equalsIgnoreCase(TimesheetState.APPROVED)) {
             return true;
         }
@@ -196,7 +196,7 @@ public class TimesheetController implements Serializable {
     }
 
     public boolean canCancelSubmitTimesheet(Timesheet t) {
-        if (t.getState().equalsIgnoreCase(TimesheetState.SUBMTTED)) {
+        if (t.getState().equalsIgnoreCase(TimesheetState.PENDING)) {
             return true;
         }
 
@@ -272,8 +272,9 @@ public class TimesheetController implements Serializable {
             e.printStackTrace();
         }
 
-        t.setState(TimesheetState.SUBMTTED);
+        t.setState(TimesheetState.PENDING);
         database.updateTimesheet(t);
+        updateTimesheetRowsState(database.getTimesheetRows(t), TimesheetState.PENDING);
     }
 
     public void cancelSubmitTimesheet(Timesheet t) {
@@ -283,5 +284,19 @@ public class TimesheetController implements Serializable {
         }
         t.setState(TimesheetState.DRAFT);
         database.updateTimesheet(t);
+        updateTimesheetRowsState(database.getTimesheetRows(t), TimesheetState.DRAFT);
     }
+    
+    
+    private void updateTimesheetRowsState(List<TimesheetRow> rows, String state) {
+        for (TimesheetRow row: rows) {
+            row.setState(state);
+        }
+        
+        database.updateTimesheetRows(rows);
+    }
+    
+    
+    
+    
 }
