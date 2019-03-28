@@ -21,6 +21,7 @@ public class ApproveTimesheetController implements Serializable {
     private List<Timesheet> submittedTimesheets;
 
     private Employee currentEmployee;
+    private Timesheet viewTimesheet;
     private List<TimesheetRow> viewTimesheetRows;
 
     public void init() {
@@ -39,22 +40,27 @@ public class ApproveTimesheetController implements Serializable {
     }
 
     public String viewTimesheet(Timesheet t) {
+        viewTimesheet = t;
         viewTimesheetRows = database.getTimesheetRows(t.getTimesheetPk().getEmpNo(),
                 t.getTimesheetPk().getStartDate());
         
         return "ApproveTimesheetView.xhtml?faces-redirect=true";
     }
 
-    public void approveTimesheet(Timesheet t) {
+    public String approveTimesheet() {
+        Timesheet t = viewTimesheet;
         t.setState(TimesheetState.APPROVED);
         database.updateTimesheet(t);
         submittedTimesheets = databaseGetSubmittedTimesheets();
+        return "ApproveTimesheet.xhtml?faces-redirect=true";
     }
 
-    public void returnTimesheet(Timesheet t) {
+    public String returnTimesheet() {
+        Timesheet t = viewTimesheet;
         t.setState(TimesheetState.RETURNED);
         database.updateTimesheet(t);
         submittedTimesheets = databaseGetSubmittedTimesheets();
+        return "ApproveTimesheet.xhtml?faces-redirect=true";
     }
 
     private List<Timesheet> databaseGetSubmittedTimesheets() {
@@ -82,4 +88,21 @@ public class ApproveTimesheetController implements Serializable {
         this.viewTimesheetRows = viewTimesheetRows;
     }
 
+    public Employee getCurrentEmployee() {
+        return currentEmployee;
+    }
+
+    public void setCurrentEmployee(Employee currentEmployee) {
+        this.currentEmployee = currentEmployee;
+    }
+
+    public Timesheet getViewTimesheet() {
+        return viewTimesheet;
+    }
+
+    public void setViewTimesheet(Timesheet viewTimesheet) {
+        this.viewTimesheet = viewTimesheet;
+    }
+
+    
 }

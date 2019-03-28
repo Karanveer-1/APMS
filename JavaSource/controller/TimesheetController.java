@@ -13,7 +13,6 @@ import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -40,7 +39,6 @@ public class TimesheetController implements Serializable {
     private Employee currentEmployee;
     
     private List<Integer> projectNumbers;
-    private List<String> wpids;
 
     public void init() {
         try {
@@ -66,7 +64,6 @@ public class TimesheetController implements Serializable {
         editTimesheetRows = new ArrayList<TimesheetRow>();
         
         projectNumbers = database.getAllProjectNo();
-//        wpids = database.getWpIdByProjectNo(projectNumbers.get(0));
 
         return "EditTimesheet.xhtml?faces-redirect=true";
     }
@@ -133,10 +130,15 @@ public class TimesheetController implements Serializable {
         TimesheetRow row = new TimesheetRow();
 
         row.setTimesheetRowPk(pk);
+        row.getTimesheetRowPk().setStartDate(calendarEditMinDate());
         row.setState(TimesheetRowState.DRAFT);
         row.getTimesheetRowPk().setProNo(database.getAllProjectNo().get(0));
 
         editTimesheetRows.add(row);
+    }
+    
+    public void deleteTimesheetRow(TimesheetRow row) {
+        editTimesheetRows.remove(row);
     }
 
     public boolean hasTimesheetForWeek(Date date) {
@@ -239,6 +241,7 @@ public class TimesheetController implements Serializable {
     }
 
     public void submitTimesheet(Timesheet t) {
+        
         try {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA",
                     "SUN");
@@ -281,5 +284,4 @@ public class TimesheetController implements Serializable {
         t.setState(TimesheetState.DRAFT);
         database.updateTimesheet(t);
     }
-
 }

@@ -35,26 +35,10 @@
 							<f:convertDateTime pattern="MMM. dd, yyyy" />
 						</h:outputText>
 					</p:column>
-					<p:column headerText="State">
-						<h:outputText value="#{timesheet.state}" />
-					</p:column>
-					<p:column headerText="Comment">
-						<h:outputText value="#{timesheet.comment}" />
-					</p:column>
 					<p:column headerText="View">
 						<p:commandButton value="View"
 							action="#{approveTimesheetController.viewTimesheet(timesheet)}"
 							style="width: 100%" />
-					</p:column>
-					<p:column headerText="Approve">
-						<p:commandButton value="Approve"
-							action="#{approveTimesheetController.approveTimesheet(timesheet)}"
-							update=":formMain" style="width: 100%" />
-					</p:column>
-					<p:column headerText="Return">
-						<p:commandButton value="Return"
-							action="#{approveTimesheetController.returnTimesheet(timesheet)}"
-							update=":formMain" style="width: 100%" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
