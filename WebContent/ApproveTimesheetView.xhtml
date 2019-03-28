@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>IGNORED!</title>
+</h:head>
+
+<h:body>
+	<ui:composition template="/templates/MasterLayout.xhtml">
+
+		<ui:define name="windowTitle">Approve Timesheet</ui:define>
+		<ui:define name="headerTitle">
+			<h:outputText value="Approve Timesheet" class="navbar-brand" />
+		</ui:define>
+
+		<ui:define name="content">
+			<h:form id="formMain">
+				<p>
+					<h:outputText value="Employee No: " />
+					<h:outputText
+						value="#{approveTimesheetController.currentEmployee.empNumber}" />
+				</p>
+				<p>
+					<h:outputText value="Start Date: " />
+					<h:outputText
+						value="#{approveTimesheetController.viewTimesheet.timesheetPk.startDate}">
+						<f:convertDateTime pattern="MMM, dd, yyyy" />
+					</h:outputText>
+				</p>
+				<p>
+					<h:outputText value="State: " />
+					<h:outputText
+						value="#{approveTimesheetController.viewTimesheet.state}" />
+				</p>
+				<p>
+					<h:outputText value="Comment: " />
+				</p>
+				<p>
+					<h:outputText
+						value="#{approveTimesheetController.viewTimesheet.comment}" />
+				</p>
+
+				<p:commandButton value="Approve"
+					action="#{approveTimesheetController.approveTimesheet()}" />
+
+				<p:commandButton value="Return"
+					action="#{approveTimesheetController.returnTimesheet()}" />
+
+				<p:commandButton value="Back" action="ApproveTimesheet.xhtml" />
+
+				<p:dataTable id="viewTable"
+					value="#{approveTimesheetController.viewTimesheetRows}" var="row">
+					<p:column headerText="Project No">
+						<h:outputText value="#{row.timesheetRowPk.proNo}" />
+					</p:column>
+
+					<p:column headerText="WPID">
+						<h:outputText value="#{row.timesheetRowPk.wpid}" />
+					</p:column>
+
+					<p:column headerText="Sat">
+						<h:outputText value="#{row.sat}" />
+					</p:column>
+
+					<p:column headerText="Sun">
+						<h:outputText value="#{row.sun}" />
+					</p:column>
+
+					<p:column headerText="Mon">
+						<h:outputText value="#{row.mon}" />
+					</p:column>
+
+					<p:column headerText="Tue">
+						<h:outputText value="#{row.tue}" />
+					</p:column>
+
+					<p:column headerText="Wed">
+						<h:outputText value="#{row.wed}" />
+					</p:column>
+
+					<p:column headerText="Thu">
+						<h:outputText value="#{row.thu}" />
+					</p:column>
+
+					<p:column headerText="Fri">
+						<h:outputText value="#{row.fri}" />
+					</p:column>
+
+					<p:column headerText="Note">
+						<h:outputText value="#{row.note}" />
+					</p:column>
+
+					<p:column headerText="Comment">
+						<h:outputText value="#{row.comment}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

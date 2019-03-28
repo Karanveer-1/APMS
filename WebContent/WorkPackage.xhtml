@@ -14,48 +14,147 @@
 
 		<ui:define name="windowTitle">Projects</ui:define>
 		<ui:define name="headerTitle">
-			<h:outputText value="Work Packages" class="navbar-brand" />
+			<h:outputText value="Projects" class="navbar-brand" />
+		</ui:define>
+		<ui:define name="navBar">
+			<ui:include src="/sections/ProjectNavigationBar.xhtml" />
 		</ui:define>
 
 		<ui:define name="content">
-			<h:form id="form">
-				<p:treeTable value="#{wpController.root}" var="wp" id="wp">
 
-					<p:column headerText="ID">
-						<h:outputText value="#{wp.wpid}" />
+			<h:form id="form">
+				<p:growl id="msgs" showDetail="true" />
+				<p:dataTable id="wp" var="wp" widgetVar="wp"
+					value="#{wpreController.wpList}" editable="true"
+					style="margin-bottom:20px">
+					<f:facet name="header">
+           Work Packages
+        </f:facet>
+					<p:ajax event="rowEdit" listener="#{wpreController.onRowEdit}"
+						update=":form:msgs" />
+					<p:ajax event="rowEditCancel"
+						listener="#{wpreController.onRowCancel}" update=":form:msgs" />
+					<p:column headerText="WPID">
+
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{wp.wpid}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:outputText value="#{wp.wpid}" />
+							</f:facet>
+						</p:cellEditor>
+
+
 					</p:column>
 
 					<p:column headerText="Project Number">
-						<h:outputText value="#{wp.proNo}" />
+
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{wp.proNo}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:outputText value="#{wp.proNo}" />
+							</f:facet>
+						</p:cellEditor>
+
+
+					</p:column>
+					<p:column headerText="Parent WPID">
+
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{wp.parentWPID}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:outputText value="#{wp.parentWPID}" />
+							</f:facet>
+						</p:cellEditor>
+
+
+					</p:column>
+					<p:column headerText="EmpNo">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{wp.reEmpNo}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:outputText value="#{wp.reEmpNo}" />
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
 
 					<p:column headerText="Title">
-						<h:outputText value="#{wp.title}" />
-					</p:column>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{wp.wpid}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{wp.wpid}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
 
+
+					</p:column>
 					<p:column headerText="Description">
-						<h:outputText value="#{wp.description}" />
-					</p:column>
-					<p:column headerText="Budget">
-						<h:outputText value="#{wp.budget}" />
+
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{wp.description}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{wp.description}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+
+
 					</p:column>
 
+					<p:column headerText="Budget">
+
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{wp.budget}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{wp.budget}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+
+
+					</p:column>
 					<p:column headerText="State">
-						<h:outputText value="#{wp.state}" />
+
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{wp.state}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{wp.state}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+
+
 					</p:column>
 					<p:column headerText="Comment">
-						<h:outputText value="#{wp.comment}" />
-					</p:column>
-						<p:column style="text-align:center">
-						<p:commandButton value="Delete" update="wp"  
-							action="#{wpController.deleteWp(wp)}" />
+
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{wp.comment}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{wp.comment}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+
 
 					</p:column>
+					<p:column style="width:32px">
+						<p:rowEditor />
 
-
-				</p:treeTable>
-
-
+					</p:column>
+				</p:dataTable>
 			</h:form>
 
 

@@ -117,6 +117,8 @@ public class WorkPackage implements Serializable {
 		this.comment = comment;
 	}
 
+	
+	@Column(name="ProNo")
 	public int getProNo() {
 		return workPackagePk.getProNo();
 	}
@@ -125,6 +127,7 @@ public class WorkPackage implements Serializable {
 		workPackagePk.setProNo(proNo);
 	}
 
+	@Column(name="WPID")
 	public String getWpid() {
 		return workPackagePk.getWpid();
 	}
