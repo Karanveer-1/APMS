@@ -4,47 +4,43 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 
-
-@Embeddable
+@Entity
 @Table(name = "ProAssi")
 public class ProAssi implements Serializable {
 
-	/**
-	 * Project ID as Primary Key
-	 */
+	@EmbeddedId
+	private ProAssiPK pk;
 
-	@Column(name = "ProNo", nullable = false)
-	private int proNo;
+	public ProAssi() {
 
-	/**
-	 * Project manager, must be unique
-	 */
-
-	@Column(name = "ProMgrEmpNo", nullable = false)
-	private int empNo;
+	}
 
 	public ProAssi(int proNo, int empNo) {
 		super();
-		this.proNo = proNo;
-		this.empNo = empNo;
+		this.pk = new ProAssiPK(proNo, empNo);
+	}
+
+	public ProAssiPK getPk() {
+		return pk;
 	}
 
 	public int getProNo() {
-		return proNo;
+		return pk.getProNo();
 	}
 
 	public void setProNo(int proNo) {
-		this.proNo = proNo;
+		pk.setProNo(proNo);
 	}
 
 	public int getEmpNo() {
-		return empNo;
+		return pk.getEmpNo();
 	}
 
 	public void setEmpNo(int empNo) {
-		this.empNo = empNo;
+		pk.setEmpNo(empNo);
 	}
-
 }

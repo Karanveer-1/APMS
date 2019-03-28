@@ -12,45 +12,39 @@
 <h:body>
 	<ui:composition template="/templates/MasterLayout.xhtml">
 
-		<ui:define name="windowTitle">Projects</ui:define>
+		<ui:define name="windowTitle">View Project</ui:define>
 		<ui:define name="headerTitle">
-			<h:outputText value="Projects" class="navbar-brand" />
+			<h:outputText value="View Project" class="navbar-brand" />
 		</ui:define>
 		<ui:define name="navBar">
 			<ui:include src="/sections/ProjectNavigationBar.xhtml" />
 		</ui:define>
 		<ui:define name="content">
-
 			<h:form id="form">
 				<p:growl id="msgs" showDetail="true" />
 
 
-				<p:commandButton value="Add new row"
-					styleClass="ui-priority-primary" process="@this"
-					action="#{projectController.addProject()}"
-					oncomplete="PF('project').addRow();" />
 
 
 				<p:dataTable id="project" var="project" widgetVar="project"
-					value="#{projectController.projects}" editable="true"
+					value="#{pmController.projects}" editable="true"
 					style="margin-bottom:20px">
 					<f:facet name="header">
            Projects
         </f:facet>
 
-					<p:ajax event="rowEdit" listener="#{projectController.onRowEdit}"
+
+					<p:ajax event="rowEdit" listener="#{pmController.onRowEdit}"
 						update=":form:msgs" />
 					<p:ajax event="rowEditCancel"
-						listener="#{projectController.onRowCancel}" update=":form:msgs" />
-
+						listener="#{pmController.onRowCancel}" update=":form:msgs" />
 					<p:column headerText="Project Number">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.proNo}" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText id="modelInput" value="#{project.proNo}"
-									style="width:100%" />
+								<h:outputText value="#{project.proNo}" />
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -73,12 +67,7 @@
 								<h:outputText value="#{project.proMgrEmpNo}" />
 							</f:facet>
 							<f:facet name="input">
-								<h:selectOneMenu value="#{project.proMgrEmpNo}"
-									style="width:100%; color:black">
-									<f:selectItems value="#{projectController.employeeList}"
-										var="emp" itemLabel="#{emp.userName}"
-										itemValue="#{emp.empNumber}" style="color:black" />
-								</h:selectOneMenu>
+								<h:outputText value="#{project.proMgrEmpNo}" />
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -128,41 +117,24 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
-
-					<p:column style="width:32px">
+					<p:column style="width:50px; text-align:center" headerText="Edit">
 						<p:rowEditor />
 
 					</p:column>
+					<p:column style="text-align:center; width:100px">
 
-					<p:column style="text-align:center">
-						<p:commandButton value="Assign"
-							action="#{assignProject.addEmployees(project)}" />
-					</p:column>
-
-					<p:column style="text-align:center">
-
-						<p:commandButton value="Delete" update="project"
-							action="#{projectController.deleteProject(project)}" />
+						<p:commandButton value="Detail" update="project"
+							action="#{pdController.detail(project)}" />
 
 					</p:column>
+
+
+
 				</p:dataTable>
 
 
 
 			</h:form>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -108,8 +108,9 @@ CREATE TABLE ProAssi
     PRIMARY KEY(ProNo, ProAssiEmpNo)
 );
 
--- Load data into table ProAssi
 
+-- Load data into table ProAssi
+INSERT INTO APMS.ProAssi VALUES('100', '2');
 
 
 
@@ -238,8 +239,7 @@ INSERT INTO APMS.Role VALUES('3', 'Employee');
 CREATE TABLE Signature(
 	EmpNo          INTEGER         NOT NULL,
     StartDate      DATE            NOT NULL,
-	Signature 	   TINYBLOB 	   NOT NULL, 
+	Signature 	   TINYBLOB 	   NOT NULL,
 	PublicKey 	   BLOB 		   NOT NULL,
 	PRIMARY KEY(EmpNo, StartDate)
 );
-
