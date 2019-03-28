@@ -48,13 +48,13 @@
 						</p:selectOneMenu>
 					</p:column>
 
-					<p:column headerText="Start Date">
-						<p:calendar value="#{row.timesheetRowPk.startDate}"
-							pattern="MMM. dd, yyyy"
-							mindate="#{timesheetController.calendarEditMinDate()}"
-							maxdate="#{timesheetController.calendarEditMaxDate()}"
-							style="width: 100% !important" />
+					<!-- <p:column headerText="Start Date">
+						<h:outputText value="#{row.timesheetRowPk.startDate}">
+							<f:convertDateTime pattern="MMM. dd, yyyy" />
+						</h:outputText>
 					</p:column>
+					  -->
+					  
 					<p:column headerText="Sat">
 						<p:inputText value="#{row.sat}" autocomplete="off"
 							style="width: 100%">
@@ -104,8 +104,11 @@
 						</p:inputText>
 					</p:column>
 
-					<p:column headerText="State">
-						<h:outputText value="#{row.state}" />
+					<p:column headerText="Note">
+						<p:inputText value="#{row.note}" autocomplete="off"
+							style="width: 100%">
+							<p:ajax event="keyup" />
+						</p:inputText>
 					</p:column>
 
 					<p:column headerText="Comment">
@@ -113,6 +116,12 @@
 							style="width: 100%">
 							<p:ajax event="keyup" />
 						</p:inputText>
+					</p:column>
+
+					<p:column>
+						<p:commandButton value="Delete"
+							action="#{timesheetController.deleteTimesheetRow(row)}"
+							update=":formMain" style="width: 100%" />
 					</p:column>
 				</p:dataTable>
 			</h:form>

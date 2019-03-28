@@ -18,9 +18,39 @@
 		</ui:define>
 
 		<ui:define name="content">
-
 			<h:form id="formMain">
-				<h:outputText value="&nbsp;" />
+				<p>
+					<h:outputText value="Employee No: " />
+					<h:outputText
+						value="#{approveTimesheetController.currentEmployee.empNumber}" />
+				</p>
+				<p>
+					<h:outputText value="Start Date: " />
+					<h:outputText
+						value="#{approveTimesheetController.viewTimesheet.timesheetPk.startDate}">
+						<f:convertDateTime pattern="MMM, dd, yyyy" />
+					</h:outputText>
+				</p>
+				<p>
+					<h:outputText value="State: " />
+					<h:outputText
+						value="#{approveTimesheetController.viewTimesheet.state}" />
+				</p>
+				<p>
+					<h:outputText value="Comment: " />
+				</p>
+				<p>
+					<h:outputText
+						value="#{approveTimesheetController.viewTimesheet.comment}" />
+				</p>
+
+				<p:commandButton value="Approve"
+					action="#{approveTimesheetController.approveTimesheet()}" />
+
+				<p:commandButton value="Return"
+					action="#{approveTimesheetController.returnTimesheet()}" />
+
+				<p:commandButton value="Back" action="ApproveTimesheet.xhtml" />
 
 				<p:dataTable id="viewTable"
 					value="#{approveTimesheetController.viewTimesheetRows}" var="row">
@@ -32,11 +62,6 @@
 						<h:outputText value="#{row.timesheetRowPk.wpid}" />
 					</p:column>
 
-					<p:column headerText="Start Date">
-						<h:outputText value="#{row.timesheetRowPk.startDate}">
-							<f:convertDateTime pattern="MMM. dd, yyyy" />
-						</h:outputText>
-					</p:column>
 					<p:column headerText="Sat">
 						<h:outputText value="#{row.sat}" />
 					</p:column>
@@ -65,8 +90,8 @@
 						<h:outputText value="#{row.fri}" />
 					</p:column>
 
-					<p:column headerText="State">
-						<h:outputText value="#{row.state}" />
+					<p:column headerText="Note">
+						<h:outputText value="#{row.note}" />
 					</p:column>
 
 					<p:column headerText="Comment">
