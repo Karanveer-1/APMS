@@ -39,14 +39,9 @@ public class Employee implements Serializable {
 
     @Column(name = "Comment")
     private String comment;
-    
-    @Lob
-    @Column(name = "PublicKey", columnDefinition = "blob")
-    private byte[] publicKey;
-    
-    @Lob
-    @Column(name = "PrivateKey", columnDefinition = "blob")
-    private byte[] privateKey;
+        
+    @Column(name = "Passphrase", nullable = false)
+    private String passphrase;
 
     public Employee() {
     }
@@ -136,22 +131,14 @@ public class Employee implements Serializable {
         this.comment = comment;
     }
     
-    public byte[] getPublicKey() {
-        return publicKey;
+    public String getPassphrase() {
+        return passphrase;
     }
 
-    public void setPublicKey(byte[] publicKey) {
-        this.publicKey = publicKey;
+    public void setPassphrase(String passphrase) {
+        this.passphrase = passphrase;
     }
 
-    public byte[] getPrivateKey() {
-        return privateKey;
-    }
-
-    public void setPrivateKey(byte[] privateKey) {
-        this.privateKey = privateKey;
-    }
-    
     @Override
     public boolean equals(Object o) {
         if (o == null) {

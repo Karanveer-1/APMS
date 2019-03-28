@@ -15,14 +15,21 @@ import com.sun.corba.se.spi.orbutil.threadpool.Work;
 
 import model.Employee;
 import model.PLevel;
+
 import model.ProAssi;
 import model.ProEmp;
+import model.ProEmpPK;
 import model.Project;
 import model.Signature;
 import model.Timesheet;
+import model.TimesheetPK;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
+
 import model.WPEmp;
+
+import model.TimesheetState;
+
 import model.WorkPackage;
 import model.WorkPackagePK;
 import utils.DateUtils;
@@ -96,6 +103,24 @@ public class DatabaseController implements Serializable {
 		return result;
 	}
 
+	public List<Timesheet> getSubmittedTimesheets(int empNo) {
+		List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
+
+		List<Timesheet> result = new ArrayList<Timesheet>();
+		for (Timesheet timesheet : timesheets) {
+			Employee e = getEmployeeById(timesheet.getTimesheetPk().getEmpNo());
+
+			// System.out.println("timesheet:" + e.getApproEmpNo() + ",
+			// approver: " + empNo);
+
+			if (e.getApproEmpNo() == empNo && timesheet.getState().equalsIgnoreCase(TimesheetState.PENDING)) {
+				result.add(timesheet);
+			}
+		}
+
+		return result;
+	}
+
 	public void addTimesheet(Timesheet t) {
 		manager.persist(t);
 	}
@@ -114,10 +139,14 @@ public class DatabaseController implements Serializable {
 
 	/**
 	 * merge Category record fields into existing database record.
-	 * 
+	 *
 	 * @param category the record to be merged.
 	 */
 	public void updateTimesheet(Timesheet t) {
+		if (manager.contains(t)) {
+			removeTimesheet(t);
+		}
+
 		manager.merge(t);
 	}
 
@@ -126,6 +155,12 @@ public class DatabaseController implements Serializable {
 	// #########################################################################
 	private List<TimesheetRow> getTimesheetRows() {
 		return manager.createQuery("SELECT tr from TimesheetRow tr", TimesheetRow.class).getResultList();
+	}
+
+	public List<TimesheetRow> getTimesheetRows(Timesheet t) {
+		int empNo = t.getTimesheetPk().getEmpNo();
+		Date startDate = t.getTimesheetPk().getStartDate();
+		return getTimesheetRows(empNo, startDate);
 	}
 
 	public List<TimesheetRow> getTimesheetRows(int empNo, Date startDate) {
@@ -167,35 +202,47 @@ public class DatabaseController implements Serializable {
 		removeTimesheetRows(getTimesheetRows(t.getTimesheetPk().getEmpNo(), t.getTimesheetPk().getStartDate()));
 	}
 
+	public void updateTimesheetRows(List<TimesheetRow> rows) {
+		for (TimesheetRow row : rows) {
+			manager.merge(row);
+		}
+	}
+
 	// #########################################################################
 	// # Project methods
 	// #########################################################################
 
 	/**
 	 * GET
-	 * 
+	 *
 	 * @return all projects
 	 */
 	public List<Project> getAllProjects() {
 		List<Project> projects = this.manager.createQuery("SELECT p from Project p", Project.class).getResultList();
 
 		return projects;
+
+	}
+
+	public List<Integer> getAllProjectNo() {
+		List<Integer> ids = manager.createQuery("SELECT p.proNo from Project p", Integer.class).getResultList();
+
+		return ids;
 	}
 
 	/**
 	 * GET
-	 * 
+	 *
 	 * @param proNo
 	 * @return project by ID
 	 */
 	public Project findByProjectNo(final int proNo) {
-
 		return this.manager.find(Project.class, proNo);
 	}
 
 	/**
 	 * POST add a new project
-	 * 
+	 *
 	 * @param newProject
 	 */
 	public boolean persistProject(Project newProject) {
@@ -208,51 +255,9 @@ public class DatabaseController implements Serializable {
 
 	}
 
-	public List<Project> getProjectsBySupervisor(int id) {
-		List<ProEmp> proemp = new ArrayList<ProEmp>();
-		TypedQuery<ProEmp> query = this.manager.createQuery("SELECT p from ProEmp p WHERE p.pk.empNo =:empNo",
-				ProEmp.class);
-		query.setParameter("empNo", id);
-		try {
-			proemp = query.getResultList();
-			List<Project> projects = new ArrayList<Project>();
-			for (ProEmp pe : proemp) {
-				projects.add(findByProjectNo(pe.getPk().getProNo()));
-			}
-
-			return projects;
-		} catch (Exception exp) {
-			return null;
-		}
-	}
-
-	public List<Project> getProjectsByManagerNo(int id) {
-		List<Project> allP = getAllProjects();
-		List<Project> result = new ArrayList<Project>();
-		for (Project p : allP) {
-			if (p.getProMgrEmpNo() == id) {
-				result.add(p);
-			}
-		}
-		return result;
-	}
-
-	public List<Project> getProjectsByAssistantNo(int id) {
-		List<Project> result = new ArrayList<Project>();
-
-		List<ProAssi> allPa = getAllProAssi();
-		for (ProAssi pa : allPa) {
-			if (pa.getEmpNo() == id) {
-				result.add(findByProjectNo(pa.getProNo()));
-			}
-		}
-		return result;
-
-	}
-
 	/**
 	 * POST
-	 * 
+	 *
 	 * @param project
 	 * @return UPDATE A PROJECT
 	 */
@@ -274,6 +279,32 @@ public class DatabaseController implements Serializable {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	/**
+	 * GET
+	 *
+	 * @return all projects
+	 */
+	public List<Employee> getEmployeeForProject(int projectId) {
+		TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.proNo = :projectId",
+				ProEmp.class);
+		query.setParameter("projectId", projectId);
+		List<ProEmp> data = query.getResultList();
+
+		List<Employee> empList = new ArrayList<>();
+		for (ProEmp e : data) {
+			empList.add(getEmployeeById(e.getProEmp().getEmpNo()));
+		}
+
+		return empList;
+	}
+
+	public void addNewEmployeeToProject(int employeeNumber, int proNo) {
+		ProEmp temp = new ProEmp();
+		temp.setProEmp(new ProEmpPK(proNo, employeeNumber));
+
+		manager.persist(temp);
 	}
 
 	public List<ProAssi> getAllProAssi() {
@@ -325,31 +356,70 @@ public class DatabaseController implements Serializable {
 		return false;
 	}
 
+	public List<Project> getProjectsBySupervisor(int id) {
+		List<ProEmp> proemp = new ArrayList<ProEmp>();
+		TypedQuery<ProEmp> query = this.manager.createQuery("SELECT p from ProEmp p WHERE p.pk.empNo =:empNo",
+				ProEmp.class);
+		query.setParameter("empNo", id);
+		try {
+			proemp = query.getResultList();
+			List<Project> projects = new ArrayList<Project>();
+			for (ProEmp pe : proemp) {
+				projects.add(findByProjectNo(pe.getProEmp().getProNo()));
+			}
+
+			return projects;
+		} catch (Exception exp) {
+			return null;
+		}
+	}
+
+	public List<Project> getProjectsByManagerNo(int id) {
+		List<Project> allP = getAllProjects();
+		List<Project> result = new ArrayList<Project>();
+		for (Project p : allP) {
+			if (p.getProMgrEmpNo() == id) {
+				result.add(p);
+			}
+		}
+		return result;
+	}
+
+	public List<Project> getProjectsByAssistantNo(int id) {
+		List<Project> result = new ArrayList<Project>();
+
+		List<ProAssi> allPa = getAllProAssi();
+		for (ProAssi pa : allPa) {
+			if (pa.getEmpNo() == id) {
+				result.add(findByProjectNo(pa.getProNo()));
+			}
+		}
+		return result;
+
+	}
 	// #########################################################################
 	// # WorkPackage methods
 	// #########################################################################
 
 	/**
 	 * POST add a new project
-	 * 
+	 *
 	 * @param newProject
 	 */
 	public List<WorkPackage> getAllWp() {
 		return this.manager.createQuery("SELECT wp from WorkPackage wp", WorkPackage.class).getResultList();
 	}
 
-	public List<WorkPackage> getWPByProject(int proNo) {
-		List<WorkPackage> wp = new ArrayList<WorkPackage>();
-		TypedQuery<WorkPackage> query = this.manager
-				.createQuery("SELECT wp from WorkPackage wp WHERE wp.workPackagePk.proNo =:proNo", WorkPackage.class);
-		System.out.println(proNo);
-		query.setParameter("proNo", proNo);
-		try {
-			wp = query.getResultList();
-			return wp;
-		} catch (Exception exp) {
-			return null;
+	public List<String> getWpIdByProjectNo(int proNo) {
+		List<WorkPackage> wps = getAllWp();
+		List<String> ids = new ArrayList<String>();
+
+		for (WorkPackage wp : wps) {
+			if (wp.getProNo() == proNo) {
+				ids.add(wp.getWpid());
+			}
 		}
+		return ids;
 	}
 
 	public List<WorkPackage> getLowerWP(String wpid) {
@@ -447,20 +517,6 @@ public class DatabaseController implements Serializable {
 		return false;
 	}
 
-	public boolean deleteWPEmp(final WPEmp wpe) {
-		WPEmp checkWp = this.manager.find(WPEmp.class, wpe.getPk());
-		if (checkWp != null) {
-			try {
-				this.manager.remove(wpe);
-				this.manager.flush();
-				return true;
-			} catch (Exception e) {
-				return false;
-			}
-		}
-		return false;
-	}
-
 	// #########################################################################
 	// # PLevel methods
 	// #########################################################################
@@ -488,6 +544,14 @@ public class DatabaseController implements Serializable {
 		manager.remove(manager.contains(e) ? e : manager.merge(e));
 	}
 
+	public Signature findSignature(TimesheetPK tpk) {
+		return manager.find(Signature.class, tpk);
+	}
+
+	public void removeSignature(Signature sig) {
+		manager.remove(manager.contains(sig) ? sig : manager.merge(sig));
+	}
+
 	public void addSignature(final Signature newSignature) {
 		manager.persist(newSignature);
 	}
@@ -496,24 +560,24 @@ public class DatabaseController implements Serializable {
 
 /*
  * This is just a place holder for extra whitespace
- * 
+ *
  * f
- * 
+ *
  * g
- * 
+ *
  * g
- * 
+ *
  * g
- * 
+ *
  * g
- * 
+ *
  * g
- * 
+ *
  * g
- * 
+ *
  * g
- * 
+ *
  * g
- * 
+ *
  * g
  */
