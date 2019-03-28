@@ -1,6 +1,12 @@
+<<<<<<< HEAD
+/controller/
+/service/
+/model/
+=======
 /META-INF/
 /controller/
 /model/
 /service/
 /utils/
 /validator/
+>>>>>>> ae820c6e3f1ead19eb763775302413378e683aeb
