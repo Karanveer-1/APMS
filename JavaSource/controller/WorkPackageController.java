@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -13,7 +14,7 @@ import org.primefaces.model.TreeNode;
 import model.WorkPackage;
 
 @Named("wpController")
-
+@SessionScoped
 public class WorkPackageController implements Serializable {
 	@Inject
 	private DatabaseController database;
