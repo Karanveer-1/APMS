@@ -30,7 +30,7 @@ import utils.DateUtils;
 @SessionScoped
 public class TimesheetController implements Serializable {
     @Inject
-    private TimesheetAuthenticationController auth;
+    private AuthenticationController auth;
     
     @Inject
     private DatabaseController database;
