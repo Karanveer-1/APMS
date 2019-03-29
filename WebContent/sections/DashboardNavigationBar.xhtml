@@ -43,8 +43,8 @@
 						</h:commandLink></li>
 					<li>
 						<h:commandLink action="ApproveTimesheet.xhtml?faces-redirect=true" 
-						rendered="#{approveTimesheetController.auth.isUserInRole('System Admin') ||
-                         approveTimesheetController.auth.isUserInRole('Approver')}">
+						rendered="#{authController.isUserInRole('system admin') ||
+                         authController.isUserInRole('approver')}">
 							<i class="ti-alarm-clock"></i>
                             Approve Timesheet
                         </h:commandLink>

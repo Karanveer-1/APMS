@@ -10,9 +10,9 @@ import javax.inject.Named;
 
 import model.Employee;
 
-@Named("timesheetAuthController")
+@Named("authController")
 @SessionScoped
-public class TimesheetAuthenticationController implements Serializable {
+public class AuthenticationController implements Serializable {
     
     @Inject
     private DatabaseController database;
@@ -27,6 +27,8 @@ public class TimesheetAuthenticationController implements Serializable {
     }
     
     public boolean isUserInRole(String role) {
+        role = role.toUpperCase();
+        
         String userRole = database.getRoleById(currentEmployee.getEmpNumber());
         
         if (userRole.equalsIgnoreCase(role)) {

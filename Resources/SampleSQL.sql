@@ -231,9 +231,9 @@ CREATE TABLE Role
 );
 
 -- Load data into table Role
-INSERT INTO APMS.Role VALUES('1', 'System Admin');
-INSERT INTO APMS.Role VALUES('2', 'Employee');
-INSERT INTO APMS.Role VALUES('3', 'Employee');
+INSERT INTO APMS.Role VALUES('1', 'SYSTEM ADMIN');
+INSERT INTO APMS.Role VALUES('2', 'EMPLOYEE');
+INSERT INTO APMS.Role VALUES('3', 'EMPLOYEE');
 
 
 CREATE TABLE Signature(
