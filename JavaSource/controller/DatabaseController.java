@@ -20,6 +20,7 @@ import model.ProAssi;
 import model.ProEmp;
 import model.ProEmpPK;
 import model.Project;
+import model.Role;
 import model.Signature;
 import model.Timesheet;
 import model.TimesheetPK;
@@ -90,6 +91,10 @@ public class DatabaseController implements Serializable {
 	// #########################################################################
 	// # Timesheet methods
 	// #########################################################################
+	public List<Timesheet> getTimesheets() {
+	    return manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
+	}
+	
 	public List<Timesheet> getTimesheets(int empNo) {
 		List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
 
@@ -556,6 +561,21 @@ public class DatabaseController implements Serializable {
 		manager.persist(newSignature);
 	}
 
+	
+	// #########################################################################
+    // # Role methods
+    // #########################################################################
+	public String getRoleById(int empNo) {
+	    List<Role> roles = manager.createQuery("SELECT r FROM Role r", Role.class).getResultList();
+	    
+	    for (Role r : roles) {
+	        if (r.getRolePk().getEmpNo() == empNo) {
+	            return r.getRolePk().getRole();
+	        }
+	    }
+	    
+	    return null;
+	}
 }
 
 /*

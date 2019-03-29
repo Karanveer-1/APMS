@@ -17,6 +17,9 @@ import model.TimesheetState;
 @SessionScoped
 public class ApproveTimesheetController implements Serializable {
     @Inject
+    private TimesheetAuthenticationController auth;
+    
+    @Inject
     private DatabaseController database;
     private List<Timesheet> submittedTimesheets;
 
@@ -103,6 +106,14 @@ public class ApproveTimesheetController implements Serializable {
 
     public void setViewTimesheet(Timesheet viewTimesheet) {
         this.viewTimesheet = viewTimesheet;
+    }
+
+    public TimesheetAuthenticationController getAuth() {
+        return auth;
+    }
+
+    public void setAuth(TimesheetAuthenticationController auth) {
+        this.auth = auth;
     }
 
     

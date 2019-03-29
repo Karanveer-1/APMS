@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import model.Employee;
+import model.EmployeeRole;
 import model.Timesheet;
 import model.TimesheetPK;
 import model.TimesheetRow;
@@ -28,7 +29,9 @@ import utils.DateUtils;
 @Named("timesheetController")
 @SessionScoped
 public class TimesheetController implements Serializable {
-
+    @Inject
+    private TimesheetAuthenticationController auth;
+    
     @Inject
     private DatabaseController database;
     private List<Timesheet> timesheets;
@@ -48,10 +51,18 @@ public class TimesheetController implements Serializable {
                 return;
             }
 
-            timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
+            timesheets = updateUserTimesheets();
 
         } catch (NullPointerException e) {
             // e.printStackTrace();
+        }
+    }
+    
+    public List<Timesheet> updateUserTimesheets() {
+        if (auth.isUserInRole(EmployeeRole.SYSTEM_ADMIN)) {
+            return database.getTimesheets();
+        } else {
+            return database.getTimesheets(currentEmployee.getEmpNumber());
         }
     }
 
@@ -95,7 +106,7 @@ public class TimesheetController implements Serializable {
         database.addIfNotExistTimesheetRows(editTimesheetRows);
         database.addTimesheetIfNotExist(editTimesheet, true);
 
-        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
+        timesheets = updateUserTimesheets();
 
         return "Timesheets.xhtml?faces-redirect=true";
     }
@@ -104,7 +115,7 @@ public class TimesheetController implements Serializable {
         editTimesheet = null;
         editTimesheetRows = null;
 
-        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
+        timesheets = updateUserTimesheets();
 
         return "Timesheets.xhtml?faces-redirect=true";
     }
@@ -115,7 +126,7 @@ public class TimesheetController implements Serializable {
                 database.getTimesheetRows(t.getTimesheetPk().getEmpNo(),
                         t.getTimesheetPk().getStartDate()));
         
-        timesheets = database.getTimesheets(currentEmployee.getEmpNumber());
+        timesheets = updateUserTimesheets();
     }
 
     public void addTimesheetRow() {
