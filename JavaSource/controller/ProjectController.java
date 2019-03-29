@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 
 import javax.faces.context.FacesContext;
@@ -20,7 +21,7 @@ import model.Employee;
 import model.Project;
 
 @Named("projectController")
-@ConversationScoped
+@SessionScoped
 public class ProjectController implements Serializable {
 
 	@Inject
