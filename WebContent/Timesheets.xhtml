@@ -16,16 +16,17 @@
 		<ui:define name="headerTitle">
 			<h:outputText value="Timesheets" class="navbar-brand" />
 		</ui:define>
+		<ui:define name="navBar">
+			<ui:include src="/sections/TimesheetNavigationBar.xhtml" />
+		</ui:define>
 
 		<ui:define name="content">
 			<f:event listener="#{timesheetController.init}" type="preRenderView" />
-
+    
+            <h:outputText value="&nbsp;"/>
+            
 			<h:form id="formMain">
-				<p:commandButton id="addButton" value="Add Timesheet"
-					onclick="PF('addTimesheetDialog').show();">           
-                    <p:ajax update=":formAddDialog:createButton" />
-				</p:commandButton>
-
+	
 				<p:dataTable id="viewTable"
 					value="#{timesheetController.timesheets}" var="timesheet">
 					<p:column headerText="Date">
