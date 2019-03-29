@@ -11,7 +11,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 
 import javax.faces.context.FacesContext;
-
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -21,7 +21,7 @@ import model.Employee;
 import model.Project;
 
 @Named("projectController")
-@SessionScoped
+@ViewScoped
 public class ProjectController implements Serializable {
 
 	@Inject
@@ -99,19 +99,23 @@ public class ProjectController implements Serializable {
 		this.employeeList = employeeList;
 	}
 
-	public void addProject() throws IOException {
+	public void persistProject() throws IOException {
+
 		List<Project> allP = database.getAllProjects();
 		int proLength = allP.size();
 		if (proLength != 0) {
 			int lastId = allP.get(proLength - 1).getProNo();
 			addProject = new Project();
 			this.addProject.setProNo(lastId + 1);
+			System.out.println(this.addProject);
+
 		} else {
 			addProject = new Project();
 			this.addProject.setProNo(100);
 		}
 		boolean addSuccess = database.persistProject(addProject);
-
+		projects = database.getAllProjects();
+		System.out.println("Add success is " + addSuccess);
 		if (addSuccess) {
 			FacesMessage msg = new FacesMessage("New Project Added");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
