@@ -37,4 +37,10 @@ public class AuthenticationController implements Serializable {
         
         return false;
     }
+    
+    public boolean isUserSupervisor() {
+        return database.checkIfSupervisor(currentEmployee.getEmpNumber());
+    }
+    
+    
 }

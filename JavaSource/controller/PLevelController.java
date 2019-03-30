@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +36,6 @@ public class PLevelController implements Serializable {
         editPLevel = null;
         pLevels = database.getPLevels();
         System.out.println(pLevels);
-
     }
 
     /**
@@ -43,6 +43,7 @@ public class PLevelController implements Serializable {
      * @return the pLevels
      */
     public List<PLevel> getpLevels() {
+        pLevels = database.getPLevels();
         return pLevels;
     }
 
@@ -71,6 +72,10 @@ public class PLevelController implements Serializable {
         PrimeFaces.current().executeScript("PF('editPLevelDialog').show();");
     }
     
+    public void closeDialog() {
+        PrimeFaces.current().executeScript("PF('errorDialog').hide();");
+    }
+    
     public void editPLevel(Float wage) {
         
         float wagef = wage;
@@ -78,11 +83,8 @@ public class PLevelController implements Serializable {
         pLevels = database.getPLevels();        
         if (Float.valueOf(wage) > 0) {
             editPLevel.setWage(wagef);
-            
             database.updatePLevel(editPLevel);
-            
             pLevels = database.getPLevels();
-
             PrimeFaces.current()
                     .executeScript("PF('editPLevelDialog').hide();");
         }
@@ -94,16 +96,24 @@ public class PLevelController implements Serializable {
     }
     
     public void add(String pLevel, Date startDate, String wage) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Float wagef = Float.valueOf(wage);
         pLevels = database.getPLevels();  
         boolean validPK = true;
         for(PLevel p : pLevels) {
-            if(p.getpLevelPK().getpLevel().equals(pLevel) && p.getpLevelPK().getStartDate().equals(startDate)) {
+            System.out.println(p.getpLevelPK().getpLevel() + " : " + pLevel);
+            System.out.println(p.getpLevelPK().getStartDate() + " : " + startDate);
+            System.out.println(p.getpLevelPK().getpLevel().equals(pLevel));
+            System.out.println(sdf.format(p.getpLevelPK().getStartDate()).equals(sdf.format(startDate)));
+            
+            if(p.getpLevelPK().getpLevel().equals(pLevel) && sdf.format(p.getpLevelPK().getStartDate()).equals(sdf.format(startDate))) {
                 validPK = false;
+                PrimeFaces.current().executeScript("PF('errorDialog').show();");
                 break;
             }
         }
         if(validPK) {
+            System.out.println(startDate);
             database.addPLevel(new PLevel(pLevel, startDate, wagef));
         }
         pLevels = database.getPLevels();  

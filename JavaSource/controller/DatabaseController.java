@@ -11,11 +11,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
-import com.sun.corba.se.spi.orbutil.threadpool.Work;
-
+import model.EmpPLevel;
 import model.Employee;
 import model.PLevel;
-
 import model.ProAssi;
 import model.ProEmp;
 import model.ProEmpPK;
@@ -26,11 +24,8 @@ import model.Timesheet;
 import model.TimesheetPK;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
-
-import model.WPEmp;
-
 import model.TimesheetState;
-
+import model.WPEmp;
 import model.WorkPackage;
 import model.WorkPackagePK;
 import utils.DateUtils;
@@ -50,6 +45,10 @@ public class DatabaseController implements Serializable {
 	public List<Employee> getActiveEmployees() {
 		return manager.createQuery("SELECT e FROM Employee e WHERE e.state = 'Active'", Employee.class).getResultList();
 	}
+
+	public List<Employee> getInActiveEmployees() {
+        return manager.createQuery("SELECT e FROM Employee e WHERE e.state = 'Not Active'", Employee.class).getResultList();
+    }
 
 	public Employee getEmployeeByUsername(String username) {
 		TypedQuery<Employee> query = manager.createQuery("select e from Employee e where e.userName = :username",
@@ -268,7 +267,8 @@ public class DatabaseController implements Serializable {
 	 */
 	public boolean updateProject(Project project) {
 		Project p = this.manager.find(Project.class, project.getProNo());
-		if (p != null) {
+		if (p == null ) {
+			
 			this.manager.merge(project);
 			return true;
 		}
@@ -576,6 +576,37 @@ public class DatabaseController implements Serializable {
 	    
 	    return null;
 	}
+
+
+    public boolean checkIfSupervisor(int empNumber) {
+        List<Employee> list = manager.createQuery("SELECT e FROM Employee e WHERE e.superEmpNo = :number", Employee.class)
+                .setParameter("number", empNumber).getResultList();
+        if (list.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    
+
+    /**
+     * @return
+     */
+    public List<EmpPLevel> getEmpPLevels() {
+        return manager.createQuery("SELECT p FROM EmpPLevel p", EmpPLevel.class)
+                .getResultList();
+    }
+    public void addEmpPLevel(EmpPLevel e) {
+        manager.persist(e);
+    }
+    public void updateEmpPLevel(EmpPLevel e) {
+        manager.merge(e);
+    }
+    public void removeEmpPLevel(EmpPLevel ep) {
+        manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
+    }
+
 }
 
 /*
