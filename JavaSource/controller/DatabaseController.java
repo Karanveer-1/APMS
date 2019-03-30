@@ -263,7 +263,8 @@ public class DatabaseController implements Serializable {
 	 */
 	public boolean updateProject(Project project) {
 		Project p = this.manager.find(Project.class, project.getProNo());
-		if (p != null) {
+		if (p == null ) {
+			
 			this.manager.merge(project);
 			return true;
 		}

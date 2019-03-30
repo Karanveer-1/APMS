@@ -130,6 +130,8 @@ public class ProjectController implements Serializable {
 	public void onRowEdit(RowEditEvent event) {
 		editProject = (Project) event.getObject();
 		boolean updateSuccess = this.database.updateProject(editProject);
+
+		projects = database.getAllProjects();
 		if (updateSuccess) {
 			FacesMessage msg = new FacesMessage("Project #" + editProject.getProNo() + " Edited");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -159,9 +161,5 @@ public class ProjectController implements Serializable {
 		return currentEmployee;
 	}
 
-	public String viewProject(Project project) {
-		return "/ViewProject.xhtml?proNo=" + project.getProNo() + "&faces-redirect=true";
-
-	}
 
 }
