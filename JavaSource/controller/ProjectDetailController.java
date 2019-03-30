@@ -72,5 +72,6 @@ public class ProjectDetailController implements Serializable {
 	public void setProAssi(List<Employee> proAssi) {
 		this.proAssi = proAssi;
 	}
+	
 
 }
