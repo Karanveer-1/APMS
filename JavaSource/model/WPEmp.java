@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Table;
 
-@Embeddable
 @Table(name = "WPEmp")
 public class WPEmp implements Serializable {
 
@@ -15,44 +15,43 @@ public class WPEmp implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "ProNo", nullable = false)
-	private int proNo;
+	@EmbeddedId
+	private WPEmpPK pk;
 
-	@Column(name = "WPID", nullable = false)
-	private String WPID;
+	public WPEmp() {
 
-	@Column(name = "EmpNo", nullable = false)
-	private int empNo;
+	}
 
-	public WPEmp(int proNo, String wPID, int empNo) {
-		super();
-		this.proNo = proNo;
-		WPID = wPID;
-		this.empNo = empNo;
+	public WPEmpPK getPk() {
+		return pk;
+	}
+
+	public void setPk(WPEmpPK pk) {
+		this.pk = pk;
 	}
 
 	public int getProNo() {
-		return proNo;
+		return pk.getProNo();
 	}
 
 	public void setProNo(int proNo) {
-		this.proNo = proNo;
+		pk.setProNo(proNo);
 	}
 
-	public String getWPID() {
-		return WPID;
+	public String getWpid() {
+		return pk.getWpid();
 	}
 
-	public void setWPID(String wPID) {
-		WPID = wPID;
+	public void setWpid(String wpid) {
+		pk.setWpid(wpid);
 	}
 
 	public int getEmpNo() {
-		return empNo;
+		return pk.getEmpNo();
 	}
 
 	public void setEmpNo(int empNo) {
-		this.empNo = empNo;
+		pk.setEmpNo(empNo);
 	}
 
 }

@@ -16,13 +16,17 @@
 		<ui:define name="headerTitle">
 			<h:outputText value="Timesheets" class="navbar-brand" />
 		</ui:define>
+		<ui:define name="navBar">
+			<ui:include src="/sections/TimesheetNavigationBar.xhtml" />
+		</ui:define>
 
 		<ui:define name="content">
-
+			<f:event listener="#{timesheetController.init}" type="preRenderView" />
+    
+            <h:outputText value="&nbsp;"/>
+            
 			<h:form id="formMain">
-				<p:commandButton id="addButton" value="Add Timesheet"
-					onclick="PF('addTimesheetDialog').show();" />
-
+	
 				<p:dataTable id="viewTable"
 					value="#{timesheetController.timesheets}" var="timesheet">
 					<p:column headerText="Date">
@@ -33,11 +37,11 @@
 					<p:column headerText="State">
 						<h:outputText value="#{timesheet.state}" />
 					</p:column>
-					<p:column headerText="Signature">
-						<h:outputText value="#{timesheet.signature}" />
-					</p:column>
 					<p:column headerText="Approved Emp No">
 						<h:outputText value="#{timesheet.approvedEmpNo}" />
+					</p:column>
+					<p:column headerText="Signature">
+						<h:outputText value="#{timesheet.signature}" />
 					</p:column>
 					<p:column headerText="Comment">
 						<h:outputText value="#{timesheet.comment}" />
@@ -45,23 +49,24 @@
 					<p:column headerText="Edit">
 						<p:commandButton value="Edit"
 							action="#{timesheetController.editTimesheet(timesheet)}"
-							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"/>
+							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
+							style="width: 100%" />
 					</p:column>
 					<p:column headerText="Delete">
 						<p:commandButton value="Delete"
 							action="#{timesheetController.deleteTimesheet(timesheet)}"
 							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
-							update=":formMain" />
+							update=":formMain" style="width: 100%" />
 					</p:column>
 					<p:column headerText="Submit / Cancel">
 						<p:commandButton value="Submit"
 							action="#{timesheetController.submitTimesheet(timesheet)}"
 							rendered="#{timesheetController.canSubmitTimesheet(timesheet)}"
-							update=":formMain" />
+							update=":formMain" style="width: 100%" />
 						<p:commandButton value="Cancel"
 							action="#{timesheetController.cancelSubmitTimesheet(timesheet)}"
 							rendered="#{timesheetController.canCancelSubmitTimesheet(timesheet)}"
-							update=":formMain" />
+							update=":formMain" style="width: 100%" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
@@ -69,13 +74,12 @@
 			<p:dialog id="addDialog" header="Select Date" modal="true"
 				widgetVar="addTimesheetDialog" resizable="false" draggable="false">
 				<h:form id="formAddDialog">
-
-
 					<p:calendar id="datePicker" pattern="MMM. dd, yyyy" mode="inline"
 						binding="#{createTimesheetDate}"
 						mindate="#{timesheetController.calendarCurrentTimesheetStartDate()}">
 						<p:ajax event="dateSelect" update="createButton" />
 					</p:calendar>
+
 					<p:commandButton id="createButton" value="Create"
 						action="#{timesheetController.addTimesheet(createTimesheetDate.value)}"
 						disabled="#{timesheetController.canCreateTimesheet(createTimesheetDate.value)}" />

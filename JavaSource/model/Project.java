@@ -120,4 +120,27 @@ public class Project implements Serializable {
 				+ proDesc + ", budget=" + budget + ", state=" + state + ", comment=" + comment + "]";
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o == null) {
+			return false;
+		}
+
+		if (!o.getClass().equals(this.getClass())) {
+			return false;
+		}
+
+		if (!(o instanceof Project)) {
+			return false;
+		}
+
+		Project p = (Project) o;
+
+		if (p.getProNo() == this.getProNo()) {
+			return true;
+		}
+
+		return false;
+	}
+
 }

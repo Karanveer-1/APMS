@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>IGNORED!</title>
+</h:head>
+
+<h:body>
+	<ui:composition template="/templates/MasterLayout.xhtml">
+
+		<ui:define name="windowTitle">Projects</ui:define>
+		<ui:define name="headerTitle">
+			<h:outputText value="Projects" class="navbar-brand" />
+		</ui:define>
+		<ui:define name="navBar">
+			<ui:include src="/sections/ProjectManagementNavigationBar.xhtml" />
+		</ui:define>
+		<ui:define name="content">
+
+			<p>#{pdController.project.proNo}</p>
+			<p>#{pdController.project.proMgrEmpNo}</p>
+			<p>#{pdController.project.proName}</p>
+			<p>#{pdController.project.proDesc}</p>
+			<p>#{pdController.project.budget}</p>
+			<p>#{pdController.project.state}</p>
+			<p>#{pdController.project.comment}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -16,7 +16,9 @@
 		<ui:define name="headerTitle">
 			<h:outputText value="Projects" class="navbar-brand" />
 		</ui:define>
-
+		<ui:define name="navBar">
+			<ui:include src="/sections/ProjectNavigationBar.xhtml" />
+		</ui:define>
 		<ui:define name="content">
 
 			<h:form id="form">
@@ -53,7 +55,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column headerText="Project Project">
+					<p:column headerText="Project Name">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.proName}" />
@@ -131,11 +133,14 @@
 						<p:rowEditor />
 
 					</p:column>
+
 					<p:column style="text-align:center">
-						<p:commandButton value="Assign" action="#{assignProject.addEmployees(project)}" />
+						<p:commandButton value="Assign"
+							action="#{assignProject.addEmployees(project)}" />
 					</p:column>
-					
+
 					<p:column style="text-align:center">
+
 						<p:commandButton value="Delete" update="project"
 							action="#{projectController.deleteProject(project)}" />
 

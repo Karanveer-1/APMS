@@ -28,7 +28,6 @@ GRANT ALL PRIVILEGES ON APMS.* TO 'employee'@'%' WITH GRANT OPTION;
 
 USE APMS;
 
-
 CREATE TABLE Employee
 (
     EmpNo           INTEGER         NOT NULL,
@@ -94,7 +93,6 @@ CREATE TABLE Project
 );
 
 -- Load data into table Project
-
 INSERT INTO APMS.Project VALUES('100', '4', 'Macaroni', 'First Project', '123.45','OPEN', 'First Project' );
 INSERT INTO APMS.Project VALUES('101', '2', 'Pizza', 'Second Project', '14.45','OPEN', 'Second Project' );
 
@@ -108,8 +106,9 @@ CREATE TABLE ProAssi
     PRIMARY KEY(ProNo, ProAssiEmpNo)
 );
 
--- Load data into table ProAssi
 
+-- Load data into table ProAssi
+INSERT INTO APMS.ProAssi VALUES('100', '2');
 
 
 
@@ -122,7 +121,6 @@ CREATE TABLE ProEmp
 );
 
 -- Load data into table ProEmp
-
 INSERT INTO APMS.ProEmp VALUES('100', '1');
 INSERT INTO APMS.ProEmp VALUES('101', '1');
 
@@ -142,25 +140,15 @@ CREATE TABLE WorkPackage
     Comment        VARCHAR(1000)   ,
     PRIMARY KEY(ProNo, WPID)
 );
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP101', '1','COMP101','COMP101',NULL,'10','OPEN',NULL);
-
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP201', '1','COMP201','COMP201','COMP101','10','OPEN',NULL);
-
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP303', '1','COMP303','COMP303','COMP201','10','OPEN',NULL);
-
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP305', '1','COMP305','COMP305','COMP201','10','OPEN',NULL);
-
-
-
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP204', '1','COMP204','COMP204','COMP101','10','OPEN',NULL);
-
-
-INSERT INTO APMS.WorkPackage VALUES('100', 'BUSI101', '1','BUSI101','BUSI101',NULL,'10','OPEN',NULL);
-
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMM101', '1','COMM101','COMM101',NULL,'10','OPEN',NULL);
-
 
 -- Load data into table WorkPackage
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP101', '1','COMP101','COMP101',NULL,'10','OPEN',NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP201', '1','COMP201','COMP201','COMP101','10','OPEN',NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP303', '1','COMP303','COMP303','COMP201','10','OPEN',NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP305', '1','COMP305','COMP305','COMP201','10','OPEN',NULL);
+INSERT INTO APMS.WorkPackage VALUES('101', 'COMP204', '1','COMP204','COMP204','COMP101','10','OPEN',NULL);
+INSERT INTO APMS.WorkPackage VALUES('101', 'BUSI101', '1','BUSI101','BUSI101',NULL,'10','OPEN',NULL);
+INSERT INTO APMS.WorkPackage VALUES('101', 'COMM101', '1','COMM101','COMM101',NULL,'10','OPEN',NULL);
 
 
 
@@ -191,9 +179,6 @@ CREATE TABLE Timesheet
 );
 
 -- Load data into table Timesheet
-
-
-
 
 
 -- Create table TimesheetRow
@@ -230,14 +215,15 @@ CREATE TABLE Role
 );
 
 -- Load data into table Role
-
+INSERT INTO APMS.Role VALUES('1', 'SYSTEM ADMIN');
+INSERT INTO APMS.Role VALUES('2', 'APPROVER');
+INSERT INTO APMS.Role VALUES('3', 'EMPLOYEE');
 
 
 CREATE TABLE Signature(
 	EmpNo          INTEGER         NOT NULL,
     StartDate      DATE            NOT NULL,
-	Signature 	   TINYBLOB 	   NOT NULL, 
+	Signature 	   TINYBLOB 	   NOT NULL,
 	PublicKey 	   BLOB 		   NOT NULL,
 	PRIMARY KEY(EmpNo, StartDate)
 );
-
