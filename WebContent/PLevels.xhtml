@@ -29,7 +29,7 @@
 					</p:column>
 					<p:column headerText="StartDate">
 						<h:outputText value="#{pLevel.pLevelPK.startDate}" >
-							<f:convertDateTime pattern = "dd-mm-yyyy" />
+							<f:convertDateTime pattern = "dd-MMM-yyyy" />
 						</h:outputText>
 					</p:column>
 					<p:column headerText="Wage">
@@ -71,6 +71,15 @@
 					<p:commandButton update=":formMain:pLevelTable :formEditDialog"
 						value="Save"
 						action="#{pLevelController.editPLevel(editWageText.value)}" />
+				</h:form>
+			</p:dialog>
+			<p:dialog id="errorDialog" header="PLevel and StartDate not Unique" modal="true"
+				width="400" widgetVar="errorDialog" resizable="false"
+				draggable="false">
+				<h:form id="formErrorDialog">
+					<p:commandButton update=":formMain:pLevelTable :formErrorDialog"
+						value="OK"
+						action="#{pLevelController.closeDialog()}" />
 				</h:form>
 			</p:dialog>
 			<p:dialog id="addDialog" header="Add PLevel" modal="true"

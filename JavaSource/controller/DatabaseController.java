@@ -11,25 +11,21 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
-import com.sun.corba.se.spi.orbutil.threadpool.Work;
-
+import model.EmpPLevel;
 import model.Employee;
 import model.PLevel;
-
 import model.ProAssi;
 import model.ProEmp;
 import model.ProEmpPK;
 import model.Project;
+import model.Role;
 import model.Signature;
 import model.Timesheet;
 import model.TimesheetPK;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
-
-import model.WPEmp;
-
 import model.TimesheetState;
-
+import model.WPEmp;
 import model.WorkPackage;
 import model.WorkPackagePK;
 import utils.DateUtils;
@@ -90,6 +86,10 @@ public class DatabaseController implements Serializable {
 	// #########################################################################
 	// # Timesheet methods
 	// #########################################################################
+	public List<Timesheet> getTimesheets() {
+	    return manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
+	}
+	
 	public List<Timesheet> getTimesheets(int empNo) {
 		List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
 
@@ -556,6 +556,39 @@ public class DatabaseController implements Serializable {
 		manager.persist(newSignature);
 	}
 
+	
+	// #########################################################################
+    // # Role methods
+    // #########################################################################
+	public String getRoleById(int empNo) {
+	    List<Role> roles = manager.createQuery("SELECT r FROM Role r", Role.class).getResultList();
+	    
+	    for (Role r : roles) {
+	        if (r.getRolePk().getEmpNo() == empNo) {
+	            return r.getRolePk().getRole();
+	        }
+	    }
+	    
+	    return null;
+	}
+
+
+    /**
+     * @return
+     */
+    public List<EmpPLevel> getEmpPLevels() {
+        return manager.createQuery("SELECT p FROM EmpPLevel p", EmpPLevel.class)
+                .getResultList();
+    }
+    public void addEmpPLevel(EmpPLevel e) {
+        manager.persist(e);
+    }
+    public void updateEmpPLevel(EmpPLevel e) {
+        manager.merge(e);
+    }
+    public void removeEmpPLevel(EmpPLevel ep) {
+        manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
+    }
 }
 
 /*

@@ -16,17 +16,16 @@
 		<ui:define name="headerTitle">
 			<h:outputText value="Edit Timesheet" class="navbar-brand" />
 		</ui:define>
+		<ui:define name="navBar">
+			<ui:include src="/sections/EditTimesheetNavigationBar.xhtml" />
+		</ui:define>
 
 		<ui:define name="content">
 			<h:form id="formMain">
 				<p:commandButton value="Add Row"
 					action="#{timesheetController.addTimesheetRow()}"
 					update="editTable" />
-				<p:commandButton value="Save"
-					action="#{timesheetController.saveTimesheet()}" />
-				<p:commandButton value="Discard Changes"
-					action="#{timesheetController.discardTimesheetChanges()}"
-					immediate="true" />
+
 
 				<p:dataTable id="editTable"
 					value="#{timesheetController.editTimesheetRows}" var="row">
@@ -54,7 +53,7 @@
 						</h:outputText>
 					</p:column>
 					  -->
-					  
+
 					<p:column headerText="Sat">
 						<p:inputText value="#{row.sat}" autocomplete="off"
 							style="width: 100%">
