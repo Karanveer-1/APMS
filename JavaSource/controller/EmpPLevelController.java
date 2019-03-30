@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,7 +25,7 @@ import model.PLevel;
  * @version 2017
  */
 @Named("empPLevelController")
-@SessionScoped
+@RequestScoped
 public class EmpPLevelController implements Serializable {
 
     @Inject
@@ -38,7 +39,6 @@ public class EmpPLevelController implements Serializable {
     
     @PostConstruct
     public void init() {
-        
         editEmpPLevel = null;
         pLevels = database.getPLevels();
         empPLevels = database.getEmpPLevels();
@@ -61,6 +61,7 @@ public class EmpPLevelController implements Serializable {
      * @return the pLevels
      */
     public List<PLevel> getpLevels() {
+        pLevels = database.getPLevels();
         return pLevels;
     }
 
@@ -77,6 +78,8 @@ public class EmpPLevelController implements Serializable {
      * @return the empPLevels
      */
     public List<EmpPLevel> getEmpPLevels() {
+        empPLevels = database.getEmpPLevels();
+        populateDropDown();
         return empPLevels;
     }
 
