@@ -60,6 +60,7 @@ public class EmpPLevelController implements Serializable {
      * @return the pLevels
      */
     public List<PLevel> getpLevels() {
+        pLevels = database.getPLevels();
         return pLevels;
     }
 
@@ -76,6 +77,8 @@ public class EmpPLevelController implements Serializable {
      * @return the empPLevels
      */
     public List<EmpPLevel> getEmpPLevels() {
+        empPLevels = database.getEmpPLevels();
+        populateDropDown();
         return empPLevels;
     }
 

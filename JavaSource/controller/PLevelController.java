@@ -43,6 +43,7 @@ public class PLevelController implements Serializable {
      * @return the pLevels
      */
     public List<PLevel> getpLevels() {
+        pLevels = database.getPLevels();
         return pLevels;
     }
 
