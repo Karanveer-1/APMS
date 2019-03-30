@@ -16,6 +16,9 @@
 		<ui:define name="headerTitle">
 			<h:outputText value="Approve Timesheet" class="navbar-brand" />
 		</ui:define>
+		<ui:define name="navBar">
+			<ui:include src="/sections/ApproveTimesheetViewNavigationBar.xhtml" />
+		</ui:define>
 
 		<ui:define name="content">
 			<h:form id="formMain">
@@ -50,8 +53,8 @@
 				<p:commandButton value="Return"
 					action="#{approveTimesheetController.returnTimesheet()}" />
 
-				<p:commandButton value="Back" action="ApproveTimesheet.xhtml" />
-
+                <h:outputText value="" />
+                
 				<p:dataTable id="viewTable"
 					value="#{approveTimesheetController.viewTimesheetRows}" var="row">
 					<p:column headerText="Project No">

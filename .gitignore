@@ -67,3 +67,5 @@ client/shade/dependency-reduced-pom.xml
 
 # generated SQL files
 Resources/seedData/output/
+
+WebContent/WEB-INF/classes/

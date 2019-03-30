@@ -16,6 +16,7 @@ import model.TimesheetState;
 @Named("approveTimesheetController")
 @SessionScoped
 public class ApproveTimesheetController implements Serializable {
+    
     @Inject
     private DatabaseController database;
     private List<Timesheet> submittedTimesheets;
@@ -103,7 +104,5 @@ public class ApproveTimesheetController implements Serializable {
 
     public void setViewTimesheet(Timesheet viewTimesheet) {
         this.viewTimesheet = viewTimesheet;
-    }
-
-    
+    }    
 }
