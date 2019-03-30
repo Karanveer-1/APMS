@@ -116,7 +116,6 @@ public class ProjectDetailController implements Serializable {
 
 	public void addWp(WorkPackage wp) {
 		WorkPackage newWp = new WorkPackage();
-		
 		newWp.setWpid("he" + wp.getWpid());
 		newWp.setProNo(wp.getProNo());
 		this.database.persistChildWP(wp, newWp);
