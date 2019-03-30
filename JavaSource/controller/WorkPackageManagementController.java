@@ -16,9 +16,9 @@ import model.Employee;
 import model.Project;
 import model.WorkPackage;
 
-@Named("wpreController")
+@Named("wpmController")
 @ViewScoped
-public class WorkPackageREController implements Serializable {
+public class WorkPackageManagementController implements Serializable {
 
 	@Inject
 	private DatabaseController database;
@@ -29,7 +29,7 @@ public class WorkPackageREController implements Serializable {
 
 	private WorkPackage editWP;
 
-	public WorkPackageREController() {
+	public WorkPackageManagementController() {
 
 	}
 
