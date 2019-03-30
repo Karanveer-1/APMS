@@ -28,7 +28,7 @@ public class ProjectDetailController implements Serializable {
 	private Project project;
 
 	private List<Employee> proAssi;
-	
+
 	private List<Employee> empPool;
 
 	public ProjectDetailController() {
@@ -48,10 +48,12 @@ public class ProjectDetailController implements Serializable {
 		this.project = project;
 	}
 
+
 	public String detail(Project project) {
-		
+
 		this.project = project;
 		this.proAssi = getAssistantManager();
+		this.empPool = getAllProjectEmp();
 
 		return "ProjectDetail.xhtml?faces-redirect=true";
 
@@ -72,6 +74,12 @@ public class ProjectDetailController implements Serializable {
 	public void setProAssi(List<Employee> proAssi) {
 		this.proAssi = proAssi;
 	}
+
+	public List<Employee> getAllProjectEmp() {
+		List<Employee> result = this.database.getEmployeeForProject(project.getProNo());
+		return result;
+	}
+	
 	
 
 }
