@@ -19,7 +19,7 @@ ReEmp can modify workpakcage
 Project ( Supervisor ) (add/delete)
  ViewProject  (only manager/assistant edit/read/ )
 ---—|
-    |__ Project Detail (RU) 
+    |__ Project Detail (RU)
     |__ WorkPackages (CRUD) assign engineer
     |__ Assign Assistant (CRUD)
 
@@ -30,4 +30,7 @@ WorkPackages ( engineer) (U)
 
 
 PROBLEM:
-Who are the supervisor ? How can we add new supervisors ?
+
+
+I need to fix the update project for supervisors
+make project management ajax

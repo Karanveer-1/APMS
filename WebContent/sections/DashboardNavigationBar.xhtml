@@ -18,13 +18,7 @@
 							<i class="ti-panel"></i>
 							Dashboard
 						</h:commandLink></li>
-					<li><h:commandLink id="nav-employee" action="Employees.xhtml?faces-redirect=true"
-					rendered="#{authController.isUserInRole('system admin') ||
-                         	authController.isUserInRole('human resource') || 
-                         	authController.isUserSupervisor()}">
-							<i class="ti-user"></i>
-							Employee
-						</h:commandLink></li>
+
 					<li><h:commandLink id="nav-my-profile"
 							action="UserProfile.xhtml?faces-redirect=true">
 							<i class="ti-user"></i>
@@ -61,6 +55,16 @@
 </ui:composition>
 <!-- END OF SIDE NAVIGATION BAR -->
 <!-- BRING THIS BACK LATER	
+
+					<li><h:commandLink id="nav-employee" action="Employees.xhtml?faces-redirect=true"
+					rendered="#{authController.isUserInRole('system admin') ||
+                         	authController.isUserInRole('human resource') || 
+                         	authController.isUserSupervisor()}">
+							<i class="ti-user"></i>
+							Employee
+						</h:commandLink></li> 
+						
+						
 					<li>
 						<h:commandLink action="ApproveTimesheet.xhtml?faces-redirect=true" 
 						rendered="#{authController.isUserInRole('system admin') ||

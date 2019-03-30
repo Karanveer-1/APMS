@@ -47,8 +47,9 @@ public class DatabaseController implements Serializable {
 	}
 
 	public List<Employee> getInActiveEmployees() {
-        return manager.createQuery("SELECT e FROM Employee e WHERE e.state = 'Not Active'", Employee.class).getResultList();
-    }
+		return manager.createQuery("SELECT e FROM Employee e WHERE e.state = 'Not Active'", Employee.class)
+				.getResultList();
+	}
 
 	public Employee getEmployeeByUsername(String username) {
 		TypedQuery<Employee> query = manager.createQuery("select e from Employee e where e.userName = :username",
@@ -91,9 +92,9 @@ public class DatabaseController implements Serializable {
 	// # Timesheet methods
 	// #########################################################################
 	public List<Timesheet> getTimesheets() {
-	    return manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
+		return manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
 	}
-	
+
 	public List<Timesheet> getTimesheets(int empNo) {
 		List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
 
@@ -267,8 +268,8 @@ public class DatabaseController implements Serializable {
 	 */
 	public boolean updateProject(Project project) {
 		Project p = this.manager.find(Project.class, project.getProNo());
-		if (p == null ) {
-			
+		if (p != null) {
+
 			this.manager.merge(project);
 			return true;
 		}
@@ -451,12 +452,15 @@ public class DatabaseController implements Serializable {
 	}
 
 	public List<WorkPackage> getRootWPByProNo(int proNo) {
+		System.out.println("PRO NO" + proNo);
 		List<WorkPackage> result = new ArrayList<WorkPackage>();
 		for (WorkPackage wp : getAllWp()) {
 			if (wp.getParentWPID() == null && wp.getProNo() == proNo) {
 				result.add(wp);
+
 			}
 		}
+
 		return result;
 	}
 
@@ -469,6 +473,12 @@ public class DatabaseController implements Serializable {
 		return false;
 	}
 
+	public boolean persistChildWP(WorkPackage parent, WorkPackage child) {
+		child.setParentWPID(parent.getWpid());
+		this.manager.persist(child);
+		return true;
+	}
+
 	public boolean updateWP(WorkPackage wp) {
 		WorkPackage checkWp = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
 		if (checkWp != null) {
@@ -478,10 +488,10 @@ public class DatabaseController implements Serializable {
 		return false;
 	}
 
-	public boolean deleteWorkPackage(final WorkPackagePK key) {
-		WorkPackage wp = this.manager.find(WorkPackage.class, key);
+	public boolean deleteWorkPackage(final WorkPackage wp) {
+		WorkPackage workpackage = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
 		try {
-			this.manager.remove(wp);
+			this.manager.remove(workpackage);
 			this.manager.flush();
 			return true;
 		} catch (Exception e) {
@@ -561,51 +571,50 @@ public class DatabaseController implements Serializable {
 		manager.persist(newSignature);
 	}
 
-	
 	// #########################################################################
-    // # Role methods
-    // #########################################################################
+	// # Role methods
+	// #########################################################################
 	public String getRoleById(int empNo) {
-	    List<Role> roles = manager.createQuery("SELECT r FROM Role r", Role.class).getResultList();
-	    
-	    for (Role r : roles) {
-	        if (r.getRolePk().getEmpNo() == empNo) {
-	            return r.getRolePk().getRole();
-	        }
-	    }
-	    
-	    return null;
+		List<Role> roles = manager.createQuery("SELECT r FROM Role r", Role.class).getResultList();
+
+		for (Role r : roles) {
+			if (r.getRolePk().getEmpNo() == empNo) {
+				return r.getRolePk().getRole();
+			}
+		}
+
+		return null;
 	}
 
+	public boolean checkIfSupervisor(int empNumber) {
+		List<Employee> list = manager
+				.createQuery("SELECT e FROM Employee e WHERE e.superEmpNo = :number", Employee.class)
+				.setParameter("number", empNumber).getResultList();
+		if (list.isEmpty()) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
-    public boolean checkIfSupervisor(int empNumber) {
-        List<Employee> list = manager.createQuery("SELECT e FROM Employee e WHERE e.superEmpNo = :number", Employee.class)
-                .setParameter("number", empNumber).getResultList();
-        if (list.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-    
-    
+	/**
+	 * @return
+	 */
+	public List<EmpPLevel> getEmpPLevels() {
+		return manager.createQuery("SELECT p FROM EmpPLevel p", EmpPLevel.class).getResultList();
+	}
 
-    /**
-     * @return
-     */
-    public List<EmpPLevel> getEmpPLevels() {
-        return manager.createQuery("SELECT p FROM EmpPLevel p", EmpPLevel.class)
-                .getResultList();
-    }
-    public void addEmpPLevel(EmpPLevel e) {
-        manager.persist(e);
-    }
-    public void updateEmpPLevel(EmpPLevel e) {
-        manager.merge(e);
-    }
-    public void removeEmpPLevel(EmpPLevel ep) {
-        manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
-    }
+	public void addEmpPLevel(EmpPLevel e) {
+		manager.persist(e);
+	}
+
+	public void updateEmpPLevel(EmpPLevel e) {
+		manager.merge(e);
+	}
+
+	public void removeEmpPLevel(EmpPLevel ep) {
+		manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
+	}
 
 }
 

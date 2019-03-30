@@ -23,7 +23,7 @@
 
 
 			<h:form id="form">
-				<p:treeTable value="#{wpController.root}" var="wp" id="wp">
+				<p:treeTable value="#{pdController.root}" var="wp" id="wp">
 
 					<p:column headerText="ID">
 						<h:outputText value="#{wp.wpid}" />
@@ -50,9 +50,15 @@
 					<p:column headerText="Comment">
 						<h:outputText value="#{wp.comment}" />
 					</p:column>
+					
 					<p:column style="text-align:center">
 						<p:commandButton value="Delete" update="wp"
-							action="#{wpController.deleteWp(wp)}" />
+							action="#{pdController.addWp(wp)}" />
+
+					</p:column>
+					<p:column style="text-align:center">
+						<p:commandButton value="Delete" update="wp"
+							action="#{pdController.deleteWp(wp)}" />
 
 					</p:column>
 
