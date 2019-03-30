@@ -38,7 +38,6 @@ public class EmpPLevelController implements Serializable {
     
     @PostConstruct
     public void init() {
-        
         editEmpPLevel = null;
         pLevels = database.getPLevels();
         empPLevels = database.getEmpPLevels();
