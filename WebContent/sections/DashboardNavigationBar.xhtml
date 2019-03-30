@@ -18,9 +18,10 @@
 							<i class="ti-panel"></i>
 							Dashboard
 						</h:commandLink></li>
-					<li><h:commandLink id="nav-employee" action="Employees.xhtml?faces-redirect=true"
-					rendered="#{authController.isUserInRole('system admin') ||
-                         	authController.isUserInRole('human resource') || 
+					<li><h:commandLink id="nav-employee"
+							action="Employees.xhtml?faces-redirect=true"
+							rendered="#{authController.isUserSystemAdmin() ||
+                         	authController.isUserHumanResource() || 
                          	authController.isUserSupervisor()}">
 							<i class="ti-user"></i>
 							Employee
@@ -43,7 +44,15 @@
 							<i class="ti-alarm-clock"></i>
 							Timesheets
 						</h:commandLink></li>
-				
+
+					<li><h:commandLink
+							action="ApproveTimesheet.xhtml?faces-redirect=true"
+							rendered="#{authController.isUserSystemAdmin() ||
+                            authController.isUserApprover()}">
+							<i class="ti-alarm-clock"></i>
+                            Approve Timesheet
+                        </h:commandLink></li>
+
 					<li><h:commandLink id="nav-p-levels"
 							action="PLevels.xhtml?faces-redirect=true">
 							<i class="ti-alarm-clock"></i>
@@ -61,13 +70,6 @@
 </ui:composition>
 <!-- END OF SIDE NAVIGATION BAR -->
 <!-- BRING THIS BACK LATER	
-					<li>
-						<h:commandLink action="ApproveTimesheet.xhtml?faces-redirect=true" 
-						rendered="#{authController.isUserInRole('system admin') ||
-                         authController.isUserInRole('approver')}">
-							<i class="ti-alarm-clock"></i>
-                            Approve Timesheet
-                        </h:commandLink>
-					</li> -->
+					 -->
 
 </html>

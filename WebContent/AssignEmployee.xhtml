@@ -18,7 +18,7 @@
 			<p:growl id="invalidEmployeeGrowl" sticky="false" />
 			
 	        <p:dataTable id="assignTable" var="emp" value="#{assign.getEmployeesAssignedToSupervisor()}"
-	        rendered="#{!authController.isUserInRole('system admin')}">
+	        rendered="#{!authController.isUserSystemAdmin()}">
 			    <p:column headerText="Employee Username">
 	        		<h:outputText value="#{emp.userName}" />
 	    		</p:column>
@@ -34,7 +34,7 @@
 			</p:dataTable>
 			
 			<p:dataTable id="asignTable" var="emp" value="#{assign.activeEmployees}"
-			rendered="#{authController.isUserInRole('system admin')}">
+			rendered="#{authController.isUserSystemAdmin()}">
 			    <p:column headerText="Employee Username">
 	        		<h:outputText value="#{emp.userName}" />
 	    		</p:column>
