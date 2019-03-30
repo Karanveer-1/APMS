@@ -6,8 +6,8 @@
       xmlns:p="http://primefaces.org/ui">
 
 	<ui:composition template="/templates/MasterLayout.xhtml">
-		<ui:define name="windowTitle">All Employee</ui:define>
-        <ui:define name="headerTitle"><h:outputText value="All Employees" class="navbar-brand"/></ui:define>
+		<ui:define name="windowTitle">Inactive Employees</ui:define>
+        <ui:define name="headerTitle"><h:outputText value="Inactive Employees" class="navbar-brand"/></ui:define>
         <ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
         
         <ui:define name="content">
@@ -16,7 +16,7 @@
 			</h:panelGrid>
             
            <p:dataTable id="employeeTable"
-               value="#{employeesController.allEmployees}" var="employee">
+               value="#{employeesController.inActiveEmployees}" var="employee">
                <p:column headerText="Employee No">
                    <h:outputText value="#{employee.empNumber}" />
                </p:column>

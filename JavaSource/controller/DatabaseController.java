@@ -46,6 +46,10 @@ public class DatabaseController implements Serializable {
 		return manager.createQuery("SELECT e FROM Employee e WHERE e.state = 'Active'", Employee.class).getResultList();
 	}
 
+	public List<Employee> getInActiveEmployees() {
+        return manager.createQuery("SELECT e FROM Employee e WHERE e.state = 'Not Active'", Employee.class).getResultList();
+    }
+
 	public Employee getEmployeeByUsername(String username) {
 		TypedQuery<Employee> query = manager.createQuery("select e from Employee e where e.userName = :username",
 				Employee.class);
@@ -574,6 +578,18 @@ public class DatabaseController implements Serializable {
 	}
 
 
+    public boolean checkIfSupervisor(int empNumber) {
+        List<Employee> list = manager.createQuery("SELECT e FROM Employee e WHERE e.superEmpNo = :number", Employee.class)
+                .setParameter("number", empNumber).getResultList();
+        if (list.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    
+
     /**
      * @return
      */
@@ -590,6 +606,7 @@ public class DatabaseController implements Serializable {
     public void removeEmpPLevel(EmpPLevel ep) {
         manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
     }
+
 }
 
 /*
