@@ -59,7 +59,7 @@ public class TimesheetController implements Serializable {
     }
     
     public List<Timesheet> updateUserTimesheets() {
-        if (auth.isUserInRole(EmployeeRole.SYSTEM_ADMIN)) {
+        if (auth.isUserSystemAdmin()) {
             return database.getTimesheets();
         } else {
             return database.getTimesheets(currentEmployee.getEmpNumber());
