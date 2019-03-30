@@ -37,6 +37,12 @@ public class WorkPackage implements Serializable {
 	private String comment;
 
 	public WorkPackage() {
+		this.workPackagePk = new WorkPackagePK();
+		this.description = "hihihi";
+		this.budget = 12;
+		this.state = "OPEN";
+		this.title = "okayyy";
+		this.reEmpNo = 1;
 
 	}
 
@@ -118,7 +124,7 @@ public class WorkPackage implements Serializable {
 	}
 
 	
-	@Column(name="ProNo")
+	
 	public int getProNo() {
 		return workPackagePk.getProNo();
 	}
@@ -127,7 +133,7 @@ public class WorkPackage implements Serializable {
 		workPackagePk.setProNo(proNo);
 	}
 
-	@Column(name="WPID")
+	
 	public String getWpid() {
 		return workPackagePk.getWpid();
 	}

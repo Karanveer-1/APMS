@@ -34,3 +34,4 @@ PROBLEM:
 
 I need to fix the update project for supervisors
 make project management ajax
+fix adding new WP
