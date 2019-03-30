@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 
 import model.EmpPLevel;
+import model.EmpPLevelPK;
 import model.PLevel;
 
 /**
@@ -29,17 +32,28 @@ public class EmpPLevelController implements Serializable {
     
     private List<PLevel> pLevels;
     private List<EmpPLevel> empPLevels;
-    
+    private List<String> empPLevelDropDownList;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private EmpPLevel editEmpPLevel;
     
     @PostConstruct
     public void init() {
+        
         editEmpPLevel = null;
         pLevels = database.getPLevels();
         empPLevels = database.getEmpPLevels();
+        empPLevelDropDownList = new ArrayList<String>();
+        populateDropDown();
         System.out.println(pLevels);
         System.out.println(empPLevels);
 
+    }
+    
+    void populateDropDown() {
+        empPLevelDropDownList.clear();
+        for(PLevel p : pLevels) {
+            empPLevelDropDownList.add(p.getpLevelPK().getpLevel() + " : " + p.getpLevelPK().getStartDate());
+        }
     }
 
     /**
@@ -95,5 +109,51 @@ public class EmpPLevelController implements Serializable {
         pLevels = database.getPLevels();
     }
     
+    public void add(int empNo, String pLevelText) {
+        pLevels = database.getPLevels();  
+        boolean validPK = true;
+        EmpPLevel tempEmpPLevel = null;
+        for(PLevel p : pLevels) {
+            if((p.getpLevelPK().getpLevel() + " : " + p.getpLevelPK().getStartDate()).equals(pLevelText));
+            tempEmpPLevel = new EmpPLevel(new EmpPLevelPK(empNo, p.getpLevelPK().getStartDate()), p.getpLevelPK().getpLevel());
+        }
+        for(EmpPLevel ep : empPLevels) {
+            if(ep.getEmpPLevelPK().getEmpNo() == tempEmpPLevel.getEmpPLevelPK().getEmpNo() && ep.getEmpPLevelPK().getStartDate().equals(tempEmpPLevel.getEmpPLevelPK().getStartDate())) {
+                validPK = false;
+                PrimeFaces.current().executeScript("PF('errorDialog').show();");
+                break;
+                
+            }
+        }
+        if(validPK) {
+            System.out.println("Added: " + empNo + " : " + pLevelText);
+            database.addEmpPLevel(tempEmpPLevel);
+        }
+        empPLevels = database.getEmpPLevels();
+        PrimeFaces.current().executeScript("PF('addEmpPLevelDialog').hide();");
+    }
 
+    /**
+     * Returns the {bare_field_name} for this EmpPLevelController.
+     * @return the empPLevelDropDownList
+     */
+    public List<String> getEmpPLevelDropDownList() {
+        return empPLevelDropDownList;
+    }
+
+    /**
+     * Sets the empPLevelDropDownList for this EmpPLevelController
+     * @param empPLevelDropDownList the empPLevelDropDownList to set
+     */
+    public void setEmpPLevelDropDownList(List<String> empPLevelDropDownList) {
+        this.empPLevelDropDownList = empPLevelDropDownList;
+    }
+    
+    public void removeEmpPLevel(EmpPLevel p) {
+        database.removeEmpPLevel(p);
+        empPLevels = database.getEmpPLevels();
+    }
+    public void closeDialog() {
+        PrimeFaces.current().executeScript("PF('errorDialog').hide();");
+    }
 }

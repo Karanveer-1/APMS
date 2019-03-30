@@ -83,11 +83,8 @@ public class PLevelController implements Serializable {
         pLevels = database.getPLevels();        
         if (Float.valueOf(wage) > 0) {
             editPLevel.setWage(wagef);
-            
             database.updatePLevel(editPLevel);
-            
             pLevels = database.getPLevels();
-
             PrimeFaces.current()
                     .executeScript("PF('editPLevelDialog').hide();");
         }

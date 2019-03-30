@@ -22,7 +22,7 @@
 			<h:form id="formMain">
 				<p:commandButton id="addButton" value="Add Employee PLevel"
 					onclick="PF('addEmpPLevelDialog').show();" />
-				<p:dataTable id="EmpPLevelTable" value="#{empPLevelController.empPLevels}"
+				<p:dataTable id="empPLevelTable" value="#{empPLevelController.empPLevels}"
 					var="empPLevel">
 					<p:column headerText="EmpNo">
 						<h:outputText value="#{empPLevel.empPLevelPK.empNo}" />
@@ -35,12 +35,40 @@
 					<p:column headerText="PLevel">
 						<h:outputText value="#{empPLevel.pLevel}" />
 					</p:column>
-					<p:column headerText="Edit">
-						<p:commandButton value="Edit"
-							action="#{empPLevelController.setEditEmpPLevel(pLevel)}" />
+					<p:column headerText="Remove">
+						<p:commandButton value="Remove" update=":formMain:empPLevelTable"
+							action="#{empPLevelController.removeEmpPLevel(empPLevel)}" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
+			<p:dialog id="addDialog" header="Assign Employee PLevel" modal="true"
+				width="400" widgetVar="addEmpPLevelDialog" resizable="false"
+				draggable="false">
+				<h:form id="formAddDialog">
+					<h:panelGrid columns="1">
+						<h:outputText value="EmployeeNo" />
+						<h:inputText binding="#{addPLevelText}" />
+
+						<h:outputText value="PLevel" />
+			            <p:selectOneMenu id="empPLevelDropDown" binding="#{addPLevelDrop}" style="width:150px">
+			                <f:selectItems value="#{empPLevelController.empPLevelDropDownList}" />
+			            </p:selectOneMenu>
+
+					</h:panelGrid>
+					<p:commandButton update=":formMain:empPLevelTable"
+						value="Assign PLevel"
+						action="#{empPLevelController.add(addPLevelText.value, addPLevelDrop.value)}" />
+				</h:form>
+			</p:dialog>
+			<p:dialog id="errorDialog" header="EmpNo and StartDate not Unique" modal="true"
+				width="400" widgetVar="errorDialog" resizable="false"
+				draggable="false">
+				<h:form id="formErrorDialog">
+					<p:commandButton update=":formMain:empPLevelTable :formErrorDialog"
+						value="OK"
+						action="#{empPLevelController.closeDialog()}" />
+				</h:form>
+			</p:dialog>
 		</ui:define>
 	</ui:composition>
 </h:body>

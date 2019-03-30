@@ -438,7 +438,15 @@ public class DatabaseController implements Serializable {
         return manager.createQuery("SELECT p FROM EmpPLevel p", EmpPLevel.class)
                 .getResultList();
     }
-
+    public void addEmpPLevel(EmpPLevel e) {
+        manager.persist(e);
+    }
+    public void updateEmpPLevel(EmpPLevel e) {
+        manager.merge(e);
+    }
+    public void removeEmpPLevel(EmpPLevel ep) {
+        manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
+    }
 }
 
 /*
