@@ -39,12 +39,8 @@ public class Project implements Serializable {
 	@Column(name = "StartDate", nullable = false)
 	private Date startDate;
 
-
-
 	@Column(name = "EndDate", nullable = false)
 	private Date endDate;
-	@Column(name = "Budget", nullable = false)
-	private float budget;
 
 	@Column(name = "State", nullable = false)
 	private String state;
@@ -56,7 +52,6 @@ public class Project implements Serializable {
 		proMgrEmpNo = 1;
 		proAssiEmpNo = 1;
 		proName = "Project";
-		budget = 0;
 		state = STATE[0];
 		proDesc = "Project";
 		startDate = new Date();
@@ -96,14 +91,6 @@ public class Project implements Serializable {
 		this.proDesc = proDesc;
 	}
 
-	public float getBudget() {
-		return budget;
-	}
-
-	public void setBudget(float budget) {
-		this.budget = budget;
-	}
-
 	public String getState() {
 		return state;
 	}
@@ -135,7 +122,6 @@ public class Project implements Serializable {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
 
 	public int getProAssiEmpNo() {
 		return proAssiEmpNo;
@@ -145,13 +131,11 @@ public class Project implements Serializable {
 		this.proAssiEmpNo = proAssiEmpNo;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "Project [proNo=" + proNo + ", proMgrEmpNo=" + proMgrEmpNo + ", proAssiEmpNo=" + proAssiEmpNo
 				+ ", proName=" + proName + ", proDesc=" + proDesc + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", budget=" + budget + ", state=" + state + ", comment=" + comment + "]";
+				+ ", state=" + state + ", comment=" + comment + "]";
 	}
 
 	@Override

@@ -40,9 +40,7 @@
 					<p:column headerText="Description">
 						<h:outputText value="#{wp.description}" />
 					</p:column>
-					<p:column headerText="Budget">
-						<h:outputText value="#{wp.budget}" />
-					</p:column>
+
 
 					<p:column headerText="State">
 						<h:outputText value="#{wp.state}" />
@@ -50,7 +48,7 @@
 					<p:column headerText="Comment">
 						<h:outputText value="#{wp.comment}" />
 					</p:column>
-					
+
 					<p:column style="text-align:center">
 						<p:commandButton value="Delete" update="wp"
 							action="#{pdController.addWp(wp)}" />
