@@ -1,6 +1,9 @@
 package model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +33,11 @@ public class Project implements Serializable {
 	@Column(name = "ProDescription", nullable = false)
 	private String proDesc;
 
+	@Column(name = "StartDate", nullable = false)
+	private Date startDate;
+
+	@Column(name = "EndDate", nullable = false)
+	private Date endDate;
 	@Column(name = "Budget", nullable = false)
 	private float budget;
 
@@ -40,24 +48,15 @@ public class Project implements Serializable {
 	private String comment;
 
 	public Project() {
+
 		proMgrEmpNo = 1;
 		proName = "Project";
 		budget = 0;
 		state = STATE[0];
 		proDesc = "Project";
+		startDate = new Date();
+		endDate = new Date();
 
-	}
-
-	public Project(int proNo, int proMgrEmpNo, String proName, String proDesc, float budget, String state,
-			String comment) {
-		super();
-		this.proNo = proNo;
-		this.proMgrEmpNo = proMgrEmpNo;
-		this.proName = proName;
-		this.proDesc = proDesc;
-		this.budget = budget;
-		this.state = state;
-		this.comment = comment;
 	}
 
 	public int getProNo() {
@@ -114,6 +113,22 @@ public class Project implements Serializable {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	@Override

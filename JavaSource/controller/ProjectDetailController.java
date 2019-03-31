@@ -18,7 +18,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import model.Employee;
-import model.ProAssi;
+//import model.ProAssi;
 import model.Project;
 import model.WorkPackage;
 
@@ -57,7 +57,7 @@ public class ProjectDetailController implements Serializable {
 	public String detail(Project project) {
 
 		this.project = project;
-		this.proAssi = getAssistantManager();
+//		this.proAssi = getAssistantManager();
 		this.empPool = getAllProjectEmp();
 		System.out.println(this.project.getProDesc());
 		treeInit(this.project.getProNo());
@@ -76,13 +76,13 @@ public class ProjectDetailController implements Serializable {
 		expandAll();
 	}
 
-	public List<Employee> getAssistantManager() {
-		List<Employee> result = new ArrayList<Employee>();
-		for (ProAssi pe : this.database.getProAssiByProNo(this.project.getProNo())) {
-			result.add(this.database.getEmployeeById(pe.getEmpNo()));
-		}
-		return result;
-	}
+//	public List<Employee> getAssistantManager() {
+//		List<Employee> result = new ArrayList<Employee>();
+//		for (ProAssi pe : this.database.getProAssiByProNo(this.project.getProNo())) {
+//			result.add(this.database.getEmployeeById(pe.getEmpNo()));
+//		}
+//		return result;
+//	}
 
 	public List<Employee> getProAssi() {
 		return proAssi;

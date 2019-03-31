@@ -18,18 +18,15 @@
 							<i class="ti-panel"></i>
 							Dashboard
 						</h:commandLink></li>
-<<<<<<< HEAD
 
-=======
 					<li><h:commandLink id="nav-employee"
 							action="Employees.xhtml?faces-redirect=true"
 							rendered="#{authController.isUserSystemAdmin() ||
-                         	authController.isUserHumanResource() || 
+                         	authController.isUserHumanResource() ||
                          	authController.isUserSupervisor()}">
 							<i class="ti-user"></i>
 							Employee
 						</h:commandLink></li>
->>>>>>> 0a07fffa4d7e268d7daf35573a93550e64d95201
 					<li><h:commandLink id="nav-my-profile"
 							action="UserProfile.xhtml?faces-redirect=true">
 							<i class="ti-user"></i>
@@ -73,28 +70,26 @@
 	</h:form>
 </ui:composition>
 <!-- END OF SIDE NAVIGATION BAR -->
-<!-- BRING THIS BACK LATER	
-<<<<<<< HEAD
+<!-- BRING THIS BACK LATER
+
 
 					<li><h:commandLink id="nav-employee" action="Employees.xhtml?faces-redirect=true"
 					rendered="#{authController.isUserInRole('system admin') ||
-                         	authController.isUserInRole('human resource') || 
+                         	authController.isUserInRole('human resource') ||
                          	authController.isUserSupervisor()}">
 							<i class="ti-user"></i>
 							Employee
-						</h:commandLink></li> 
-						
-						
+						</h:commandLink></li>
+
+
 					<li>
-						<h:commandLink action="ApproveTimesheet.xhtml?faces-redirect=true" 
+						<h:commandLink action="ApproveTimesheet.xhtml?faces-redirect=true"
 						rendered="#{authController.isUserInRole('system admin') ||
                          authController.isUserInRole('approver')}">
 							<i class="ti-alarm-clock"></i>
                             Approve Timesheet
                         </h:commandLink>
 					</li> -->
-=======
-					 -->
->>>>>>> 0a07fffa4d7e268d7daf35573a93550e64d95201
+
 
 </html>

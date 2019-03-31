@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -35,6 +36,41 @@ public class WorkPackage implements Serializable {
 
 	@Column(name = "Comment")
 	private String comment;
+
+	@Column(name = "StartDate", nullable = false)
+	private Date startDate;
+
+	@Column(name = "EndDate", nullable = false)
+	private Date endDate;
+
+	@Column(name = "PMEstP1")
+	private int pmEstP1;
+
+	@Column(name = "PMEstP2")
+	private int pmEstP2;
+
+	@Column(name = "PMEstP3")
+	private int pmEstP3;
+
+	@Column(name = "PMEstP4")
+	private int pmEstP4;
+
+	@Column(name = "PMEstP5")
+	private int pmEstP5;
+
+	@Column(name = "PMEstP6")
+	private int pmEstP6;
+
+	@Column(name = "PMEstDS")
+	private int pmEstDS;
+
+	@Column(name = "PMEstSS")
+	private int pmEstSS;
+
+	@Column(name = "PMEstJS")
+	private int pmEstJS;
+	
+	
 
 	public WorkPackage() {
 		this.workPackagePk = new WorkPackagePK();
@@ -123,8 +159,6 @@ public class WorkPackage implements Serializable {
 		this.comment = comment;
 	}
 
-	
-	
 	public int getProNo() {
 		return workPackagePk.getProNo();
 	}
@@ -133,7 +167,6 @@ public class WorkPackage implements Serializable {
 		workPackagePk.setProNo(proNo);
 	}
 
-	
 	public String getWpid() {
 		return workPackagePk.getWpid();
 	}
@@ -148,5 +181,5 @@ public class WorkPackage implements Serializable {
 				+ ", description=" + description + ", parentWPID=" + parentWPID + ", budget=" + budget + ", state="
 				+ state + ", comment=" + comment + "]";
 	}
-	
+
 }
