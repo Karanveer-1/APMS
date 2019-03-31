@@ -35,6 +35,16 @@
 					</h:outputText>
 				</p>
 				<p>
+					<h:outputText value="Overtime:  " />
+					<h:outputText
+						value="#{approveTimesheetController.viewTimesheet.overtime}" />
+				</p>
+				<p>
+					<h:outputText value="Flextime: " />
+					<h:outputText
+						value="#{approveTimesheetController.viewTimesheet.flextime}" />
+				</p>
+				<p>
 					<h:outputText value="State: " />
 					<h:outputText
 						value="#{approveTimesheetController.viewTimesheet.state}" />
@@ -43,8 +53,9 @@
 					<h:outputText value="Comment: " />
 				</p>
 				<p>
-					<h:outputText
-						value="#{approveTimesheetController.viewTimesheet.comment}" />
+					<p:inputTextarea rows="6" cols="50" readonly="true" style="resize: none"
+						value="#{approveTimesheetController.viewTimesheet.comment}">
+					</p:inputTextarea>
 				</p>
 
 				<p:commandButton value="Approve"
@@ -53,8 +64,8 @@
 				<p:commandButton value="Return"
 					action="#{approveTimesheetController.returnTimesheet()}" />
 
-                <h:outputText value="" />
-                
+				<h:outputText value="" />
+
 				<p:dataTable id="viewTable"
 					value="#{approveTimesheetController.viewTimesheetRows}" var="row">
 					<p:column headerText="Project No">
