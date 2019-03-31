@@ -29,8 +29,9 @@
 
 				<p:dataTable id="viewTable"
 					value="#{timesheetController.timesheets}" var="timesheet">
-					<p:column headerText="Employee No" rendered="#{authController.userSystemAdmin}">
-					   <h:outputText value="#{timesheet.timesheetPk.empNo}" />
+					<p:column headerText="Employee No"
+						rendered="#{authController.userSystemAdmin}">
+						<h:outputText value="#{timesheet.timesheetPk.empNo}" />
 					</p:column>
 					<p:column headerText="Date">
 						<h:outputText value="#{timesheet.timesheetPk.startDate}">
@@ -54,6 +55,11 @@
 					</p:column>
 					<p:column headerText="Comment">
 						<h:outputText value="#{timesheet.comment}" />
+					</p:column>
+					<p:column headerText="View">
+						<p:commandButton value="View"
+							action="#{timesheetController.viewTimesheet(timesheet)}"
+							style="width: 100%" />
 					</p:column>
 					<p:column headerText="Edit">
 						<p:commandButton value="Edit"
