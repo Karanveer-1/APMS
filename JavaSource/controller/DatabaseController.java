@@ -14,7 +14,7 @@ import javax.persistence.TypedQuery;
 import model.EmpPLevel;
 import model.Employee;
 import model.PLevel;
-import model.ProAssi;
+//import model.ProAssi;
 import model.ProEmp;
 import model.ProEmpPK;
 import model.Project;
@@ -47,8 +47,9 @@ public class DatabaseController implements Serializable {
 	}
 
 	public List<Employee> getInActiveEmployees() {
-        return manager.createQuery("SELECT e FROM Employee e WHERE e.state = 'Not Active'", Employee.class).getResultList();
-    }
+		return manager.createQuery("SELECT e FROM Employee e WHERE e.state = 'Not Active'", Employee.class)
+				.getResultList();
+	}
 
 	public Employee getEmployeeByUsername(String username) {
 		TypedQuery<Employee> query = manager.createQuery("select e from Employee e where e.userName = :username",
@@ -91,9 +92,9 @@ public class DatabaseController implements Serializable {
 	// # Timesheet methods
 	// #########################################################################
 	public List<Timesheet> getTimesheets() {
-	    return manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
+		return manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
 	}
-	
+
 	public List<Timesheet> getTimesheets(int empNo) {
 		List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
 
@@ -267,8 +268,8 @@ public class DatabaseController implements Serializable {
 	 */
 	public boolean updateProject(Project project) {
 		Project p = this.manager.find(Project.class, project.getProNo());
-		if (p == null ) {
-			
+		if (p != null) {
+
 			this.manager.merge(project);
 			return true;
 		}
@@ -312,54 +313,54 @@ public class DatabaseController implements Serializable {
 		manager.persist(temp);
 	}
 
-	public List<ProAssi> getAllProAssi() {
-		List<ProAssi> projects = this.manager.createQuery("SELECT p from ProAssi p", ProAssi.class).getResultList();
-		return projects;
-	}
-
-	public List<ProAssi> getProAssiByProNo(int proNo) {
-		List<ProAssi> pa = new ArrayList<ProAssi>();
-		for (ProAssi p : getAllProAssi()) {
-			if (p.getPk().getProNo() == proNo) {
-				pa.add(p);
-			}
-		}
-		return pa;
-
-	}
-
-	public List<Employee> getEmployeeByProAssi(int proNo) {
-		List<Employee> el = new ArrayList<Employee>();
-		System.out.println("Hel" + getProAssiByProNo(proNo));
-		for (ProAssi proass : getProAssiByProNo(proNo)) {
-			System.out.println("Emp" + getEmployeeById(proass.getPk().getEmpNo()));
-			el.add(getEmployeeById(proass.getPk().getEmpNo()));
-		}
-		return el;
-	}
-
-	public boolean persistProAss(ProAssi proass) {
-		ProAssi p = this.manager.find(ProAssi.class, proass);
-		if (p == null) {
-			this.manager.persist(proass);
-			return true;
-		}
-		return false;
-	}
-
-	public boolean deleteProAss(ProAssi proAssi) {
-		if (getProAssiByProNo(proAssi.getPk().getProNo()) != null) {
-			try {
-				this.manager.remove(proAssi);
-				this.manager.flush();
-				return true;
-
-			} catch (Exception e) {
-				return false;
-			}
-		}
-		return false;
-	}
+//	public List<ProAssi> getAllProAssi() {
+//		List<ProAssi> projects = this.manager.createQuery("SELECT p from ProAssi p", ProAssi.class).getResultList();
+//		return projects;
+//	}
+//
+//	public List<ProAssi> getProAssiByProNo(int proNo) {
+//		List<ProAssi> pa = new ArrayList<ProAssi>();
+//		for (ProAssi p : getAllProAssi()) {
+//			if (p.getPk().getProNo() == proNo) {
+//				pa.add(p);
+//			}
+//		}
+//		return pa;
+//
+//	}
+//
+//	public List<Employee> getEmployeeByProAssi(int proNo) {
+//		List<Employee> el = new ArrayList<Employee>();
+//		System.out.println("Hel" + getProAssiByProNo(proNo));
+//		for (ProAssi proass : getProAssiByProNo(proNo)) {
+//			System.out.println("Emp" + getEmployeeById(proass.getPk().getEmpNo()));
+//			el.add(getEmployeeById(proass.getPk().getEmpNo()));
+//		}
+//		return el;
+//	}
+//
+//	public boolean persistProAss(ProAssi proass) {
+//		ProAssi p = this.manager.find(ProAssi.class, proass);
+//		if (p == null) {
+//			this.manager.persist(proass);
+//			return true;
+//		}
+//		return false;
+//	}
+//
+//	public boolean deleteProAss(ProAssi proAssi) {
+//		if (getProAssiByProNo(proAssi.getPk().getProNo()) != null) {
+//			try {
+//				this.manager.remove(proAssi);
+//				this.manager.flush();
+//				return true;
+//
+//			} catch (Exception e) {
+//				return false;
+//			}
+//		}
+//		return false;
+//	}
 
 	public List<Project> getProjectsBySupervisor(int id) {
 		List<ProEmp> proemp = new ArrayList<ProEmp>();
@@ -390,18 +391,18 @@ public class DatabaseController implements Serializable {
 		return result;
 	}
 
-	public List<Project> getProjectsByAssistantNo(int id) {
-		List<Project> result = new ArrayList<Project>();
-
-		List<ProAssi> allPa = getAllProAssi();
-		for (ProAssi pa : allPa) {
-			if (pa.getEmpNo() == id) {
-				result.add(findByProjectNo(pa.getProNo()));
-			}
-		}
-		return result;
-
-	}
+//	public List<Project> getProjectsByAssistantNo(int id) {
+//		List<Project> result = new ArrayList<Project>();
+//
+//		List<ProAssi> allPa = getAllProAssi();
+//		for (ProAssi pa : allPa) {
+//			if (pa.getEmpNo() == id) {
+//				result.add(findByProjectNo(pa.getProNo()));
+//			}
+//		}
+//		return result;
+//
+//	}
 	// #########################################################################
 	// # WorkPackage methods
 	// #########################################################################
@@ -451,12 +452,15 @@ public class DatabaseController implements Serializable {
 	}
 
 	public List<WorkPackage> getRootWPByProNo(int proNo) {
+		System.out.println("PRO NO" + proNo);
 		List<WorkPackage> result = new ArrayList<WorkPackage>();
 		for (WorkPackage wp : getAllWp()) {
 			if (wp.getParentWPID() == null && wp.getProNo() == proNo) {
 				result.add(wp);
+
 			}
 		}
+
 		return result;
 	}
 
@@ -469,6 +473,12 @@ public class DatabaseController implements Serializable {
 		return false;
 	}
 
+	public boolean persistChildWP(WorkPackage parent, WorkPackage child) {
+		child.setParentWPID(parent.getWpid());
+		this.manager.persist(child);
+		return true;
+	}
+
 	public boolean updateWP(WorkPackage wp) {
 		WorkPackage checkWp = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
 		if (checkWp != null) {
@@ -478,10 +488,10 @@ public class DatabaseController implements Serializable {
 		return false;
 	}
 
-	public boolean deleteWorkPackage(final WorkPackagePK key) {
-		WorkPackage wp = this.manager.find(WorkPackage.class, key);
+	public boolean deleteWorkPackage(final WorkPackage wp) {
+		WorkPackage workpackage = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
 		try {
-			this.manager.remove(wp);
+			this.manager.remove(workpackage);
 			this.manager.flush();
 			return true;
 		} catch (Exception e) {
@@ -561,20 +571,19 @@ public class DatabaseController implements Serializable {
 		manager.persist(newSignature);
 	}
 
-	
 	// #########################################################################
     // # Role methods
-    // #########################################################################	
+    // #########################################################################
 	public boolean checkIfUserInRole(int empNo, String role) {
 	    List<Role> list = manager.createQuery("SELECT r FROM Role r WHERE r.rolePk.empNo = :empNo AND r.rolePk.role = :role", Role.class)
 	            .setParameter("empNo", empNo)
 	            .setParameter("role", role)
 	            .getResultList();
-	    
+
 	    return !list.isEmpty();
 	}
 
-	
+
     public boolean checkIfSupervisor(int empNumber) {
         List<Employee> list = manager.createQuery("SELECT e FROM Employee e WHERE e.superEmpNo = :number", Employee.class)
                 .setParameter("number", empNumber).getResultList();
@@ -584,15 +593,15 @@ public class DatabaseController implements Serializable {
             return true;
         }
     }
-    
-    
+
+
     public boolean checkIfApprover(int empNo) {
         List<Employee> list = manager.createQuery("SELECT e FROM Employee e WHERE e.approEmpNo = :number", Employee.class)
                 .setParameter("number", empNo).getResultList();
-        
+
         return !list.isEmpty();
     }
-    
+
     /**
      * @return
      */
