@@ -1,6 +1,9 @@
 package model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,14 +27,20 @@ public class Project implements Serializable {
 	@Column(name = "ProMgrEmpNo", nullable = false)
 	private int proMgrEmpNo;
 
+	@Column(name = "ProAssiEmpNo", nullable = false)
+	private int proAssiEmpNo;
+
 	@Column(name = "ProName", nullable = false)
 	private String proName;
 
 	@Column(name = "ProDescription", nullable = false)
 	private String proDesc;
 
-	@Column(name = "Budget", nullable = false)
-	private float budget;
+	@Column(name = "StartDate", nullable = false)
+	private Date startDate;
+
+	@Column(name = "EndDate", nullable = false)
+	private Date endDate;
 
 	@Column(name = "State", nullable = false)
 	private String state;
@@ -41,23 +50,13 @@ public class Project implements Serializable {
 
 	public Project() {
 		proMgrEmpNo = 1;
+		proAssiEmpNo = 1;
 		proName = "Project";
-		budget = 0;
 		state = STATE[0];
 		proDesc = "Project";
+		startDate = new Date();
+		endDate = new Date();
 
-	}
-
-	public Project(int proNo, int proMgrEmpNo, String proName, String proDesc, float budget, String state,
-			String comment) {
-		super();
-		this.proNo = proNo;
-		this.proMgrEmpNo = proMgrEmpNo;
-		this.proName = proName;
-		this.proDesc = proDesc;
-		this.budget = budget;
-		this.state = state;
-		this.comment = comment;
 	}
 
 	public int getProNo() {
@@ -92,14 +91,6 @@ public class Project implements Serializable {
 		this.proDesc = proDesc;
 	}
 
-	public float getBudget() {
-		return budget;
-	}
-
-	public void setBudget(float budget) {
-		this.budget = budget;
-	}
-
 	public String getState() {
 		return state;
 	}
@@ -116,10 +107,35 @@ public class Project implements Serializable {
 		this.comment = comment;
 	}
 
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public int getProAssiEmpNo() {
+		return proAssiEmpNo;
+	}
+
+	public void setProAssiEmpNo(int proAssiEmpNo) {
+		this.proAssiEmpNo = proAssiEmpNo;
+	}
+
 	@Override
 	public String toString() {
-		return "Project [proNo=" + proNo + ", proMgrEmpNo=" + proMgrEmpNo + ", proName=" + proName + ", proDesc="
-				+ proDesc + ", budget=" + budget + ", state=" + state + ", comment=" + comment + "]";
+		return "Project [proNo=" + proNo + ", proMgrEmpNo=" + proMgrEmpNo + ", proAssiEmpNo=" + proAssiEmpNo
+				+ ", proName=" + proName + ", proDesc=" + proDesc + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", state=" + state + ", comment=" + comment + "]";
 	}
 
 	@Override

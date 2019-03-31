@@ -38,7 +38,6 @@ public class WorkPackageManagementController implements Serializable {
 		currentEmployeee = getLoggedInEmployee();
 		wpList = this.database.getWPByEmpNo(currentEmployeee.getEmpNumber());
 		editWP = new WorkPackage();
-		System.out.println(wpList);
 	}
 
 	public void onRowEdit(RowEditEvent event) {
