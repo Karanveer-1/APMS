@@ -69,8 +69,33 @@ public class WorkPackage implements Serializable {
 
 	@Column(name = "PMEstJS")
 	private int pmEstJS;
-	
-	
+
+	@Column(name = "REEstP1")
+	private int reEstP1;
+
+	@Column(name = "REEstP2")
+	private int reEstP2;
+
+	@Column(name = "REEstP3")
+	private int reEstP3;
+
+	@Column(name = "REEstP4")
+	private int reEstP4;
+
+	@Column(name = "REEstP5")
+	private int reEstP5;
+
+	@Column(name = "REEstP6")
+	private int reEstP6;
+
+	@Column(name = "REEstDS")
+	private int reEstDS;
+
+	@Column(name = "REEstSS")
+	private int reEstSS;
+
+	@Column(name = "REEstJS")
+	private int reEstJS;
 
 	public WorkPackage() {
 		this.workPackagePk = new WorkPackagePK();

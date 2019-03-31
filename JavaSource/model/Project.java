@@ -27,6 +27,9 @@ public class Project implements Serializable {
 	@Column(name = "ProMgrEmpNo", nullable = false)
 	private int proMgrEmpNo;
 
+	@Column(name = "ProAssiEmpNo", nullable = false)
+	private int proAssiEmpNo;
+
 	@Column(name = "ProName", nullable = false)
 	private String proName;
 
@@ -35,6 +38,8 @@ public class Project implements Serializable {
 
 	@Column(name = "StartDate", nullable = false)
 	private Date startDate;
+
+
 
 	@Column(name = "EndDate", nullable = false)
 	private Date endDate;
@@ -48,8 +53,8 @@ public class Project implements Serializable {
 	private String comment;
 
 	public Project() {
-
 		proMgrEmpNo = 1;
+		proAssiEmpNo = 1;
 		proName = "Project";
 		budget = 0;
 		state = STATE[0];
@@ -130,11 +135,23 @@ public class Project implements Serializable {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+
+	public int getProAssiEmpNo() {
+		return proAssiEmpNo;
+	}
+
+	public void setProAssiEmpNo(int proAssiEmpNo) {
+		this.proAssiEmpNo = proAssiEmpNo;
+	}
+
+
 
 	@Override
 	public String toString() {
-		return "Project [proNo=" + proNo + ", proMgrEmpNo=" + proMgrEmpNo + ", proName=" + proName + ", proDesc="
-				+ proDesc + ", budget=" + budget + ", state=" + state + ", comment=" + comment + "]";
+		return "Project [proNo=" + proNo + ", proMgrEmpNo=" + proMgrEmpNo + ", proAssiEmpNo=" + proAssiEmpNo
+				+ ", proName=" + proName + ", proDesc=" + proDesc + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", budget=" + budget + ", state=" + state + ", comment=" + comment + "]";
 	}
 
 	@Override
