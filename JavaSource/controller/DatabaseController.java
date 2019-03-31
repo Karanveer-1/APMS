@@ -572,49 +572,52 @@ public class DatabaseController implements Serializable {
 	}
 
 	// #########################################################################
-	// # Role methods
-	// #########################################################################
-	public String getRoleById(int empNo) {
-		List<Role> roles = manager.createQuery("SELECT r FROM Role r", Role.class).getResultList();
+    // # Role methods
+    // #########################################################################
+	public boolean checkIfUserInRole(int empNo, String role) {
+	    List<Role> list = manager.createQuery("SELECT r FROM Role r WHERE r.rolePk.empNo = :empNo AND r.rolePk.role = :role", Role.class)
+	            .setParameter("empNo", empNo)
+	            .setParameter("role", role)
+	            .getResultList();
 
-		for (Role r : roles) {
-			if (r.getRolePk().getEmpNo() == empNo) {
-				return r.getRolePk().getRole();
-			}
-		}
-
-		return null;
+	    return !list.isEmpty();
 	}
 
-	public boolean checkIfSupervisor(int empNumber) {
-		List<Employee> list = manager
-				.createQuery("SELECT e FROM Employee e WHERE e.superEmpNo = :number", Employee.class)
-				.setParameter("number", empNumber).getResultList();
-		if (list.isEmpty()) {
-			return false;
-		} else {
-			return true;
-		}
-	}
 
-	/**
-	 * @return
-	 */
-	public List<EmpPLevel> getEmpPLevels() {
-		return manager.createQuery("SELECT p FROM EmpPLevel p", EmpPLevel.class).getResultList();
-	}
+    public boolean checkIfSupervisor(int empNumber) {
+        List<Employee> list = manager.createQuery("SELECT e FROM Employee e WHERE e.superEmpNo = :number", Employee.class)
+                .setParameter("number", empNumber).getResultList();
+        if (list.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-	public void addEmpPLevel(EmpPLevel e) {
-		manager.persist(e);
-	}
 
-	public void updateEmpPLevel(EmpPLevel e) {
-		manager.merge(e);
-	}
+    public boolean checkIfApprover(int empNo) {
+        List<Employee> list = manager.createQuery("SELECT e FROM Employee e WHERE e.approEmpNo = :number", Employee.class)
+                .setParameter("number", empNo).getResultList();
 
-	public void removeEmpPLevel(EmpPLevel ep) {
-		manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
-	}
+        return !list.isEmpty();
+    }
+
+    /**
+     * @return
+     */
+    public List<EmpPLevel> getEmpPLevels() {
+        return manager.createQuery("SELECT p FROM EmpPLevel p", EmpPLevel.class)
+                .getResultList();
+    }
+    public void addEmpPLevel(EmpPLevel e) {
+        manager.persist(e);
+    }
+    public void updateEmpPLevel(EmpPLevel e) {
+        manager.merge(e);
+    }
+    public void removeEmpPLevel(EmpPLevel ep) {
+        manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
+    }
 
 }
 

@@ -18,7 +18,18 @@
 							<i class="ti-panel"></i>
 							Dashboard
 						</h:commandLink></li>
+<<<<<<< HEAD
 
+=======
+					<li><h:commandLink id="nav-employee"
+							action="Employees.xhtml?faces-redirect=true"
+							rendered="#{authController.isUserSystemAdmin() ||
+                         	authController.isUserHumanResource() || 
+                         	authController.isUserSupervisor()}">
+							<i class="ti-user"></i>
+							Employee
+						</h:commandLink></li>
+>>>>>>> 0a07fffa4d7e268d7daf35573a93550e64d95201
 					<li><h:commandLink id="nav-my-profile"
 							action="UserProfile.xhtml?faces-redirect=true">
 							<i class="ti-user"></i>
@@ -37,7 +48,15 @@
 							<i class="ti-alarm-clock"></i>
 							Timesheets
 						</h:commandLink></li>
-				
+
+					<li><h:commandLink
+							action="ApproveTimesheet.xhtml?faces-redirect=true"
+							rendered="#{authController.isUserSystemAdmin() ||
+                            authController.isUserApprover()}">
+							<i class="ti-alarm-clock"></i>
+                            Approve Timesheet
+                        </h:commandLink></li>
+
 					<li><h:commandLink id="nav-p-levels"
 							action="PLevels.xhtml?faces-redirect=true">
 							<i class="ti-alarm-clock"></i>
@@ -55,6 +74,7 @@
 </ui:composition>
 <!-- END OF SIDE NAVIGATION BAR -->
 <!-- BRING THIS BACK LATER	
+<<<<<<< HEAD
 
 					<li><h:commandLink id="nav-employee" action="Employees.xhtml?faces-redirect=true"
 					rendered="#{authController.isUserInRole('system admin') ||
@@ -73,5 +93,8 @@
                             Approve Timesheet
                         </h:commandLink>
 					</li> -->
+=======
+					 -->
+>>>>>>> 0a07fffa4d7e268d7daf35573a93550e64d95201
 
 </html>

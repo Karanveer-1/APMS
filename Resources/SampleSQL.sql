@@ -1,15 +1,15 @@
 /*
-V0.2.3
+V0.4.1
 1. Created admin user.
 2. Created tables:
     Employee
     EmpPLevel
     PLevel
     Project
-    ProAssi
     ProEmp
     WorkPackage
     WPEmp
+	WPNeed
     Timesheet
     TimesheetRow
     Role
@@ -83,32 +83,21 @@ CREATE TABLE PLevel
 CREATE TABLE Project
 (
     ProNo           INTEGER         NOT NULL,
-    ProMgrEmpNo     INTEGER         NOT NULL,
-    ProName         VARCHAR(200)    NOT NULL,
+	ProName         VARCHAR(200)    NOT NULL,
+	ProMgrEmpNo     INTEGER         NOT NULL,
+	ProAssiEmpNo    INTEGER         NOT NULL,
     ProDescription  VARCHAR(1000)   NOT NULL,
-    Budget          FLOAT           NOT NULL,
+    StartDate       DATE            NOT NULL,
+	EndDate         DATE            NOT NULL,
     State           VARCHAR(30)     NOT NULL,
     Comment         VARCHAR(1000)   ,
     PRIMARY KEY(ProNo)
 );
 
 -- Load data into table Project
-INSERT INTO APMS.Project VALUES('100', '4', 'Macaroni', 'First Project', '123.45','OPEN', 'First Project' );
-INSERT INTO APMS.Project VALUES('101', '2', 'Pizza', 'Second Project', '14.45','OPEN', 'Second Project' );
+INSERT INTO APMS.Project VALUES('100', 'Macaroni','4', '3', 'First Project', '2018-01-06', '2019-12-27', 'OPEN', 'First Project' );
+INSERT INTO APMS.Project VALUES('101', 'Pizza','2', '3', 'Second Project', '2018-01-06', '2019-12-27', 'OPEN', 'Second Project' );
 
-
-
--- Create table ProAssi
-CREATE TABLE ProAssi
-(
-    ProNo         INTEGER         NOT NULL,
-    ProAssiEmpNo  INTEGER         NOT NULL,
-    PRIMARY KEY(ProNo, ProAssiEmpNo)
-);
-
-
--- Load data into table ProAssi
-INSERT INTO APMS.ProAssi VALUES('100', '2');
 
 
 
@@ -134,21 +123,40 @@ CREATE TABLE WorkPackage
     REEmpNo        INTEGER         NOT NULL,
     WPTitle        VARCHAR(200)    NOT NULL,
     WPDescription  VARCHAR(1000)   NOT NULL,
+	StartDate      DATE            NOT NULL,
+	EndDate        DATE            NOT NULL,
+	IsLeaf         BOOLEAN         NOT NULL,	
     ParentWPID     VARCHAR(30)     ,
-    Budget         FLOAT           NOT NULL,
+	PMEstP1        INTEGER         ,
+	PMEstP2        INTEGER         ,
+	PMEstP3        INTEGER         ,
+	PMEstP4        INTEGER         ,
+	PMEstP5        INTEGER         ,
+	PMEstP6        INTEGER         ,
+	PMEstDS        INTEGER         ,
+	PMEstSS        INTEGER         ,
+	PMEstJS        INTEGER         ,
+	REEstP1        INTEGER         ,
+	REEstP2        INTEGER         ,
+	REEstP3        INTEGER         ,
+	REEstP4        INTEGER         ,
+	REEstP5        INTEGER         ,
+	REEstP6        INTEGER         ,
+	REEstDS        INTEGER         ,
+	REEstSS        INTEGER         ,
+	REEstJS        INTEGER         ,
     State          VARCHAR(30)     NOT NULL,
     Comment        VARCHAR(1000)   ,
     PRIMARY KEY(ProNo, WPID)
 );
 
 -- Load data into table WorkPackage
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP101', '1','COMP101','COMP101',NULL,'10','OPEN',NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP201', '1','COMP201','COMP201','COMP101','10','OPEN',NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP303', '1','COMP303','COMP303','COMP201','10','OPEN',NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP305', '1','COMP305','COMP305','COMP201','10','OPEN',NULL);
-INSERT INTO APMS.WorkPackage VALUES('101', 'COMP204', '1','COMP204','COMP204','COMP101','10','OPEN',NULL);
-INSERT INTO APMS.WorkPackage VALUES('101', 'BUSI101', '1','BUSI101','BUSI101',NULL,'10','OPEN',NULL);
-INSERT INTO APMS.WorkPackage VALUES('101', 'COMM101', '1','COMM101','COMM101',NULL,'10','OPEN',NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP101', '1', 'COMP101', 'COMP101', '2018-01-06', '2019-12-27', false, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP201', '1', 'COMP201', 'COMP201', '2018-01-06', '2019-12-27', false, 'COMP101', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP303', '1', 'COMP303', 'COMP303', '2018-01-06', '2019-12-27', true, 'COMP201', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP305', '1', 'COMP305', 'COMP305', '2018-01-06', '2019-12-27', true, 'COMP201', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP204', '1', 'COMP204', 'COMP204', '2018-01-06', '2019-12-27', true, 'COMP101', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('101', 'BUSI101', '1', 'BUSI101', 'BUSI101', '2018-01-06', '2019-12-27', true, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'OPEN', NULL);
 
 
 
@@ -166,11 +174,38 @@ CREATE TABLE WPEmp
 
 
 
+
+-- Create table WPNeed
+CREATE TABLE WPNeed
+(
+    ProNo          INTEGER         NOT NULL,
+    WPID           VARCHAR(30)     NOT NULL,
+	StartDate      DATE            NOT NULL,
+	RENeedP1       INTEGER         ,
+	RENeedP2       INTEGER         ,
+	RENeedP3       INTEGER         ,
+	RENeedP4       INTEGER         ,
+	RENeedP5       INTEGER         ,
+	RENeedP6       INTEGER         ,
+	RENeedDS       INTEGER         ,
+	RENeedSS       INTEGER         ,
+	RENeedJS       INTEGER         ,
+    State          VARCHAR(30)     NOT NULL,
+    Comment        VARCHAR(1000)   ,
+    PRIMARY KEY(ProNo, WPID, StartDate)
+);
+
+-- Load data into table WPNeed
+
+
+
 -- Create table Timesheet
 CREATE TABLE Timesheet
 (
     EmpNo          INTEGER         NOT NULL,
     StartDate      DATE            NOT NULL,
+    Overtime       FLOAT           DEFAULT '0',
+	Flextime       FLOAT           DEFAULT '0',
     Signature      VARCHAR(100)    ,
     ApprovedEmpNo  INTEGER         ,
     State          VARCHAR(30)     NOT NULL,
@@ -188,13 +223,13 @@ CREATE TABLE TimesheetRow
     StartDate    DATE            NOT NULL,
     ProNo        INTEGER         NOT NULL,
     WPID         VARCHAR(30)     NOT NULL,
-    Sat          FLOAT           ,
-    Sun          FLOAT           ,
-    Mon          FLOAT           ,
-    Tue          FLOAT           ,
-    Wed          FLOAT           ,
-    Thu          FLOAT           ,
-    Fri          FLOAT           ,
+    Sat          FLOAT           DEFAULT '0',
+    Sun          FLOAT           DEFAULT '0',
+    Mon          FLOAT           DEFAULT '0',
+    Tue          FLOAT           DEFAULT '0',
+    Wed          FLOAT           DEFAULT '0',
+    Thu          FLOAT           DEFAULT '0',
+    Fri          FLOAT           DEFAULT '0',
     Note         VARCHAR(1000)   ,
     State        VARCHAR(30)     NOT NULL,
     Comment      VARCHAR(1000)   ,
@@ -217,8 +252,6 @@ CREATE TABLE Role
 -- Load data into table Role
 INSERT INTO APMS.Role VALUES('1', 'SYSTEM ADMIN');
 INSERT INTO APMS.Role VALUES('2', 'HUMAN RESOURCE');
-INSERT INTO APMS.Role VALUES('3', 'EMPLOYEE');
-INSERT INTO APMS.Role VALUES('4', 'EMPLOYEE');
 
 
 CREATE TABLE Signature(
