@@ -22,10 +22,43 @@
 
 		<ui:define name="content">
 			<h:form id="formMain">
+
+				<p>
+					<h:outputText value="Start Date: " />
+					<h:outputText
+						value="#{timesheetController.editTimesheet.timesheetPk.startDate}">
+						<f:convertDateTime pattern="MMM, dd, yyyy" />
+					</h:outputText>
+				</p>
+				<p>
+					<h:outputText value="Overtime:  " />
+					<p:inputText value="#{timesheetController.editTimesheet.overtime}">
+						<p:ajax update="@this" />
+					</p:inputText>
+				</p>
+				<p>
+					<h:outputText value="Flextime: " />
+					<p:inputText value="#{timesheetController.editTimesheet.flextime}">
+						<p:ajax update="@this" />
+					</p:inputText>
+				</p>
+				<p>
+					<h:outputText value="State: " />
+					<h:outputText value="#{timesheetController.editTimesheet.state}" />
+				</p>
+				<p>
+					<h:outputText value="Comment: " />
+				</p>
+				<p>
+					<p:inputTextarea rows="6" cols="50" style="resize: none"
+						value="#{timesheetController.editTimesheet.comment}">
+						<p:ajax update="@this" />
+					</p:inputTextarea>
+				</p>
+
 				<p:commandButton value="Add Row"
 					action="#{timesheetController.addTimesheetRow()}"
 					update="editTable" />
-
 
 				<p:dataTable id="editTable"
 					value="#{timesheetController.editTimesheetRows}" var="row">

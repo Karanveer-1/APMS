@@ -101,6 +101,8 @@ public class TimesheetController implements Serializable {
     public String saveTimesheet() {
         editTimesheet.setState(TimesheetState.DRAFT);
 
+        database.updateTimesheet(editTimesheet);
+        
         database.removeTimesheetRows(editTimesheet);
 
         database.addIfNotExistTimesheetRows(editTimesheetRows);
