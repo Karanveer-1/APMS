@@ -115,7 +115,6 @@ public class ProjectController implements Serializable {
 		}
 		boolean addSuccess = database.persistProject(addProject);
 		projects = database.getAllProjects();
-		System.out.println("Add success is " + addSuccess);
 		if (addSuccess) {
 			FacesMessage msg = new FacesMessage("New Project Added");
 			FacesContext.getCurrentInstance().addMessage(null, msg);

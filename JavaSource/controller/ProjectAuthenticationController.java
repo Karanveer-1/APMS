@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import model.Employee;
-import model.ProAssi;
+//import model.ProAssi;
 import model.Project;
 import model.WorkPackage;
 
@@ -53,18 +53,18 @@ public class ProjectAuthenticationController implements Serializable {
 		return false;
 	}
 
-	public boolean isProjectAssistant() {
-		List<ProAssi> allProAssi = this.database.getAllProAssi();
-		for (ProAssi pa : allProAssi) {
-			if (currentEmployee.getEmpNumber() == pa.getEmpNo()) {
-				return true;
-			}
-		}
-		return false;
-	}
+//	public boolean isProjectAssistant() {
+//		List<ProAssi> allProAssi = this.database.getAllProAssi();
+//		for (ProAssi pa : allProAssi) {
+//			if (currentEmployee.getEmpNumber() == pa.getEmpNo()) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
 	public boolean isPMorPA() {
-		return isProjectManager() || isProjectAssistant();
+		return isProjectManager() ;
 	}
 
 	public boolean isREEmp() {
