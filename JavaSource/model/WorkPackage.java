@@ -34,6 +34,9 @@ public class WorkPackage implements Serializable {
 	@Column(name = "Comment")
 	private String comment;
 
+	@Column(name = "IsLeaf", nullable = false)
+	private boolean isLeaf;
+
 	@Column(name = "StartDate", nullable = false)
 	private Date startDate;
 
@@ -104,7 +107,10 @@ public class WorkPackage implements Serializable {
 	}
 
 	public WorkPackage(WorkPackagePK workPackagePk, int reEmpNo, String title, String description, String parentWPID,
-			String state, String comment) {
+			String state, String comment, boolean isLeaf, Date startDate, Date endDate, Integer pmEstP1,
+			Integer pmEstP2, Integer pmEstP3, Integer pmEstP4, Integer pmEstP5, Integer pmEstP6, Integer pmEstDS,
+			Integer pmEstSS, Integer pmEstJS, Integer reEstP1, Integer reEstP2, Integer reEstP3, Integer reEstP4,
+			Integer reEstP5, Integer reEstP6, Integer reEstDS, Integer reEstSS, Integer reEstJS) {
 		super();
 		this.workPackagePk = workPackagePk;
 		this.reEmpNo = reEmpNo;
@@ -113,6 +119,27 @@ public class WorkPackage implements Serializable {
 		this.parentWPID = parentWPID;
 		this.state = state;
 		this.comment = comment;
+		this.isLeaf = isLeaf;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.pmEstP1 = pmEstP1;
+		this.pmEstP2 = pmEstP2;
+		this.pmEstP3 = pmEstP3;
+		this.pmEstP4 = pmEstP4;
+		this.pmEstP5 = pmEstP5;
+		this.pmEstP6 = pmEstP6;
+		this.pmEstDS = pmEstDS;
+		this.pmEstSS = pmEstSS;
+		this.pmEstJS = pmEstJS;
+		this.reEstP1 = reEstP1;
+		this.reEstP2 = reEstP2;
+		this.reEstP3 = reEstP3;
+		this.reEstP4 = reEstP4;
+		this.reEstP5 = reEstP5;
+		this.reEstP6 = reEstP6;
+		this.reEstDS = reEstDS;
+		this.reEstSS = reEstSS;
+		this.reEstJS = reEstJS;
 	}
 
 	public WorkPackagePK getWorkPackagePk() {
@@ -186,7 +213,6 @@ public class WorkPackage implements Serializable {
 	public void setWpid(String wpid) {
 		workPackagePk.setWpid(wpid);
 	}
-	
 
 	public Date getStartDate() {
 		return startDate;
@@ -348,11 +374,12 @@ public class WorkPackage implements Serializable {
 		this.reEstJS = reEstJS;
 	}
 
-	@Override
-	public String toString() {
-		return "WorkPackage [workPackagePk=" + workPackagePk + ", reEmpNo=" + reEmpNo + ", title=" + title
-				+ ", description=" + description + ", parentWPID=" + parentWPID + ", state=" + state + ", comment="
-				+ comment + "]";
+	public boolean isLeaf() {
+		return isLeaf;
+	}
+
+	public void setLeaf(boolean isLeaf) {
+		this.isLeaf = isLeaf;
 	}
 
 }
