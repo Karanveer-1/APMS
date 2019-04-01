@@ -214,9 +214,9 @@ CREATE TABLE Timesheet
 );
 
 -- Load data into table Timesheet
-INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (1,'2018-04-30',1.25,3.5,NULL,NULL,'Returned','');
+INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (1,'2018-04-30',1.25,3.5,NULL,1,'Approved','');
 INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (1,'2018-05-13',6.75,3.75,NULL,1,'Approved','my comment');
-INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (1,'2019-05-11',1,1,NULL,NULL,'Draft','');
+INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (1,'2019-05-11',1,1,NULL,NULL,'Returned','');
 INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (2,'2019-03-30',55,31,NULL,NULL,'Draft','my comment');
 INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (3,'2019-03-30',5,1,NULL,NULL,'Pending','my timesheet');
 INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (3,'2019-04-06',0,0,NULL,NULL,'Draft','comment');
@@ -244,15 +244,15 @@ CREATE TABLE TimesheetRow
 
 -- Load data into table TimesheetRow
 
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2018-04-28',100,'COMP101',0,0,0,0,0,0,0,'','Pending','');
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2018-04-28',100,'COMP303',0,0,0,0,0,0,0,'','Pending','');
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2018-04-28',101,'BUSI101',0,0,0,0,0,0,0,NULL,'Pending',NULL);
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2018-05-12',100,'COMP303',0,0,0,0,0,0,0,NULL,'Pending',NULL);
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2018-05-12',101,'BUSI101',0,0,0,0,0,0,0,'','Pending','');
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-05-11',100,'COMP201',0,0,0,0,2,1,0,'GFD','Draft','F');
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-05-11',100,'COMP204',4,4,54,4,4,0,0,'F','Draft','G');
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-05-11',100,'COMP303',54,4,4,0,3,0,0,'GDF','Draft','F');
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-05-11',101,'BUSI101',0,0,0,0,0,0,0,'DFG','Draft','G');
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2018-04-28',100,'COMP101',0,0,0,0,0,0,0,'','Approved','');
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2018-04-28',100,'COMP303',0,0,0,0,0,0,0,'','Approved','');
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2018-04-28',101,'BUSI101',0,0,0,0,0,0,0,NULL,'Approved',NULL);
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2018-05-12',100,'COMP303',0,0,0,0,0,0,0,NULL,'Approved',NULL);
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2018-05-12',101,'BUSI101',0,0,0,0,0,0,0,'','Approved','');
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-05-11',100,'COMP201',0,0,0,0,2,1,0,'GFD','Returned','F');
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-05-11',100,'COMP204',4,4,54,4,4,0,0,'F','Returned','G');
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-05-11',100,'COMP303',54,4,4,0,3,0,0,'GDF','Returned','F');
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-05-11',101,'BUSI101',0,0,0,0,0,0,0,'DFG','Returned','G');
 INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-03-30',100,'COMP101',0,0,0,0,0,0,0,'','Draft','');
 INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-03-30',100,'COMP201',0,0,0,0,0,0,0,'note','Draft','comment');
 INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-03-30',100,'COMP204',0,0,0,0,0,0,0,'','Draft','');

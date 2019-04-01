@@ -30,6 +30,23 @@ public class PLevelController implements Serializable {
     private List<PLevel> pLevels;
 
     private PLevel editPLevel;
+    
+    public enum PLevelType {
+        P1,
+        P2,
+        P3,
+        P4,
+        P5,
+        P6,
+        JS,
+        SS,
+        DS
+    }
+    
+    public PLevelType[] getPLevelTypes() {
+        return PLevelType.values();
+    }
+
 
     @PostConstruct
     public void init() {

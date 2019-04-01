@@ -116,8 +116,9 @@ public class TimesheetController implements Serializable {
         database.addIfNotExistTimesheetRows(editTimesheetRows);
         database.addTimesheetIfNotExist(editTimesheet, true);
 
+        updateTimesheetRowsState(editTimesheetRows, TimesheetRowState.DRAFT);
         timesheets = updateUserTimesheets();
-
+        
         return "Timesheets.xhtml?faces-redirect=true";
     }
 
