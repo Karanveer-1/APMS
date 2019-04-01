@@ -27,7 +27,7 @@
 
 				<p:commandButton value="Add new row"
 					styleClass="ui-priority-primary" process="@this"
-					action="#{projectController.addProject()}"
+					action="#{projectController.persistProject()}"
 					oncomplete="PF('project').addRow();" />
 
 
@@ -95,17 +95,6 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column headerText="Budget">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{project.budget}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{project.budget}" style="width:100%"
-									label="Budget" />
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
 					<p:column headerText="State">
 						<p:cellEditor>
 							<f:facet name="output">

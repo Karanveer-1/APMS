@@ -195,4 +195,8 @@ public class EmployeeController implements Serializable {
     public Employee getEmployeeById(int id) {
         return database.getEmployeeById(id);
     }
+    
+    public List<Employee> getInActiveEmployees() {
+        return database.getInActiveEmployees();
+    }
 }

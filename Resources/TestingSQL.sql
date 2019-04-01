@@ -160,7 +160,7 @@ CREATE TABLE Project
 );
 
 -- Load data into table Project
-INSERT INTO APMS.Project VALUES('100', '4', 'Macaroni', 'First Project', '123.45','OPEN', 'First Project' );
+INSERT INTO APMS.Project VALUES('100', '1', 'Macaroni', 'First Project', '123.45','OPEN', 'First Project' );
 INSERT INTO APMS.Project VALUES('101', '2', 'Pizza', 'Second Project', '14.45','OPEN', 'Second Project' );
 
 -- For timesheet testing
@@ -435,8 +435,7 @@ INSERT INTO APMS.Role VALUES('14', 'Human Resource');
 CREATE TABLE Signature(
 	EmpNo          INTEGER         NOT NULL,
     StartDate      DATE            NOT NULL,
-	Signature 	   TINYBLOB 	   NOT NULL, 
+	Signature 	   TINYBLOB 	   NOT NULL,
 	PublicKey 	   BLOB 		   NOT NULL,
 	PRIMARY KEY(EmpNo, StartDate)
 );
-

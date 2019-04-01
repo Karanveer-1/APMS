@@ -17,37 +17,29 @@
 			<h:outputText value="Approve Timesheet" class="navbar-brand" />
 		</ui:define>
 		<ui:define name="navBar">
-			<ui:include src="/sections/ApproveTimesheetViewNavigationBar.xhtml" />
+			<ui:include src="/sections/ViewTimesheetNavigationBar.xhtml" />
 		</ui:define>
 
 		<ui:define name="content">
 			<h:form id="formMain">
 				<p>
-					<h:outputText value="Employee No: " />
-					<h:outputText
-						value="#{approveTimesheetController.currentEmployee.empNumber}" />
-				</p>
-				<p>
 					<h:outputText value="Start Date: " />
 					<h:outputText
-						value="#{approveTimesheetController.viewTimesheet.timesheetPk.startDate}">
+						value="#{timesheetController.editTimesheet.timesheetPk.startDate}">
 						<f:convertDateTime pattern="MMM, dd, yyyy" />
 					</h:outputText>
 				</p>
 				<p>
 					<h:outputText value="Overtime:  " />
-					<h:outputText
-						value="#{approveTimesheetController.viewTimesheet.overtime}" />
+					<h:outputText value="#{timesheetController.editTimesheet.overtime}" />
 				</p>
 				<p>
 					<h:outputText value="Flextime: " />
-					<h:outputText
-						value="#{approveTimesheetController.viewTimesheet.flextime}" />
+					<h:outputText value="#{timesheetController.editTimesheet.flextime}" />
 				</p>
 				<p>
 					<h:outputText value="State: " />
-					<h:outputText
-						value="#{approveTimesheetController.viewTimesheet.state}" />
+					<h:outputText value="#{timesheetController.editTimesheet.state}" />
 				</p>
 				<p>
 					<h:outputText value="Comment: " />
@@ -55,20 +47,14 @@
 				<p>
 					<p:inputTextarea rows="6" cols="50" readonly="true"
 						style="resize: none"
-						value="#{approveTimesheetController.viewTimesheet.comment}">
+						value="#{timesheetController.editTimesheet.comment}">
 					</p:inputTextarea>
 				</p>
-
-				<p:commandButton value="Approve"
-					action="#{approveTimesheetController.approveTimesheet()}" />
-
-				<p:commandButton value="Return"
-					action="#{approveTimesheetController.returnTimesheet()}" />
 
 				<h:outputText value="" />
 
 				<p:dataTable id="viewTable"
-					value="#{approveTimesheetController.viewTimesheetRows}" var="row">
+					value="#{timesheetController.editTimesheetRows}" var="row">
 					<p:column headerText="Project No">
 						<h:outputText value="#{row.timesheetRowPk.proNo}" />
 					</p:column>

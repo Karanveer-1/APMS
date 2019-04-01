@@ -25,15 +25,15 @@
 			<h:form id="form">
 				<p:growl id="msgs" showDetail="true" />
 				<p:dataTable id="wp" var="wp" widgetVar="wp"
-					value="#{wpreController.wpList}" editable="true"
+					value="#{wpmController.wpList}" editable="true"
 					style="margin-bottom:20px">
 					<f:facet name="header">
            Work Packages
         </f:facet>
-					<p:ajax event="rowEdit" listener="#{wpreController.onRowEdit}"
+					<p:ajax event="rowEdit" listener="#{wpmController.onRowEdit}"
 						update=":form:msgs" />
 					<p:ajax event="rowEditCancel"
-						listener="#{wpreController.onRowCancel}" update=":form:msgs" />
+						listener="#{wpmController.onRowCancel}" update=":form:msgs" />
 					<p:column headerText="WPID">
 
 						<p:cellEditor>
@@ -111,19 +111,7 @@
 
 					</p:column>
 
-					<p:column headerText="Budget">
 
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{wp.budget}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{wp.budget}" style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
-
-
-					</p:column>
 					<p:column headerText="State">
 
 						<p:cellEditor>

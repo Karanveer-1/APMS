@@ -11,16 +11,16 @@ public class TimesheetRowPK implements Serializable {
 
     @Column(name = "EmpNo", nullable = false)
     private int empNo;
-    
+
     @Column(name = "StartDate", nullable = false)
     private Date startDate;
-    
+
     @Column(name = "ProNo", nullable = false)
     private Integer proNo;
-    
+
     @Column(name = "WPID", nullable = false)
     private String wpid;
-    
+
     public TimesheetRowPK() {}
 
     public TimesheetRowPK(int empNo, Date startDate, Integer proNo, String wpid) {
@@ -70,7 +70,7 @@ public class TimesheetRowPK implements Serializable {
         result = prime * result + empNo;
         result = prime * result + ((proNo == null) ? 0 : proNo.hashCode());
         result = prime * result
-                + ((startDate == null) ? 0 : startDate.hashCode());
+            + ((startDate == null) ? 0 : startDate.hashCode());
         result = prime * result + ((wpid == null) ? 0 : wpid.hashCode());
         return result;
     }
@@ -103,5 +103,5 @@ public class TimesheetRowPK implements Serializable {
             return false;
         return true;
     }
-    
+
 }
