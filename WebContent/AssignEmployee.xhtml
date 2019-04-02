@@ -11,13 +11,30 @@
         <ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
         
         <ui:define name="content">
-        <h:form id="formMain">
+        
+         <p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:20px">
+			<div class="row" style="color:black">
+			  <div class="col-sm-2">
+			  </div>
+			  <div class="col-sm-8">
+			  	<h1>Assigning an Employee</h1>
+           		<h:outputText value="A list of all past and present employees." />
+			  </div>
+			  <div class="col-sm-2"></div>
+			</div>
+
+           	<hr></hr>
+        
+            <h:form id="formMain" style="margin-top:20px">            
+        
 	       	<h:panelGrid columns="2" cellpadding="10">
 				<p:outputLabel value="msg" style="opacity:0"/>
 			</h:panelGrid>
 			<p:growl id="invalidEmployeeGrowl" sticky="false" />
 			
-	        <p:dataTable id="assignTable" var="emp" value="#{assign.getEmployeesAssignedToSupervisor()}">
+	        <p:dataTable id="assignTable" var="emp" value="#{assign.getEmployeesAssignedToSupervisor()}"
+	        	scrollable="true" scrollHeight="3%" paginator="true" row="5" paginatorPosition="bottom"
+	        	style="text-align:center; margin-top:30px; margin-bottom:50px">
 			    <p:column headerText="Employee Username">
 	        		<h:outputText value="#{emp.userName}" />
 	    		</p:column>
@@ -27,11 +44,19 @@
 	    		</p:column>
 	    		
 	    		<p:column headerText="Assign/Update">
-	        		<p:commandButton action="#{assign.setAssignEmployee(emp)}" value="Assign" update=":#{p:component('editDialog')}" />
+	        		<p:commandButton class="btn btn-primary" action="#{assign.setAssignEmployee(emp)}" value="Assign" update=":#{p:component('editDialog')}" />
 	        		
 	    		</p:column>
 			</p:dataTable>
-		</h:form>	
+		</h:form>
+		
+		<p:sidebar widgetVar="sidebar1" baseZIndex="10000">
+		    <h1 style="font-weight:normal">Left Sidebar</h1>
+		    <p:commandButton value="Cancel" oncomplete="PF('sidebar1').hide()"/>
+		</p:sidebar>
+		
+
+		
 		
 		<p:dialog id="editDialog" header="Edit Employee" modal="true"
                 width="400" widgetVar="editEmployeeDialog" resizable="false" draggable="false">
@@ -54,7 +79,7 @@
                     
                 </h:form>
             </p:dialog>
-            
+            </p:fieldset>
 		</ui:define>
 	</ui:composition>
 	

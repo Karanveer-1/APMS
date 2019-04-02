@@ -12,22 +12,27 @@
         <ui:define name="navBar"><ui:include src="/sections/mpDashboardNavigationBar.xhtml" /></ui:define>
         
         <ui:define name="content">
-        
-	        <h:panelGrid columns="2" id="grid" cellpadding="5" >
-	        	<p:outputLabel value="Employee Number: "/>
-	        	<p:outputLabel id="empNo" value="#{loginController.currentEmployee.empNumber}"/>
-			    <p:outputLabel value="First Name: "/>
-			    <p:outputLabel id="firstName" value="#{loginController.currentEmployee.firstName}"/>
-			    <p:outputLabel value="Last Name: "/>
-			    <p:outputLabel id="lastName" value="#{loginController.currentEmployee.lastName}"/>
-			    <p:outputLabel value="User Name: "/>
-			    <p:outputLabel id="userName" value="#{loginController.currentEmployee.userName}"/>
-			</h:panelGrid>
-			
-			<h:form><p:commandButton onclick="PF('keyPhraseDialog').show();" value="Generate Key Pairs" /></h:form>
-            
-            <p:dialog id="keyPhrase" header="Enter a phrase" modal="true" width="400"
-                widgetVar="keyPhraseDialog" resizable="false" draggable="false">
+        	
+        	<p:fieldset legend="Employees" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:20px">
+		        <h:panelGrid columns="2" id="grid" cellpadding="5" >
+		        	<p:outputLabel value="Employee Number: "/>
+		        	<p:outputLabel id="empNo" value="#{loginController.currentEmployee.empNumber}"/>
+				    <p:outputLabel value="First Name: "/>
+				    <p:outputLabel id="firstName" value="#{loginController.currentEmployee.firstName}"/>
+				    <p:outputLabel value="Last Name: "/>
+				    <p:outputLabel id="lastName" value="#{loginController.currentEmployee.lastName}"/>
+				    <p:outputLabel value="User Name: "/>
+				    <p:outputLabel id="userName" value="#{loginController.currentEmployee.userName}"/>
+				</h:panelGrid>
+				
+				<h:form>
+					<p:commandButton onclick="PF('keyPhraseDialog').show();" value="Generate Key Pairs" />
+				</h:form>
+   			
+   			</p:fieldset>
+	        
+			 <p:sidebar id="keyPhrase" widgetVar="keyPhraseDialog" position="right" baseZIndex="20000">
+			    <h1 style="font-weight:normal">Enter a phrase</h1>
                 
                 <h:form id="formAddDialog">
                     <h:panelGrid columns="1">
@@ -41,8 +46,7 @@
                     <p:messages id="messages" showSummary="false" showDetail="true" closable="true"/>
                     <p:autoUpdate/>
                 </h:form>
-            </p:dialog>
-            
+            </p:sidebar>
         </ui:define>
 	</ui:composition>
 </html>
