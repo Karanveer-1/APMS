@@ -13,6 +13,12 @@ public class Timesheet implements Serializable {
 
     @EmbeddedId
     private TimesheetPK timesheetPk;
+    
+    @Column(name = "Overtime")
+    private float overtime;
+    
+    @Column(name = "Flextime")
+    private float flextime;
 
     @Column(name = "Signature")
     private String signature;
@@ -45,6 +51,22 @@ public class Timesheet implements Serializable {
 
     public void setTimesheetPk(TimesheetPK timesheetPk) {
         this.timesheetPk = timesheetPk;
+    }
+    
+    public float getOvertime() {
+        return overtime;
+    }
+
+    public void setOvertime(float overtime) {
+        this.overtime = overtime;
+    }
+
+    public float getFlextime() {
+        return flextime;
+    }
+
+    public void setFlextime(float flextime) {
+        this.flextime = flextime;
     }
 
     public String getSignature() {

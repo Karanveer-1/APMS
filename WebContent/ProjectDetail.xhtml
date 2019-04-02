@@ -21,13 +21,25 @@
 		</ui:define>
 		<ui:define name="content">
 
-			<p>#{pdController.project.proNo}</p>
-			<p>#{pdController.project.proMgrEmpNo}</p>
-			<p>#{pdController.project.proName}</p>
-			<p>#{pdController.project.proDesc}</p>
-			<p>#{pdController.project.budget}</p>
-			<p>#{pdController.project.state}</p>
-			<p>#{pdController.project.comment}</p>
+			<h:panelGrid style="margin:20px" columns="2" cellpadding="10"
+				cellspacing="10">
+				<p:outputLabel value="Project Number: " />
+				<p:outputLabel value="#{pdController.project.proNo}" />
+				<p:outputLabel value="Project Manager: " />
+				<p:outputLabel value="#{pdController.project.proMgrEmpNo}" />
+				<p:outputLabel value="Project Name: " />
+				<p:outputLabel value="#{pdController.project.proName}" />
+				<p:outputLabel value="Description: " />
+				<p:outputLabel value="#{pdController.project.proDesc}" />
+				<p:outputLabel value="Comment: " />
+				<p:outputLabel value="#{pdController.project.comment}" />
+			</h:panelGrid>
+
+			
+
+
+		
+
 
 
 

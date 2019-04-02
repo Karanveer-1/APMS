@@ -7,7 +7,7 @@
 
 	<ui:composition template="/templates/MasterLayout.xhtml">
 		<ui:define name="windowTitle">Assign Approvers</ui:define>
-        <ui:define name="headerTitle"><h:outputText value="Assign Employees" class="navbar-brand"/></ui:define>
+        <ui:define name="headerTitle"><h:outputText value="Assign Approvers" class="navbar-brand"/></ui:define>
         <ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
         
         <ui:define name="content">
@@ -17,7 +17,24 @@
 			</h:panelGrid>
 			<p:growl id="invalidEmployeeGrowl" sticky="false" />
 			
-	        <p:dataTable id="assignTable" var="emp" value="#{assign.getEmployeesAssignedToSupervisor()}">
+	        <p:dataTable id="assignTable" var="emp" value="#{assign.getEmployeesAssignedToSupervisor()}"
+	        rendered="#{!authController.isUserSystemAdmin()}">
+			    <p:column headerText="Employee Username">
+	        		<h:outputText value="#{emp.userName}" />
+	    		</p:column>
+	 
+			    <p:column headerText="Approver Username">
+	        		<h:outputText value="#{assign.getEmployeeById(emp.approEmpNo).userName}"/>
+	    		</p:column>
+	    		
+	    		<p:column headerText="Assign/Update">
+	        		<p:commandButton action="#{assign.setAssignEmployee(emp)}" value="Assign" update=":#{p:component('editDialog')}" />
+	        		
+	    		</p:column>
+			</p:dataTable>
+			
+			<p:dataTable id="asignTable" var="emp" value="#{assign.activeEmployees}"
+			rendered="#{authController.isUserSystemAdmin()}">
 			    <p:column headerText="Employee Username">
 	        		<h:outputText value="#{emp.userName}" />
 	    		</p:column>
@@ -46,7 +63,7 @@
    						</h:selectOneMenu>
                             
                         <p:commandButton
-                            update=":formMain:assignTable :formMain:invalidEmployeeGrowl :formEditDialog"
+                            update=":formMain:assignTable :formMain:asignTable :formMain:invalidEmployeeGrowl :formEditDialog"
                             value="Save"
                             action="#{assign.updateApprover(editApproverText.value)}" />
         

@@ -2,6 +2,7 @@ package controller;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -17,19 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Named("assignProject")
-@ConversationScoped
+@SessionScoped
 public class AssignProjectController implements Serializable {
     @Inject
     private DatabaseController database;
-    @Inject 
-    private Conversation convo;
+
     @Inject
     private AssignEmployeeController assign;
     
     private Project project;
     
     public String addEmployees(Project p) {
-        convo.begin();
         this.project = p;
         return "AddEmployeeToProject.xhtml?faces-redirect=true";
     }
