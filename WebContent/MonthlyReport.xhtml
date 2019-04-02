@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>IGNORED!</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="/templates/MasterLayout.xhtml">
+        <ui:define name="windowTitle">Monthly Report</ui:define>
+        <ui:define name="headerTitle"><h:outputText value="Monthly Report" class="navbar-brand"/></ui:define>
+        
+        <ui:define name="content">
+        	<h:panelGrid style="margin:20px" columns="2" cellpadding="10" cellspacing="10">
+		        <p:outputLabel value="Project Number:&nbsp;&nbsp;"/>
+		        <p:outputLabel value="#{monthlyReport.project.proNo}"/>
+		        <p:outputLabel value="Project Title:  "/>
+		        <p:outputLabel value="#{monthlyReport.project.proName}"/>
+		        <p:outputLabel value="Start Date:  "/>
+		        <p:outputLabel value="#{monthlyReport.project.startDate}">
+		        	<f:convertDateTime pattern="yyyy-MM-dd" />
+		        </p:outputLabel>
+		        <p:outputLabel value="End Date:  "/>
+		        <p:outputLabel value="#{monthlyReport.project.endDate}">
+		        	<f:convertDateTime pattern="yyyy-MM-dd" />
+		        </p:outputLabel>
+	    	</h:panelGrid>
+	    	
+	    	<p:dataTable var="wp" value="#{monthlyReport.getAllWps()}">
+	    		<p:column headerText="WP ID / WP Title">
+	    			#{wp.wpid}/ <br/>
+	    			#{wp.title}
+	    		</p:column>
+	    		<p:column headerText="Stats">
+	    			MD <br/> Labour Total ($)
+	    		</p:column>
+	    		<p:column headerText="BCWS">
+	    			#{monthlyReport.generatePmEstimate(wp)} <br/>
+	    			#{monthlyReport.convertPmEstimateIntoLabour(wp)}
+	    		</p:column>
+	    		<p:column headerText="BCWP"></p:column>
+	    		<p:column headerText="EAC">
+	    			#{monthlyReport.generateReEstimate(wp)} <br/>
+	    			#{monthlyReport.convertReEstimateIntoLabour(wp)}
+	    		</p:column>
+	    		<p:column headerText="% of work left compared to EAC"></p:column>
+	    	</p:dataTable>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
