@@ -106,6 +106,7 @@ public class WorkPackage implements Serializable {
 		this.startDate = new Date();
 		this.endDate = new Date();
 		this.isLeaf = false;
+		
 
 	}
 
@@ -384,6 +385,18 @@ public class WorkPackage implements Serializable {
 
 	public void setLeaf(boolean isLeaf) {
 		this.isLeaf = isLeaf;
+	}
+
+	@Override
+	public String toString() {
+		return "WorkPackage [workPackagePk=" + workPackagePk + ", reEmpNo=" + reEmpNo + ", title=" + title
+				+ ", description=" + description + ", parentWPID=" + parentWPID + ", state=" + state + ", comment="
+				+ comment + ", isLeaf=" + isLeaf + ", startDate=" + startDate + ", endDate=" + endDate + ", pmEstP1="
+				+ pmEstP1 + ", pmEstP2=" + pmEstP2 + ", pmEstP3=" + pmEstP3 + ", pmEstP4=" + pmEstP4 + ", pmEstP5="
+				+ pmEstP5 + ", pmEstP6=" + pmEstP6 + ", pmEstDS=" + pmEstDS + ", pmEstSS=" + pmEstSS + ", pmEstJS="
+				+ pmEstJS + ", reEstP1=" + reEstP1 + ", reEstP2=" + reEstP2 + ", reEstP3=" + reEstP3 + ", reEstP4="
+				+ reEstP4 + ", reEstP5=" + reEstP5 + ", reEstP6=" + reEstP6 + ", reEstDS=" + reEstDS + ", reEstSS="
+				+ reEstSS + ", reEstJS=" + reEstJS + "]";
 	}
 
 }

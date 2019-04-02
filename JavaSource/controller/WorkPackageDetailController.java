@@ -29,7 +29,7 @@ public class WorkPackageDetailController implements Serializable {
 
 	public String viewWP(WorkPackage wp) {
 		this.wp = wp;
-		System.out.println(wp);
+	
 		return "WorkPackageDetail.xhtml?faces-redirect=true";
 	}
 
@@ -41,4 +41,7 @@ public class WorkPackageDetailController implements Serializable {
 		this.wp = wp;
 	}
 
+	public void save() {
+		System.out.println("Save " + wp);
+	}
 }
