@@ -22,15 +22,13 @@ import java.util.List;
 public class AssignProjectController implements Serializable {
     @Inject
     private DatabaseController database;
-    @Inject 
-    private Conversation convo;
+
     @Inject
     private AssignEmployeeController assign;
     
     private Project project;
     
     public String addEmployees(Project p) {
-        convo.begin();
         this.project = p;
         return "AddEmployeeToProject.xhtml?faces-redirect=true";
     }

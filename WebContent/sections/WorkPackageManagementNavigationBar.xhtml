@@ -14,35 +14,13 @@
 				<div class="logo">
 					<span class="simple-text" style="margin-top: 30px"> APMS </span>
 				</div>
-				<h:form id="pnav">
-				<p:ajax event="click" update="pnav" listener="#{projectController.onRowEdit}" />
-				<ul class="nav" id="pulnav">
+				<ul class="nav">
 					
-					<li><p:commandLink action="Projects.xhtml?faces-redirect=true"
-							rendered="#{paController.isSupervisor()}">
-							All Projects
-						</p:commandLink></li>
-
 					<li><p:commandLink
-							action="ProjectManagement.xhtml?faces-redirect=true"
-							rendered="#{paController.isPMorPA()}">
-							 Project Management
-							 
-						</p:commandLink></li>
-
-					<li><p:commandLink
-							action="WorkPackage.xhtml?faces-redirect=true"
-							rendered="#{paController.isREEmp()}">
-							Work Packages 
-						</p:commandLink></li>
-
-
-					<li><p:commandLink
-							action="Dashboard.xhtml?faces-redirect=true">
+							action="WorkPackageManagement.xhtml?faces-redirect=true">
 							Back
 						</p:commandLink></li>
 				</ul>
-				</h:form>
 			</div>
 		</div>
 	</h:form>
