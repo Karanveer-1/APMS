@@ -11,6 +11,7 @@ import javax.inject.Named;
 import model.Employee;
 import model.Timesheet;
 import model.TimesheetRow;
+import model.TimesheetRowState;
 import model.TimesheetState;
 
 @Named("approveTimesheetController")
@@ -54,6 +55,7 @@ public class ApproveTimesheetController implements Serializable {
         t.setApprovedEmpNo(currentEmployee.getEmpNumber());
         database.updateTimesheet(t);
         submittedTimesheets = databaseGetSubmittedTimesheets();
+        updateTimesheetRowsState(viewTimesheetRows, TimesheetRowState.APPROVED);
         return "ApproveTimesheet.xhtml?faces-redirect=true";
     }
 
@@ -62,7 +64,17 @@ public class ApproveTimesheetController implements Serializable {
         t.setState(TimesheetState.RETURNED);
         database.updateTimesheet(t);
         submittedTimesheets = databaseGetSubmittedTimesheets();
+        updateTimesheetRowsState(viewTimesheetRows, TimesheetRowState.RETURNED);
         return "ApproveTimesheet.xhtml?faces-redirect=true";
+    }
+    
+    private void updateTimesheetRowsState(List<TimesheetRow> rows,
+        String state) {
+        for (TimesheetRow row : rows) {
+            row.setState(state);
+        }
+
+        database.updateTimesheetRows(rows);
     }
 
     private List<Timesheet> databaseGetSubmittedTimesheets() {

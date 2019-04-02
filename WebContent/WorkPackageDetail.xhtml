@@ -19,30 +19,10 @@
 		<ui:define name="navBar">
 			<ui:include src="/sections/ProjectManagementNavigationBar.xhtml" />
 		</ui:define>
+
 		<ui:define name="content">
 
-			<h:panelGrid style="margin:20px" columns="2" cellpadding="10"
-				cellspacing="10">
-				<p:outputLabel value="Project Number: " />
-				<p:outputLabel value="#{pdController.project.proNo}" />
-				<p:outputLabel value="Project Manager: " />
-				<p:outputLabel value="#{pdController.project.proMgrEmpNo}" />
-				<p:outputLabel value="Project Name: " />
-				<p:outputLabel value="#{pdController.project.proName}" />
-				<p:outputLabel value="Description: " />
-				<p:outputLabel value="#{pdController.project.proDesc}" />
-				<p:outputLabel value="Comment: " />
-				<p:outputLabel value="#{pdController.project.comment}" />
-			</h:panelGrid>
-
-			
-
-
-		
-
-
-
-
+			<p>#{wpdController.wp.proNo}</p>
 
 
 

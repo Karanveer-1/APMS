@@ -127,14 +127,7 @@ public class ProjectDetailController implements Serializable {
 		treeInit(this.project.getProNo());
 	}
 
-	public void addWp(WorkPackage wp) {
-		WorkPackage newWp = new WorkPackage();
-		newWp.setWpid("he" + wp.getWpid());
-		newWp.setProNo(wp.getProNo());
-		this.database.persistChildWP(wp, newWp);
-		System.out.println(wp.getWpid());
-		treeInit(this.project.getProNo());
-	}
+
 
 	public void expandAll() {
 		setExpandedRecursively(root, true);

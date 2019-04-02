@@ -88,7 +88,9 @@
 				<h:form id="formAddDialog">
 					<h:panelGrid columns="1">
 						<h:outputText value="PLEVEL" />
-						<h:inputText binding="#{addPLevelText}" />
+						<h:selectOneMenu binding="#{addPLevelText}">
+						    <f:selectItems value="#{pLevelController.PLevelTypes}" />
+						</h:selectOneMenu>
 
 						<h:outputText value="StartDate" />
 						<p:calendar id="popup" binding="#{addStartDateText}"/>
