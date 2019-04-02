@@ -27,9 +27,13 @@
            			header="Currently Timesheets" footer="This table includes all time sheets" 
            			style="margin-left:50px; margin-right:50px;">
 			<h:form id="formMain">
-	
+
 				<p:dataTable id="viewTable"
 					value="#{timesheetController.timesheets}" var="timesheet">
+					<p:column headerText="Employee No"
+						rendered="#{authController.userSystemAdmin}">
+						<h:outputText value="#{timesheet.timesheetPk.empNo}" />
+					</p:column>
 					<p:column headerText="Date">
 						<h:outputText value="#{timesheet.timesheetPk.startDate}">
 							<f:convertDateTime pattern="MMM. dd, yyyy" />
@@ -41,11 +45,22 @@
 					<p:column headerText="Approved Emp No">
 						<h:outputText value="#{timesheet.approvedEmpNo}" />
 					</p:column>
+					<p:column headerText="Overtime">
+						<h:outputText value="#{timesheet.overtime}" />
+					</p:column>
+					<p:column headerText="Flextime">
+						<h:outputText value="#{timesheet.flextime}" />
+					</p:column>
 					<p:column headerText="Signature">
 						<h:outputText value="#{timesheet.signature}" />
 					</p:column>
 					<p:column headerText="Comment">
 						<h:outputText value="#{timesheet.comment}" />
+					</p:column>
+					<p:column headerText="View">
+						<p:commandButton value="View"
+							action="#{timesheetController.viewTimesheet(timesheet)}"
+							style="width: 100%" />
 					</p:column>
 					<p:column headerText="Edit">
 						<p:commandButton value="Edit"

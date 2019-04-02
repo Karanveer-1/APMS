@@ -17,23 +17,31 @@
 				</div>
 				<ul class="nav">
 					<li>
-						<p:commandLink id="nav-all-employees" action="AllEmployees.xhtml?faces-redirect=true">
-							View All Employees
+						<p:commandLink id="nav-all-employees" action="InactiveEmployees.xhtml?faces-redirect=true"
+						rendered="#{authController.isUserSystemAdmin() ||
+                         	authController.isUserHumanResource()}">
+							View Inactive Employees
 						</p:commandLink>
 					</li>
 					<li>
-						<p:commandLink id="nav-active-employees" action="Employees.xhtml?faces-redirect=true">
+						<p:commandLink id="nav-active-employees" action="Employees.xhtml?faces-redirect=true"
+						rendered="#{authController.isUserSystemAdmin() ||
+                         	authController.isUserHumanResource()}">
 							View Active Employees
 						</p:commandLink>
 					</li>
 					<li>
-						<p:commandLink id="nav-assign-approvers" action="AssignEmployee.xhtml?faces-redirect=true">
-							Assign Approvers
+						<p:commandLink id="nav-p-level" action="EmpPLevels.xhtml?faces-redirect=true"
+						rendered="#{authController.isUserSystemAdmin() ||
+                         	authController.isUserHumanResource()}">
+							P Level
 						</p:commandLink>
 					</li>
 					<li>
-						<p:commandLink id="nav-p-level" action="EmpPLevels.xhtml?faces-redirect=true">
-							P Level
+						<p:commandLink id="nav-assign-approvers" action="AssignEmployee.xhtml?faces-redirect=true"
+						rendered="#{authController.isUserSystemAdmin() ||
+                         	authController.isUserSupervisor()}">
+							Assign Approvers
 						</p:commandLink>
 					</li>
 					<li>
