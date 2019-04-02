@@ -97,6 +97,16 @@ public class ProjectDetailController implements Serializable {
 //		}
 		return result;
 	}
+	
+	public void addWP(WorkPackage wp) {
+		WorkPackage newWp = new WorkPackage();
+		newWp.setWpid("Hi" + wp.getWpid());
+		newWp.setParentWPID(wp.getWpid());
+		wp.setLeaf(false);
+		this.database.persistChildWP(wp, newWp);
+		treeInit(this.project.getProNo());
+		
+	}
 
 	public List<Employee> getWPEmp(int proNo) {
 		List<Employee> result = new ArrayList<Employee>();

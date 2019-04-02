@@ -17,7 +17,7 @@ public class WorkPackage implements Serializable {
 	private WorkPackagePK workPackagePk;
 
 	@Column(name = "REEmpNo", nullable = false)
-	private int reEmpNo;
+	private Integer reEmpNo;
 
 	@Column(name = "WPTitle", nullable = false)
 	private String title;
@@ -103,6 +103,9 @@ public class WorkPackage implements Serializable {
 		this.state = "OPEN";
 		this.title = "okayyy";
 		this.reEmpNo = 1;
+		this.startDate = new Date();
+		this.endDate = new Date();
+		this.isLeaf = false;
 
 	}
 
@@ -150,11 +153,11 @@ public class WorkPackage implements Serializable {
 		this.workPackagePk = workPackagePk;
 	}
 
-	public int getReEmpNo() {
+	public Integer getReEmpNo() {
 		return reEmpNo;
 	}
 
-	public void setReEmpNo(int reEmpNo) {
+	public void setReEmpNo(Integer reEmpNo) {
 		this.reEmpNo = reEmpNo;
 	}
 
@@ -223,6 +226,7 @@ public class WorkPackage implements Serializable {
 	}
 
 	public Date getEndDate() {
+
 		return endDate;
 	}
 
