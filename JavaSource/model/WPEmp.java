@@ -3,8 +3,10 @@ package model;
 import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 
+@Entity
 @Table(name = "WPEmp")
 public class WPEmp implements Serializable {
 
