@@ -22,9 +22,10 @@
 
 		<ui:define name="content">
 			<f:event listener="#{timesheetController.init}" type="preRenderView" />
-    
-            <h:outputText value="&nbsp;"/>
-            
+			<h:outputText value="&nbsp;" />
+			<p:panel id="basic" 
+           			header="Currently Timesheets" footer="This table includes all time sheets" 
+           			style="margin-left:50px; margin-right:50px;">
 			<h:form id="formMain">
 	
 				<p:dataTable id="viewTable"
@@ -85,7 +86,7 @@
 						disabled="#{timesheetController.canCreateTimesheet(createTimesheetDate.value)}" />
 				</h:form>
 			</p:dialog>
-
+			</p:panel>
 		</ui:define>
 	</ui:composition>
 </h:body>
