@@ -247,6 +247,9 @@ public class DatabaseController implements Serializable {
 		Project p = this.manager.find(Project.class, newProject.getProNo());
 
 		if (p == null) {
+			if (p.getEndDate().before(p.getStartDate())) {
+				return false;
+			}
 			this.manager.persist(newProject);
 			return true;
 		}

@@ -218,7 +218,7 @@
 						<p:inputTextarea value="#{projectController.addProject.comment}" />
 
 						<p:commandButton resetValues="true" id="addButton"
-							update=":form:project" value="Add"
+							update=":form:project, :formAddDialog" value="Add"
 							action="#{projectController.persistProject()}"
 							style="float: right;" />
 
@@ -232,6 +232,8 @@
 
 					</h:panelGrid>
 				</h:form>
+				<p:ajax event="close" listener="#{projectController.close}"
+					update=":formAddDialog" />
 			</p:dialog>
 
 

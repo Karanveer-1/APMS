@@ -119,13 +119,14 @@ public class ProjectController implements Serializable {
 	public void persistProject() throws IOException {
 		// manager will assistant for now
 		addProject.setProAssiEmpNo(addProject.getProMgrEmpNo());
+		
 		boolean addSuccess = database.persistProject(addProject);
 		if (addSuccess) {
 			FacesMessage msg = new FacesMessage("Project #" + addProject.getProNo() + " Added");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-
-			PrimeFaces.current().executeScript("PF('addProjectDialog').hide();");
 			addProject = new Project();
+			PrimeFaces.current().executeScript("PF('addProjectDialog').hide();");
+
 			projects = database.getAllProjects();
 		} else {
 			FacesMessage msg = new FacesMessage("Invalid Project");
@@ -160,8 +161,9 @@ public class ProjectController implements Serializable {
 
 	public void onRowEdit(RowEditEvent event) {
 		editProject = (Project) event.getObject();
+		
 		boolean updateSuccess = this.database.updateProject(editProject);
-
+			
 		projects = database.getAllProjects();
 		if (updateSuccess) {
 			FacesMessage msg = new FacesMessage("Project #" + editProject.getProNo() + " Edited");
@@ -181,6 +183,7 @@ public class ProjectController implements Serializable {
 	public void toggle() {
 		System.out.println("Toggle me more bttttt");
 	}
+
 	public void deleteProject(Project project) throws IOException {
 		this.database.deleteProjectByProNo(project.getProNo());
 		projects = this.database.getAllProjects();
@@ -198,10 +201,16 @@ public class ProjectController implements Serializable {
 	public Status[] getStatuses() {
 		return Status.values();
 	}
-	
+
 	public String getEmpName(int id) {
 		return this.database.getEmployeeById(id).getUserName();
-		
+
 	}
+
+	public void close() {
+		addProject = new Project();
+	}
+
+	
 
 }
