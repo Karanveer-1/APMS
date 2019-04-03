@@ -78,9 +78,65 @@ public class WPWeeklyReportController implements Serializable {
             .collect(Collectors.toList());
     }
 
-    private float getSumHoursForWP(int empNo) {
+    private float getSumHoursForRows(int empNo, Date date) {
         return (float) database.getTimesheetRows()
             .stream()
+            .filter(r -> r.getTimesheetRowPk().getEmpNo() == empNo)
+            .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
+            .filter(r -> r.getTimesheetRowPk().getWpid().equals(wpid))
+            .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
+            .filter(r -> r.getTimesheetRowPk().getStartDate().equals(date))
+            .mapToDouble(r -> {
+                float sat = r.getSat();
+                float sun = r.getSun();
+                float mon = r.getMon();
+                float tue = r.getTue();
+                float wed = r.getWed();
+                float thu = r.getThu();
+                float fri = r.getFri();
+
+                return sat + sun + mon + tue + wed + thu + fri;
+            })
+            .sum();
+    }
+
+    private List<TimesheetRow> getRelaventTimesheetRows() {
+        List<TimesheetRow> rows = database.getTimesheetRows()
+            .stream()
+            .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
+            .filter(r -> r.getTimesheetRowPk().getWpid().equals(wpid))
+            .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
+            .collect(Collectors.toList());
+        
+        rows.sort(new Comparator<TimesheetRow>() {
+            @Override
+            public int compare(TimesheetRow a, TimesheetRow b) {
+                return ((TimesheetRow) a).getTimesheetRowPk().getStartDate()
+                    .compareTo(((TimesheetRow) b).getTimesheetRowPk().getStartDate());
+            }
+        });
+
+        return rows;
+    }
+    
+    public Date getWeekStartDate() {
+        if (proNo == null || wpid == null) {
+            return new Date();
+        }
+
+        return database.getAllWp()
+            .stream()
+            .filter(wp -> wp.getProNo() == proNo)
+            .filter(wp -> wp.getWpid().equals(wpid))
+            .findFirst()
+            .map(WorkPackage::getStartDate)
+            .get();
+    }
+    
+    public float getTotalForEmployee(int empNo) {
+        return (float) database.getTimesheetRows()
+            .stream()
+            .filter(r -> r.getTimesheetRowPk().getEmpNo() == empNo)
             .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
             .filter(r -> r.getTimesheetRowPk().getWpid().equals(wpid))
             .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
@@ -96,52 +152,56 @@ public class WPWeeklyReportController implements Serializable {
                 return sat + sun + mon + tue + wed + thu + fri;
             })
             .sum();
-
     }
 
-    // SHould be get all leafs
+    public float getTotalForAllEmployees() {
+        return (float) getParticipatingEmployees()
+            .stream()
+            .mapToDouble(e -> {
+                return getTotalForEmployee(e.getEmpNumber());
+            })
+            .sum();
+    }
+    
+    public void generateReport() {
+        rows = new ArrayList<>();
+
+        List<Employee> participatingEmployees = getParticipatingEmployees();
+        List<TimesheetRow> relaventRows = getRelaventTimesheetRows();
+        
+        List<Date> dates = relaventRows
+            .stream()
+            .map(r -> {
+                return r.getTimesheetRowPk().getStartDate();
+            })
+            .distinct()
+            .collect(Collectors.toList());
+
+        dates.forEach(d -> {
+            for (Employee e : participatingEmployees) {
+                int empNo = e.getEmpNumber();
+
+                String pLevel = database.getEmpPLevels()
+                    .stream()
+                    .filter(p -> p.getEmpPLevelPK().getEmpNo() == empNo)
+                    .map(EmpPLevel::getpLevel)
+                    .findFirst()
+                    .get();
+
+                float totalHours = getSumHoursForRows(empNo, d);
+
+                rows.add(new WPWeeklyReportRow(empNo, pLevel, d, totalHours));
+            }
+        });
+    }
+    
+    // Should be get all leafs
     public boolean canSelectWP() {
         return proNo != null && !getLeafWpids(proNo).isEmpty();
     }
 
     public boolean canGenerateReport() {
         return proNo != null && wpid != null;
-    }
-
-    public void generateReport() {
-        rows = new ArrayList<>();
-
-        List<Employee> participatingEmployees = getParticipatingEmployees();
-
-        int i = 0;
-        for (Employee e : participatingEmployees) {
-            int empNo = e.getEmpNumber();
-
-            String pLevel = database.getEmpPLevels()
-                .stream()
-                .filter(p -> p.getEmpPLevelPK().getEmpNo() == empNo)
-                .map(EmpPLevel::getpLevel)
-                .findFirst()
-                .get();
-
-            float totalHours = getSumHoursForWP(empNo);
-            
-            rows.add(new WPWeeklyReportRow(empNo, pLevel, ++i, totalHours));
-        }
-    }
-
-    public Date getWeekStartDate() {
-        if (proNo == null || wpid == null) {
-            return new Date();
-        }
-
-        return database.getAllWp()
-            .stream()
-            .filter(wp -> wp.getProNo() == proNo)
-            .filter(wp -> wp.getWpid().equals(wpid))
-            .findFirst()
-            .map(WorkPackage::getStartDate)
-            .get();
     }
 
     public List<Integer> getProjectNos() {
