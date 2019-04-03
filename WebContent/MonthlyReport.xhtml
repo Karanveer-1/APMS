@@ -67,44 +67,6 @@
 
 						<hr />
 						
-						<p:dataTable value="#{wpWeeklyReportController.rows}" var="row"
-							sortBy="#{row.empNo}">
-							<p:column headerText="Employee" style="width:150px">
-								<h:outputText value="#{row.empNo}" />
-							</p:column>
-
-							<p:column headerText="PLevel" style="width:150px">
-								<h:outputText value="#{row.pLevel}" />
-							</p:column>
-
-							<p:column headerText="Week Start Date" style="width:150px">
-								<h:outputText value="#{row.weekNo}">
-								    <f:convertDateTime pattern="MMM. dd, yyyy" />
-								</h:outputText>
-							</p:column>
-
-							<p:column headerText="Total" style="width:150px">
-								<h:outputText value="#{row.total}" />
-							</p:column>
-
-							<p:summaryRow>
-								<p:column style="text-align: right" colspan="3">
-									<h:outputText value="Total: " />
-								</p:column>
-								<p:column style="text-align: left;">
-									<h:outputText
-										value="#{wpWeeklyReportController.getTotalForEmployee(row.empNo)}" />
-								</p:column>
-							</p:summaryRow>
-							
-							<p:columnGroup type="footer">
-								<p:row>
-									<p:column style="text-align:right" colspan="3" footerText="Complete Total:" />
-									<p:column style="text-align:left" footerText="#{wpWeeklyReportController.getTotalForAllEmployees()}" />
-								</p:row>
-							</p:columnGroup>
-						</p:dataTable>
-						
 						<p:dataTable var="wp" value="#{monthlyReport.getAllWps()}">
 				    		<p:column headerText="WP ID / WP Title">
 				    			#{wp.wpid}/ <br/>
