@@ -21,6 +21,11 @@
 		</ui:define>
 
 		<ui:define name="content">
+		
+		<p:panel id="basic" 
+           			header="Approve Timesheet" footer="" 
+           			style="margin-left:50px; margin-right:50px;">
+		
 			<f:event listener="#{approveTimesheetController.init}"
 				type="preRenderView" />
 
@@ -30,21 +35,22 @@
 				<p:dataTable id="viewTable"
 					value="#{approveTimesheetController.submittedTimesheets}"
 					var="timesheet">
-					<p:column headerText="Employee No">
+					<p:column headerText="Employee No" style="width:250px;">
 						<h:outputText value="#{timesheet.timesheetPk.empNo}" />
 					</p:column>
-					<p:column headerText="Date">
+					<p:column headerText="Date" style="width:250px;">
 						<h:outputText value="#{timesheet.timesheetPk.startDate}">
 							<f:convertDateTime pattern="MMM. dd, yyyy" />
 						</h:outputText>
 					</p:column>
-					<p:column headerText="View">
+					<p:column headerText="View" style="width:250px;">
 						<p:commandButton value="View"
 							action="#{approveTimesheetController.viewTimesheet(timesheet)}"
 							style="width: 100%" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
+			</p:panel>
 		</ui:define>
 	</ui:composition>
 </h:body>
