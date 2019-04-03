@@ -100,7 +100,7 @@ CREATE TABLE Project
     ProNo           INTEGER         NOT NULL,
 	ProName         VARCHAR(200)    NOT NULL,
 	ProMgrEmpNo     INTEGER         NOT NULL,
-	ProAssiEmpNo    INTEGER         NOT NULL,
+	ProAssiEmpNo    INTEGER         ,
     ProDescription  VARCHAR(1000)   NOT NULL,
     StartDate       DATE            NOT NULL,
 	EndDate         DATE            NOT NULL,
@@ -142,36 +142,37 @@ CREATE TABLE WorkPackage
 	EndDate        DATE            NOT NULL,
 	IsLeaf         BOOLEAN         NOT NULL,	
     ParentWPID     VARCHAR(30)     ,
-	PMEstP1        INTEGER         ,
-	PMEstP2        INTEGER         ,
-	PMEstP3        INTEGER         ,
-	PMEstP4        INTEGER         ,
-	PMEstP5        INTEGER         ,
-	PMEstP6        INTEGER         ,
-	PMEstDS        INTEGER         ,
-	PMEstSS        INTEGER         ,
-	PMEstJS        INTEGER         ,
-	REEstP1        INTEGER         ,
-	REEstP2        INTEGER         ,
-	REEstP3        INTEGER         ,
-	REEstP4        INTEGER         ,
-	REEstP5        INTEGER         ,
-	REEstP6        INTEGER         ,
-	REEstDS        INTEGER         ,
-	REEstSS        INTEGER         ,
-	REEstJS        INTEGER         ,
+	PMEstP1        INTEGER         DEFAULT '0',
+	PMEstP2        INTEGER         DEFAULT '0',
+	PMEstP3        INTEGER         DEFAULT '0',
+	PMEstP4        INTEGER         DEFAULT '0',
+	PMEstP5        INTEGER         DEFAULT '0',
+	PMEstP6        INTEGER         DEFAULT '0',
+	PMEstDS        INTEGER         DEFAULT '0',
+	PMEstSS        INTEGER         DEFAULT '0',
+	PMEstJS        INTEGER         DEFAULT '0',
+	REEstP1        INTEGER         DEFAULT '0',
+	REEstP2        INTEGER         DEFAULT '0',
+	REEstP3        INTEGER         DEFAULT '0',
+	REEstP4        INTEGER         DEFAULT '0',
+	REEstP5        INTEGER         DEFAULT '0',
+	REEstP6        INTEGER         DEFAULT '0',
+	REEstDS        INTEGER         DEFAULT '0',
+	REEstSS        INTEGER         DEFAULT '0',
+	REEstJS        INTEGER         DEFAULT '0',
     State          VARCHAR(30)     NOT NULL,
     Comment        VARCHAR(1000)   ,
     PRIMARY KEY(ProNo, WPID)
 );
 
 -- Load data into table WorkPackage
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP101', '1', 'COMP101', 'COMP101', '2018-01-06', '2019-12-27', false, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'OPEN', NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP201', '1', 'COMP201', 'COMP201', '2018-01-06', '2019-12-27', false, 'COMP101', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'OPEN', NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP303', '1', 'COMP303', 'COMP303', '2018-01-06', '2019-12-27', true, 'COMP201', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'OPEN', NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP305', '1', 'COMP305', 'COMP305', '2018-01-06', '2019-12-27', true, 'COMP201', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'OPEN', NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP204', '1', 'COMP204', 'COMP204', '2018-01-06', '2019-12-27', true, 'COMP101', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'OPEN', NULL);
-INSERT INTO APMS.WorkPackage VALUES('101', 'BUSI101', '1', 'BUSI101', 'BUSI101', '2018-01-06', '2019-12-27', true, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP101', '1', 'COMP101', 'COMP101', '2018-01-06', '2019-12-27', false, NULL, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP201', '1', 'COMP201', 'COMP201', '2018-01-06', '2019-12-27', false, 'COMP101', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP303', '1', 'COMP303', 'COMP303', '2018-01-06', '2019-12-27', true, 'COMP201', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP305', '1', 'COMP305', 'COMP305', '2018-01-06', '2019-12-27', true, 'COMP201', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP204', '1', 'COMP204', 'COMP204', '2018-01-06', '2019-12-27', true, 'COMP101', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'BUSI101', '1', 'BUSI101', 'BUSI101', '2018-01-06', '2019-12-27', true, NULL, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMM101', '1', 'COMM101', 'COMM101', '2018-01-06', '2019-12-27', true, NULL, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
 
 
 
@@ -196,15 +197,15 @@ CREATE TABLE WPNeed
     ProNo          INTEGER         NOT NULL,
     WPID           VARCHAR(30)     NOT NULL,
 	StartDate      DATE            NOT NULL,
-	RENeedP1       INTEGER         ,
-	RENeedP2       INTEGER         ,
-	RENeedP3       INTEGER         ,
-	RENeedP4       INTEGER         ,
-	RENeedP5       INTEGER         ,
-	RENeedP6       INTEGER         ,
-	RENeedDS       INTEGER         ,
-	RENeedSS       INTEGER         ,
-	RENeedJS       INTEGER         ,
+	RENeedP1       INTEGER         DEFAULT '0',
+	RENeedP2       INTEGER         DEFAULT '0',
+	RENeedP3       INTEGER         DEFAULT '0',
+	RENeedP4       INTEGER         DEFAULT '0',
+	RENeedP5       INTEGER         DEFAULT '0',
+	RENeedP6       INTEGER         DEFAULT '0',
+	RENeedDS       INTEGER         DEFAULT '0',
+	RENeedSS       INTEGER         DEFAULT '0',
+	RENeedJS       INTEGER         DEFAULT '0',
     State          VARCHAR(30)     NOT NULL,
     Comment        VARCHAR(1000)   ,
     PRIMARY KEY(ProNo, WPID, StartDate)
