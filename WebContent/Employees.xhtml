@@ -77,7 +77,7 @@
             </h:form>
             
         
-            <p:sidebar position="right" baseZIndex="20000" id="addDialog" header="Add Employee" modal="true" width="400"
+            <p:dialog position="center" id="addDialog" header="Add Employee" modal="true" width="400"
                 widgetVar="addEmployeeDialog">
                 <h2 style="font-weight:normal">Add Employee</h2>
                 
@@ -125,9 +125,9 @@
                     </h:panelGrid>
                     
                 </h:form>
-            </p:sidebar>
+            </p:dialog>
 
-            <p:sidebar position="right" baseZIndex="20000" id="editDialog" header="Edit Employee" modal="true"
+            <p:dialog position="center" id="editDialog" header="Edit Employee" modal="true"
                 width="400" widgetVar="editEmployeeDialog" resizable="false"
                 draggable="false">
                 
@@ -174,7 +174,7 @@
                                     editCommentText.value)}" />
                     </h:panelGrid>
                 </h:form>
-            </p:sidebar>
+            </p:dialog>
         </ui:define>
     </ui:composition>
 </h:body>
