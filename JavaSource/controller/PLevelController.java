@@ -52,7 +52,9 @@ public class PLevelController implements Serializable {
     public void init() {
         editPLevel = null;
         pLevels = database.getPLevels();
-        System.out.println(pLevels);
+        for(PLevel p : pLevels) {
+            System.out.println(p.toString());
+        }
     }
 
     /**

@@ -35,7 +35,7 @@ public class EmpPLevelController implements Serializable {
     private List<String> empPLevelDropDownList;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private EmpPLevel editEmpPLevel;
-    
+
     @PostConstruct
     public void init() {
         editEmpPLevel = null;
@@ -47,7 +47,7 @@ public class EmpPLevelController implements Serializable {
         System.out.println(empPLevels);
 
     }
-    
+
     void populateDropDown() {
         empPLevelDropDownList.clear();
         for(PLevel p : pLevels) {
@@ -105,26 +105,27 @@ public class EmpPLevelController implements Serializable {
     public void setEditEmpPLevel(EmpPLevel editEmpPLevel) {
         this.editEmpPLevel = editEmpPLevel;
     }
-    
+
     public void remove(PLevel pLevel) {
         database.removePLevel(pLevel);
         pLevels = database.getPLevels();
     }
-    
+
     public void add(int empNo, String pLevelText) {
         pLevels = database.getPLevels();  
         boolean validPK = true;
         EmpPLevel tempEmpPLevel = null;
         for(PLevel p : pLevels) {
-            if((p.getpLevelPK().getpLevel() + " : " + p.getpLevelPK().getStartDate()).equals(pLevelText));
-            tempEmpPLevel = new EmpPLevel(new EmpPLevelPK(empNo, p.getpLevelPK().getStartDate()), p.getpLevelPK().getpLevel());
+            if((p.getpLevelPK().getpLevel() + " : " + p.getpLevelPK().getStartDate()).equals(pLevelText)) {
+                tempEmpPLevel = new EmpPLevel(new EmpPLevelPK(empNo, p.getpLevelPK().getStartDate()), p.getpLevelPK().getpLevel());
+            }
         }
         for(EmpPLevel ep : empPLevels) {
             if(ep.getEmpPLevelPK().getEmpNo() == tempEmpPLevel.getEmpPLevelPK().getEmpNo() && ep.getEmpPLevelPK().getStartDate().equals(tempEmpPLevel.getEmpPLevelPK().getStartDate())) {
                 validPK = false;
                 PrimeFaces.current().executeScript("PF('errorDialog').show();");
                 break;
-                
+
             }
         }
         if(validPK) {
@@ -150,7 +151,7 @@ public class EmpPLevelController implements Serializable {
     public void setEmpPLevelDropDownList(List<String> empPLevelDropDownList) {
         this.empPLevelDropDownList = empPLevelDropDownList;
     }
-    
+
     public void removeEmpPLevel(EmpPLevel p) {
         database.removeEmpPLevel(p);
         empPLevels = database.getEmpPLevels();
