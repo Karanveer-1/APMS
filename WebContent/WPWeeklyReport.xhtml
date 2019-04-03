@@ -62,6 +62,11 @@
 
 						<h:outputText value="Workpackage Id: " />
 						<h:outputText value="#{wpWeeklyReportController.wpid}" />
+						
+						<h:outputText value="Week Start Date: " />
+                        <h:outputText value="#{wpWeeklyReportController.getWeekStartDate()}">
+                            <f:convertDateTime pattern="MMM. dd, yyyy" />
+                        </h:outputText>
 					</p:panelGrid>
 
 					<hr />
@@ -73,15 +78,15 @@
 						</p:column>
 
 						<p:column headerText="PLevel">
-							<h:outputText value="#{row.empNo}" />
+							<h:outputText value="#{row.pLevel}" />
 						</p:column>
 
 						<p:column headerText="Week #">
-							<h:outputText value="#{row.empNo}" />
+							<h:outputText value="#{row.weekNo}" />
 						</p:column>
 
 						<p:column headerText="Total">
-							<h:outputText value="#{row.empNo}" />
+							<h:outputText value="#{row.total}" />
 						</p:column>
 
 						<p:summaryRow>

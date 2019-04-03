@@ -152,16 +152,7 @@ public class DatabaseController implements Serializable {
     public List<TimesheetRow> getTimesheetRows() {
         return manager.createQuery("SELECT tr from TimesheetRow tr", TimesheetRow.class).getResultList();
     }
-    
-    public List<TimesheetRow> getTimesheetRows(int proNo, String wpid) {
-        return manager.createQuery("SELECT tr FROM TimesheetRow tr"
-                + " WHERE tr.timesheetRowPk.proNo = :proNo"
-                + " AND tr.timesheetRowPk.wpid = :wpid", TimesheetRow.class)
-                .setParameter("proNo", proNo)
-                .setParameter("wpid", wpid)
-                .getResultList();
-    }
-    
+
     public List<TimesheetRow> getTimesheetRows(Timesheet t) {
         int empNo = t.getTimesheetPk().getEmpNo();
         Date startDate = t.getTimesheetPk().getStartDate();
