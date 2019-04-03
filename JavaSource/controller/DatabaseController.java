@@ -636,6 +636,16 @@ public class DatabaseController implements Serializable {
     public void removeEmpPLevel(EmpPLevel ep) {
         manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
     }
+    
+    public PLevel getPLevelByStartDate(Date startDate, String pLevel) {
+        TypedQuery<PLevel> query = manager.createQuery(
+            "select p from PLevel p where p.pLevelPK.startDate <= :StartDate AND p.pLevelPK.pLevel = :PLevel order by p.pLevelPK.startDate desc", PLevel.class);
+        query.setParameter("StartDate", startDate);
+        query.setParameter("PLevel", pLevel);
+        query.setMaxResults(1);
+        query.setFirstResult(0);
+        return query.getSingleResult();
+    }
 
     public List<Role> getRoles() {
         return manager.createQuery("SELECT p FROM Role p", Role.class)
