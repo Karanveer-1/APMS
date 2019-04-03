@@ -1,81 +1,176 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-
-	<ui:composition template="/templates/MasterLayout.xhtml">
-	
-		<ui:define name="windowTitle">My Profile</ui:define>
-        <ui:define name="headerTitle"><h:outputText value="My Profile" class="navbar-brand"/></ui:define>
-        <ui:define name="navBar"><ui:include src="/sections/DashboardNavigationBar.xhtml" /></ui:define>
-        
-        <ui:define name="content">
-        
-        	<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center !important; margin-bottom:50px">
-				<div class="row" style="color:black">
-				  <div class="col-sm-2">
-				  </div>
-				  <div class="col-sm-8">
-				  	<h1>Profile</h1>
-				  </div>
-				  <div class="col-sm-2"></div>
-				</div>
-
-           		<hr></hr>
-           		
-           		<table class="table" style="cellspacing:10px;">
-           			<tr>
-						<th width="70%"><p:outputLabel value="Employee #: "/></th>
-						<td><p:outputLabel id="empNo" value="#{loginController.currentEmployee.empNumber}"/></td>
-					</tr>
-					<tr>
-						<th width="70%"><p:outputLabel value="First Name: "/></th>
-						<td><p:outputLabel id="firstName" value="#{loginController.currentEmployee.firstName}"/></td>
-					</tr>
-					<tr>
-						<th width="70%"><p:outputLabel value="Last Name: "/></th>
-						<td><p:outputLabel id="lastName" value="#{loginController.currentEmployee.lastName}"/></td>
-					</tr>
-					<tr>
-						<th width="70%"><p:outputLabel value="User Name: "/></th>
-						<td><p:outputLabel id="userName" value="#{loginController.currentEmployee.userName}"/></td>
-					</tr>
-
-           		</table>
-            			
-            
-				<hr></hr>
-				
-				<h:form>
-				    <p:commandButton id="configure-signature" onclick="PF('keyPhraseDialog').show();" value="Configure Signature" />
-				</h:form>
-				
-				<br></br>
-				
-			</p:fieldset>
-            
-            <p:sidebar position="right" baseZIndez="20000" id="keyPhrase" header="Enter a phrase" modal="true" width="400"
-                widgetVar="keyPhraseDialog">
-                
-                <h2 style="font-weight:normal">Enter a Phrase</h2>
-                <p:messages id="messages" showDetail="true" closable="true">
-				        <p:autoUpdate />
-				</p:messages>
-                
-                <h:form id="formAddDialog">
-                    <h:panelGrid columns="1">
-                        <h:outputText id="addKeyPhrase" value="Key Phrase" />
-                        <h:inputText binding="#{addKeyPhrase}" />
-                        
-                        <p:commandButton value="Enter" resetValues="true" update=":formAddDialog"
-                            action="#{sig.encryptWithPhrase(addKeyPhrase.value)}" />
-                    </h:panelGrid>
-                    
-                </h:form>
-            </p:sidebar>
-            
-        </ui:define>
-	</ui:composition>
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui">
+   <ui:composition template="/templates/MasterLayout.xhtml">
+      <ui:define name="windowTitle">My Profile</ui:define>
+      <ui:define name="headerTitle">
+         <h:outputText value="My Profile" class="navbar-brand"/>
+      </ui:define>
+      <ui:define name="navBar">
+         <ui:include src="/sections/DashboardNavigationBar.xhtml" />
+      </ui:define>
+      <ui:define name="content">
+         <p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center !important; margin-bottom:50px">
+            <div class="row" style="color:black">
+               <div class="col-sm-2">
+               </div>
+               <div class="col-sm-8">
+                  <h1>Profile</h1>
+               </div>
+               <div class="col-sm-2"></div>
+            </div>
+            <hr>
+            </hr>
+            <table class="table" style="cellspacing:10px;">
+               <tr>
+                  <th width="70%">
+                     <p:outputLabel value="Employee #: "/>
+                  </th>
+                  <td>
+                     <p:outputLabel id="empNo" value="#{userProfileController.currentEmployee.empNumber}"/>
+                  </td>
+               </tr>
+               <tr>
+                  <th width="70%">
+                     <p:outputLabel value="First Name: "/>
+                  </th>
+                  <td>
+                     <p:outputLabel id="firstName" value="#{userProfileController.currentEmployee.firstName}"/>
+                  </td>
+               </tr>
+               <tr>
+                  <th width="70%">
+                     <p:outputLabel value="Last Name: "/>
+                  </th>
+                  <td>
+                     <p:outputLabel id="lastName" value="#{userProfileController.currentEmployee.lastName}"/>
+                  </td>
+               </tr>
+               <tr>
+                  <th width="70%">
+                     <p:outputLabel value="User Name: "/>
+                  </th>
+                  <td>
+                     <p:outputLabel id="userName" value="#{userProfileController.currentEmployee.userName}"/>
+                  </td>
+               </tr>
+            </table>
+            <h:form id="formMain">
+               <p:outputLabel value="Change Password"/>
+               <p:password id="nonFeedback" value="#{userProfileController.password}" />
+               <p:commandButton action="#{userProfileController.changePassword}" value="Change Password"/>
+               <h2>PROJECTS</h2>
+               <p:dataTable id="projectTable" value="#{userProfileController.projects}"
+                  var="project">
+                  <p:column headerText="ProNo">
+                     <h:outputText value="#{project.proNo}" />
+                  </p:column>
+                  <p:column headerText="ProjectName">
+                     <h:outputText value="#{project.proName}" />
+                  </p:column>
+                  <p:column headerText="ManagerEmpNo">
+                     <h:outputText value="#{project.proMgrEmpNo}" />
+                  </p:column>
+                  <p:column headerText="AssignerEmpNo">
+                     <h:outputText value="#{project.proAssiEmpNo}" />
+                  </p:column>
+                  <p:column headerText="StartDate">
+                     <h:outputText value="#{project.startDate}" />
+                  </p:column>
+               </p:dataTable>
+               <h2>WORKPACKAGES</h2>
+               <p:dataTable id="workPackageTable" value="#{userProfileController.workpackages}"
+                  var="wp">
+                  <p:column headerText="WPID">
+                     <h:outputText value="#{wp.wpid}" />
+                  </p:column>
+                  <p:column headerText="ParentWPID">
+                     <h:outputText value="#{wp.parentWPID}" />
+                  </p:column>
+                  <p:column headerText="ProNo">
+                     <h:outputText value="#{wp.proNo}" />
+                  </p:column>
+                  <p:column headerText="Description">
+                     <h:outputText value="#{wp.description}" />
+                  </p:column>
+                  <p:column headerText="StartDate">
+                     <h:outputText value="#{wp.startDate}" />
+                  </p:column>
+                  <p:column headerText="EndDate">
+                     <h:outputText value="#{wp.endDate}" />
+                  </p:column>
+                  <p:column headerText="State">
+                     <h:outputText value="#{wp.state}" />
+                  </p:column>
+               </p:dataTable>
+               <h2>ROLES</h2>
+               <p:dataTable id="roleTable" value="#{userProfileController.roles}"
+                  var="role">
+                  <p:column headerText="EmpNo">
+                     <h:outputText value="#{role.rolePk.empNo}" />
+                  </p:column>
+                  <p:column headerText="Role">
+                     <h:outputText value="#{role.rolePk.role}" />
+                  </p:column>
+               </p:dataTable>
+               <h2>Supervised Employees</h2>
+               <p:dataTable id="superEmpTable" value="#{userProfileController.superEmployees}"
+                  var="e">
+                  <p:column headerText="EmpNo">
+                     <h:outputText value="#{e.empNumber}" />
+                  </p:column>
+                  <p:column headerText="First Name">
+                     <h:outputText value="#{e.firstName}" />
+                  </p:column>
+                  <p:column headerText="Last Name">
+                     <h:outputText value="#{e.lastName}" />
+                  </p:column>
+               </p:dataTable>
+               <h2>Approved Employees</h2>
+               <p:dataTable id="approEmpTable" value="#{userProfileController.approEmployees}"
+                  var="e">
+                  <p:column headerText="EmpNo">
+                     <h:outputText value="#{e.empNumber}" />
+                  </p:column>
+                  <p:column headerText="First Name">
+                     <h:outputText value="#{e.firstName}" />
+                  </p:column>
+                  <p:column headerText="Last Name">
+                     <h:outputText value="#{e.lastName}" />
+                  </p:column>
+               </p:dataTable>
+            </h:form>
+            <h:form>
+               <p:commandButton id="configure-signature" onclick="PF('keyPhraseDialog').show();" value="Configure Signature" />
+            </h:form>
+         </p:fieldset>
+         <p:sidebar position="right" baseZIndez="20000" id="keyPhrase" header="Enter a phrase" modal="true" width="400"
+            widgetVar="keyPhraseDialog">
+           </p:sidebar>
+         <h2 style="font-weight:normal">Enter a Phrase</h2>
+         <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate />
+         </p:messages>
+         <h:form id="formAddDialog">
+            <h:panelGrid columns="1">
+               <h:outputText id="addKeyPhrase" value="Key Phrase" />
+               <h:inputText binding="#{addKeyPhrase}" />
+               <p:commandButton value="Enter" resetValues="true" update=":formAddDialog"
+                  action="#{sig.encryptWithPhrase(addKeyPhrase.value)}" />
+            </h:panelGrid>
+         </h:form>
+         <p:dialog id="passwordChangedDialog" header="Password Changed" modal="true"
+            width="400" widgetVar="passwordChangedDialog" resizable="false"
+            draggable="false">
+            <h:form id="formErrorDialog">
+               <p:commandButton update=" :formErrorDialog"
+                  value="OK"
+                  action="#{userProfileController.closeDialog()}" />
+            </h:form>
+         </p:dialog>
+      </ui:define>
+   </ui:composition>
 </html>
