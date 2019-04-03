@@ -1,15 +1,17 @@
 package model;
 
+import java.util.Date;
+
 public class WPWeeklyReportRow {
     private int empNo;
     private String pLevel;
-    private int weekNo;
+    private Date weekNo;
     private float total;
 
     public WPWeeklyReportRow() {
     }
 
-    public WPWeeklyReportRow(int empNo, String pLevel, int weekNo,
+    public WPWeeklyReportRow(int empNo, String pLevel, Date weekNo,
             float total) {
         super();
         this.empNo = empNo;
@@ -34,11 +36,11 @@ public class WPWeeklyReportRow {
         this.pLevel = pLevel;
     }
 
-    public int getWeekNo() {
+    public Date getWeekNo() {
         return weekNo;
     }
 
-    public void setWeekNo(int weekNo) {
+    public void setWeekNo(Date weekNo) {
         this.weekNo = weekNo;
     }
 
