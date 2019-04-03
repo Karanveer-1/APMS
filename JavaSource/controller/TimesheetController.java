@@ -160,7 +160,7 @@ public class TimesheetController implements Serializable {
         TimesheetRow row = new TimesheetRow();
 
         row.setTimesheetRowPk(pk);
-        row.getTimesheetRowPk().setStartDate(calendarEditMinDate());
+        row.getTimesheetRowPk().setStartDate(getStartDateCustom(editTimesheet.getTimesheetPk().getStartDate()));
         row.setState(TimesheetRowState.DRAFT);
 
         List<Integer> proNos = database.getAllProjectNo();
@@ -208,6 +208,10 @@ public class TimesheetController implements Serializable {
 
     public Date calendarCurrentTimesheetStartDate() {
         return DateUtils.getTimesheetStartDate(DateUtils.today());
+    }
+    
+    public Date getStartDateCustom(Date date) {
+        return DateUtils.getTimesheetStartDate(date); 
     }
 
     public boolean canEditTimesheet(Timesheet t) {

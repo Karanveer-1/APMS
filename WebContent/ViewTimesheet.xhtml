@@ -23,39 +23,72 @@
 		
 
 		<ui:define name="content">
-		<p:panel id="basic" 
-           			header="Approve Timesheet" footer="" 
-           			style="margin-left:50px; margin-right:50px;">
 		
-			<h:form id="formMain">
-				<p>
-					<h:outputText value="Start Date: " />
-					<h:outputText
-						value="#{timesheetController.editTimesheet.timesheetPk.startDate}">
-						<f:convertDateTime pattern="MMM, dd, yyyy" />
-					</h:outputText>
-				</p>
-				<p>
-					<h:outputText value="Overtime:  " />
-					<h:outputText value="#{timesheetController.editTimesheet.overtime}" />
-				</p>
-				<p>
-					<h:outputText value="Flextime: " />
-					<h:outputText value="#{timesheetController.editTimesheet.flextime}" />
-				</p>
-				<p>
-					<h:outputText value="State: " />
-					<h:outputText value="#{timesheetController.editTimesheet.state}" />
-				</p>
-				<p>
-					<h:outputText value="Comment: " />
-				</p>
-				<p>
-					<p:inputTextarea rows="6" cols="50" readonly="true"
-						style="resize: none"
-						value="#{timesheetController.editTimesheet.comment}">
-					</p:inputTextarea>
-				</p>
+		<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>View Timesheet</h1>
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
+
+           		<hr></hr>
+			
+			
+			<h:form id="formMain" style="text-align:left !important;">
+			<p:panel>
+				<table class="table">
+					<tbody>
+						<tr>
+							<th><h:outputText value="Start Date: " /></th>
+							<td>
+								<h:outputText
+									value="#{timesheetController.editTimesheet.timesheetPk.startDate}">
+									<f:convertDateTime pattern="MMM, dd, yyyy" />
+								</h:outputText>
+							</td>
+						</tr>
+						
+						<tr>
+							<th><h:outputText value="Overtime:  " /></th>
+							<td>
+								<h:outputText value="#{timesheetController.editTimesheet.overtime}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<th><h:outputText value="Flextime: " /></th>
+							<td>
+								<h:outputText value="#{timesheetController.editTimesheet.flextime}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<th><h:outputText value="State: " /></th>
+							<td>
+								<h:outputText value="#{timesheetController.editTimesheet.state}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<th><h:outputText value="Comment: " /></th>
+							<td>
+								<p:inputTextarea rows="6" cols="50" readonly="true"
+									style="resize: none"
+									value="#{timesheetController.editTimesheet.comment}">
+								</p:inputTextarea>
+							</td>
+						</tr>
+						
+						
+					</tbody>
+				
+				</table>
+			
+				</p:panel>
+				<br></br>
 
 				<h:outputText value="" />
 
@@ -106,7 +139,7 @@
 					</p:column>
 				</p:dataTable>
 			</h:form>
-			</p:panel>
+			</p:fieldset>
 		</ui:define>
 	</ui:composition>
 </h:body>
