@@ -58,7 +58,7 @@
 			</h:form>
 			</p:fieldset>
 			
-			<p:sidebar position="right" baseZIndex="20000" id="addDialog" header="Assign Employee PLevel" modal="true"
+			<p:dialog position="right" baseZIndex="20000" id="addDialog" header="Assign Employee PLevel" modal="true"
 				width="400" widgetVar="addEmpPLevelDialog">
 				<h3 style="font-weight:normal">Add Employee PLevel</h3>
                 
@@ -77,11 +77,11 @@
 			            </p:selectOneMenu>
 
 					</h:panelGrid>
-					<p:commandButton update=":formMain:empPLevelTable"
+					<p:commandButton update=":formMain:empPLevelTable :addDialog"
 						value="Assign PLevel"
 						action="#{empPLevelController.add(addPLevelText.value, addPLevelDrop.value)}" />
 				</h:form>
-			</p:sidebar>
+			</p:dialog>
 			
 			<p:dialog id="errorDialog" header="EmpNo and StartDate not Unique" modal="true"
 				width="400" widgetVar="errorDialog" resizable="false"

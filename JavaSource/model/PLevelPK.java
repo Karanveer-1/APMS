@@ -93,4 +93,13 @@ public class PLevelPK implements Serializable {
             return false;
         return true;
     }
+
+    /**
+     * @see java.lang.Object#toString()
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "PLevelPK [pLevel=" + pLevel + ", startDate=" + startDate + "]";
+    }
 }
