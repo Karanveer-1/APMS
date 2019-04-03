@@ -14,7 +14,6 @@ import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 
 import model.Employee;
-import model.PLevel;
 import model.Project;
 import model.Role;
 import model.WorkPackage;
