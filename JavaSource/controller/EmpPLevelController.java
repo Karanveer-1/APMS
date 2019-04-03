@@ -30,7 +30,6 @@ public class EmpPLevelController implements Serializable {
 
     @Inject
     private DatabaseController database;
-    
     private List<PLevel> pLevels;
     private List<EmpPLevel> empPLevels;
     private List<String> empPLevelDropDownList;

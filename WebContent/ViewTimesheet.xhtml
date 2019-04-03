@@ -19,87 +19,127 @@
 		<ui:define name="navBar">
 			<ui:include src="/sections/ViewTimesheetNavigationBar.xhtml" />
 		</ui:define>
+		
+		
 
 		<ui:define name="content">
-			<h:form id="formMain">
-				<p>
-					<h:outputText value="Start Date: " />
-					<h:outputText
-						value="#{timesheetController.editTimesheet.timesheetPk.startDate}">
-						<f:convertDateTime pattern="MMM, dd, yyyy" />
-					</h:outputText>
-				</p>
-				<p>
-					<h:outputText value="Overtime:  " />
-					<h:outputText value="#{timesheetController.editTimesheet.overtime}" />
-				</p>
-				<p>
-					<h:outputText value="Flextime: " />
-					<h:outputText value="#{timesheetController.editTimesheet.flextime}" />
-				</p>
-				<p>
-					<h:outputText value="State: " />
-					<h:outputText value="#{timesheetController.editTimesheet.state}" />
-				</p>
-				<p>
-					<h:outputText value="Comment: " />
-				</p>
-				<p>
-					<p:inputTextarea rows="6" cols="50" readonly="true"
-						style="resize: none"
-						value="#{timesheetController.editTimesheet.comment}">
-					</p:inputTextarea>
-				</p>
+		
+		<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>View Timesheet</h1>
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
+
+           		<hr></hr>
+			
+			
+			<h:form id="formMain" style="text-align:left !important;">
+			<p:panel>
+				<table class="table">
+					<tbody>
+						<tr>
+							<th><h:outputText value="Start Date: " /></th>
+							<td>
+								<h:outputText
+									value="#{timesheetController.editTimesheet.timesheetPk.startDate}">
+									<f:convertDateTime pattern="MMM, dd, yyyy" />
+								</h:outputText>
+							</td>
+						</tr>
+						
+						<tr>
+							<th><h:outputText value="Overtime:  " /></th>
+							<td>
+								<h:outputText value="#{timesheetController.editTimesheet.overtime}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<th><h:outputText value="Flextime: " /></th>
+							<td>
+								<h:outputText value="#{timesheetController.editTimesheet.flextime}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<th><h:outputText value="State: " /></th>
+							<td>
+								<h:outputText value="#{timesheetController.editTimesheet.state}" />
+							</td>
+						</tr>
+						
+						<tr>
+							<th><h:outputText value="Comment: " /></th>
+							<td>
+								<p:inputTextarea rows="6" cols="50" readonly="true"
+									style="resize: none"
+									value="#{timesheetController.editTimesheet.comment}">
+								</p:inputTextarea>
+							</td>
+						</tr>
+						
+						
+					</tbody>
+				
+				</table>
+			
+				</p:panel>
+				<br></br>
 
 				<h:outputText value="" />
 
 				<p:dataTable id="viewTable"
 					value="#{timesheetController.editTimesheetRows}" var="row">
-					<p:column headerText="Project No">
+					<p:column headerText="Project No" style="width:100px;">
 						<h:outputText value="#{row.timesheetRowPk.proNo}" />
 					</p:column>
 
-					<p:column headerText="WPID">
+					<p:column headerText="WPID" style="width:130px;">
 						<h:outputText value="#{row.timesheetRowPk.wpid}" />
 					</p:column>
 
-					<p:column headerText="Sat">
+					<p:column headerText="Sat" style="width:100px;">
 						<h:outputText value="#{row.sat}" />
 					</p:column>
 
-					<p:column headerText="Sun">
+					<p:column headerText="Sun" style="width:100px;">
 						<h:outputText value="#{row.sun}" />
 					</p:column>
 
-					<p:column headerText="Mon">
+					<p:column headerText="Mon" style="width:100px;">
 						<h:outputText value="#{row.mon}" />
 					</p:column>
 
-					<p:column headerText="Tue">
+					<p:column headerText="Tue" style="width:100px;">
 						<h:outputText value="#{row.tue}" />
 					</p:column>
 
-					<p:column headerText="Wed">
+					<p:column headerText="Wed" style="width:100px;">
 						<h:outputText value="#{row.wed}" />
 					</p:column>
 
-					<p:column headerText="Thu">
+					<p:column headerText="Thu" style="width:100px;">
 						<h:outputText value="#{row.thu}" />
 					</p:column>
 
-					<p:column headerText="Fri">
+					<p:column headerText="Fri" style="width:100px;">
 						<h:outputText value="#{row.fri}" />
 					</p:column>
 
-					<p:column headerText="Note">
+					<p:column headerText="Note" style="width:100px;">
 						<h:outputText value="#{row.note}" />
 					</p:column>
 
-					<p:column headerText="Comment">
+					<p:column headerText="Comment" style="width:100px;">
 						<h:outputText value="#{row.comment}" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
+			</p:fieldset>
 		</ui:define>
 	</ui:composition>
 </h:body>

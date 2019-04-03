@@ -14,39 +14,66 @@
 		<ui:include src="/sections/ProjectNavigationBar.xhtml" />
 	</ui:define>
 	<ui:define name="content">
-		<h:panelGrid style="margin:20px" columns="2" cellpadding="10"
-			cellspacing="10">
-			<p:outputLabel value="Project Number:  " />
-			<p:outputLabel value="#{assignProject.project.proNo}" />
-			<p:outputLabel value="Project Manager:  " />
-			<p:outputLabel
-				value="#{assign.getEmployeeById(assignProject.project.proMgrEmpNo).userName}" />
-			<p:outputLabel value="Project Name:  " />
-			<p:outputLabel value="#{assignProject.project.proName}" />
-			<p:outputLabel value="Project Budget:  " />
-			<p:outputLabel value="Project Description:&nbsp;&nbsp;" />
-			<p:outputLabel value="#{assignProject.project.proDesc}" />
-		</h:panelGrid>
+	<p:panel id="basic" 
+           			header="Add Employee to Project" footer="" 
+           			style="margin-left:50px; margin-right:50px;">
+		
+		<table class="table table-striped">
+				<tbody>
+					<tr>
+						<td scope="row"><p:outputLabel value="Project Number:  " /></td>
+						<td><p:outputLabel value="#{assignProject.project.proNo}" /></td>
+					</tr>
+					<tr>
+						<td scope="row"><p:outputLabel value="Project Manager:  " /></td>
+						<td><p:outputLabel value="#{assign.getEmployeeById(assignProject.project.proMgrEmpNo).userName}" /></td>
+					</tr>
+					<tr>
+						<td scope="row"><p:outputLabel value="Project Name:  " /></td>
+						<td><p:outputLabel value="#{assignProject.project.proName}" /></td>
+					</tr>
+					<tr>
+						<td scope="row"><p:outputLabel value="Project Budget:  " /></td>
+						<td><p:outputLabel value="Project Description:&nbsp;&nbsp;" /></td>
+					</tr>
+					<tr>
+						<td scope="row"><p:outputLabel value="#{assignProject.project.proDesc}" /></td>
+
+					</tr>
+					
+				</tbody>
+		</table>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 
 		<h:form id="formMain">
 			<p:commandButton value="Add Employee"
 				update=":formMain:invalidEmployee"
-				action="#{assignProject.checkIfHaveAnyEmployee()}" />
+				action="#{assignProject.checkIfHaveAnyEmployee()}" 
+				style="background:transparent; color: #88AA00;"/>
 			<p:growl id="invalidEmployee" sticky="false" />
 
 			<p:dataTable id="employeeTable"
 				value="#{assignProject.getAssignedEmployee()}" var="emp"
-				style="margin-bottom:20px;width:50%">
+				style="margin-bottom:20px;width:100%">
 				<f:facet name="header">Employees</f:facet>
-				<p:column>
+				<p:column style="width:150px;">
 					<f:facet name="header">Employee Number</f:facet>
 						#{emp.empNumber}
 					</p:column>
-				<p:column>
+				<p:column style="width:150px;">
 					<f:facet name="header">Employee Name</f:facet>
 						#{emp.firstName} #{emp.lastName}
 					</p:column>
-				<p:column>
+				<p:column style="width:150px;">
 					<f:facet name="header">Username</f:facet>
 						#{emp.userName}
 					</p:column>
@@ -55,24 +82,26 @@
 
 
 		<p:dialog id="addDialog" header="Add Employee" modal="true"
-			width="400" widgetVar="addEmployeeDialog" resizable="false"
-			draggable="false">
-			<h:form id="formAddDialog">
-				<h:panelGrid columns="1">
+			width="300" widgetVar="addEmployeeDialog" resizable="false"
+			draggable="false" >
+			<h:form id="formAddDialog" >
+				<h:panelGrid columns="1" style="width:250px;">
 					<h:outputText id="addEmployee" value="Employee" />
-					<h:selectOneMenu binding="#{addEmployeeText}">
+					<hr></hr>
+					<h:selectOneMenu binding="#{addEmployeeText}" style="width:100px; hight:50px;">
 						<f:selectItems value="#{assignProject.getSupervisorEmployee()}"
 							var="e" itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
 					</h:selectOneMenu>
-
+					<hr></hr>
 					<p:commandButton resetValues="true"
 						update=":formMain:employeeTable :formAddDialog" value="Save"
-						action="#{assignProject.assignEmployee(addEmployeeText.value)}" />
+						action="#{assignProject.assignEmployee(addEmployeeText.value)}"
+						style="float: right;" />
 				</h:panelGrid>
 			</h:form>
 		</p:dialog>
 
-
+</p:panel>
 
 	</ui:define>
 </ui:composition>

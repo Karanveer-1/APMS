@@ -20,6 +20,12 @@
 			<ui:include src="/sections/ProjectNavigationBar.xhtml" />
 		</ui:define>
 		<ui:define name="content">
+		  
+		  <p:panel id="basic" 
+           			header="Project Management" footer="" 
+           			style="margin-left:50px; margin-right:50px;">
+		  
+		
 			<h:form id="form">
 				<p:growl id="msgs" showDetail="true" />
 
@@ -38,7 +44,7 @@
 						update=":form:msgs" />
 					<p:ajax event="rowEditCancel"
 						listener="#{pmController.onRowCancel}" update=":form:msgs" />
-					<p:column headerText="Project Number">
+					<p:column headerText="Project Number" style="width:100px; text-align:center" >
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.proNo}" />
@@ -49,7 +55,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column headerText="Project Name">
+					<p:column headerText="Project Name" style="width:100px; text-align:center">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.proName}" />
@@ -61,7 +67,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column headerText="Project Manager">
+					<p:column headerText="Project Manager" style="width:100px;text-align:center">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.proMgrEmpNo}" />
@@ -72,7 +78,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column headerText="Description">
+					<p:column headerText="Description" style="width:120px;">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.proDesc}" />
@@ -85,7 +91,7 @@
 					</p:column>
 
 					
-					<p:column headerText="State">
+					<p:column headerText="State" style="width:100px; text-align:center">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.state}" />
@@ -96,7 +102,7 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
-					<p:column headerText="Comment">
+					<p:column headerText="Comment" style="width:100px;" >
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.comment}" />
@@ -111,10 +117,14 @@
 						<p:rowEditor />
 
 					</p:column>
-					<p:column style="text-align:center; width:100px">
+					<p:column headerText="Details" style="text-align:center; width:100px">
 
-						<p:commandButton value="Detail" update="project"
-							action="#{pdController.detail(project)}" />
+						<p:commandLink update="project"
+							action="#{pdController.detail(project)}">
+						
+							<h:graphicImage value="resources/images/detail.png" style="max-width:40%; max-height:40%"/>	
+						
+						</p:commandLink>
 
 					</p:column>
 
@@ -122,11 +132,9 @@
 
 				</p:dataTable>
 
-
-
-			</h:form>
-
-
+				</h:form>
+	
+			</p:panel>
 
 		</ui:define>
 	</ui:composition>
