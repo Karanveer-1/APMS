@@ -48,8 +48,7 @@
 								<h:outputText value="#{project.proNo}" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText id="modelInput" value="#{project.proNo}"
-									style="width:100%" />
+								<h:outputText value="#{project.proNo}" />
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -69,7 +68,8 @@
 					<p:column headerText="Project Manager">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{project.proMgrEmpNo}" />
+								<h:outputText
+									value="#{projectController.getEmpName(project.proMgrEmpNo)}" />
 							</f:facet>
 							<f:facet name="input">
 								<h:selectOneMenu value="#{project.proMgrEmpNo}"
@@ -93,6 +93,37 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
+					<p:column headerText="Start Date">
+
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{project.startDate}">
+									<f:convertDateTime pattern="dd-MM-yyyy" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar id="start" value="#{project.startDate}" />
+							</f:facet>
+						</p:cellEditor>
+
+
+					</p:column>
+
+					<p:column headerText="End Date">
+
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{project.endDate}">
+									<f:convertDateTime pattern="dd-MM-yyyy" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar value="#{project.endDate}" />
+							</f:facet>
+						</p:cellEditor>
+
+
+					</p:column>
 
 					<p:column headerText="State">
 						<p:cellEditor>
@@ -105,20 +136,22 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
+
+
 					<p:column headerText="Comment">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.comment}" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{project.comment}" style="width:100%"
+								<p:inputTextarea value="#{project.comment}" style="width:100%"
 									label="Comment" />
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
 
 					<p:column style="width:32px">
-						<p:rowEditor  rendered="#{project.editable}"/>
+						<p:rowEditor rendered="#{project.editable}" />
 
 					</p:column>
 
@@ -200,7 +233,6 @@
 					</h:panelGrid>
 				</h:form>
 			</p:dialog>
-
 
 
 

@@ -178,6 +178,9 @@ public class ProjectController implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
+	public void toggle() {
+		System.out.println("Toggle me more bttttt");
+	}
 	public void deleteProject(Project project) throws IOException {
 		this.database.deleteProjectByProNo(project.getProNo());
 		projects = this.database.getAllProjects();
@@ -194,6 +197,11 @@ public class ProjectController implements Serializable {
 
 	public Status[] getStatuses() {
 		return Status.values();
+	}
+	
+	public String getEmpName(int id) {
+		return this.database.getEmployeeById(id).getUserName();
+		
 	}
 
 }
