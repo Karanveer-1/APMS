@@ -5,15 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 
 import model.PLevel;
 import model.Project;
@@ -22,22 +16,22 @@ import model.WorkPackage;
 @Named("monthlyReport")
 @ConversationScoped
 public class MonthlyReportController implements Serializable {
-    @PersistenceContext(unitName = "apms", type = PersistenceContextType.TRANSACTION)
-    private EntityManager manager;
     @Inject
     private DatabaseController database;
-    @Inject 
-    private Conversation convo;
+    
     private Project project;
+    private Integer proNo;
     private List<WorkPackage> allWP;
     private List<PLevel> pLevel = new ArrayList<PLevel>();
+    
+    public List<Integer> init() {
+        return database.getAllProjectNo();
+    }
             
-    public String generateReport(Project project) {
-        convo.begin();
-        setProject(project);
-        setAllWP(database.getAllWp());
+    public void generateReport() {
+        project = database.findByProjectNo(proNo.intValue());
+        allWP = database.getAllWp();
         findPLevel();
-        return "MonthlyReport.xhtml?faces-redirect=true";
     }
 
     public List<WorkPackage> getAllWps() {
@@ -100,6 +94,14 @@ public class MonthlyReportController implements Serializable {
                 return;
             }
         }
+    }
+
+    public Integer getProNo() {
+        return proNo;
+    }
+
+    public void setProNo(Integer proNo) {
+        this.proNo = proNo;
     }
         
 }

@@ -13,42 +13,120 @@
     <ui:composition template="/templates/MasterLayout.xhtml">
         <ui:define name="windowTitle">Monthly Report</ui:define>
         <ui:define name="headerTitle"><h:outputText value="Monthly Report" class="navbar-brand"/></ui:define>
+        <ui:define name="navBar"><ui:include src="/sections/ReportNavigationBar.xhtml" /></ui:define>
         
         <ui:define name="content">
-        	<h:panelGrid style="margin:20px" columns="2" cellpadding="10" cellspacing="10">
-		        <p:outputLabel value="Project Number:&nbsp;&nbsp;"/>
-		        <p:outputLabel value="#{monthlyReport.project.proNo}"/>
-		        <p:outputLabel value="Project Title:  "/>
-		        <p:outputLabel value="#{monthlyReport.project.proName}"/>
-		        <p:outputLabel value="Start Date:  "/>
-		        <p:outputLabel value="#{monthlyReport.project.startDate}">
-		        	<f:convertDateTime pattern="yyyy-MM-dd" />
-		        </p:outputLabel>
-		        <p:outputLabel value="End Date:  "/>
-		        <p:outputLabel value="#{monthlyReport.project.endDate}">
-		        	<f:convertDateTime pattern="yyyy-MM-dd" />
-		        </p:outputLabel>
-	    	</h:panelGrid>
-	    	
-	    	<p:dataTable var="wp" value="#{monthlyReport.getAllWps()}">
-	    		<p:column headerText="WP ID / WP Title">
-	    			#{wp.wpid}/ <br/>
-	    			#{wp.title}
-	    		</p:column>
-	    		<p:column headerText="Stats">
-	    			MD <br/> Labour Total ($)
-	    		</p:column>
-	    		<p:column headerText="BCWS">
-	    			#{monthlyReport.generatePmEstimate(wp)} <br/>
-	    			#{monthlyReport.convertPmEstimateIntoLabour(wp)}
-	    		</p:column>
-	    		<p:column headerText="BCWP"></p:column>
-	    		<p:column headerText="EAC">
-	    			#{monthlyReport.generateReEstimate(wp)} <br/>
-	    			#{monthlyReport.convertReEstimateIntoLabour(wp)}
-	    		</p:column>
-	    		<p:column headerText="% of work left compared to EAC"></p:column>
-	    	</p:dataTable>
+        	
+        	<p:panel id="basic" header="Monthly Report" style="margin-left:50px; margin-right:50px;">
+					
+				<h:form id="formMain">
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<td>
+									<h:outputText value="Project: " />
+								</td>
+								<td>
+									<p:selectOneMenu id="project" value="#{monthlyReport.proNo}" style="width: 200px">
+										<f:selectItem itemLabel="Select Project" itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{monthlyReport.init()}" />
+									</p:selectOneMenu>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p:commandButton id="generate" value="Generate" action="#{monthlyReport.generateReport()}" update="report" />
+								</td>
+								<td>
+									<h:outputText value="&nbsp;" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<hr />
+
+					<h:panelGroup id="report">
+						<p:panelGrid columns="2">
+							<h:outputText value="Project No: " />
+							<h:outputText value="#{monthlyReport.project.proNo}" />
+
+							<h:outputText value="Project Title: " />
+							<h:outputText value="#{monthlyReport.project.proName}" />
+
+							<h:outputText value="Start Date: " />
+							<h:outputText value="#{monthlyReport.project.startDate}">
+								<f:convertDateTime pattern="MMM. dd, yyyy" />
+							</h:outputText>
+							
+							<h:outputText value="End Date: " />
+							<h:outputText value="#{monthlyReport.project.endDate}">
+								<f:convertDateTime pattern="MMM. dd, yyyy" />
+							</h:outputText>
+						</p:panelGrid>
+
+						<hr />
+						
+						<p:dataTable value="#{wpWeeklyReportController.rows}" var="row"
+							sortBy="#{row.empNo}">
+							<p:column headerText="Employee" style="width:150px">
+								<h:outputText value="#{row.empNo}" />
+							</p:column>
+
+							<p:column headerText="PLevel" style="width:150px">
+								<h:outputText value="#{row.pLevel}" />
+							</p:column>
+
+							<p:column headerText="Week Start Date" style="width:150px">
+								<h:outputText value="#{row.weekNo}">
+								    <f:convertDateTime pattern="MMM. dd, yyyy" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Total" style="width:150px">
+								<h:outputText value="#{row.total}" />
+							</p:column>
+
+							<p:summaryRow>
+								<p:column style="text-align: right" colspan="3">
+									<h:outputText value="Total: " />
+								</p:column>
+								<p:column style="text-align: left;">
+									<h:outputText
+										value="#{wpWeeklyReportController.getTotalForEmployee(row.empNo)}" />
+								</p:column>
+							</p:summaryRow>
+							
+							<p:columnGroup type="footer">
+								<p:row>
+									<p:column style="text-align:right" colspan="3" footerText="Complete Total:" />
+									<p:column style="text-align:left" footerText="#{wpWeeklyReportController.getTotalForAllEmployees()}" />
+								</p:row>
+							</p:columnGroup>
+						</p:dataTable>
+						
+						<p:dataTable var="wp" value="#{monthlyReport.getAllWps()}">
+				    		<p:column headerText="WP ID / WP Title">
+				    			#{wp.wpid}/ <br/>
+				    			#{wp.title}
+				    		</p:column>
+				    		<p:column headerText="Stats">
+				    			MD <br/> Labour Total ($)
+				    		</p:column>
+				    		<p:column headerText="BCWS">
+				    			#{monthlyReport.generatePmEstimate(wp)} <br/>
+				    			#{monthlyReport.convertPmEstimateIntoLabour(wp)}
+				    		</p:column>
+				    		<p:column headerText="BCWP"></p:column>
+				    		<p:column headerText="EAC">
+				    			#{monthlyReport.generateReEstimate(wp)} <br/>
+				    			#{monthlyReport.convertReEstimateIntoLabour(wp)}
+				    		</p:column>
+				    		<p:column headerText="% of work left compared to EAC"></p:column>
+				    	</p:dataTable>
+					</h:panelGroup>
+				</h:form>
+			</p:panel>
         </ui:define>
     </ui:composition>
 </h:body>
