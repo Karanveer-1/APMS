@@ -21,11 +21,22 @@
 		</ui:define>
 
 		<ui:define name="content">
+		
+		<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>Timesheets</h1>
+	           		<h:outputText value="A list of timesheets." />
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
+
+           		<hr></hr>
 			<f:event listener="#{timesheetController.init}" type="preRenderView" />
 			<h:outputText value="&nbsp;" />
-			<p:panel id="basic" 
-           			header="Currently Timesheets" footer="This table includes all time sheets" 
-           			style="margin-left:50px; margin-right:50px;">
+			
 			<h:form id="formMain">
 
 				<p:dataTable id="viewTable"
@@ -104,6 +115,7 @@
 					</p:column>
 				</p:dataTable>
 			</h:form>
+		
 
 			<p:dialog id="addDialog" header="Select Date" modal="true"
 				widgetVar="addTimesheetDialog" resizable="false" draggable="false">
@@ -119,7 +131,8 @@
 						disabled="#{timesheetController.canCreateTimesheet(createTimesheetDate.value)}" />
 				</h:form>
 			</p:dialog>
-			</p:panel>
+			<br></br>
+			</p:fieldset>
 		</ui:define>
 	</ui:composition>
 </h:body>

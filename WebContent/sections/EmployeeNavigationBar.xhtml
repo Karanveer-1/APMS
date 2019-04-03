@@ -11,46 +11,60 @@
 		<div class="sidebar" data-background-color="black" data-active-color="danger">
 			<div class="sidebar-wrapper">
 				<div class="logo">
-					<span class="simple-text" style="margin-top: 30px">
+					<img src="resources/images/employeeIcon.png" style=" margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 30%;"/>						
+	
+					<span class="simple-text" style="margin-top: 30px; font-size:150%">
 						APMS
 					</span>
 				</div>
-				<ul class="nav">
-					<li>
-						<p:commandLink id="nav-all-employees" action="InactiveEmployees.xhtml?faces-redirect=true"
+			<ul class="nav">
+				<li>
+					<p:commandLink id="nav-active-employees" action="Employees.xhtml?faces-redirect=true"
+					rendered="#{authController.isUserSystemAdmin() ||
+                        	authController.isUserHumanResource()}">
+                        <i class="ti-pulse"></i>
+						Active Employees
+					</p:commandLink>
+				</li>
+				<li>
+					<p:commandLink id="nav-all-employees" action="InactiveEmployees.xhtml?faces-redirect=true"
+					rendered="#{authController.isUserSystemAdmin() ||
+                        	authController.isUserHumanResource()}">
+                        <i class="ti-minus"></i>
+						Inactive Employees
+					</p:commandLink>
+				</li>
+				<li>
+					<p:commandLink id="nav-p-level" action="EmpPLevels.xhtml?faces-redirect=true"
+					rendered="#{authController.isUserSystemAdmin() ||
+                        	authController.isUserHumanResource()}">
+                        <i class="ti-bar-chart-alt"></i>
+						P Level
+					</p:commandLink>
+				</li>
+				<li>
+					<p:commandLink id="nav-assign-approvers" action="AssignEmployee.xhtml?faces-redirect=true"
+					rendered="#{authController.isUserSystemAdmin() ||
+                        	authController.isUserSupervisor()}">
+                        <i class="ti-check-box"></i>
+						Assign Approvers
+					</p:commandLink>
+				</li>
+				<li>
+					<p:commandLink id="nav-role" action="Role.xhtml?faces-redirect=true"
 						rendered="#{authController.isUserSystemAdmin() ||
-                         	authController.isUserHumanResource()}">
-							View Inactive Employees
-						</p:commandLink>
+                     	authController.isUserHumanResource()}">
+						Role
+					</p:commandLink>
 					</li>
-					<li>
-						<p:commandLink id="nav-active-employees" action="Employees.xhtml?faces-redirect=true"
-						rendered="#{authController.isUserSystemAdmin() ||
-                         	authController.isUserHumanResource()}">
-							View Active Employees
-						</p:commandLink>
-					</li>
-					<li>
-						<p:commandLink id="nav-p-level" action="EmpPLevels.xhtml?faces-redirect=true"
-						rendered="#{authController.isUserSystemAdmin() ||
-                         	authController.isUserHumanResource()}">
-							P Level
-						</p:commandLink>
-					</li>
-					<li>
-						<p:commandLink id="nav-assign-approvers" action="AssignEmployee.xhtml?faces-redirect=true"
-						rendered="#{authController.isUserSystemAdmin() ||
-                         	authController.isUserSupervisor()}">
-							Assign Approvers
-						</p:commandLink>
-					</li>
-					<li>
-						<p:commandLink id="nav-back" action="Dashboard.xhtml?faces-redirect=true">
-							Back
-						</p:commandLink>
-					</li>
-				</ul>
-			</div>
+				<li>
+					<p:commandLink id="nav-back" action="Dashboard.xhtml?faces-redirect=true">
+						<i class="ti-arrow-circle-left"></i>
+						Back
+					</p:commandLink>
+				</li>
+			</ul>
+		</div>
 		</div>
 		</h:form>
 	</ui:composition>
