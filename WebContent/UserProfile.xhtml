@@ -13,23 +13,45 @@
         
         <ui:define name="content">
         
-	        <h:panelGrid columns="2" id="grid" cellpadding="5" >
-	        	<p:outputLabel value="Employee Number: "/>
-	        	<p:outputLabel id="empNo" value="#{loginController.currentEmployee.empNumber}"/>
-			    <p:outputLabel value="First Name: "/>
-			    <p:outputLabel id="firstName" value="#{loginController.currentEmployee.firstName}"/>
-			    <p:outputLabel value="Last Name: "/>
-			    <p:outputLabel id="lastName" value="#{loginController.currentEmployee.lastName}"/>
-			    <p:outputLabel value="User Name: "/>
-			    <p:outputLabel id="userName" value="#{loginController.currentEmployee.userName}"/>
-			</h:panelGrid>
-			
-			<h:form>
-			    <p:commandButton id="configure-signature" onclick="PF('keyPhraseDialog').show();" value="Configure Signature" />
-			</h:form>
+        	<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center !important; margin-bottom:50px">
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>Profile</h1>
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
+
+           		<hr></hr>
+            	
+		        <h:panelGrid columns="2" id="grid" cellpadding="5" style="text-align:center; margin:auto;" >
+		        	<p:outputLabel value="Employee #: "/>
+		        	<p:outputLabel id="empNo" value="#{loginController.currentEmployee.empNumber}"/>
+				    <p:outputLabel value="First Name: "/>
+				    <p:outputLabel id="firstName" value="#{loginController.currentEmployee.firstName}"/>
+				    <p:outputLabel value="Last Name: "/>
+				    <p:outputLabel id="lastName" value="#{loginController.currentEmployee.lastName}"/>
+				    <p:outputLabel value="User Name: "/>
+				    <p:outputLabel id="userName" value="#{loginController.currentEmployee.userName}"/>
+				</h:panelGrid>
+				<hr></hr>
+				
+				<h:form>
+				    <p:commandButton id="configure-signature" onclick="PF('keyPhraseDialog').show();" value="Configure Signature" />
+				</h:form>
+				
+				<br></br>
+				
+			</p:fieldset>
             
-            <p:dialog id="keyPhrase" header="Enter a phrase" modal="true" width="400"
-                widgetVar="keyPhraseDialog" resizable="false" draggable="false">
+            <p:sidebar position="right" baseZIndez="20000" id="keyPhrase" header="Enter a phrase" modal="true" width="400"
+                widgetVar="keyPhraseDialog">
+                
+                <h2 style="font-weight:normal">Enter a Phrase</h2>
+                <p:messages id="messages" showDetail="true" closable="true">
+				        <p:autoUpdate />
+				</p:messages>
                 
                 <h:form id="formAddDialog">
                     <h:panelGrid columns="1">
@@ -40,10 +62,8 @@
                             action="#{sig.encryptWithPhrase(addKeyPhrase.value)}" />
                     </h:panelGrid>
                     
-                    <p:messages id="messages" showSummary="false" showDetail="true" closable="true"/>
-                    <p:autoUpdate/>
                 </h:form>
-            </p:dialog>
+            </p:sidebar>
             
         </ui:define>
 	</ui:composition>

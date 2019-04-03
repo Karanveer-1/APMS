@@ -20,24 +20,34 @@
 			<ui:include src="/sections/ProjectNavigationBar.xhtml" />
 		</ui:define>
 		<ui:define name="content">
-		
-			<p:panel id="basic" 
-           			header="List of Projects" footer="" 
-           			style="margin-left:50px; margin-right:50px;">
 
 			<h:form id="form">
-				<p:growl id="msgs" showDetail="true" />
+				
+				<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>Project List</h1>
+	           		<h:outputText value="A list of all projects." />
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
 
-
+           		<hr></hr>
+           		
 				<p:commandButton value="Add new row"
 					styleClass="ui-priority-primary" process="@this"
 					action="#{projectController.persistProject()}"
 					oncomplete="PF('project').addRow();"
 					style="background:transparent; color: #88AA00;" />
+				
+				<hr></hr>
 
+				<p:growl id="msgs" showDetail="true" />
 
 				<p:dataTable id="project" var="project" widgetVar="project"
-					value="#{projectController.projects}" editable="true"
+					value="#{projectController.projects}" editable="true" scrollable="true" scrollHeight="3%"
 					style="margin-bottom:20px">
 					<f:facet name="header">
           		 		Projects
@@ -144,11 +154,11 @@
 
 					</p:column>
 				</p:dataTable>
-
+				</p:fieldset>
 				</h:form>
+			
 
-			</p:panel>
-
+			
 		</ui:define>
 	</ui:composition>
 </h:body>
