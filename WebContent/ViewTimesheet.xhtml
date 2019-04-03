@@ -19,8 +19,14 @@
 		<ui:define name="navBar">
 			<ui:include src="/sections/ViewTimesheetNavigationBar.xhtml" />
 		</ui:define>
+		
+		
 
 		<ui:define name="content">
+		<p:panel id="basic" 
+           			header="Approve Timesheet" footer="" 
+           			style="margin-left:50px; margin-right:50px;">
+		
 			<h:form id="formMain">
 				<p>
 					<h:outputText value="Start Date: " />
@@ -55,51 +61,52 @@
 
 				<p:dataTable id="viewTable"
 					value="#{timesheetController.editTimesheetRows}" var="row">
-					<p:column headerText="Project No">
+					<p:column headerText="Project No" style="width:100px;">
 						<h:outputText value="#{row.timesheetRowPk.proNo}" />
 					</p:column>
 
-					<p:column headerText="WPID">
+					<p:column headerText="WPID" style="width:130px;">
 						<h:outputText value="#{row.timesheetRowPk.wpid}" />
 					</p:column>
 
-					<p:column headerText="Sat">
+					<p:column headerText="Sat" style="width:100px;">
 						<h:outputText value="#{row.sat}" />
 					</p:column>
 
-					<p:column headerText="Sun">
+					<p:column headerText="Sun" style="width:100px;">
 						<h:outputText value="#{row.sun}" />
 					</p:column>
 
-					<p:column headerText="Mon">
+					<p:column headerText="Mon" style="width:100px;">
 						<h:outputText value="#{row.mon}" />
 					</p:column>
 
-					<p:column headerText="Tue">
+					<p:column headerText="Tue" style="width:100px;">
 						<h:outputText value="#{row.tue}" />
 					</p:column>
 
-					<p:column headerText="Wed">
+					<p:column headerText="Wed" style="width:100px;">
 						<h:outputText value="#{row.wed}" />
 					</p:column>
 
-					<p:column headerText="Thu">
+					<p:column headerText="Thu" style="width:100px;">
 						<h:outputText value="#{row.thu}" />
 					</p:column>
 
-					<p:column headerText="Fri">
+					<p:column headerText="Fri" style="width:100px;">
 						<h:outputText value="#{row.fri}" />
 					</p:column>
 
-					<p:column headerText="Note">
+					<p:column headerText="Note" style="width:100px;">
 						<h:outputText value="#{row.note}" />
 					</p:column>
 
-					<p:column headerText="Comment">
+					<p:column headerText="Comment" style="width:100px;">
 						<h:outputText value="#{row.comment}" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
+			</p:panel>
 		</ui:define>
 	</ui:composition>
 </h:body>
