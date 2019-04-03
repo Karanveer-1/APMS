@@ -11,6 +11,19 @@
         <ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
         
         <ui:define name="content">
+        
+        	<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>Inactivated Employees</h1>
+	           		<h:outputText value="A list of all inactive employees." />
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
+
+           		<hr></hr>
         	<h:panelGrid columns="2" cellpadding="10">
 				<p:outputLabel value="msg" style="opacity:0"/>
 			</h:panelGrid>
@@ -36,6 +49,8 @@
                    <h:outputText value="#{employee.comment}" />
                </p:column>
            </p:dataTable>
+           <br></br>
+           </p:fieldset>
                 
         </ui:define>
 	</ui:composition>

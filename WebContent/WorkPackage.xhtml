@@ -12,7 +12,7 @@
 <h:body>
 	<ui:composition template="/templates/MasterLayout.xhtml">
 
-		<ui:define name="windowTitle">Projects</ui:define>
+		<ui:define name="windowTitle">Work Packages</ui:define>
 		<ui:define name="headerTitle">
 			<h:outputText value="Work Packages - Responsible Engineer View" class="navbar-brand" />
 		</ui:define>
@@ -21,6 +21,19 @@
 		</ui:define>
 
 		<ui:define name="content">
+		  <p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>Work Packages</h1>
+	           		<h:outputText value="A list of all work packages." />
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
+
+           		<hr></hr>
+
 
 			<h:form id="form">
 				<p:growl id="msgs" showDetail="true" />
@@ -34,7 +47,7 @@
 						update=":form:msgs" />
 					<p:ajax event="rowEditCancel"
 						listener="#{wpmController.onRowCancel}" update=":form:msgs" />
-					<p:column headerText="WPID">
+					<p:column headerText="WPID" style="width:100px;">
 
 						<p:cellEditor>
 							<f:facet name="output">
@@ -48,7 +61,7 @@
 
 					</p:column>
 
-					<p:column headerText="Project Number">
+					<p:column headerText="Project Number" style="width:80px; text-align:center;">
 
 						<p:cellEditor>
 							<f:facet name="output">
@@ -61,6 +74,7 @@
 
 
 					</p:column>
+
 
 					<p:column headerText="Title">
 						<p:cellEditor>
@@ -74,7 +88,9 @@
 
 
 					</p:column>
+
 					<p:column headerText="Start Date">
+
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{wp.startDate}" >
@@ -87,6 +103,7 @@
 						</p:cellEditor>
 
 					</p:column>
+
 
 					<p:column headerText="End Date">
 						<p:cellEditor>
@@ -103,6 +120,7 @@
 
 					</p:column>
 					<p:column headerText="Title">
+
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{wp.wpid}" />
@@ -114,7 +132,7 @@
 
 
 					</p:column>
-					<p:column headerText="Description">
+					<p:column headerText="Description" style="width:100px;">
 
 						<p:cellEditor>
 							<f:facet name="output">
@@ -129,7 +147,7 @@
 					</p:column>
 
 
-					<p:column headerText="State">
+					<p:column headerText="State" style="width:80px; text-align:center;">
 
 						<p:cellEditor>
 							<f:facet name="output">
@@ -142,7 +160,7 @@
 
 
 					</p:column>
-					<p:column headerText="Comment">
+					<p:column headerText="Comment" style="width:100px;">
 
 						<p:cellEditor>
 							<f:facet name="output">
@@ -155,22 +173,12 @@
 
 
 					</p:column>
-			<!-- 		<p:column style="width:32px">
-						<p:rowEditor />
 
-					</p:column> -->
 				</p:dataTable>
 			</h:form>
 
 
-
-
-
-
-
-
-
-
+			</p:fieldset>
 
 		</ui:define>
 	</ui:composition>

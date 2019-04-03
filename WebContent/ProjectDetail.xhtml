@@ -20,36 +20,40 @@
 			<ui:include src="/sections/ProjectManagementNavigationBar.xhtml" />
 		</ui:define>
 		<ui:define name="content">
-
-			<h:panelGrid style="margin:20px" columns="2" cellpadding="10"
-				cellspacing="10">
-				<p:outputLabel value="Project Number: " />
-				<p:outputLabel value="#{pdController.project.proNo}" />
-				<p:outputLabel value="Project Manager: " />
-				<p:outputLabel value="#{pdController.project.proMgrEmpNo}" />
-				<p:outputLabel value="Project Name: " />
-				<p:outputLabel value="#{pdController.project.proName}" />
-				<p:outputLabel value="Description: " />
-				<p:outputLabel value="#{pdController.project.proDesc}" />
-				<p:outputLabel value="Comment: " />
-				<p:outputLabel value="#{pdController.project.comment}" />
-			</h:panelGrid>
-
-			
-
+		     <p:panel id="basic" 
+           			header="Project Detail" footer="" 
+           			style="margin-left:50px; margin-right:50px;">
+		  
 
 		
+			<table class="table table-striped">
+				<tbody>
+					<tr>
+						<td scope="row"><p:outputLabel value="Project Number: " /></td>
+						<td><p:outputLabel value="#{pdController.project.proNo}" /></td>
+					</tr>
+					<tr>
+						<td scope="row"><p:outputLabel value="Project Manager: " /></td>
+						<td><p:outputLabel value="#{pdController.project.proMgrEmpNo}" /></td>
+					</tr>
+					<tr>
+						<td scope="row"><p:outputLabel value="Project Name: " /></td>
+						<td><p:outputLabel value="#{pdController.project.proName}" /></td>
+					</tr>
+					<tr>
+						<td scope="row"><p:outputLabel value="Description: " /></td>
+						<td><p:outputLabel value="#{pdController.project.proDesc}" /></td>
+					</tr>
+					<tr>
+						<td scope="row"><p:outputLabel value="Comment: " /></td>
+						<td><p:outputLabel value="#{pdController.project.comment}" /></td>
+					</tr>
 
-
-
-
-
-
-
-
-
-
-
+					
+				</tbody>
+			</table>	
+	
+		</p:panel>
 
 
 		</ui:define>

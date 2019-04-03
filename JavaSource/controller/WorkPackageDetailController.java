@@ -44,9 +44,9 @@ public class WorkPackageDetailController implements Serializable {
 	}
 
 	public void save() {
-		System.out.println("WP " + wp);
+
 		if (this.database.updateWP(wp)) {
-			wp = this.database.getWPByID(wp);
+			wp = this.database.getWPByID(wp.getWorkPackagePk());
 			ogwp = wp;
 		} else {
 			wp = ogwp;

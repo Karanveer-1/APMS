@@ -216,6 +216,4 @@ public class TimesheetRow implements Serializable {
             return false;
         return true;
     }
-
-    
 }

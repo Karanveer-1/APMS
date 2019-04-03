@@ -12,7 +12,14 @@
 			data-active-color="danger">
 			<div class="sidebar-wrapper">
 				<div class="logo">
-					<span class="simple-text" style="margin-top: 30px"> APMS </span>
+					<img src="resources/images/package.png" style=" margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 30%;"/>						
+	
+					<span class="simple-text" style="margin-top: 30px; font-size:150%">
+						APMS
+					</span>
+					<span class="simple-text" style="color:gray">
+						<h3>Projects</h3>
+					</span>	
 				</div>
 				
 				
@@ -20,25 +27,29 @@
 					
 					<li><p:commandLink action="Projects.xhtml?faces-redirect=true"
 							rendered="#{paController.isSupervisor()}">
+							<i class="ti-pencil-alt"></i>
 							All Projects
 						</p:commandLink></li>
 
 					<li><p:commandLink
 							action="ProjectManagement.xhtml?faces-redirect=true"
 							rendered="#{paController.isPMorPA()}">
-							 Project Management
+							<i class="ti-target"></i>
+							Project Management
 							 
 						</p:commandLink></li>
 
 					<li><p:commandLink
 							action="WorkPackage.xhtml?faces-redirect=true"
 							rendered="#{paController.isREEmp()}">
+							<i class="ti-package"></i>
 							Work Packages 
 						</p:commandLink></li>
 
 
 					<li><p:commandLink
 							action="Dashboard.xhtml?faces-redirect=true">
+							<i class="ti-arrow-circle-left"></i>
 							Back
 						</p:commandLink></li>
 				</ul>
