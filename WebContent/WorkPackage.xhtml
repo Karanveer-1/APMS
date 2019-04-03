@@ -14,7 +14,7 @@
 
 		<ui:define name="windowTitle">Projects</ui:define>
 		<ui:define name="headerTitle">
-			<h:outputText value="Projects" class="navbar-brand" />
+			<h:outputText value="Work Packages - Responsible Engineer View" class="navbar-brand" />
 		</ui:define>
 		<ui:define name="navBar">
 			<ui:include src="/sections/ProjectNavigationBar.xhtml" />
@@ -61,30 +61,47 @@
 
 
 					</p:column>
-					<p:column headerText="Parent WPID">
 
+					<p:column headerText="Title">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{wp.parentWPID}" />
+								<h:outputText value="#{wp.wpid}" />
 							</f:facet>
 							<f:facet name="input">
-								<h:outputText value="#{wp.parentWPID}" />
+								<p:inputText value="#{wp.wpid}" style="width:100%" />
 							</f:facet>
 						</p:cellEditor>
 
 
 					</p:column>
-					<p:column headerText="REEmpNo">
+					<p:column headerText="Start Date">
 						<p:cellEditor>
 							<f:facet name="output">
-								<h:outputText value="#{wp.reEmpNo}" />
+								<h:outputText value="#{wp.startDate}" >
+								<f:convertDateTime pattern="dd-MM-yyyy" />
+								</h:outputText>
 							</f:facet>
 							<f:facet name="input">
-								<h:outputText value="#{wp.reEmpNo}" />
+								<p:inputText value="#{wp.wpid}" style="width:100%" />
 							</f:facet>
 						</p:cellEditor>
+
 					</p:column>
 
+					<p:column headerText="End Date">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{wp.endDate}">
+									<f:convertDateTime pattern="dd-MM-yyyy" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{wp.endDate}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+
+
+					</p:column>
 					<p:column headerText="Title">
 						<p:cellEditor>
 							<f:facet name="output">
@@ -138,10 +155,10 @@
 
 
 					</p:column>
-					<p:column style="width:32px">
+			<!-- 		<p:column style="width:32px">
 						<p:rowEditor />
 
-					</p:column>
+					</p:column> -->
 				</p:dataTable>
 			</h:form>
 

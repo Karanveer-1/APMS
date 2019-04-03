@@ -36,6 +36,7 @@
 
 					<p:ajax event="rowEdit" listener="#{pmController.onRowEdit}"
 						update=":form:msgs" />
+				
 					<p:ajax event="rowEditCancel"
 						listener="#{pmController.onRowCancel}" update=":form:msgs" />
 					<p:column headerText="Project Number">
@@ -84,7 +85,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					
+
 					<p:column headerText="State">
 						<p:cellEditor>
 							<f:facet name="output">

@@ -7,15 +7,15 @@
 
 <!-- Nav BAR -->
 <ui:composition>
-	<h:form>
+	<h:form id="pnav">
 		<div class="sidebar" data-background-color="black"
 			data-active-color="danger">
 			<div class="sidebar-wrapper">
 				<div class="logo">
 					<span class="simple-text" style="margin-top: 30px"> APMS </span>
 				</div>
-				<h:form id="pnav">
-				<p:ajax event="click" update="pnav" listener="#{projectController.onRowEdit}" />
+				
+				
 				<ul class="nav" id="pulnav">
 					
 					<li><p:commandLink action="Projects.xhtml?faces-redirect=true"
@@ -42,7 +42,7 @@
 							Back
 						</p:commandLink></li>
 				</ul>
-				</h:form>
+		
 			</div>
 		</div>
 	</h:form>

@@ -280,55 +280,6 @@ public class DatabaseController implements Serializable {
         manager.persist(temp);
     }
 
-    // public List<ProAssi> getAllProAssi() {
-    // List<ProAssi> projects = this.manager.createQuery("SELECT p from ProAssi p",
-    // ProAssi.class).getResultList();
-    // return projects;
-    // }
-    //
-    // public List<ProAssi> getProAssiByProNo(int proNo) {
-    // List<ProAssi> pa = new ArrayList<ProAssi>();
-    // for (ProAssi p : getAllProAssi()) {
-    // if (p.getPk().getProNo() == proNo) {
-    // pa.add(p);
-    // }
-    // }
-    // return pa;
-    //
-    // }
-    //
-    // public List<Employee> getEmployeeByProAssi(int proNo) {
-    // List<Employee> el = new ArrayList<Employee>();
-    // System.out.println("Hel" + getProAssiByProNo(proNo));
-    // for (ProAssi proass : getProAssiByProNo(proNo)) {
-    // System.out.println("Emp" + getEmployeeById(proass.getPk().getEmpNo()));
-    // el.add(getEmployeeById(proass.getPk().getEmpNo()));
-    // }
-    // return el;
-    // }
-    //
-    // public boolean persistProAss(ProAssi proass) {
-    // ProAssi p = this.manager.find(ProAssi.class, proass);
-    // if (p == null) {
-    // this.manager.persist(proass);
-    // return true;
-    // }
-    // return false;
-    // }
-    //
-    // public boolean deleteProAss(ProAssi proAssi) {
-    // if (getProAssiByProNo(proAssi.getPk().getProNo()) != null) {
-    // try {
-    // this.manager.remove(proAssi);
-    // this.manager.flush();
-    // return true;
-    //
-    // } catch (Exception e) {
-    // return false;
-    // }
-    // }
-    // return false;
-    // }
 
     public List<Project> getProjectsBySupervisor(int id) {
         List<ProEmp> proemp = new ArrayList<ProEmp>();
@@ -359,18 +310,7 @@ public class DatabaseController implements Serializable {
         return result;
     }
 
-    // public List<Project> getProjectsByAssistantNo(int id) {
-    // List<Project> result = new ArrayList<Project>();
-    //
-    // List<ProAssi> allPa = getAllProAssi();
-    // for (ProAssi pa : allPa) {
-    // if (pa.getEmpNo() == id) {
-    // result.add(findByProjectNo(pa.getProNo()));
-    // }
-    // }
-    // return result;
-    //
-    // }
+
 
     // #########################################################################
     // # WorkPackage methods
@@ -392,6 +332,10 @@ public class DatabaseController implements Serializable {
         return ids;
     }
 
+    
+    public WorkPackage getWPByID(WorkPackage wp) {
+    	  return this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
+    }
     public List<WorkPackage> getLowerWP(String wpid) {
         List<WorkPackage> result = new ArrayList<WorkPackage>();
         if (wpid != null) {

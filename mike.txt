@@ -32,6 +32,7 @@ WorkPackages ( engineer) (U)
 PROBLEM:
 
 
-I need to fix the update project for supervisors
+I need to fix the update project for supervisors and worckpages for PM
 make project management ajax
 fix adding new WP
+modify WP.leaf whenever a WP is created or modified or deleted

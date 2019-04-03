@@ -27,8 +27,7 @@
 
 				<p:commandButton value="Add new row"
 					styleClass="ui-priority-primary" process="@this"
-					action="#{projectController.persistProject()}"
-					oncomplete="PF('project').addRow();" />
+					onclick="PF('addProjectDialog').show();" />
 
 
 				<p:dataTable id="project" var="project" widgetVar="project"
@@ -37,7 +36,8 @@
 					<f:facet name="header">
            Projects
         </f:facet>
-
+					<p:ajax event="rowEdit" update=":pnav"
+						listener="#{projectController.onRowEdit}" />
 					<p:ajax event="rowEdit" listener="#{projectController.onRowEdit}"
 						update=":form:msgs" />
 					<p:ajax event="rowEditCancel"
@@ -140,6 +140,66 @@
 
 			</h:form>
 
+
+			<p:dialog id="addDialog" header="Add Project" modal="true"
+				width="400" widgetVar="addProjectDialog" resizable="false"
+				draggable="false">
+				<h:form id="formAddDialog">
+					<h:panelGrid columns="1">
+						<h:outputText value="Project Number" />
+						<p:inputText id="addPropNo"
+							value="#{projectController.addProject.proNo}" />
+
+						<h:outputText value="Project Manager" />
+						<p:inputText value="#{projectController.addProject.proMgrEmpNo}" />
+
+						<h:outputText value="Project Name" />
+						<p:inputText value="#{projectController.addProject.proName}" />
+
+						<h:outputText value="Descrition" />
+						<p:inputText value="#{projectController.addProject.proDesc}" />
+
+						<h:outputText for="start" value="Start Date" />
+						<p:calendar id="start"
+							value="#{projectController.addProject.proAssiEmpNo}" />
+
+						<h:outputText for="end" value="End Date" />
+						<p:calendar id="end"
+							value="#{projectController.addProject.proAssiEmpNo}" />
+
+						<h:outputText value="State" />
+						<p:inputText value="#{projectController.addProject.state}" />
+
+
+						<h:outputText value="Comment" />
+						<p:inputText value="#{projectController.addProject.comment}" />
+
+
+
+
+						<h:outputText id="addSupervisor" value="Supervisor" />
+						<h:selectOneMenu value="#{addSupervisorText}">
+							<f:selectItems value="#{employeesController.employees}" var="e"
+								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+						</h:selectOneMenu>
+
+						<h:outputText id="addComment" value="Comment" />
+						<p:inputText value="#{addCommentText}" />
+
+						<!-- <p:commandButton resetValues="true"
+							update=":formMain:employeeTable :formMain:invalidEmployeeGrowl :formAddDialog"
+							value="Save"
+							action="#{employeesController.addEmployee(
+																		addEmpNoText.value,
+																		addFirstNameText.value,
+																		addLastNameText.value,
+																		addUsernameText.value,
+																		addPasswordText.value,
+																		addSupervisorText.value,
+																		addCommentText.value)}" /> -->
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
 
 
 
