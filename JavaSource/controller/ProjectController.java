@@ -15,6 +15,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 
 import model.Employee;
@@ -23,6 +24,22 @@ import model.Project;
 @Named("projectController")
 @ViewScoped
 public class ProjectController implements Serializable {
+
+	public enum Status {
+
+		OPEN("Open"), ARCHIVED("Archived");
+
+		private String label;
+
+		private Status(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+
+	}
 
 	@Inject
 	private DatabaseController database;
@@ -100,29 +117,44 @@ public class ProjectController implements Serializable {
 	}
 
 	public void persistProject() throws IOException {
-
-		List<Project> allP = database.getAllProjects();
-		int proLength = allP.size();
-		if (proLength != 0) {
-			int lastId = allP.get(proLength - 1).getProNo();
-			addProject = new Project();
-			this.addProject.setProNo(lastId + 1);
-			System.out.println(this.addProject);
-
-		} else {
-			addProject = new Project();
-			this.addProject.setProNo(100);
-		}
+		// manager will assistant for now
+		addProject.setProAssiEmpNo(addProject.getProMgrEmpNo());
 		boolean addSuccess = database.persistProject(addProject);
-		projects = database.getAllProjects();
 		if (addSuccess) {
-			FacesMessage msg = new FacesMessage("New Project Added");
+			FacesMessage msg = new FacesMessage("Project #" + addProject.getProNo() + " Added");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
+			PrimeFaces.current().executeScript("PF('addProjectDialog').hide();");
+			addProject = new Project();
+			projects = database.getAllProjects();
 		} else {
-			FacesMessage msg = new FacesMessage("Failed To Add New Project");
+			FacesMessage msg = new FacesMessage("Invalid Project");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
+
 		}
+
+//		List<Project> allP = database.getAllProjects();
+//		int proLength = allP.size();
+//		if (proLength != 0) {
+//			int lastId = allP.get(proLength - 1).getProNo();
+//			addProject = new Project();
+//			this.addProject.setProNo(lastId + 1);
+//			System.out.println(this.addProject);
+//
+//		} else {
+//			addProject = new Project();
+//			this.addProject.setProNo(100);
+//		}
+//		boolean addSuccess = database.persistProject(addProject);
+//		projects = database.getAllProjects();
+//		if (addSuccess) {
+//			FacesMessage msg = new FacesMessage("New Project Added");
+//			FacesContext.getCurrentInstance().addMessage(null, msg);
+//
+//		} else {
+//			FacesMessage msg = new FacesMessage("Failed To Add New Project");
+//			FacesContext.getCurrentInstance().addMessage(null, msg);
+//		}
 
 	}
 
@@ -160,5 +192,8 @@ public class ProjectController implements Serializable {
 		return currentEmployee;
 	}
 
+	public Status[] getStatuses() {
+		return Status.values();
+	}
 
 }

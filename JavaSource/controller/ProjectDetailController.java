@@ -37,6 +37,8 @@ public class ProjectDetailController implements Serializable {
 	private List<Employee> empPool;
 
 	private List<Employee> wpEmp;
+	
+
 
 	private TreeNode root;
 
@@ -62,6 +64,7 @@ public class ProjectDetailController implements Serializable {
 		this.project = project;
 		this.empPool = getAllEmpPool(project.getProNo());
 		this.wpEmp = getWPEmp(project.getProNo());
+		
 		treeInit(this.project.getProNo());
 
 		return "ProjectDetail.xhtml?faces-redirect=true";
@@ -166,4 +169,6 @@ public class ProjectDetailController implements Serializable {
 		this.wpEmp = wpEmp;
 	}
 
+
+	
 }

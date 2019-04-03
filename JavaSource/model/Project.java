@@ -12,7 +12,6 @@ import javax.persistence.Table;
 
 @Table(name = "Project")
 public class Project implements Serializable {
-	
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,7 +44,8 @@ public class Project implements Serializable {
 	private String comment;
 
 	public Project() {
-		
+		this.startDate = new Date();
+		this.endDate = new Date();
 
 	}
 
@@ -149,6 +149,10 @@ public class Project implements Serializable {
 		}
 
 		return false;
+	}
+
+	public boolean isEditable() {
+		return this.state.equals("OPEN");
 	}
 
 }
