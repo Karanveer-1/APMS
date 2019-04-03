@@ -109,12 +109,12 @@
 						action="#{pLevelController.closeDialog()}" />
 				</h:form>
 			</p:dialog>
-			<p:sidebar position="right" baseZIndex="20000" id="addDialog" header="Add PLevel" modal="true"
+			
+			
+			<p:dialog id="addPLevelDialog" header="Add PLevel" modal="true"
 				width="400" widgetVar="addPLevelDialog" resizable="false"
 				draggable="false">
-				
 				<h2 style="font-weight:normal">Add Plevel</h2>
-				
 				<h:form id="formAddDialog" >
 					<h:panelGrid columns="2" cellpadding="50px" cellspacing="50px" style="padding:10px">
 						<h:outputText value="PLEVEL" style="float:right;" />
@@ -131,12 +131,12 @@
 						<h:message for="wage" style="color:red" />
 						
 					</h:panelGrid>
-					<p:commandButton update=":formMain:pLevelTable"
+					<p:commandButton update=":formMain:pLevelTable :addPLevelDialog"
 						value="Create New PLevel"
 						action="#{pLevelController.add(addPLevelText.value, addStartDateText.value, addWageText.value)}" 
 						style="float:middle;"/>
 				</h:form>
-			</p:sidebar>
+				</p:dialog>
 			<br></br>
 			</p:fieldset>
 		</ui:define>
