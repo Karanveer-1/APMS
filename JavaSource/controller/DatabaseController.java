@@ -149,7 +149,7 @@ public class DatabaseController implements Serializable {
     // #########################################################################
     // # TimesheetRow methods
     // #########################################################################
-    private List<TimesheetRow> getTimesheetRows() {
+    public List<TimesheetRow> getTimesheetRows() {
         return manager.createQuery("SELECT tr from TimesheetRow tr", TimesheetRow.class).getResultList();
     }
 
@@ -519,6 +519,15 @@ public class DatabaseController implements Serializable {
     public List<WPEmp> getAllWPEmp() {
         return this.manager.createQuery("SELECT wp from WPEmp wp", WPEmp.class).getResultList();
     }
+    public List<WPEmp> getAllWPEmpByProNo(int proNo){
+		List<WPEmp> wpList = getAllWPEmp();
+		for (WPEmp wp : wpList) {
+			if (wp.getProNo() == proNo) {
+				wpList.add(wp);
+			}
+		}
+		return wpList;
+	}
 
     public boolean persistWPEmp(WPEmp wpe) {
         WPEmp checkWp = this.manager.find(WPEmp.class, wpe.getPk());

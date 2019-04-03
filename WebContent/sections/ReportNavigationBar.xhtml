@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<!-- Nav BAR -->
+<ui:composition>
+	<h:form>
+		<div class="sidebar" data-background-color="black"
+			data-active-color="danger">
+			<div class="sidebar-wrapper">
+				<div class="logo">
+					<img src="resources/images/report.png" style=" margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 30%;"/>						
+	
+					<span class="simple-text" style="margin-top: 30px; font-size:150%">
+						APMS
+					</span>
+					<span class="simple-text" style="color:gray">
+						<h3>Reports</h3>
+				</span>	
+			</div>
+				<ul class="nav">
+					<li><p:commandLink id="nav-wp-weekly-report"
+							action="WPWeeklyReport.xhtml?faces-redirect=true">
+							<i class="ti-bookmark-alt"></i>
+                            WP Weekly Report
+                        </p:commandLink></li>
+					<li><p:commandLink id="nav-back"
+							action="Dashboard.xhtml?faces-redirect=true">
+							<i class="ti-arrow-circle-left"></i>
+                            Back
+                        </p:commandLink></li>
+				</ul>
+			</div>
+		</div>
+	</h:form>
+</ui:composition>
+<!-- END OF SIDE NAVIGATION BAR -->
+</html>

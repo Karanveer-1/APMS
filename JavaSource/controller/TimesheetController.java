@@ -10,6 +10,7 @@ import java.security.Signature;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -23,8 +24,11 @@ import model.TimesheetRow;
 import model.TimesheetRowPK;
 import model.TimesheetRowState;
 import model.TimesheetState;
+import model.WorkPackage;
 import utils.DateUtils;
 
+// WPEmp Table
+// Make sure that the WP that can be chosen are only the ones assigned to the current employee!
 @Named("timesheetController")
 @SessionScoped
 public class TimesheetController implements Serializable {
@@ -104,6 +108,13 @@ public class TimesheetController implements Serializable {
         }
 
         return database.getWpIdByProjectNo(row.getTimesheetRowPk().getProNo());
+        
+        // TODO: Uncomment when Mike finishes the assigning of WP to Employees!
+//        return database.getWPByEmpNo(currentEmployee.getEmpNumber())
+//            .stream()
+//            .filter(wp -> wp.getProNo() == row.getTimesheetRowPk().getProNo())
+//            .map(WorkPackage::getWpid)
+//            .collect(Collectors.toList());
     }
 
     public String saveTimesheet() {
@@ -116,8 +127,9 @@ public class TimesheetController implements Serializable {
         database.addIfNotExistTimesheetRows(editTimesheetRows);
         database.addTimesheetIfNotExist(editTimesheet, true);
 
+        updateTimesheetRowsState(editTimesheetRows, TimesheetRowState.DRAFT);
         timesheets = updateUserTimesheets();
-
+        
         return "Timesheets.xhtml?faces-redirect=true";
     }
 
@@ -148,7 +160,7 @@ public class TimesheetController implements Serializable {
         TimesheetRow row = new TimesheetRow();
 
         row.setTimesheetRowPk(pk);
-        row.getTimesheetRowPk().setStartDate(calendarEditMinDate());
+        row.getTimesheetRowPk().setStartDate(getStartDateCustom(editTimesheet.getTimesheetPk().getStartDate()));
         row.setState(TimesheetRowState.DRAFT);
 
         List<Integer> proNos = database.getAllProjectNo();
@@ -196,6 +208,10 @@ public class TimesheetController implements Serializable {
 
     public Date calendarCurrentTimesheetStartDate() {
         return DateUtils.getTimesheetStartDate(DateUtils.today());
+    }
+    
+    public Date getStartDateCustom(Date date) {
+        return DateUtils.getTimesheetStartDate(date); 
     }
 
     public boolean canEditTimesheet(Timesheet t) {

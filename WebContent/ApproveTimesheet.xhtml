@@ -21,6 +21,19 @@
 		</ui:define>
 
 		<ui:define name="content">
+		
+		<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>Approve Timesheet</h1>
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
+
+           		<hr></hr>
+		
 			<f:event listener="#{approveTimesheetController.init}"
 				type="preRenderView" />
 
@@ -30,21 +43,23 @@
 				<p:dataTable id="viewTable"
 					value="#{approveTimesheetController.submittedTimesheets}"
 					var="timesheet">
-					<p:column headerText="Employee No">
+					<p:column headerText="Employee No" style="width:250px;">
 						<h:outputText value="#{timesheet.timesheetPk.empNo}" />
 					</p:column>
-					<p:column headerText="Date">
+					<p:column headerText="Date" style="width:250px;">
 						<h:outputText value="#{timesheet.timesheetPk.startDate}">
 							<f:convertDateTime pattern="MMM. dd, yyyy" />
 						</h:outputText>
 					</p:column>
-					<p:column headerText="View">
+					<p:column headerText="View" style="width:250px;">
 						<p:commandButton value="View"
 							action="#{approveTimesheetController.viewTimesheet(timesheet)}"
 							style="width: 100%" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
+			<br></br>
+			</p:fieldset>
 		</ui:define>
 	</ui:composition>
 </h:body>
