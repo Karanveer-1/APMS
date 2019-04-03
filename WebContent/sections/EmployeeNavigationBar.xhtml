@@ -38,6 +38,13 @@
 						</p:commandLink>
 					</li>
 					<li>
+						<p:commandLink id="nav-role" action="Role.xhtml?faces-redirect=true"
+						rendered="#{authController.isUserSystemAdmin() ||
+                         	authController.isUserHumanResource()}">
+							Role
+						</p:commandLink>
+					</li>
+					<li>
 						<p:commandLink id="nav-assign-approvers" action="AssignEmployee.xhtml?faces-redirect=true"
 						rendered="#{authController.isUserSystemAdmin() ||
                          	authController.isUserSupervisor()}">

@@ -15,15 +15,100 @@
         
 	        <h:panelGrid columns="2" id="grid" cellpadding="5" >
 	        	<p:outputLabel value="Employee Number: "/>
-	        	<p:outputLabel id="empNo" value="#{loginController.currentEmployee.empNumber}"/>
+	        	<p:outputLabel id="empNo" value="#{userProfileController.currentEmployee.empNumber}"/>
 			    <p:outputLabel value="First Name: "/>
-			    <p:outputLabel id="firstName" value="#{loginController.currentEmployee.firstName}"/>
+			    <p:outputLabel id="firstName" value="#{userProfileController.currentEmployee.firstName}"/>
 			    <p:outputLabel value="Last Name: "/>
-			    <p:outputLabel id="lastName" value="#{loginController.currentEmployee.lastName}"/>
+			    <p:outputLabel id="lastName" value="#{userProfileController.currentEmployee.lastName}"/>
 			    <p:outputLabel value="User Name: "/>
-			    <p:outputLabel id="userName" value="#{loginController.currentEmployee.userName}"/>
+			    <p:outputLabel id="userName" value="#{userProfileController.currentEmployee.userName}"/>
 			</h:panelGrid>
-			
+			<h:form id="formMain">
+				<p:outputLabel value="Change Password"/>
+				<p:password id="nonFeedback" value="#{userProfileController.password}" />		
+				<p:commandButton action="#{userProfileController.changePassword}" value="Change Password"/>
+					
+				<h2>PROJECTS</h2>
+				<p:dataTable id="projectTable" value="#{userProfileController.projects}"
+					var="project">
+					<p:column headerText="ProNo">
+						<h:outputText value="#{project.proNo}" />
+					</p:column>
+					<p:column headerText="ProjectName">
+						<h:outputText value="#{project.proName}" />
+					</p:column>
+					<p:column headerText="ManagerEmpNo">
+						<h:outputText value="#{project.proMgrEmpNo}" />
+					</p:column>
+					<p:column headerText="AssignerEmpNo">
+						<h:outputText value="#{project.proAssiEmpNo}" />
+					</p:column>
+					<p:column headerText="StartDate">
+						<h:outputText value="#{project.startDate}" />
+					</p:column>
+				</p:dataTable>
+				<h2>WORKPACKAGES</h2>
+				<p:dataTable id="workPackageTable" value="#{userProfileController.workpackages}"
+					var="wp">
+					<p:column headerText="WPID">
+						<h:outputText value="#{wp.wpid}" />
+					</p:column>
+					<p:column headerText="ParentWPID">
+						<h:outputText value="#{wp.parentWPID}" />
+					</p:column>
+					<p:column headerText="ProNo">
+						<h:outputText value="#{wp.proNo}" />
+					</p:column>
+					<p:column headerText="Description">
+						<h:outputText value="#{wp.description}" />
+					</p:column>
+					<p:column headerText="StartDate">
+						<h:outputText value="#{wp.startDate}" />
+					</p:column>
+					<p:column headerText="EndDate">
+						<h:outputText value="#{wp.endDate}" />
+					</p:column>
+					<p:column headerText="State">
+						<h:outputText value="#{wp.state}" />
+					</p:column>
+				</p:dataTable>
+				<h2>ROLES</h2>
+				<p:dataTable id="roleTable" value="#{userProfileController.roles}"
+					var="role">
+					<p:column headerText="EmpNo">
+						<h:outputText value="#{role.rolePk.empNo}" />
+					</p:column>
+					<p:column headerText="Role">
+						<h:outputText value="#{role.rolePk.role}" />
+					</p:column>
+				</p:dataTable>
+				<h2>Supervised Employees</h2>
+				<p:dataTable id="superEmpTable" value="#{userProfileController.superEmployees}"
+					var="e">
+					<p:column headerText="EmpNo">
+						<h:outputText value="#{e.empNumber}" />
+					</p:column>
+					<p:column headerText="First Name">
+						<h:outputText value="#{e.firstName}" />
+					</p:column>
+					<p:column headerText="Last Name">
+						<h:outputText value="#{e.lastName}" />
+					</p:column>
+				</p:dataTable>
+				<h2>Approved Employees</h2>
+				<p:dataTable id="approEmpTable" value="#{userProfileController.approEmployees}"
+					var="e">
+					<p:column headerText="EmpNo">
+						<h:outputText value="#{e.empNumber}" />
+					</p:column>
+					<p:column headerText="First Name">
+						<h:outputText value="#{e.firstName}" />
+					</p:column>
+					<p:column headerText="Last Name">
+						<h:outputText value="#{e.lastName}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
 			<h:form>
 			    <p:commandButton id="configure-signature" onclick="PF('keyPhraseDialog').show();" value="Configure Signature" />
 			</h:form>
@@ -44,7 +129,15 @@
                     <p:autoUpdate/>
                 </h:form>
             </p:dialog>
-            
+            <p:dialog id="passwordChangedDialog" header="Password Changed" modal="true"
+				width="400" widgetVar="passwordChangedDialog" resizable="false"
+				draggable="false">
+				<h:form id="formErrorDialog">
+					<p:commandButton update=" :formErrorDialog"
+						value="OK"
+						action="#{userProfileController.closeDialog()}" />
+				</h:form>
+			</p:dialog>
         </ui:define>
 	</ui:composition>
 </html>

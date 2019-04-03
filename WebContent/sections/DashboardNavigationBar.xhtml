@@ -55,7 +55,9 @@
                         </h:commandLink></li>
 
 					<li><h:commandLink id="nav-p-levels"
-							action="PLevels.xhtml?faces-redirect=true">
+							action="PLevels.xhtml?faces-redirect=true"
+							rendered="#{authController.isUserSystemAdmin() ||
+                         	authController.isUserHumanResource()}">
 							<i class="ti-alarm-clock"></i>
 							PLevels
 						</h:commandLink></li>
