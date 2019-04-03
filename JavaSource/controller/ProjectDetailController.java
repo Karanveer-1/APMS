@@ -20,6 +20,7 @@ import org.primefaces.model.TreeNode;
 import model.Employee;
 //import model.ProAssi;
 import model.Project;
+import model.WPEmp;
 import model.WorkPackage;
 
 @Named("pdController")
@@ -34,6 +35,8 @@ public class ProjectDetailController implements Serializable {
 	private List<Employee> proAssi;
 
 	private List<Employee> empPool;
+
+	private List<Employee> wpEmp;
 
 	private TreeNode root;
 
@@ -57,9 +60,8 @@ public class ProjectDetailController implements Serializable {
 	public String detail(Project project) {
 
 		this.project = project;
-//		this.proAssi = getAssistantManager();
-		this.empPool = getAllProjectEmp();
-		System.out.println(this.project.getProDesc());
+		this.empPool = getAllEmpPool(project.getProNo());
+		this.wpEmp = getWPEmp(project.getProNo());
 		treeInit(this.project.getProNo());
 
 		return "ProjectDetail.xhtml?faces-redirect=true";
@@ -76,14 +78,6 @@ public class ProjectDetailController implements Serializable {
 		expandAll();
 	}
 
-//	public List<Employee> getAssistantManager() {
-//		List<Employee> result = new ArrayList<Employee>();
-//		for (ProAssi pe : this.database.getProAssiByProNo(this.project.getProNo())) {
-//			result.add(this.database.getEmployeeById(pe.getEmpNo()));
-//		}
-//		return result;
-//	}
-
 	public List<Employee> getProAssi() {
 		return proAssi;
 	}
@@ -92,8 +86,37 @@ public class ProjectDetailController implements Serializable {
 		this.proAssi = proAssi;
 	}
 
-	public List<Employee> getAllProjectEmp() {
-		List<Employee> result = this.database.getEmployeeForProject(project.getProNo());
+	public List<Employee> getAllEmpPool(int proNo) {
+		List<Employee> result = new ArrayList<Employee>();
+		List<Employee> pool = this.database.getEmployeeForProject(proNo);
+		System.out.println("Pool " + pool);
+//		for (Employee p : pool) {
+//			if (wpEmp.indexOf(p) == -1) {
+//				result.add(p);
+//			}
+//		}
+		return result;
+	}
+	
+	public void addWP(WorkPackage wp) {
+		WorkPackage newWp = new WorkPackage();
+		newWp.setWpid("Hi" + wp.getWpid());
+		newWp.setParentWPID(wp.getWpid());
+		wp.setLeaf(false);
+		this.database.persistChildWP(wp, newWp);
+		treeInit(this.project.getProNo());
+		
+	}
+
+	public List<Employee> getWPEmp(int proNo) {
+		List<Employee> result = new ArrayList<Employee>();
+		List<WPEmp> wpe = this.database.getAllWPEmpByProNo(proNo);
+		for (WPEmp e : wpe) {
+			Employee emp = this.database.getEmployeeById(e.getEmpNo());
+			if (result.indexOf(emp) == -1) {
+				result.add(emp);
+			}
+		}
 		return result;
 	}
 
@@ -114,14 +137,7 @@ public class ProjectDetailController implements Serializable {
 		treeInit(this.project.getProNo());
 	}
 
-	public void addWp(WorkPackage wp) {
-		WorkPackage newWp = new WorkPackage();
-		newWp.setWpid("he" + wp.getWpid());
-		newWp.setProNo(wp.getProNo());
-		this.database.persistChildWP(wp, newWp);
-		System.out.println(wp.getWpid());
-		treeInit(this.project.getProNo());
-	}
+
 
 	public void expandAll() {
 		setExpandedRecursively(root, true);
@@ -132,6 +148,22 @@ public class ProjectDetailController implements Serializable {
 			setExpandedRecursively(child, expanded);
 		}
 		node.setExpanded(expanded);
+	}
+
+	public List<Employee> getEmpPool() {
+		return empPool;
+	}
+
+	public void setEmpPool(List<Employee> empPool) {
+		this.empPool = empPool;
+	}
+
+	public List<Employee> getWpEmp() {
+		return wpEmp;
+	}
+
+	public void setWpEmp(List<Employee> wpEmp) {
+		this.wpEmp = wpEmp;
 	}
 
 }

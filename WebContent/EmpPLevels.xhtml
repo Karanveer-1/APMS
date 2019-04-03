@@ -11,17 +11,32 @@
 
 <h:body>
 	<ui:composition template="/templates/MasterLayout.xhtml">
-		<ui:define name="windowTitle">All Employee</ui:define>
-        <ui:define name="headerTitle"><h:outputText value="All Employees" class="navbar-brand"/></ui:define>
+		<ui:define name="windowTitle">Employee P Level</ui:define>
+        <ui:define name="headerTitle"><h:outputText value="Employee P Level" class="navbar-brand"/></ui:define>
         <ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
         
         <ui:define name="content">
+        
+        <p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>Employee P Levels</h1>
+	           		<h:outputText value="A list of employee P Levels." />
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
+
+           		<hr></hr>
         	<h:panelGrid columns="2" cellpadding="10">
 				<p:outputLabel value="msg" style="opacity:0"/>
 			</h:panelGrid>
 			<h:form id="formMain">
 				<p:commandButton id="addButton" value="Add Employee PLevel"
 					onclick="PF('addEmpPLevelDialog').show();" />
+					
+				<hr></hr>
 				<p:dataTable id="empPLevelTable" value="#{empPLevelController.empPLevels}"
 					var="empPLevel">
 					<p:column headerText="EmpNo">
@@ -41,9 +56,16 @@
 					</p:column>
 				</p:dataTable>
 			</h:form>
-			<p:dialog id="addDialog" header="Assign Employee PLevel" modal="true"
-				width="400" widgetVar="addEmpPLevelDialog" resizable="false"
-				draggable="false">
+			</p:fieldset>
+			
+			<p:sidebar position="right" baseZIndex="20000" id="addDialog" header="Assign Employee PLevel" modal="true"
+				width="400" widgetVar="addEmpPLevelDialog">
+				<h3 style="font-weight:normal">Add Employee PLevel</h3>
+                
+                <p:messages id="messages" showDetail="true" closable="true">
+				        <p:autoUpdate />
+				</p:messages>
+				
 				<h:form id="formAddDialog">
 					<h:panelGrid columns="1">
 						<h:outputText value="EmployeeNo" />
@@ -59,7 +81,8 @@
 						value="Assign PLevel"
 						action="#{empPLevelController.add(addPLevelText.value, addPLevelDrop.value)}" />
 				</h:form>
-			</p:dialog>
+			</p:sidebar>
+			
 			<p:dialog id="errorDialog" header="EmpNo and StartDate not Unique" modal="true"
 				width="400" widgetVar="errorDialog" resizable="false"
 				draggable="false">
