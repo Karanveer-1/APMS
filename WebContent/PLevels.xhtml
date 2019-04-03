@@ -18,13 +18,25 @@
 		</ui:define>
 
 		<ui:define name="content">
-		<p:panel id="basic" 
-           			header="PLevels" footer="This table includes all time sheets" 
-           			style="margin-left:50px; margin-right:50px;">
+		
+		<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>PLevels</h1>
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
+
+           		<hr></hr>		
+
 			<h:form id="formMain">
 				<p:commandButton id="addButton" value="Add PLevel"
 					onclick="PF('addPLevelDialog').show();" 
 					style="background:transparent; color: #88AA00;"/>
+					
+				<hr></hr>
 
 				<p:dataTable id="pLevelTable" value="#{pLevelController.pLevels}"
 					var="pLevel">
@@ -55,20 +67,22 @@
 					</p:column>
 				</p:dataTable>
 			</h:form>
-			<p:dialog id="editDialog" header="Edit PLevel" modal="true"
-				width="300" widgetVar="editPLevelDialog" resizable="false"
-				draggable="false">
+			<p:sidebar position="right" baseZIndex="20000" id="editDialog" header="Edit PLevel" modal="true"
+				width="400" widgetVar="editPLevelDialog" resizable="false"
+                draggable="false">
+                
+				 <h2 style="font-weight:normal">Edit Plevel</h2>
+				
 				<h:form id="formEditDialog">
-					<h:panelGrid columns="1">
+					<h:panelGrid columns="2" cellpadding="50px" cellspacing="50px" style="padding:10px">
 						<h:outputText value="PLEVEL" />
 						<h:inputText binding="#{editPLevel}" disabled="true"
 							value="#{pLevelController.editPLevel.pLevelPK.pLevel}" />
-						<hr></hr>
+						
 
 						<h:outputText value="StartDate" />
 						<h:inputText binding="#{editStartDate}" disabled="true"
 							value="#{pLevelController.editPLevel.pLevelPK.startDate}" />
-						<hr></hr>
 						<h:outputText value="Wage" />
 						<h:inputText id="wage" binding="#{editWageText}" validatorMessage="Enter a wage between 0.0 and 100000000.0"
 							value="#{pLevelController.editPLevel.wage}" >
@@ -77,13 +91,15 @@
 						<h:message for="wage" style="color:red" />
 						
 					</h:panelGrid>
-					<hr></hr>
+					
+					<br></br>
 					<p:commandButton update=":formMain:pLevelTable :formEditDialog"
 						value="Save"
 						action="#{pLevelController.editPLevel(editWageText.value)}" 
-						style="float: right;" />
+						style="float: middle;" />
+					
 				</h:form>
-			</p:dialog>
+			</p:sidebar>
 			<p:dialog id="errorDialog" header="PLevel and StartDate not Unique" modal="true"
 				width="400" widgetVar="errorDialog" resizable="false"
 				draggable="false">
@@ -93,35 +109,36 @@
 						action="#{pLevelController.closeDialog()}" />
 				</h:form>
 			</p:dialog>
-			<p:dialog id="addDialog" header="Add PLevel" modal="true"
+			
+			
+			<p:dialog id="addPLevelDialog" header="Add PLevel" modal="true"
 				width="400" widgetVar="addPLevelDialog" resizable="false"
 				draggable="false">
-				<h:form id="formAddDialog">
-					<h:panelGrid columns="1">
-						<h:outputText value="PLEVEL" />
-						<h:selectOneMenu binding="#{addPLevelText}">
+				<h2 style="font-weight:normal">Add Plevel</h2>
+				<h:form id="formAddDialog" >
+					<h:panelGrid columns="2" cellpadding="50px" cellspacing="50px" style="padding:10px">
+						<h:outputText value="PLEVEL" style="float:right;" />
+						<h:selectOneMenu binding="#{addPLevelText}" style="float:left">
 						    <f:selectItems value="#{pLevelController.PLevelTypes}" style="width:20px;" />
 						</h:selectOneMenu>
-						<hr></hr>
-						<h:outputText value="StartDate" />
-						<p:calendar id="popup" binding="#{addStartDateText}"/>
-						<hr></hr>
-						<h:outputText value="Wage" />
+						<h:outputText value="StartDate" style="float:right;"/>
+						<p:calendar id="popup" binding="#{addStartDateText}" style="float:left"/>
+						<h:outputText value="Wage" style="float:right;"/>
 						<h:inputText id="wage" binding="#{addWageText}" validatorMessage="Enter a wage between 0.0 and 100000000.0"
-						style="border-radius:3px; box-shadow: 0px 1px 2px grey inset; width:4.7cm">
+						style="border-radius:3px; float:left; box-shadow: 0px 1px 2px grey inset; width:4.7cm">
 							<f:validateDoubleRange minimum="0.00" maximum="100000000.0" />
 						</h:inputText>
 						<h:message for="wage" style="color:red" />
 						
 					</h:panelGrid>
-					<hr></hr>
-					<p:commandButton update=":formMain:pLevelTable"
+					<p:commandButton update=":formMain:pLevelTable :addPLevelDialog"
 						value="Create New PLevel"
 						action="#{pLevelController.add(addPLevelText.value, addStartDateText.value, addWageText.value)}" 
-						style="float:right;"/>
+						style="float:middle;"/>
 				</h:form>
-			</p:dialog>
-			</p:panel>
+				</p:dialog>
+			<br></br>
+			</p:fieldset>
 		</ui:define>
 	</ui:composition>
 </h:body>

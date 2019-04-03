@@ -21,103 +21,109 @@
 		</ui:define>
 
 		<ui:define name="content">
-		   <p:panel id="basic" 
-           			header="WP Weekly Report" footer="" 
-           			style="margin-left:50px; margin-right:50px;">
-		
-			<f:event listener="#{wpWeeklyReportController.init}"
-				type="preRenderView" />
+			<p:panel id="basic" header="WP Weekly Report" footer=""
+				style="margin-left:50px; margin-right:50px;">
 
-			<h:form id="formMain">
-				<table class="table table-striped">
-					<tbody>
-						<tr>
-							<td><h:outputText value="Project: " /></td>
-							<td>
-								<p:selectOneMenu id="project"
-									value="#{wpWeeklyReportController.proNo}" >
-									<p:ajax listener="#{wpWeeklyReportController.onProjectChange()}"
+				<f:event listener="#{wpWeeklyReportController.init}"
+					type="preRenderView" />
+
+				<h:form id="formMain">
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<td><h:outputText value="Project: " /></td>
+								<td><p:selectOneMenu id="project"
+										value="#{wpWeeklyReportController.proNo}" style="width: 200px">
+										<p:ajax
+											listener="#{wpWeeklyReportController.onProjectChange()}"
 											update="wp generate" />
-									<f:selectItem itemLabel="Select Project" itemValue=""
-										noSelectionOption="true" />
-									<f:selectItems value="#{wpWeeklyReportController.projectNos}" />
-								</p:selectOneMenu>			
-							</td>
-						</tr>
-						<tr>
-							<td><h:outputText value="Workpackage: " /></td>
-							<td>
-								<p:selectOneMenu id="wp" value="#{wpWeeklyReportController.wpid}"
-									disabled="#{!wpWeeklyReportController.canSelectWP()}"
-									>
-									<p:ajax update="generate" />
-									<f:selectItem itemLabel="Select Workpackage" itemValue=""
-										noSelectionOption="true" />
-									<f:selectItems value="#{wpWeeklyReportController.wpids}" />
-								</p:selectOneMenu>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<p:commandButton id="generate" value="Generate"
-									disabled="#{!wpWeeklyReportController.canGenerateReport()}"
-									action="#{wpWeeklyReportController.generateReport()}"
-									update="report" />
-							</td>
-							<td><h:outputText value="&nbsp;" /></td>
-						</tr>
-					
-					</tbody>
-				</table>
-					
-				<hr />
+										<f:selectItem itemLabel="Select Project" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{wpWeeklyReportController.projectNos}" />
+									</p:selectOneMenu></td>
+							</tr>
+							<tr>
+								<td><h:outputText value="Workpackage: " /></td>
+								<td><p:selectOneMenu id="wp"
+										value="#{wpWeeklyReportController.wpid}"
+										disabled="#{!wpWeeklyReportController.canSelectWP()}"
+										style="width: 200px">
+										<p:ajax update="generate" />
+										<f:selectItem itemLabel="Select Workpackage" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{wpWeeklyReportController.wpids}" />
+									</p:selectOneMenu></td>
+							</tr>
+							<tr>
+								<td><p:commandButton id="generate" value="Generate"
+										disabled="#{!wpWeeklyReportController.canGenerateReport()}"
+										action="#{wpWeeklyReportController.generateReport()}"
+										update="report" /></td>
+								<td><h:outputText value="&nbsp;" /></td>
+							</tr>
 
-				<h:panelGroup id="report">
-					<p:panelGrid columns="2">
-						<h:outputText value="Project No: " />
-						<h:outputText value="#{wpWeeklyReportController.proNo}" />
-
-						<h:outputText value="Workpackage Id: " />
-						<h:outputText value="#{wpWeeklyReportController.wpid}" />
-						
-						<h:outputText value="Week Start Date: " />
-                        <h:outputText value="#{wpWeeklyReportController.getWeekStartDate()}">
-                            <f:convertDateTime pattern="MMM. dd, yyyy" />
-                        </h:outputText>
-					</p:panelGrid>
+						</tbody>
+					</table>
 
 					<hr />
 
-					<p:dataTable value="#{wpWeeklyReportController.rows}" var="row"
-						sortBy="#{row.weekNo}">
-						<p:column headerText="Employee" style="width:150px">
-							<h:outputText value="#{row.empNo}" />
-						</p:column>
+					<h:panelGroup id="report">
+						<p:panelGrid columns="2">
+							<h:outputText value="Project No: " />
+							<h:outputText value="#{wpWeeklyReportController.proNo}" />
 
-						<p:column headerText="PLevel" style="width:150px">
-							<h:outputText value="#{row.pLevel}" />
-						</p:column>
+							<h:outputText value="Workpackage Id: " />
+							<h:outputText value="#{wpWeeklyReportController.wpid}" />
 
-						<p:column headerText="Week #" style="width:150px">
-							<h:outputText value="#{row.weekNo}" />
-						</p:column>
+							<h:outputText value="Week Start Date: " />
+							<h:outputText
+								value="#{wpWeeklyReportController.getWeekStartDate()}">
+								<f:convertDateTime pattern="MMM. dd, yyyy" />
+							</h:outputText>
+						</p:panelGrid>
 
-						<p:column headerText="Total" style="width:150px">
-							<h:outputText value="#{row.total}" />
-						</p:column>
+						<hr />
 
-						<p:summaryRow>
-							<p:column style="width:150px">
-								<h:outputText value="Total: " />
+						<p:dataTable value="#{wpWeeklyReportController.rows}" var="row"
+							sortBy="#{row.empNo}">
+							<p:column headerText="Employee" style="width:150px">
+								<h:outputText value="#{row.empNo}" />
 							</p:column>
-							<p:column>
-								<h:outputText value="Get the total!" />
+
+							<p:column headerText="PLevel" style="width:150px">
+								<h:outputText value="#{row.pLevel}" />
 							</p:column>
-						</p:summaryRow>
-					</p:dataTable>
-				</h:panelGroup>
-			</h:form>
-		</p:panel>
+
+							<p:column headerText="Week Start Date" style="width:150px">
+								<h:outputText value="#{row.weekNo}">
+								    <f:convertDateTime pattern="MMM. dd, yyyy" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Total" style="width:150px">
+								<h:outputText value="#{row.total}" />
+							</p:column>
+
+							<p:summaryRow>
+								<p:column style="text-align: right" colspan="3">
+									<h:outputText value="Total: " />
+								</p:column>
+								<p:column style="text-align: left;">
+									<h:outputText
+										value="#{wpWeeklyReportController.getTotalForEmployee(row.empNo)}" />
+								</p:column>
+							</p:summaryRow>
+							
+							<p:columnGroup type="footer">
+								<p:row>
+									<p:column style="text-align:right" colspan="3" footerText="Complete Total:" />
+									<p:column style="text-align:left" footerText="#{wpWeeklyReportController.getTotalForAllEmployees()}" />
+								</p:row>
+							</p:columnGroup>
+						</p:dataTable>
+					</h:panelGroup>
+				</h:form>
+			</p:panel>
 		</ui:define>
 	</ui:composition>
 </h:body>
