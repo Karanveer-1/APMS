@@ -16,10 +16,7 @@
 					<span class="simple-text" style="margin-top: 30px; font-size:150%">
 						APMS
 					</span>
-					<span class="simple-text" style="color:gray">
-						<h3>Employees</h3>
-				</span>	
-			</div>
+				</div>
 			<ul class="nav">
 				<li>
 					<p:commandLink id="nav-active-employees" action="Employees.xhtml?faces-redirect=true"
@@ -53,6 +50,13 @@
 						Assign Approvers
 					</p:commandLink>
 				</li>
+				<li>
+					<p:commandLink id="nav-role" action="Role.xhtml?faces-redirect=true"
+						rendered="#{authController.isUserSystemAdmin() ||
+                     	authController.isUserHumanResource()}">
+						Role
+					</p:commandLink>
+					</li>
 				<li>
 					<p:commandLink id="nav-back" action="Dashboard.xhtml?faces-redirect=true">
 						<i class="ti-arrow-circle-left"></i>

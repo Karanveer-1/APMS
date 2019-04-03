@@ -213,6 +213,24 @@ public class DatabaseController implements Serializable {
 
         return projects;
     }
+    
+    public List<Project> getAllProjectsbyEmpNo(int empNo) {
+        List<Project> projects = getAllProjects();
+        
+        TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.empNo = :empNo",
+                ProEmp.class);
+        query.setParameter("empNo", empNo);
+        List<ProEmp> proEmps = query.getResultList();
+        List<Project> temp = new ArrayList<Project>();
+        for(ProEmp p : proEmps) {
+          for(Project pro : projects) {
+              if(p.getProEmp().getProNo() == pro.getProNo()) {
+                  temp.add(pro);
+              }
+          }
+        }
+        return temp;
+    }
 
     public List<Integer> getAllProjectNo() {
         List<Integer> ids = manager.createQuery("SELECT p.proNo from Project p", Integer.class).getResultList();
@@ -259,6 +277,15 @@ public class DatabaseController implements Serializable {
         }
     }
 
+    public List<Role> getRolesByEmpNo(int empNo) {
+        TypedQuery<Role> query = manager.createQuery("select p from Role p where p.rolePk.empNo = :empNo",
+            Role.class);
+        query.setParameter("empNo", empNo);
+        List<Role> data = query.getResultList();
+        return data;
+    }
+    
+    
     public List<Employee> getEmployeeForProject(int projectId) {
         TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.proNo = :projectId",
             ProEmp.class);
@@ -273,6 +300,21 @@ public class DatabaseController implements Serializable {
         return empList;
     }
 
+    public List<Employee> getAllSupervisedEmployees(int empNo) {
+        TypedQuery<Employee> query = manager.createQuery("select p from Employee p where p.superEmpNo = :empNo",
+            Employee.class);
+        query.setParameter("empNo", empNo);
+        List<Employee> data = query.getResultList();
+        return data;
+    }
+    
+    public List<Employee> getAllApproEmployees(int empNo) {
+        TypedQuery<Employee> query = manager.createQuery("select p from Employee p where p.approEmpNo = :empNo",
+            Employee.class);
+        query.setParameter("empNo", empNo);
+        List<Employee> data = query.getResultList();
+        return data;
+    }
     public void addNewEmployeeToProject(int employeeNumber, int proNo) {
         ProEmp temp = new ProEmp();
         temp.setProEmp(new ProEmpPK(proNo, employeeNumber));
@@ -519,6 +561,8 @@ public class DatabaseController implements Serializable {
         query.setParameter("PLevel", pLevel);
         return query.getSingleResult();
     }
+    
+    
 
     public void updatePLevel(PLevel e) {
         manager.merge(e);
@@ -592,5 +636,33 @@ public class DatabaseController implements Serializable {
     public void removeEmpPLevel(EmpPLevel ep) {
         manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
     }
+    
+    public PLevel getPLevelByStartDate(Date startDate, String pLevel) {
+        TypedQuery<PLevel> query = manager.createQuery(
+            "select p from PLevel p where p.pLevelPK.startDate <= :StartDate AND p.pLevelPK.pLevel = :PLevel order by p.pLevelPK.startDate desc", PLevel.class);
+        query.setParameter("StartDate", startDate);
+        query.setParameter("PLevel", pLevel);
+        query.setMaxResults(1);
+        query.setFirstResult(0);
+        return query.getSingleResult();
+    }
+
+    public List<Role> getRoles() {
+        return manager.createQuery("SELECT p FROM Role p", Role.class)
+            .getResultList();
+    }
+
+    public void addRole(Role e) {
+        manager.persist(e);
+    }
+
+    public void updateRole(Role e) {
+        manager.merge(e);
+    }
+
+    public void removeRole(Role ep) {
+        manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
+    }
+
 
 }

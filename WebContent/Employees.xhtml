@@ -19,11 +19,25 @@
         <ui:define name="content">
             <h:form id="formMain">
             
+            	<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>Employee List</h1>
+	           		<h:outputText value="A list of all active employees." />
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
+
+           		<hr></hr>
+            
 				<p:commandButton value="Add Employee" onclick="PF('addEmployeeDialog').show();"/>
+				<hr></hr>
                 <p:growl id="invalidEmployeeGrowl" sticky="false" />
                 
-                <p:dataTable id="employeeTable"
-                    value="#{employeesController.employees}" var="employee">
+                <p:dataTable id="employeeTable" scrollable="true" scrollHeight="3%"
+                    value="#{employeesController.employees}" var="employee" tyle="display:block; margin-top: 20px; margin-left:30px;">
                     <p:column headerText="Employee No">
                         <h:outputText value="#{employee.empNumber}" />
                     </p:column>
@@ -46,21 +60,33 @@
                         <h:outputText value="#{employee.comment}" />
                     </p:column>
                     <p:column headerText="Edit">
-                        <p:commandButton value="Edit" update=":#{p:component('editDialog')}"
-                            action="#{employeesController.setEditEmployee(employee)}" />
+                        <p:commandLink update=":#{p:component('editDialog')}"
+                            action="#{employeesController.setEditEmployee(employee)}">
+                            <h:graphicImage value="resources/images/edit.png" style="max-width:40%; max-height:40%"/>
+                        </p:commandLink>
                     </p:column>
-                    <p:column headerText="Remove">
-                        <p:commandButton value="Not Active" update="employeeTable"
-                            action="#{employeesController.deleteEmployee(employee)}" />
+                    <p:column headerText="Inactivate">
+                        <p:commandLink update="employeeTable"
+                            action="#{employeesController.deleteEmployee(employee)}">
+                        	<h:graphicImage value="resources/images/error.png" style="max-width:40%; max-height:40%"/>
+                        </p:commandLink>
                     </p:column>
                 </p:dataTable>
-                
+                <br></br>
+                </p:fieldset>
             </h:form>
+            
         
-            <p:dialog id="addDialog" header="Add Employee" modal="true" width="400"
-                widgetVar="addEmployeeDialog" resizable="false" draggable="false">
+            <p:sidebar position="right" baseZIndex="20000" id="addDialog" header="Add Employee" modal="true" width="400"
+                widgetVar="addEmployeeDialog">
+                <h2 style="font-weight:normal">Add Employee</h2>
+                
+                <p:messages id="messages" showDetail="true" closable="true">
+				        <p:autoUpdate />
+				</p:messages>
+                
                 <h:form id="formAddDialog">
-                    <h:panelGrid columns="1">
+                    <h:panelGrid columns="2" cellpadding="50px" cellspacing="50px" style="padding:10px">
                         <h:outputText value="Employee Number" />
                         <h:inputText id="addEmpNo" binding="#{addEmpNoText}" />
         
@@ -97,14 +123,19 @@
                                     addSupervisorText.value,
                                     addCommentText.value)}" />
                     </h:panelGrid>
+                    
                 </h:form>
-            </p:dialog>
+            </p:sidebar>
 
-            <p:dialog id="editDialog" header="Edit Employee" modal="true"
+            <p:sidebar position="right" baseZIndex="20000" id="editDialog" header="Edit Employee" modal="true"
                 width="400" widgetVar="editEmployeeDialog" resizable="false"
                 draggable="false">
+                
+                <h2 style="font-weight:normal">Edit Employee</h2>
+                
+                
                 <h:form id="formEditDialog">
-                    <h:panelGrid columns="1">
+                    <h:panelGrid columns="2" cellpadding="50px" cellspacing="50px" style="padding:10px">
                         <h:outputText value="First Name" />
                         <h:inputText binding="#{editFirstNameText}"
                             value="#{employeesController.editEmployee.firstName}" />
@@ -143,7 +174,7 @@
                                     editCommentText.value)}" />
                     </h:panelGrid>
                 </h:form>
-            </p:dialog>
+            </p:sidebar>
         </ui:define>
     </ui:composition>
 </h:body>

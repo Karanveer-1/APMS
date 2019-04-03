@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>IGNORED!</title>
+</h:head>
+
+<h:body>
+	<ui:composition template="/templates/MasterLayout.xhtml">
+		<ui:define name="windowTitle">All Roles</ui:define>
+        <ui:define name="headerTitle"><h:outputText value="All Roles" class="navbar-brand"/></ui:define>
+        <ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
+        
+        <ui:define name="content">
+        	<h:panelGrid columns="2" cellpadding="10">
+				<p:outputLabel value="msg" style="opacity:0"/>
+			</h:panelGrid>
+			<h:form id="formMain">
+				<p:commandButton id="addButton" value="Add Role"
+					onclick="PF('addRoleDialog').show();" />
+				<p:dataTable id="roleTable" value="#{roleController.roles}"
+					var="role">
+					<p:column headerText="EmpNo">
+						<h:outputText value="#{role.rolePk.empNo}" />
+					</p:column>
+					<p:column headerText="Role">
+						<h:outputText value="#{role.rolePk.role}" />
+					</p:column>
+					<p:column headerText="Remove">
+						<p:commandButton value="Remove" update=":formMain:roleTable"
+							action="#{roleController.remove(role)}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<p:dialog id="addDialog" header="Assign Role " modal="true"
+				width="400" widgetVar="addRoleDialog" resizable="false"
+				draggable="false">
+				<h:form id="formAddDialog">
+					<h:panelGrid columns="1">
+						<h:outputText value="EmpNo" />
+						<h:inputText binding="#{empNoText}" />
+
+						<h:outputText value="Role" />
+			            <h:inputText binding="#{roleText}" />
+
+					</h:panelGrid>
+					<p:commandButton update=":formMain:roleTable"
+						value="Assign Role"
+						action="#{roleController.add(empNoText.value, roleText.value)}" />
+				</h:form>
+			</p:dialog>
+			<p:dialog id="errorDialog" header="EmpNo and Role not Unique" modal="true"
+				width="400" widgetVar="errorDialog" resizable="false"
+				draggable="false">
+				<h:form id="formErrorDialog">
+					<p:commandButton update=":formMain:roleTable :formErrorDialog"
+						value="OK"
+						action="#{roleController.closeDialog()}" />
+				</h:form>
+			</p:dialog>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
