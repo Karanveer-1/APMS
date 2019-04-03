@@ -54,5 +54,34 @@ public class WPEmpPK implements Serializable {
 		this.empNo = empNo;
 	}
 
-	
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + empNo;
+        result = prime * result + proNo;
+        result = prime * result + ((wpid == null) ? 0 : wpid.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        WPEmpPK other = (WPEmpPK) obj;
+        if (empNo != other.empNo)
+            return false;
+        if (proNo != other.proNo)
+            return false;
+        if (wpid == null) {
+            if (other.wpid != null)
+                return false;
+        } else if (!wpid.equals(other.wpid))
+            return false;
+        return true;
+    }
 }
