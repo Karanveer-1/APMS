@@ -60,12 +60,12 @@ public class ProjectMangementController implements Serializable {
 	public List<Project> getProjectByManagerOrAssi() {
 		int id = currentEmployee.getEmpNumber();
 		List<Project> result = this.database.getProjectsByManagerNo(id);
-		List<Project> assistantP = this.database.getProjectsByAssistantNo(id);
-		for (Project p : assistantP) {
-			if (result.indexOf(p) == -1) {
-				result.add(p);
-			}
-		}
+//		List<Project> assistantP = this.database.getProjectsByAssistantNo(id);
+//		for (Project p : assistantP) {
+//			if (result.indexOf(p) == -1) {
+//				result.add(p);
+//			}
+//		}
 		return result;
 	}
 

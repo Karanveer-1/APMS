@@ -16,7 +16,6 @@ import model.Employee;
 import model.EmployeeState;
 import service.PasswordHash;
 import service.PasswordHash.CannotPerformOperationException;
-
 @Named("employeesController")
 @ViewScoped
 public class EmployeeController implements Serializable {
@@ -195,5 +194,9 @@ public class EmployeeController implements Serializable {
 	
     public Employee getEmployeeById(int id) {
         return database.getEmployeeById(id);
+    }
+    
+    public List<Employee> getInActiveEmployees() {
+        return database.getInActiveEmployees();
     }
 }

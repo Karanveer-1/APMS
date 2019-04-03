@@ -21,20 +21,24 @@
 		</ui:define>
 
 		<ui:define name="content">
+		  <p:panel id="basic" 
+           			header="Work Package" footer="" 
+           			style="margin-left:50px; margin-right:50px;">
+		  
 
 			<h:form id="form">
 				<p:growl id="msgs" showDetail="true" />
 				<p:dataTable id="wp" var="wp" widgetVar="wp"
-					value="#{wpreController.wpList}" editable="true"
+					value="#{wpmController.wpList}" editable="true"
 					style="margin-bottom:20px">
 					<f:facet name="header">
            Work Packages
         </f:facet>
-					<p:ajax event="rowEdit" listener="#{wpreController.onRowEdit}"
+					<p:ajax event="rowEdit" listener="#{wpmController.onRowEdit}"
 						update=":form:msgs" />
 					<p:ajax event="rowEditCancel"
-						listener="#{wpreController.onRowCancel}" update=":form:msgs" />
-					<p:column headerText="WPID">
+						listener="#{wpmController.onRowCancel}" update=":form:msgs" />
+					<p:column headerText="WPID" style="width:100px;">
 
 						<p:cellEditor>
 							<f:facet name="output">
@@ -48,7 +52,7 @@
 
 					</p:column>
 
-					<p:column headerText="Project Number">
+					<p:column headerText="Project Number" style="width:80px; text-align:center;">
 
 						<p:cellEditor>
 							<f:facet name="output">
@@ -61,7 +65,7 @@
 
 
 					</p:column>
-					<p:column headerText="Parent WPID">
+					<p:column headerText="Parent WPID" style="width:100px; text-align:center;">
 
 						<p:cellEditor>
 							<f:facet name="output">
@@ -74,7 +78,7 @@
 
 
 					</p:column>
-					<p:column headerText="EmpNo">
+					<p:column headerText="REEmpNo" style="width:100px; text-align:center;">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{wp.reEmpNo}" />
@@ -85,7 +89,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column headerText="Title">
+					<p:column headerText="Title" style="width:100px; text-align:center;">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{wp.wpid}" />
@@ -97,7 +101,7 @@
 
 
 					</p:column>
-					<p:column headerText="Description">
+					<p:column headerText="Description" style="width:100px;">
 
 						<p:cellEditor>
 							<f:facet name="output">
@@ -111,20 +115,8 @@
 
 					</p:column>
 
-					<p:column headerText="Budget">
 
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{wp.budget}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{wp.budget}" style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
-
-
-					</p:column>
-					<p:column headerText="State">
+					<p:column headerText="State" style="width:80px; text-align:center;">
 
 						<p:cellEditor>
 							<f:facet name="output">
@@ -137,7 +129,7 @@
 
 
 					</p:column>
-					<p:column headerText="Comment">
+					<p:column headerText="Comment" style="width:100px;">
 
 						<p:cellEditor>
 							<f:facet name="output">
@@ -150,22 +142,14 @@
 
 
 					</p:column>
-					<p:column style="width:32px">
-						<p:rowEditor />
-
+					<p:column style="width:80px; text-align:center;" headerText="Edit" >
+						<p:rowEditor/>
 					</p:column>
 				</p:dataTable>
 			</h:form>
 
 
-
-
-
-
-
-
-
-
+			</p:panel>
 
 		</ui:define>
 	</ui:composition>

@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import model.Employee;
+import model.EmployeeRole;
 
 @Named("authController")
 @SessionScoped
@@ -26,15 +27,19 @@ public class AuthenticationController implements Serializable {
                 .get(LoginController.USER_KEY);
     }
     
-    public boolean isUserInRole(String role) {
-        role = role.toUpperCase();
-        
-        String userRole = database.getRoleById(currentEmployee.getEmpNumber());
-        
-        if (userRole.equalsIgnoreCase(role)) {
-            return true;
-        }
-        
-        return false;
+    public boolean isUserSupervisor() {
+        return database.checkIfSupervisor(currentEmployee.getEmpNumber());
+    }
+    
+    public boolean isUserSystemAdmin() {
+        return database.checkIfUserInRole(currentEmployee.getEmpNumber(), EmployeeRole.SYSTEM_ADMIN);
+    }
+    
+    public boolean isUserHumanResource() {
+        return database.checkIfUserInRole(currentEmployee.getEmpNumber(), EmployeeRole.HUMAN_RESOURCE);
+    }
+    
+    public boolean isUserApprover() {
+        return database.checkIfApprover(currentEmployee.getEmpNumber());
     }
 }

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,7 +25,7 @@ import model.PLevel;
  * @version 2017
  */
 @Named("empPLevelController")
-@SessionScoped
+@RequestScoped
 public class EmpPLevelController implements Serializable {
 
     @Inject
