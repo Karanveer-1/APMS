@@ -191,7 +191,13 @@ CREATE TABLE WPEmp
 
 -- Load data into table WPEmp
 
+INSERT INTO APMS.WPEmp VALUES('100', 'BUSI101', 1);
+INSERT INTO APMS.WPEmp VALUES('100', 'BUSI101', 2);
+INSERT INTO APMS.WPEmp VALUES('100', 'BUSI101', 3);
 
+INSERT INTO APMS.WPEmp VALUES('100', 'COMM101', 1);
+INSERT INTO APMS.WPEmp VALUES('100', 'COMM101', 2);
+INSERT INTO APMS.WPEmp VALUES('100', 'COMM101', 3);
 
 
 -- Create table WPNeed
@@ -233,6 +239,12 @@ CREATE TABLE Timesheet
 );
 
 -- Load data into table Timesheet
+INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (1,'2019-04-20',0,0,NULL,1,'Approved','');
+INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (2,'2019-03-30',0,0,NULL,1,'Approved','');
+INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (2,'2019-04-06',0,0,NULL,1,'Approved','');
+INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (3,'2019-03-30',0,0,NULL,1,'Approved','');
+INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (3,'2019-04-06',0,0,NULL,1,'Approved','');
+
 
 -- Create table TimesheetRow
 CREATE TABLE TimesheetRow
@@ -255,7 +267,14 @@ CREATE TABLE TimesheetRow
 );
 
 -- Load data into table TimesheetRow
-
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-04-20',100,'BUSI101',4,1,2,0,0,0,0,NULL,'Approved',NULL);
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-03-30',100,'BUSI101',3,0,1,0,0,0,0,'','Approved','');
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-03-30',100,'COMM101',5,1,0,0,0,0,0,NULL,'Approved',NULL);
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-04-06',100,'BUSI101',4,1,0,0,0,0,0,NULL,'Approved',NULL);
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (3,'2019-03-30',100,'BUSI101',4,4,1,4,3,0,0,'','Approved','');
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (3,'2019-03-30',100,'COMM101',4,3,1,57,0,9,0,NULL,'Approved',NULL);
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (3,'2019-04-06',100,'BUSI101',4,15,6,12,0,0,0,'','Approved','');
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (3,'2019-04-06',100,'COMM101',4,0,0,0,0,0,0,NULL,'Approved',NULL);
 
 
 -- Create table Role
