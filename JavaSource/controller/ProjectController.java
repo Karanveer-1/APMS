@@ -41,6 +41,23 @@ public class ProjectController implements Serializable {
 
 	}
 
+	public enum StatusCreation {
+
+		OPEN("Open");
+
+		private String label;
+
+		private StatusCreation(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+
+	}
+
+	
 	@Inject
 	private DatabaseController database;
 
@@ -176,6 +193,10 @@ public class ProjectController implements Serializable {
 
 	public Status[] getStatuses() {
 		return Status.values();
+	}
+	
+	public StatusCreation[] getStatusCreation() {
+		return StatusCreation.values();
 	}
 
 	public String getEmpName(int id) {
