@@ -66,7 +66,7 @@
 					</p:column>
 				</p:dataTable>
 			</h:form>
-			<p:sidebar position="right" baseZIndex="20000" id="editDialog" header="Edit PLevel" modal="true"
+			<p:dialog position="center" baseZIndex="20000" id="editDialog" header="Edit PLevel" modal="true"
 				width="400" widgetVar="editPLevelDialog" resizable="false"
                 draggable="false">
                 
@@ -98,7 +98,8 @@
 						style="float: middle;" />
 					
 				</h:form>
-			</p:sidebar>
+			</p:dialog>
+			
 			<p:dialog id="errorDialog" header="PLevel and StartDate not Unique" modal="true"
 				width="400" widgetVar="errorDialog" resizable="false"
 				draggable="false">
