@@ -74,7 +74,7 @@
 						<p:commandLink 
 							action="#{timesheetController.viewTimesheet(timesheet)}"
 							style="width: 100%;">
-						  <h:graphicImage value="resources/images/view.png" style="max-width:30%; max-height:30%; "/>			
+						  <h:graphicImage value="resources/images/view.png" style="max-width:20%; max-height:20%; "/>			
 					</p:commandLink>
 					</p:column>
 					<p:column headerText="Edit" style="width:100px; text-align: center;">
@@ -83,7 +83,7 @@
 							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
 							style="width: 100%">
 						
-						  <h:graphicImage value="resources/images/edit.png" style="max-width:30%; max-height:30%; "/>
+						  <h:graphicImage value="resources/images/edit.png" style="max-width:20%; max-height:20%; "/>
 						</p:commandLink>
 					</p:column>
 					<p:column headerText="Delete" style="width:100px; text-align: center;">
@@ -91,7 +91,7 @@
 							action="#{timesheetController.deleteTimesheet(timesheet)}"
 							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
 							update=":formMain" style="width: 100%">
-						 <h:graphicImage value="resources/images/error.png" style="max-width:30%; max-height:30%"/>	
+						 <h:graphicImage value="resources/images/error.png" style="max-width:20%; max-height:20%"/>	
 						
 						</p:commandLink>
 					</p:column>
@@ -101,7 +101,7 @@
 							rendered="#{timesheetController.canSubmitTimesheet(timesheet)}"
 							update=":formMain" style="width: 100%" >
 							
-							<h:graphicImage value="resources/images/submit.png" style="max-width:30%; max-height:30%"/>	
+							<h:graphicImage value="resources/images/submit.png" style="max-width:20%; max-height:20%"/>	
 							
 						</p:commandLink>
 						<p:commandLink 
