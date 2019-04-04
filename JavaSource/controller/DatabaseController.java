@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import model.EmpPLevel;
@@ -41,6 +42,12 @@ public class DatabaseController implements Serializable {
     // #########################################################################
     public List<Employee> getEmployees() {
         return manager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
+    }
+    
+    public long countEmployees() {
+    	String sql = "SELECT COUNT(e) FROM Employee e";
+    	Query q =  manager.createQuery(sql);
+    	return (long) q.getSingleResult();
     }
 
     public List<Employee> getActiveEmployees() {
