@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -550,6 +551,18 @@ public class DatabaseController implements Serializable {
             return true;
         }
         return false;
+    }
+    
+    public List<String> getAllEmpAssignedWpid(int proNo, int empNo) {
+        return manager.createQuery("SELECT wp FROM WPEmp wp WHERE wp.pk.empNo = :empNo AND wp.pk.proNo = :proNo", WPEmp.class)
+                .setParameter("proNo", proNo)
+                .setParameter("empNo", empNo)
+                .getResultList()
+                .stream()
+                .map(wp -> {
+                    return wp.getWpid();
+                })
+                .collect(Collectors.toList());
     }
 
     // #########################################################################

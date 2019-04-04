@@ -106,17 +106,8 @@ public class TimesheetController implements Serializable {
         if (row.getTimesheetRowPk().getProNo() == null) {
             return new ArrayList<String>();
         }
-//
-//        return database.getWpIdByProjectNo(row.getTimesheetRowPk().getProNo())
-//                .filter();
-        
-        // TODO: Uncomment when Mike finishes the assigning of WP to Employees!
-        return database.getWPByEmpNo(currentEmployee.getEmpNumber())
-            .stream()
-            .filter(wp -> wp.getProNo() == row.getTimesheetRowPk().getProNo())
-            .filter(wp -> wp.isLeaf() == true)
-            .map(WorkPackage::getWpid)
-            .collect(Collectors.toList());
+
+        return database.getAllEmpAssignedWpid(100, currentEmployee.getEmpNumber());
     }
 
     public String saveTimesheet() {
