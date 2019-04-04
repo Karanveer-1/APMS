@@ -17,8 +17,18 @@
         
         <ui:define name="content">
         	
-        	<p:panel id="basic" header="Monthly Report" style="margin-left:50px; margin-right:50px;">
-					
+		<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">					
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>Monthly Report</h1>
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
+
+           		<hr></hr>
+			
 				<h:form id="formMain">
 					<table class="table table-striped">
 						<tbody>
@@ -88,7 +98,8 @@
 				    	</p:dataTable>
 					</h:panelGroup>
 				</h:form>
-			</p:panel>
+				<br></br>
+			</p:fieldset>
         </ui:define>
     </ui:composition>
 </h:body>
