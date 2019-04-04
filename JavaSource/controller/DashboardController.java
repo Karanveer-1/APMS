@@ -15,21 +15,33 @@ public class DashboardController implements Serializable {
 	
 	private long employeeCount;
 	private long timesheetCount;
+	private long approvedTimesheetCount;
+	private long rejectedTimesheetCount;
 	private long projectCount;
 	
 	@PostConstruct
 	public void init() {
 		employeeCount = database.countEmployees();
 		timesheetCount = database.countTimesheets();
+		approvedTimesheetCount = database.countApprovedTimesheets();
+		rejectedTimesheetCount = database.countRejectedTimesheets();
 		projectCount = database.countProjects();
 	}
 	
 	public long getEmployeeCount() {
 		return employeeCount;
 	}
-	
+
 	public long getTimesheetCount() {
 		return timesheetCount;
+	}
+
+	public long getApprovedTimesheetCount() {
+		return approvedTimesheetCount;
+	}
+
+	public long getRejectedTimesheetCount() {
+		return rejectedTimesheetCount;
 	}
 	
 	public long getProjectCount() {
