@@ -88,7 +88,7 @@
 								<h:outputText value="#{project.proDesc}" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{project.proDesc}" style="width:100%"
+								<p:inputTextarea value="#{project.proDesc}" style="width:100%"
 									label="Description" />
 							</f:facet>
 						</p:cellEditor>
@@ -131,8 +131,9 @@
 								<h:outputText value="#{project.state}" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText value="#{project.state}" style="width:100%"
-									label="State" />
+								<h:selectOneMenu value="#{project.state}" style="color:black" >
+									<f:selectItems style="color:black"  value="#{projectController.statuses}" />
+								</h:selectOneMenu>
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
@@ -197,7 +198,7 @@
 						<p:inputText value="#{projectController.addProject.proName}" />
 
 						<h:outputText value="Description" />
-						<p:inputText value="#{projectController.addProject.proDesc}" />
+						<p:inputTextarea value="#{projectController.addProject.proDesc}" />
 
 						<h:outputText for="start" value="Start Date" />
 						<p:calendar id="start"
