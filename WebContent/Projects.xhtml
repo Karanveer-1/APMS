@@ -20,7 +20,18 @@
 			<ui:include src="/sections/ProjectNavigationBar.xhtml" />
 		</ui:define>
 		<ui:define name="content">
-
+         <p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+		 <div class="row" style="color:black">
+			<div class="col-sm-2">
+			</div>
+			<div class="col-sm-8">
+				  	<h1>Project List</h1>
+	           		<h:outputText value="A list of all active employees." />
+				  </div>
+				  <div class="col-sm-2"></div>
+				 </div>
+				 <hr></hr>
+			
 			<h:form id="form">
 				<p:growl id="msgs" showDetail="true" />
 
@@ -28,21 +39,21 @@
 				<p:commandButton value="Add Project"
 					styleClass="ui-priority-primary" process="@this"
 					onclick="PF('addProjectDialog').show();" />
-
+				<hr></hr>
 
 				<p:dataTable id="project" var="project" widgetVar="project"
 					value="#{projectController.projects}" editable="true"
 					style="margin-bottom:20px">
 					<f:facet name="header">
-           Projects
-        </f:facet>
+           				Projects
+        			</f:facet>
 					<p:ajax event="rowEdit" update=":pnav" />
 					<p:ajax event="rowEdit" listener="#{projectController.onRowEdit}"
 						update=":form:msgs" />
 					<p:ajax event="rowEditCancel"
 						listener="#{projectController.onRowCancel}" update=":form:msgs" />
 
-					<p:column headerText="Project Number">
+					<p:column headerText="Project Number" style="width:100px">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.proNo}" />
@@ -53,7 +64,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column headerText="Project Name">
+					<p:column headerText="Project Name" style="width:100px">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.proName}" />
@@ -65,7 +76,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column headerText="Project Manager">
+					<p:column headerText="Project Manager" style="width:100px">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText
@@ -82,7 +93,7 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column headerText="Description">
+					<p:column headerText="Description" style="width:100px">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.proDesc}" />
@@ -93,7 +104,7 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
-					<p:column headerText="Start Date">
+					<p:column headerText="Start Date" style="width:100px">
 
 						<p:cellEditor>
 							<f:facet name="output">
@@ -109,7 +120,7 @@
 
 					</p:column>
 
-					<p:column headerText="End Date">
+					<p:column headerText="End Date" style="width:100px" >
 
 						<p:cellEditor>
 							<f:facet name="output">
@@ -125,7 +136,7 @@
 
 					</p:column>
 
-					<p:column headerText="State">
+					<p:column headerText="State" style="width:100px">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.state}" />
@@ -139,7 +150,7 @@
 					</p:column>
 
 
-					<p:column headerText="Comment">
+					<p:column headerText="Comment" style="width:100px">
 						<p:cellEditor>
 							<f:facet name="output">
 								<h:outputText value="#{project.comment}" />
@@ -151,20 +162,24 @@
 						</p:cellEditor>
 					</p:column>
 
-					<p:column style="width:32px">
+					<p:column headerText="Edit" style="width:100px">
 						<p:rowEditor rendered="#{project.editable}" />
 
 					</p:column>
 
-					<p:column style="text-align:center">
-						<p:commandButton value="Assign"
-							action="#{assignProject.addEmployees(project)}" />
+					<p:column headerText="Assign" style="text-align:center; width:100px">
+						<p:commandLink 
+							action="#{assignProject.addEmployees(project)}">
+							<h:graphicImage value="resources/images/assign.png" style="max-width:20%; max-height:20%"/>	
+						</p:commandLink>	
 					</p:column>
 
-					<p:column style="text-align:center">
+					<p:column headerText="Delete" style="text-align:center; width:100px">
 
-						<p:commandButton value="Delete" update="project"
-							action="#{projectController.deleteProject(project)}" />
+						<p:commandLink update="project"
+							action="#{projectController.deleteProject(project)}">
+							<h:graphicImage value="resources/images/error.png" style="max-width:20%; max-height:20%"/>	
+						</p:commandLink>	
 
 					</p:column>
 					
@@ -176,49 +191,63 @@
 
 
 			<p:dialog id="addDialog" header="Add Project" modal="true"
-				width="400" widgetVar="addProjectDialog" resizable="false"
+				width="400" widgetVar="addProjectDialog" 
 				draggable="false">
 				<h:form id="formAddDialog">
-					<h:panelGrid columns="1">
-						<h:outputText value="Project Number" />
-						<p:inputText id="addPropNo"
-							value="#{projectController.addProject.proNo}" />
-
-
-						<h:outputText value="Project Manager" />
-						<h:selectOneMenu
-							value="#{projectController.addProject.proMgrEmpNo}">
-							<f:selectItems value="#{projectController.employeeList}" var="e"
-								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
-						</h:selectOneMenu>
-
-
-
-
-						<h:outputText value="Project Name" />
-						<p:inputText value="#{projectController.addProject.proName}" />
-
-						<h:outputText value="Description" />
-						<p:inputTextarea value="#{projectController.addProject.proDesc}" />
-
-						<h:outputText for="start" value="Start Date" />
-						<p:calendar id="start"
-							value="#{projectController.addProject.startDate}" />
-
-						<h:outputText for="end" value="End Date" />
-						<p:calendar id="end"
-							value="#{projectController.addProject.endDate}" />
-
-						<h:outputText value="State" />
-						<h:selectOneMenu value="#{projectController.addProject.state}">
-							<f:selectItems value="#{projectController.statuses}" />
-						</h:selectOneMenu>
-
-
-
-						<h:outputText value="Comment" />
-						<p:inputTextarea value="#{projectController.addProject.comment}" />
-
+					<table class="table">
+						<tbody>
+							<tr>
+								<td><h:outputText value="Project Number" /></td>
+								<td><p:inputText id="addPropNo"
+									value="#{projectController.addProject.proNo}" />
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputText value="Project Manager" /></td>
+								<td>
+									<h:selectOneMenu
+										value="#{projectController.addProject.proMgrEmpNo}">
+										<f:selectItems value="#{projectController.employeeList}" var="e"
+											itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+									</h:selectOneMenu>
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputText value="Project Name" /></td>
+								<td><p:inputText value="#{projectController.addProject.proName}" /></td>
+							</tr>
+							<tr>
+								<td><h:outputText value="Description" /></td>
+								<td><p:inputTextarea value="#{projectController.addProject.proDesc}" /></td>
+							</tr>
+							<tr>
+								<td><h:outputText for="start" value="Start Date" /></td>
+								<td><p:calendar id="start"
+									value="#{projectController.addProject.startDate}" />
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputText for="end" value="End Date" /></td>
+								<td><p:calendar id="end"
+									value="#{projectController.addProject.endDate}" />
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputText value="State" /></td>
+								<td>
+									<h:selectOneMenu value="#{projectController.addProject.state}">
+										<f:selectItems value="#{projectController.statuses}" />
+									</h:selectOneMenu>
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputText value="Comment" /></td>
+								<td><p:inputTextarea value="#{projectController.addProject.comment}" /></td>
+							</tr>
+							
+						</tbody>
+					</table>
+				
 						<p:commandButton resetValues="true" id="addButton"
 							update=":form:project, :formAddDialog" value="Add"
 							action="#{projectController.persistProject()}"
@@ -226,29 +255,12 @@
 
 						<p:growl id="messageGrowl" showDetail="true" sticky="false" />
 
-
-
-
-
-
-
-					</h:panelGrid>
 				</h:form>
 				<p:ajax event="close" listener="#{projectController.close}"
 					update=":formAddDialog" />
 			</p:dialog>
 
-
-
-
-
-
-
-
-
-
-
-
+		</p:fieldset>
 
 
 		</ui:define>

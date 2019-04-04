@@ -33,8 +33,7 @@
 
 			<h:form id="formMain">
 				<p:commandButton id="addButton" value="Add PLevel"
-					onclick="PF('addPLevelDialog').show();" 
-					style="background:transparent; color: #88AA00;"/>
+					onclick="PF('addPLevelDialog').show();"/>
 					
 				<hr></hr>
 
@@ -55,19 +54,19 @@
 						<p:commandLink 
 							update=":#{p:component('editDialog')}"
 							action="#{pLevelController.setEditPLevel(pLevel)}">
-							<h:graphicImage value="resources/images/edit.png" style="max-width:20%; max-height:20%; "/>
+							<h:graphicImage value="resources/images/edit.png" style="max-width:15%; max-height:15%; "/>
 						</p:commandLink>
 					</p:column>
 					<p:column headerText="Remove" style="width:80px; text-align: center;">
 						<p:commandLink
 							update=":formMain:pLevelTable :formEditDialog"
 							action="#{pLevelController.remove(pLevel)}">
-							<h:graphicImage value="resources/images/error.png" style="max-width:20%; max-height:20%"/>	
+							<h:graphicImage value="resources/images/error.png" style="max-width:15%; max-height:15%"/>	
 						</p:commandLink>
 					</p:column>
 				</p:dataTable>
 			</h:form>
-			<p:sidebar position="right" baseZIndex="20000" id="editDialog" header="Edit PLevel" modal="true"
+			<p:dialog position="center" baseZIndex="20000" id="editDialog" header="Edit PLevel" modal="true"
 				width="400" widgetVar="editPLevelDialog" resizable="false"
                 draggable="false">
                 
@@ -99,7 +98,8 @@
 						style="float: middle;" />
 					
 				</h:form>
-			</p:sidebar>
+			</p:dialog>
+			
 			<p:dialog id="errorDialog" header="PLevel and StartDate not Unique" modal="true"
 				width="400" widgetVar="errorDialog" resizable="false"
 				draggable="false">
