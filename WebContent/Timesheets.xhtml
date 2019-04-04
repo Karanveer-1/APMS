@@ -34,6 +34,13 @@
 				</div>
 
            		<hr></hr>
+           		
+           		<p:commandButton value="Add Timesheet" id="addButton"
+							onclick="PF('addTimesheetDialog').show();">
+							<p:ajax update=":formAddDialog:createButton" />
+				</p:commandButton>
+           
+           		<hr></hr>
 			<f:event listener="#{timesheetController.init}" type="preRenderView" />
 			<h:outputText value="&nbsp;" />
 			

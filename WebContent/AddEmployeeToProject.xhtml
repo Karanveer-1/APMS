@@ -14,9 +14,19 @@
 		<ui:include src="/sections/ProjectNavigationBar.xhtml" />
 	</ui:define>
 	<ui:define name="content">
-	<p:panel id="basic" 
-           			header="Add Employee to Project" footer="" 
-           			style="margin-left:50px; margin-right:50px;">
+	<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>Add Employee to Project</h1>
+	           		<h:outputText value="A list of all active employees." />
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
+		<br></br>
+		
+		
 		
 		<table class="table table-striped">
 				<tbody>
@@ -40,17 +50,9 @@
 					
 				</tbody>
 		</table>
-			
-			
-			
-			
-			
-			
-			
-			
-			
 
 		<h:form id="formMain">
+		<hr></hr>
 			<p:commandButton value="Add Employee"
 				update=":formMain:invalidEmployee"
 				action="#{assignProject.checkIfHaveAnyEmployee()}" />
@@ -58,7 +60,7 @@
 			<hr></hr>
 			
 			<p:growl id="invalidEmployee" sticky="false" />
-
+		<hr></hr>
 			<p:dataTable id="employeeTable"
 				value="#{assignProject.getAssignedEmployee()}" var="emp"
 				style="margin-bottom:20px;width:100%">
@@ -98,8 +100,8 @@
 				</h:panelGrid>
 			</h:form>
 		</p:dialog>
-
-</p:panel>
+	<br></br>
+	</p:fieldset>
 
 	</ui:define>
 </ui:composition>

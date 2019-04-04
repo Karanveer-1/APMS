@@ -1,5 +1,5 @@
 /*
-V0.4.1
+V0.4.3
 1. Created admin user.
 2. Created tables:
     Employee
@@ -70,7 +70,7 @@ INSERT INTO `EmpPLevel` (`EmpNo`,`StartDate`,`PLevel`) VALUES (4,'2019-01-05','P
 -- Create table PLevel
 CREATE TABLE PLevel
 (
-    StartDate     DATE       NOT NULL,
+    StartDate     DATE          NOT NULL,
     PLevel        VARCHAR(30)   NOT NULL,
     Wage          FLOAT         NOT NULL,
     PRIMARY KEY(StartDate, PLevel)
@@ -144,37 +144,38 @@ CREATE TABLE WorkPackage
 	EndDate        DATE            NOT NULL,
 	IsLeaf         BOOLEAN         NOT NULL,	
     ParentWPID     VARCHAR(30)     ,
-	PMEstP1        INTEGER         NOT NULL DEFAULT '0',
-	PMEstP2        INTEGER         NOT NULL DEFAULT '0',
-	PMEstP3        INTEGER         NOT NULL DEFAULT '0',
-	PMEstP4        INTEGER         NOT NULL DEFAULT '0',
-	PMEstP5        INTEGER         NOT NULL DEFAULT '0',
-	PMEstP6        INTEGER         NOT NULL DEFAULT '0',
-	PMEstDS        INTEGER         NOT NULL DEFAULT '0',
-	PMEstSS        INTEGER         NOT NULL DEFAULT '0',
-	PMEstJS        INTEGER         NOT NULL DEFAULT '0',
-	REEstP1        INTEGER         NOT NULL DEFAULT '0',
-	REEstP2        INTEGER         NOT NULL DEFAULT '0',
-	REEstP3        INTEGER         NOT NULL DEFAULT '0',
-	REEstP4        INTEGER         NOT NULL DEFAULT '0',
-	REEstP5        INTEGER         NOT NULL DEFAULT '0',
-	REEstP6        INTEGER         NOT NULL DEFAULT '0',
-	REEstDS        INTEGER         NOT NULL DEFAULT '0',
-	REEstSS        INTEGER         NOT NULL DEFAULT '0',
-	REEstJS        INTEGER         NOT NULL DEFAULT '0',
+	Editable       BOOLEAN         NOT NULL,
+	PMEstP1        INTEGER         DEFAULT '0',
+	PMEstP2        INTEGER         DEFAULT '0',
+	PMEstP3        INTEGER         DEFAULT '0',
+	PMEstP4        INTEGER         DEFAULT '0',
+	PMEstP5        INTEGER         DEFAULT '0',
+	PMEstP6        INTEGER         DEFAULT '0',
+	PMEstDS        INTEGER         DEFAULT '0',
+	PMEstSS        INTEGER         DEFAULT '0',
+	PMEstJS        INTEGER         DEFAULT '0',
+	REEstP1        INTEGER         DEFAULT '0',
+	REEstP2        INTEGER         DEFAULT '0',
+	REEstP3        INTEGER         DEFAULT '0',
+	REEstP4        INTEGER         DEFAULT '0',
+	REEstP5        INTEGER         DEFAULT '0',
+	REEstP6        INTEGER         DEFAULT '0',
+	REEstDS        INTEGER         DEFAULT '0',
+	REEstSS        INTEGER         DEFAULT '0',
+	REEstJS        INTEGER         DEFAULT '0',
     State          VARCHAR(30)     NOT NULL,
     Comment        VARCHAR(1000)   ,
     PRIMARY KEY(ProNo, WPID)
 );
 
 -- Load data into table WorkPackage
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP101', '1', 'COMP101', 'COMP101', '2018-01-06', '2019-12-27', false, NULL, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP201', '1', 'COMP201', 'COMP201', '2018-01-06', '2019-12-27', false, 'COMP101', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP303', '1', 'COMP303', 'COMP303', '2018-01-06', '2019-12-27', true, 'COMP201', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP305', '1', 'COMP305', 'COMP305', '2018-01-06', '2019-12-27', true, 'COMP201', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP204', '1', 'COMP204', 'COMP204', '2018-01-06', '2019-12-27', true, 'COMP101', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'BUSI101', '1', 'BUSI101', 'BUSI101', '2018-01-06', '2019-12-27', true, NULL, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMM101', '1', 'COMM101', 'COMM101', '2018-01-06', '2019-12-27', true, NULL, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP101', '1', 'COMP101', 'COMP101', '2018-01-06', '2019-12-27', false, NULL, true, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP201', '1', 'COMP201', 'COMP201', '2018-01-06', '2019-12-27', false, 'COMP101', true, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP303', '1', 'COMP303', 'COMP303', '2018-01-06', '2019-12-27', true, 'COMP201', true, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP305', '1', 'COMP305', 'COMP305', '2018-01-06', '2019-12-27', true, 'COMP201', true, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP204', '1', 'COMP204', 'COMP204', '2018-01-06', '2019-12-27', true, 'COMP101', true, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'BUSI101', '1', 'BUSI101', 'BUSI101', '2018-01-06', '2019-12-27', true, NULL, true, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMM101', '1', 'COMM101', 'COMM101', '2018-01-06', '2019-12-27', true, NULL, true, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
 
 
 
@@ -190,7 +191,13 @@ CREATE TABLE WPEmp
 
 -- Load data into table WPEmp
 
+INSERT INTO APMS.WPEmp VALUES('100', 'BUSI101', 1);
+INSERT INTO APMS.WPEmp VALUES('100', 'BUSI101', 2);
+INSERT INTO APMS.WPEmp VALUES('100', 'BUSI101', 3);
 
+INSERT INTO APMS.WPEmp VALUES('100', 'COMM101', 1);
+INSERT INTO APMS.WPEmp VALUES('100', 'COMM101', 2);
+INSERT INTO APMS.WPEmp VALUES('100', 'COMM101', 3);
 
 
 -- Create table WPNeed
@@ -199,15 +206,15 @@ CREATE TABLE WPNeed
     ProNo          INTEGER         NOT NULL,
     WPID           VARCHAR(30)     NOT NULL,
 	StartDate      DATE            NOT NULL,
-	RENeedP1       INTEGER         NOT NULL DEFAULT '0',
-	RENeedP2       INTEGER         NOT NULL DEFAULT '0',
-	RENeedP3       INTEGER         NOT NULL DEFAULT '0',
-	RENeedP4       INTEGER         NOT NULL DEFAULT '0',
-	RENeedP5       INTEGER         NOT NULL DEFAULT '0',
-	RENeedP6       INTEGER         NOT NULL DEFAULT '0',
-	RENeedDS       INTEGER         NOT NULL DEFAULT '0',
-	RENeedSS       INTEGER         NOT NULL DEFAULT '0',
-	RENeedJS       INTEGER         NOT NULL DEFAULT '0',
+	RENeedP1       INTEGER         DEFAULT '0',
+	RENeedP2       INTEGER         DEFAULT '0',
+	RENeedP3       INTEGER         DEFAULT '0',
+	RENeedP4       INTEGER         DEFAULT '0',
+	RENeedP5       INTEGER         DEFAULT '0',
+	RENeedP6       INTEGER         DEFAULT '0',
+	RENeedDS       INTEGER         DEFAULT '0',
+	RENeedSS       INTEGER         DEFAULT '0',
+	RENeedJS       INTEGER         DEFAULT '0',
     State          VARCHAR(30)     NOT NULL,
     Comment        VARCHAR(1000)   ,
     PRIMARY KEY(ProNo, WPID, StartDate)
@@ -232,13 +239,12 @@ CREATE TABLE Timesheet
 );
 
 -- Load data into table Timesheet
-INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (1,'2019-03-30',5,51,NULL,1,'Approved','a comment');
-INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (1,'2019-04-06',0,0,NULL,1,'Approved','');
-INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (1,'2019-04-13',0,0,NULL,1,'Approved','');
-INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (1,'2019-04-20',0,0,NULL,NULL,'Draft','');
+INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (1,'2019-04-20',0,0,NULL,1,'Approved','');
 INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (2,'2019-03-30',0,0,NULL,1,'Approved','');
 INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (2,'2019-04-06',0,0,NULL,1,'Approved','');
-INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (2,'2019-04-13',0,0,NULL,NULL,'Returned','');
+INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (3,'2019-03-30',0,0,NULL,1,'Approved','');
+INSERT INTO `Timesheet` (`EmpNo`,`StartDate`,`Overtime`,`Flextime`,`Signature`,`ApprovedEmpNo`,`State`,`Comment`) VALUES (3,'2019-04-06',0,0,NULL,1,'Approved','');
+
 
 -- Create table TimesheetRow
 CREATE TABLE TimesheetRow
@@ -261,18 +267,14 @@ CREATE TABLE TimesheetRow
 );
 
 -- Load data into table TimesheetRow
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-03-30',100,'BUSI101',1,2,3,4,5,6,7,'note','Approved','comment');
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-03-30',100,'COMM101',1,1,0,0,2,3,6,'note','Approved','comment');
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-04-06',100,'COMM101',1,3,0.01,6,9,4,2,'','Approved','');
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-04-06',100,'COMP204',3,5,7,0.09,2,0,0,NULL,'Approved',NULL);
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-04-13',100,'BUSI101',4,1,1,0,0,0,0,NULL,'Approved',NULL);
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-04-20',100,'COMP204',4,0,0,0,0,0,0,NULL,'Draft',NULL);
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-03-30',100,'BUSI101',2,5,1,6,5,5,0,'','Approved','');
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-03-30',100,'COMM101',4,2,0,6,0,0,0,NULL,'Approved',NULL);
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-04-06',100,'BUSI101',5,3,3,1,12,7,4,'','Approved','');
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-04-06',100,'COMP204',5,4,1,6,4,1,5,NULL,'Approved',NULL);
-INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-04-13',100,'BUSI101',0,0,0,0,0,0,0,NULL,'Returned',NULL);
-
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (1,'2019-04-20',100,'BUSI101',4,1,2,0,0,0,0,NULL,'Approved',NULL);
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-03-30',100,'BUSI101',3,0,1,0,0,0,0,'','Approved','');
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-03-30',100,'COMM101',5,1,0,0,0,0,0,NULL,'Approved',NULL);
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (2,'2019-04-06',100,'BUSI101',4,1,0,0,0,0,0,NULL,'Approved',NULL);
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (3,'2019-03-30',100,'BUSI101',4,4,1,4,3,0,0,'','Approved','');
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (3,'2019-03-30',100,'COMM101',4,3,1,57,0,9,0,NULL,'Approved',NULL);
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (3,'2019-04-06',100,'BUSI101',4,15,6,12,0,0,0,'','Approved','');
+INSERT INTO `TimesheetRow` (`EmpNo`,`StartDate`,`ProNo`,`WPID`,`Sat`,`Sun`,`Mon`,`Tue`,`Wed`,`Thu`,`Fri`,`Note`,`State`,`Comment`) VALUES (3,'2019-04-06',100,'COMM101',4,0,0,0,0,0,0,NULL,'Approved',NULL);
 
 
 -- Create table Role

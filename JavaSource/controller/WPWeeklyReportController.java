@@ -51,15 +51,30 @@ public class WPWeeklyReportController implements Serializable {
     // Get any WP that is in any approved timesheet that is in the current project
     // number
     private List<String> getLeafWpids(int proNo) {
-        return database.getTimesheetRows()
-            .stream()
-            .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
-            .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
-            .map(m -> {
-                return m.getTimesheetRowPk().getWpid();
-            })
-            .distinct()
-            .collect(Collectors.toList());
+        return database.getAllWp()
+        .stream()
+        .filter(wp -> database.getTimesheetRows()
+                .stream()
+                .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
+                .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
+                .map(m -> {
+                    return m.getTimesheetRowPk().getWpid();
+                })
+                .distinct()
+                .anyMatch(k -> k.equals(wp.getWpid()) && wp.isLeaf()))
+        .map(WorkPackage::getWpid)
+        .collect(Collectors.toList());
+        
+//        
+//        return database.getTimesheetRows()
+//            .stream()
+//            .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
+//            .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
+//            .map(m -> {
+//                return m.getTimesheetRowPk().getWpid();
+//            })
+//            .distinct()
+//            .collect(Collectors.toList());
     }
 
     private List<Employee> getParticipatingEmployees() {
