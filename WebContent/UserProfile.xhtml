@@ -77,6 +77,9 @@
                     		</tr>
                     	</tbody>
                  </table>
+                 <p:messages id="messages" showDetail="true" closable="true">
+            		<p:autoUpdate />
+         		</p:messages>
                  </h:form>
                
         </p:tab>
@@ -175,28 +178,10 @@
     </p:accordionPanel>
     
    	<br></br>
-    
-            <h:form>
-               <p:commandButton id="configure-signature" onclick="PF('keyPhraseDialog').show();" value="Configure Signature" />
-            </h:form>
-            
-            <br></br>
-         </p:fieldset>
-         <p:sidebar position="right" baseZIndez="20000" id="keyPhrase" header="Enter a phrase" modal="true" width="400"
-            widgetVar="keyPhraseDialog">
-           </p:sidebar>
-         <h2 style="font-weight:normal">Enter a Phrase</h2>
-         <p:messages id="messages" showDetail="true" closable="true">
-            <p:autoUpdate />
-         </p:messages>
-         <h:form id="formAddDialog">
-            <h:panelGrid columns="1">
-               <h:outputText id="addKeyPhrase" value="Key Phrase" />
-               <h:inputText binding="#{addKeyPhrase}" />
-               <p:commandButton value="Enter" resetValues="true" update=":formAddDialog"
-                  action="#{sig.encryptWithPhrase(addKeyPhrase.value)}" />
-            </h:panelGrid>
-         </h:form>
+	<br></br>
+    </p:fieldset>
+         
+         
          <p:dialog id="passwordChangedDialog" header="Password Changed" modal="true"
             width="400" widgetVar="passwordChangedDialog" resizable="false"
             draggable="false">
