@@ -49,13 +49,14 @@
 			
 			
 			
-			
 
 		<h:form id="formMain">
 			<p:commandButton value="Add Employee"
 				update=":formMain:invalidEmployee"
-				action="#{assignProject.checkIfHaveAnyEmployee()}" 
-				style="background:transparent; color: #88AA00;"/>
+				action="#{assignProject.checkIfHaveAnyEmployee()}" />
+			
+			<hr></hr>
+			
 			<p:growl id="invalidEmployee" sticky="false" />
 
 			<p:dataTable id="employeeTable"

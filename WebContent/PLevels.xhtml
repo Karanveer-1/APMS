@@ -66,8 +66,10 @@
 					</p:column>
 				</p:dataTable>
 			</h:form>
+
 			<p:dialog position="center" baseZIndex="20000" id="editDialog" header="Edit PLevel" modal="true"
 				width="400" widgetVar="editPLevelDialog" resizable="false"
+
                 draggable="false">
                 
 				 <h2 style="font-weight:normal">Edit Plevel</h2>
@@ -77,8 +79,11 @@
 						<tbody>
 							<tr>
 								<td><h:outputText value="PLEVEL" /></td>
-								<td><h:inputText binding="#{editPLevel}" disabled="true"
-									value="#{pLevelController.editPLevel.pLevelPK.pLevel}" /></td>
+								<td>
+									<h:inputText binding="#{editPLevel}" disabled="true"
+										value="#{pLevelController.editPLevel.pLevelPK.pLevel}" />
+								</td>
+								
 							</tr>
 							<tr>
 								<td><h:outputText value="StartDate" /></td>
@@ -89,7 +94,7 @@
 							</tr>
 							<tr>
 								<td><h:outputText value="Wage" /></td>
-								<td>									
+								<td>
 									<h:inputText id="wage" binding="#{editWageText}" validatorMessage="Enter a wage between 0.0 and 100000000.0"
 										value="#{pLevelController.editPLevel.wage}" >
 										<f:validateDoubleRange minimum="0.00" maximum="100000000.0" />
@@ -99,7 +104,7 @@
 							</tr>
 						</tbody>
 					</table>
-									
+
 					
 					<br></br>
 					<p:commandButton update=":formMain:pLevelTable :formEditDialog"
@@ -109,7 +114,8 @@
 					
 				</h:form>
 			</p:dialog>
-			
+
+
 			<p:dialog id="errorDialog" header="PLevel and StartDate not Unique" modal="true"
 				width="400" widgetVar="errorDialog" resizable="false"
 				draggable="false">
