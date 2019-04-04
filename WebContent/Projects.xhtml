@@ -191,49 +191,63 @@
 
 
 			<p:dialog id="addDialog" header="Add Project" modal="true"
-				width="400" widgetVar="addProjectDialog" resizable="false"
+				width="400" widgetVar="addProjectDialog" 
 				draggable="false">
 				<h:form id="formAddDialog">
-					<h:panelGrid columns="1">
-						<h:outputText value="Project Number" />
-						<p:inputText id="addPropNo"
-							value="#{projectController.addProject.proNo}" />
-
-
-						<h:outputText value="Project Manager" />
-						<h:selectOneMenu
-							value="#{projectController.addProject.proMgrEmpNo}">
-							<f:selectItems value="#{projectController.employeeList}" var="e"
-								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
-						</h:selectOneMenu>
-
-
-
-
-						<h:outputText value="Project Name" />
-						<p:inputText value="#{projectController.addProject.proName}" />
-
-						<h:outputText value="Description" />
-						<p:inputTextarea value="#{projectController.addProject.proDesc}" />
-
-						<h:outputText for="start" value="Start Date" />
-						<p:calendar id="start"
-							value="#{projectController.addProject.startDate}" />
-
-						<h:outputText for="end" value="End Date" />
-						<p:calendar id="end"
-							value="#{projectController.addProject.endDate}" />
-
-						<h:outputText value="State" />
-						<h:selectOneMenu value="#{projectController.addProject.state}">
-							<f:selectItems value="#{projectController.statuses}" />
-						</h:selectOneMenu>
-
-
-
-						<h:outputText value="Comment" />
-						<p:inputTextarea value="#{projectController.addProject.comment}" />
-
+					<table class="table">
+						<tbody>
+							<tr>
+								<td><h:outputText value="Project Number" /></td>
+								<td><p:inputText id="addPropNo"
+									value="#{projectController.addProject.proNo}" />
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputText value="Project Manager" /></td>
+								<td>
+									<h:selectOneMenu
+										value="#{projectController.addProject.proMgrEmpNo}">
+										<f:selectItems value="#{projectController.employeeList}" var="e"
+											itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+									</h:selectOneMenu>
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputText value="Project Name" /></td>
+								<td><p:inputText value="#{projectController.addProject.proName}" /></td>
+							</tr>
+							<tr>
+								<td><h:outputText value="Description" /></td>
+								<td><p:inputTextarea value="#{projectController.addProject.proDesc}" /></td>
+							</tr>
+							<tr>
+								<td><h:outputText for="start" value="Start Date" /></td>
+								<td><p:calendar id="start"
+									value="#{projectController.addProject.startDate}" />
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputText for="end" value="End Date" /></td>
+								<td><p:calendar id="end"
+									value="#{projectController.addProject.endDate}" />
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputText value="State" /></td>
+								<td>
+									<h:selectOneMenu value="#{projectController.addProject.state}">
+										<f:selectItems value="#{projectController.statuses}" />
+									</h:selectOneMenu>
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputText value="Comment" /></td>
+								<td><p:inputTextarea value="#{projectController.addProject.comment}" /></td>
+							</tr>
+							
+						</tbody>
+					</table>
+				
 						<p:commandButton resetValues="true" id="addButton"
 							update=":form:project, :formAddDialog" value="Add"
 							action="#{projectController.persistProject()}"
@@ -241,27 +255,10 @@
 
 						<p:growl id="messageGrowl" showDetail="true" sticky="false" />
 
-
-
-
-
-
-
-					</h:panelGrid>
 				</h:form>
 				<p:ajax event="close" listener="#{projectController.close}"
 					update=":formAddDialog" />
 			</p:dialog>
-
-
-
-
-
-
-
-
-
-
 
 		</p:fieldset>
 
