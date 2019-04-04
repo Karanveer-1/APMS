@@ -50,17 +50,19 @@
 						Assign Approvers
 					</p:commandLink>
 				</li>
-				<li><h:commandLink id="nav-p-levels"
+				<li><p:commandLink id="nav-p-levels"
 						action="PLevels.xhtml?faces-redirect=true"
 						rendered="#{authController.isUserSystemAdmin() ||
                         	authController.isUserHumanResource()}">
 						<i class="ti-bar-chart"></i>
 						Add P Levels
-					</h:commandLink></li>
+					</p:commandLink></li>
 				<li>
 					<p:commandLink id="nav-role" action="role.xhtml?faces-redirect=true"
 						rendered="#{authController.isUserSystemAdmin() ||
                      	authController.isUserHumanResource()}">
+                     	<i class="ti-id-badge"></i>
+                     	
 						Role
 					</p:commandLink>
 					</li>
