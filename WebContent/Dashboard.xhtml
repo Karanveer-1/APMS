@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
 	<ui:composition template="/templates/MasterLayout.xhtml">
 		<ui:define name="windowTitle">Dashboard</ui:define>
@@ -15,37 +16,84 @@
 		 	<div class="container-fluid">
 		 	<div class="row" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
 			  <div class="col-sm-4">
-			  	<div class="card" style="width: 40rem; padding:20px;">
+			  	<div class="card" style="padding:20px; margin: 0 7px; margin-top:10px;">
 				  <div class="card-body">
-				    <h5 class="card-title">Employees</h5>
-				    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  <span>
+				  	<img src="resources/images/employeeIcon.png" style=" margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 30%;"/>						
+				  	<h1>#{dashboardController.employeeCount}</h1>
+				  	<h5 class="card-title">Employees</h5>
+				  </span>
+				    <p class="card-text"></p>
 				    <a href="#" class="btn btn-primary">More Info</a>
 				  </div>
+				  <br/><br/><br/><br/><br/>
 				</div>
+				<h:form>
+				  	<p:panelMenu>
+			        <p:submenu label="Employee Features">
+			            <p:menuitem value="Assign Approvers" action="AssignEmployee.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			        </p:submenu>
+			       </p:panelMenu>
+			  	</h:form>
 			  </div>
+			 
 			  <div class="col-sm-4">
-			  	<div class="card" style="width: 40rem; padding:20px;">
+			  	<div class="card" style="padding:20px; margin: 0 7px; margin-top:10px;">
 				  <div class="card-body">
 				    <h5 class="card-title">Timesheets</h5>
-				    #{dashboardController.employeeCount}
 				    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				    <span>
+				    <img src="resources/images/timesheet.png"
+						style="margin-bottom: -35px; display: block; margin-left: auto; margin-right: auto; width: 30%;" />
+				  	<h1>4</h1>
+				  	<h5 class="card-title">Timesheets</h5>
+				  	
+        			<div class="alert alert-success" role="alert">
+					  4 Approved Timesheets
+					</div>
+					<div class="alert alert-warning" role="alert" style="margin-top:-20px;">
+					  0 Rejected Timesheets
+					</div>
+				  </span>
 				    <a href="#" class="btn btn-primary">More Info</a>
 				  </div>
 				</div>
+				<h:form>
+				  	<p:panelMenu>
+			        <p:submenu label="Timesheet Features">
+			            <p:menuitem value="Approved Timesheets" action="AssignEmployee.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			        </p:submenu>
+			       </p:panelMenu>
+			  	</h:form>
 			  </div>
 			  <div class="col-sm-4">
-			  	<div class="card" style="width: 40rem; padding:20px;">
+			  	<div class="card" style="padding:20px; margin: 0 7px; margin-top:10px;">
 				  <div class="card-body">
-				    <h5 class="card-title">Projects</h5>
-				    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				    <span>
+				    <img src="resources/images/package.png" style=" margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 30%;"/>						
+				  	<h1>4</h1>
+				  	<h5 class="card-title">Projects</h5>
+				  </span>
 				    <a href="#" class="btn btn-primary">More Info</a>
 				  </div>
+				  <br/><br/><br/><br/><br/>
 				</div>
+				<h:form>
+				  	<p:panelMenu>
+			        <p:submenu label="Project Features">
+			            <p:menuitem value="Assign Approvers" action="AssignEmployee.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			        </p:submenu>
+			       </p:panelMenu>
+			  	</h:form>
 			  </div>
 			</div>
 			</div>
 		 	
 		 	</p>
+		 	
+		 	
+			  
+		 	
 		</ui:define>
 	</ui:composition>
 </html>
