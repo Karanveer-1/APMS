@@ -33,6 +33,9 @@
 				  	<p:panelMenu>
 			        <p:submenu label="Employee Features">
 			            <p:menuitem value="Assign Approvers" action="AssignEmployee.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			            <p:menuitem value="Active Employees" action="Employees.xhtml?faces-redirect=true" icon="fa fa-heartbeat" />
+			            <p:menuitem value="Inactive Employees" action="InactiveEmployees.xhtml?faces-redirect=true" icon="fa fa-minus-circle" />
+			            <p:menuitem value="Employee P Level" action="EmpPLevels.xhtml?faces-redirect=true" icon="fa fa-bar-chart" />
 			        </p:submenu>
 			       </p:panelMenu>
 			  	</h:form>
@@ -60,7 +63,9 @@
 				<h:form>
 				  	<p:panelMenu>
 			        <p:submenu label="Timesheet Features">
-			            <p:menuitem value="Approved Timesheets" action="AssignEmployee.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			            <p:menuitem value="Approved Timesheets" action="ApproveTimesheet.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			            <p:menuitem value="Create Timesheet" action="Timesheets.xhtml?faces-redirect=true" icon="fa fa-plus-circle" />
+			       
 			        </p:submenu>
 			       </p:panelMenu>
 			  	</h:form>
@@ -80,7 +85,9 @@
 				<h:form>
 				  	<p:panelMenu>
 			        <p:submenu label="Project Features">
-			            <p:menuitem value="Assign Approvers" action="AssignEmployee.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			            <p:menuitem value="All Packages" action="Projects.xhtml?faces-redirect=true" icon="fa fa-list-ul" />
+			            <p:menuitem value="Work Packages" action="WorkPackage.xhtml?faces-redirect=true" icon="fa fa-briefcase" />
+			        
 			        </p:submenu>
 			       </p:panelMenu>
 			  	</h:form>
