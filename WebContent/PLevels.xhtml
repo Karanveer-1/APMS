@@ -54,14 +54,14 @@
 						<p:commandLink 
 							update=":#{p:component('editDialog')}"
 							action="#{pLevelController.setEditPLevel(pLevel)}">
-							<h:graphicImage value="resources/images/edit.png" style="max-width:20%; max-height:20%; "/>
+							<h:graphicImage value="resources/images/edit.png" style="max-width:15%; max-height:15%; "/>
 						</p:commandLink>
 					</p:column>
 					<p:column headerText="Remove" style="width:80px; text-align: center;">
 						<p:commandLink
 							update=":formMain:pLevelTable :formEditDialog"
 							action="#{pLevelController.remove(pLevel)}">
-							<h:graphicImage value="resources/images/error.png" style="max-width:20%; max-height:20%"/>	
+							<h:graphicImage value="resources/images/error.png" style="max-width:15%; max-height:15%"/>	
 						</p:commandLink>
 					</p:column>
 				</p:dataTable>
