@@ -10,6 +10,7 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -37,8 +38,6 @@ public class ProjectDetailController implements Serializable {
 	private List<Employee> empPool;
 
 	private List<Employee> wpEmp;
-	
-
 
 	private TreeNode root;
 
@@ -64,7 +63,7 @@ public class ProjectDetailController implements Serializable {
 		this.project = project;
 		this.empPool = getAllEmpPool(project.getProNo());
 		this.wpEmp = getWPEmp(project.getProNo());
-		
+
 		treeInit(this.project.getProNo());
 
 		return "ProjectDetail.xhtml?faces-redirect=true";
@@ -90,17 +89,10 @@ public class ProjectDetailController implements Serializable {
 	}
 
 	public List<Employee> getAllEmpPool(int proNo) {
-		List<Employee> result = new ArrayList<Employee>();
 		List<Employee> pool = this.database.getEmployeeForProject(proNo);
-		System.out.println("Pool " + pool);
-//		for (Employee p : pool) {
-//			if (wpEmp.indexOf(p) == -1) {
-//				result.add(p);
-//			}
-//		}
-		return result;
+		return pool;
 	}
-	
+
 	public void addWP(WorkPackage wp) {
 		WorkPackage newWp = new WorkPackage();
 		newWp.setWpid("Hi" + wp.getWpid());
@@ -108,7 +100,7 @@ public class ProjectDetailController implements Serializable {
 		wp.setLeaf(false);
 		this.database.persistChildWP(wp, newWp);
 		treeInit(this.project.getProNo());
-		
+
 	}
 
 	public List<Employee> getWPEmp(int proNo) {
@@ -140,8 +132,6 @@ public class ProjectDetailController implements Serializable {
 		treeInit(this.project.getProNo());
 	}
 
-
-
 	public void expandAll() {
 		setExpandedRecursively(root, true);
 	}
@@ -168,11 +158,16 @@ public class ProjectDetailController implements Serializable {
 	public void setWpEmp(List<Employee> wpEmp) {
 		this.wpEmp = wpEmp;
 	}
-	
+
 	public String getEmpName(int id) {
 		return this.database.getEmployeeById(id).getUserName();
 	}
-
-
 	
+	public void submit() {
+		this.database.updateProject(project);
+		FacesMessage msg = new FacesMessage("Project Assistant Updated");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		
+	}
+
 }
