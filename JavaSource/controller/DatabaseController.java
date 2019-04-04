@@ -27,6 +27,7 @@ import model.TimesheetRowPK;
 import model.TimesheetState;
 import model.WPEmp;
 import model.WorkPackage;
+import model.WorkPackagePK;
 import utils.DateUtils;
 
 @Stateless
@@ -518,6 +519,10 @@ public class DatabaseController implements Serializable {
 
     public List<WPEmp> getAllWPEmp() {
         return this.manager.createQuery("SELECT wp from WPEmp wp", WPEmp.class).getResultList();
+    }
+    
+    public WorkPackage getWPByID(WorkPackagePK pk) {
+    	return this.manager.find(WorkPackage.class, pk);
     }
     public List<WPEmp> getAllWPEmpByProNo(int proNo){
 		List<WPEmp> wpList = getAllWPEmp();

@@ -24,6 +24,7 @@ import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import controller.ProjectController.Status;
 import model.Employee;
 import model.Project;
 import model.WorkPackage;
@@ -31,12 +32,28 @@ import model.WorkPackage;
 @Named("pmController")
 @SessionScoped
 public class ProjectMangementController implements Serializable {
+	
+	public enum Status {
 
+		OPEN("Open"), ARCHIVED("Archived");
+
+		private String label;
+
+		private Status(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+
+	}
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4162724450338685996L;
-
+	
 	@Inject
 	private DatabaseController database;
 
@@ -107,5 +124,10 @@ public class ProjectMangementController implements Serializable {
 	public void setEditProject(Project editProject) {
 		this.editProject = editProject;
 	}
+	
+	public Status[] getStatuses() {
+		return Status.values();
+	}
+
 
 }

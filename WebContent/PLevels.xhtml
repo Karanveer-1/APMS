@@ -116,25 +116,38 @@
 				draggable="false">
 				<h2 style="font-weight:normal">Add Plevel</h2>
 				<h:form id="formAddDialog" >
-					<h:panelGrid columns="2" cellpadding="50px" cellspacing="50px" style="padding:10px">
-						<h:outputText value="PLEVEL" style="float:right;" />
-						<h:selectOneMenu binding="#{addPLevelText}" style="float:left">
-						    <f:selectItems value="#{pLevelController.PLevelTypes}" style="width:20px;" />
-						</h:selectOneMenu>
-						<h:outputText value="StartDate" style="float:right;"/>
-						<p:calendar id="popup" binding="#{addStartDateText}" style="float:left"/>
-						<h:outputText value="Wage" style="float:right;"/>
-						<h:inputText id="wage" binding="#{addWageText}" validatorMessage="Enter a wage between 0.0 and 100000000.0"
-						style="border-radius:3px; float:left; box-shadow: 0px 1px 2px grey inset; width:4.7cm">
-							<f:validateDoubleRange minimum="0.00" maximum="100000000.0" />
-						</h:inputText>
-						<h:message for="wage" style="color:red" />
+					<table class="table">
+						<tbody>
+							<tr>
+								<td><h:outputText value="PLEVEL" style="float:right;" /></td>
+								<td>
+									<h:selectOneMenu binding="#{addPLevelText}" style="float:left">
+						    		<f:selectItems value="#{pLevelController.PLevelTypes}" style="width:20px;" />
+						    		</h:selectOneMenu>
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputText value="StartDate" style="float:right;"/></td>
+								<td><p:calendar id="popup" binding="#{addStartDateText}" style="float:left"/></td>
+							</tr>
+							<tr>
+								<td><h:outputText value="Wage" style="float:right;"/></td>
+								<td>
+									<h:inputText id="wage" binding="#{addWageText}" validatorMessage="Enter a wage between 0.0 and 100000000.0"
+									style="border-radius:3px; float:left; box-shadow: 0px 1px 2px grey inset; width:4.7cm">
+										<f:validateDoubleRange minimum="0.00" maximum="100000000.0" />
+									</h:inputText>
+									<h:message for="wage" style="color:red" />
 						
-					</h:panelGrid>
-					<p:commandButton update=":formMain:pLevelTable :addPLevelDialog"
+								</td>
+							</tr>
+
+						</tbody>
+					</table>
+				<p:commandButton update=":formMain:pLevelTable :addPLevelDialog"
 						value="Create New PLevel"
 						action="#{pLevelController.add(addPLevelText.value, addStartDateText.value, addWageText.value)}" 
-						style="float:middle;"/>
+						style="float:right;"/>
 				</h:form>
 				</p:dialog>
 			<br></br>
