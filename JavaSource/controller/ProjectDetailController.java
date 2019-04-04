@@ -168,6 +168,10 @@ public class ProjectDetailController implements Serializable {
 	public void setWpEmp(List<Employee> wpEmp) {
 		this.wpEmp = wpEmp;
 	}
+	
+	public String getEmpName(int id) {
+		return this.database.getEmployeeById(id).getUserName();
+	}
 
 
 	

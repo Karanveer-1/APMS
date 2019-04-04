@@ -74,6 +74,7 @@ public class ProjectController implements Serializable {
 		employeeList = database.getActiveEmployees();
 		editProject = new Project();
 		currentEmployee = getLoggedInEmployee();
+		employeeList = getAssignedEmployeeList();
 //		projects = 	database.getProjectsBySupervisor(currentEmployee.getEmpNumber());
 
 	}
@@ -134,28 +135,6 @@ public class ProjectController implements Serializable {
 
 		}
 
-//		List<Project> allP = database.getAllProjects();
-//		int proLength = allP.size();
-//		if (proLength != 0) {
-//			int lastId = allP.get(proLength - 1).getProNo();
-//			addProject = new Project();
-//			this.addProject.setProNo(lastId + 1);
-//			System.out.println(this.addProject);
-//
-//		} else {
-//			addProject = new Project();
-//			this.addProject.setProNo(100);
-//		}
-//		boolean addSuccess = database.persistProject(addProject);
-//		projects = database.getAllProjects();
-//		if (addSuccess) {
-//			FacesMessage msg = new FacesMessage("New Project Added");
-//			FacesContext.getCurrentInstance().addMessage(null, msg);
-//
-//		} else {
-//			FacesMessage msg = new FacesMessage("Failed To Add New Project");
-//			FacesContext.getCurrentInstance().addMessage(null, msg);
-//		}
 
 	}
 
@@ -180,9 +159,6 @@ public class ProjectController implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void toggle() {
-		System.out.println("Toggle me more bttttt");
-	}
 
 	public void deleteProject(Project project) throws IOException {
 		this.database.deleteProjectByProNo(project.getProNo());

@@ -14,7 +14,7 @@ import javax.persistence.TypedQuery;
 import model.EmpPLevel;
 import model.Employee;
 import model.PLevel;
-//import model.ProAssi;
+import model.ProAssi;
 import model.ProEmp;
 import model.ProEmpPK;
 import model.Project;
@@ -115,6 +115,9 @@ public class DatabaseController implements Serializable {
 		for (Timesheet timesheet : timesheets) {
 			Employee e = getEmployeeById(timesheet.getTimesheetPk().getEmpNo());
 
+			// System.out.println("timesheet:" + e.getApproEmpNo() + ",
+			// approver: " + empNo);
+
 			if (e.getApproEmpNo() == empNo && timesheet.getState().equalsIgnoreCase(TimesheetState.PENDING)) {
 				result.add(timesheet);
 			}
@@ -139,6 +142,11 @@ public class DatabaseController implements Serializable {
 		manager.remove(manager.contains(t) ? t : manager.merge(t));
 	}
 
+	/**
+	 * merge Category record fields into existing database record.
+	 *
+	 * @param category the record to be merged.
+	 */
 	public void updateTimesheet(Timesheet t) {
 		if (manager.contains(t)) {
 			removeTimesheet(t);
@@ -150,7 +158,7 @@ public class DatabaseController implements Serializable {
 	// #########################################################################
 	// # TimesheetRow methods
 	// #########################################################################
-	public List<TimesheetRow> getTimesheetRows() {
+	private List<TimesheetRow> getTimesheetRows() {
 		return manager.createQuery("SELECT tr from TimesheetRow tr", TimesheetRow.class).getResultList();
 	}
 
@@ -209,28 +217,16 @@ public class DatabaseController implements Serializable {
 	// # Project methods
 	// #########################################################################
 
+	/**
+	 * GET
+	 *
+	 * @return all projects
+	 */
 	public List<Project> getAllProjects() {
 		List<Project> projects = this.manager.createQuery("SELECT p from Project p", Project.class).getResultList();
 
 		return projects;
-	}
 
-	public List<Project> getAllProjectsbyEmpNo(int empNo) {
-		List<Project> projects = getAllProjects();
-
-		TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.empNo = :empNo",
-				ProEmp.class);
-		query.setParameter("empNo", empNo);
-		List<ProEmp> proEmps = query.getResultList();
-		List<Project> temp = new ArrayList<Project>();
-		for (ProEmp p : proEmps) {
-			for (Project pro : projects) {
-				if (p.getProEmp().getProNo() == pro.getProNo()) {
-					temp.add(pro);
-				}
-			}
-		}
-		return temp;
 	}
 
 	public List<Integer> getAllProjectNo() {
@@ -239,39 +235,49 @@ public class DatabaseController implements Serializable {
 		return ids;
 	}
 
+	/**
+	 * GET
+	 *
+	 * @param proNo
+	 * @return project by ID
+	 */
 	public Project findByProjectNo(final int proNo) {
 		return this.manager.find(Project.class, proNo);
 	}
 
+	/**
+	 * POST add a new project
+	 *
+	 * @param newProject
+	 */
 	public boolean persistProject(Project newProject) {
 		Project p = this.manager.find(Project.class, newProject.getProNo());
-
 		if (p == null) {
-			if (p.getEndDate().before(p.getStartDate())) {
-				return false;
-			}
 			this.manager.persist(newProject);
 			return true;
 		}
-
 		return false;
+
 	}
 
+	/**
+	 * POST
+	 *
+	 * @param project
+	 * @return UPDATE A PROJECT
+	 */
 	public boolean updateProject(Project project) {
 		Project p = this.manager.find(Project.class, project.getProNo());
-
 		if (p != null) {
 
 			this.manager.merge(project);
 			return true;
 		}
-
 		return false;
 	}
 
 	public boolean deleteProjectByProNo(final int proNo) {
 		Project p = this.findByProjectNo(proNo);
-
 		try {
 			this.manager.remove(p);
 			this.manager.flush();
@@ -281,13 +287,11 @@ public class DatabaseController implements Serializable {
 		}
 	}
 
-	public List<Role> getRolesByEmpNo(int empNo) {
-		TypedQuery<Role> query = manager.createQuery("select p from Role p where p.rolePk.empNo = :empNo", Role.class);
-		query.setParameter("empNo", empNo);
-		List<Role> data = query.getResultList();
-		return data;
-	}
-
+	/**
+	 * GET
+	 *
+	 * @return all projects
+	 */
 	public List<Employee> getEmployeeForProject(int projectId) {
 		TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.proNo = :projectId",
 				ProEmp.class);
@@ -302,27 +306,60 @@ public class DatabaseController implements Serializable {
 		return empList;
 	}
 
-	public List<Employee> getAllSupervisedEmployees(int empNo) {
-		TypedQuery<Employee> query = manager.createQuery("select p from Employee p where p.superEmpNo = :empNo",
-				Employee.class);
-		query.setParameter("empNo", empNo);
-		List<Employee> data = query.getResultList();
-		return data;
-	}
-
-	public List<Employee> getAllApproEmployees(int empNo) {
-		TypedQuery<Employee> query = manager.createQuery("select p from Employee p where p.approEmpNo = :empNo",
-				Employee.class);
-		query.setParameter("empNo", empNo);
-		List<Employee> data = query.getResultList();
-		return data;
-	}
-
 	public void addNewEmployeeToProject(int employeeNumber, int proNo) {
 		ProEmp temp = new ProEmp();
 		temp.setProEmp(new ProEmpPK(proNo, employeeNumber));
 
 		manager.persist(temp);
+	}
+
+	public List<ProAssi> getAllProAssi() {
+		List<ProAssi> projects = this.manager.createQuery("SELECT p from ProAssi p", ProAssi.class).getResultList();
+		return projects;
+	}
+
+	public List<ProAssi> getProAssiByProNo(int proNo) {
+		List<ProAssi> pa = new ArrayList<ProAssi>();
+		for (ProAssi p : getAllProAssi()) {
+			if (p.getPk().getProNo() == proNo) {
+				pa.add(p);
+			}
+		}
+		return pa;
+
+	}
+
+	public List<Employee> getEmployeeByProAssi(int proNo) {
+		List<Employee> el = new ArrayList<Employee>();
+		System.out.println("Hel" + getProAssiByProNo(proNo));
+		for (ProAssi proass : getProAssiByProNo(proNo)) {
+			System.out.println("Emp" + getEmployeeById(proass.getPk().getEmpNo()));
+			el.add(getEmployeeById(proass.getPk().getEmpNo()));
+		}
+		return el;
+	}
+
+	public boolean persistProAss(ProAssi proass) {
+		ProAssi p = this.manager.find(ProAssi.class, proass);
+		if (p == null) {
+			this.manager.persist(proass);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean deleteProAss(ProAssi proAssi) {
+		if (getProAssiByProNo(proAssi.getPk().getProNo()) != null) {
+			try {
+				this.manager.remove(proAssi);
+				this.manager.flush();
+				return true;
+
+			} catch (Exception e) {
+				return false;
+			}
+		}
+		return false;
 	}
 
 	public List<Project> getProjectsBySupervisor(int id) {
@@ -354,16 +391,29 @@ public class DatabaseController implements Serializable {
 		return result;
 	}
 
+	public List<Project> getProjectsByAssistantNo(int id) {
+		List<Project> result = new ArrayList<Project>();
+
+		List<ProAssi> allPa = getAllProAssi();
+		for (ProAssi pa : allPa) {
+			if (pa.getEmpNo() == id) {
+				result.add(findByProjectNo(pa.getProNo()));
+			}
+		}
+		return result;
+
+	}
 	// #########################################################################
 	// # WorkPackage methods
 	// #########################################################################
 
+	/**
+	 * POST add a new project
+	 *
+	 * @param newProject
+	 */
 	public List<WorkPackage> getAllWp() {
 		return this.manager.createQuery("SELECT wp from WorkPackage wp", WorkPackage.class).getResultList();
-	}
-
-	public WorkPackage getWPByID(WorkPackagePK pk) {
-		return this.manager.find(WorkPackage.class, pk);
 	}
 
 	public List<String> getWpIdByProjectNo(int proNo) {
@@ -464,16 +514,6 @@ public class DatabaseController implements Serializable {
 		return this.manager.createQuery("SELECT wp from WPEmp wp", WPEmp.class).getResultList();
 	}
 
-	public List<WPEmp> getAllWPEmpByProNo(int proNo) {
-		List<WPEmp> wpList = getAllWPEmp();
-		for (WPEmp wp : wpList) {
-			if (wp.getProNo() == proNo) {
-				wpList.add(wp);
-			}
-		}
-		return wpList;
-	}
-
 	public boolean persistWPEmp(WPEmp wpe) {
 		WPEmp checkWp = this.manager.find(WPEmp.class, wpe.getPk());
 		if (checkWp == null) {
@@ -532,65 +572,75 @@ public class DatabaseController implements Serializable {
 	}
 
 	// #########################################################################
-	// # Role methods
-	// #########################################################################
+    // # Role methods
+    // #########################################################################
 	public boolean checkIfUserInRole(int empNo, String role) {
-		List<Role> list = manager
-				.createQuery("SELECT r FROM Role r WHERE r.rolePk.empNo = :empNo AND r.rolePk.role = :role", Role.class)
-				.setParameter("empNo", empNo).setParameter("role", role).getResultList();
+	    List<Role> list = manager.createQuery("SELECT r FROM Role r WHERE r.rolePk.empNo = :empNo AND r.rolePk.role = :role", Role.class)
+	            .setParameter("empNo", empNo)
+	            .setParameter("role", role)
+	            .getResultList();
 
-		return !list.isEmpty();
+	    return !list.isEmpty();
 	}
 
-	public boolean checkIfSupervisor(int empNumber) {
-		List<Employee> list = manager
-				.createQuery("SELECT e FROM Employee e WHERE e.superEmpNo = :number", Employee.class)
-				.setParameter("number", empNumber).getResultList();
-		if (list.isEmpty()) {
-			return false;
-		} else {
-			return true;
-		}
-	}
 
-	public boolean checkIfApprover(int empNo) {
-		List<Employee> list = manager
-				.createQuery("SELECT e FROM Employee e WHERE e.approEmpNo = :number", Employee.class)
-				.setParameter("number", empNo).getResultList();
+    public boolean checkIfSupervisor(int empNumber) {
+        List<Employee> list = manager.createQuery("SELECT e FROM Employee e WHERE e.superEmpNo = :number", Employee.class)
+                .setParameter("number", empNumber).getResultList();
+        if (list.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-		return !list.isEmpty();
-	}
 
-	public List<EmpPLevel> getEmpPLevels() {
-		return manager.createQuery("SELECT p FROM EmpPLevel p", EmpPLevel.class).getResultList();
-	}
+    public boolean checkIfApprover(int empNo) {
+        List<Employee> list = manager.createQuery("SELECT e FROM Employee e WHERE e.approEmpNo = :number", Employee.class)
+                .setParameter("number", empNo).getResultList();
 
-	public void addEmpPLevel(EmpPLevel e) {
-		manager.persist(e);
-	}
+        return !list.isEmpty();
+    }
 
-	public void updateEmpPLevel(EmpPLevel e) {
-		manager.merge(e);
-	}
-
-	public void removeEmpPLevel(EmpPLevel ep) {
-		manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
-	}
-
-	public List<Role> getRoles() {
-		return manager.createQuery("SELECT p FROM Role p", Role.class).getResultList();
-	}
-
-	public void addRole(Role e) {
-		manager.persist(e);
-	}
-
-	public void updateRole(Role e) {
-		manager.merge(e);
-	}
-
-	public void removeRole(Role ep) {
-		manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
-	}
+    /**
+     * @return
+     */
+    public List<EmpPLevel> getEmpPLevels() {
+        return manager.createQuery("SELECT p FROM EmpPLevel p", EmpPLevel.class)
+                .getResultList();
+    }
+    public void addEmpPLevel(EmpPLevel e) {
+        manager.persist(e);
+    }
+    public void updateEmpPLevel(EmpPLevel e) {
+        manager.merge(e);
+    }
+    public void removeEmpPLevel(EmpPLevel ep) {
+        manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
+    }
 
 }
+
+/*
+ * This is just a place holder for extra whitespace
+ *
+ * f
+ *
+ * g
+ *
+ * g
+ *
+ * g
+ *
+ * g
+ *
+ * g
+ *
+ * g
+ *
+ * g
+ *
+ * g
+ *
+ * g
+ */
