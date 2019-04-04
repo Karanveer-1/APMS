@@ -39,10 +39,10 @@
 				<hr></hr>
 				<p:dataTable id="empPLevelTable" value="#{empPLevelController.empPLevels}"
 					var="empPLevel">
-					<p:column headerText="EmpNo">
-						<h:outputText value="#{empPLevel.empPLevelPK.empNo}" />
+					<p:column headerText="Employee Username">
+						<h:outputText value="#{empPLevelController.getEmployeeById(empPLevel.empPLevelPK.empNo).userName}" />
 					</p:column>
-					<p:column headerText="StartDate">
+					<p:column headerText="Start Date">
 						<h:outputText value="#{empPLevel.empPLevelPK.startDate}" >
 							<f:convertDateTime pattern = "dd-MMM-yyyy" />
 						</h:outputText>
@@ -73,7 +73,12 @@
 						<tbody>
 							<tr>
 								<td><h:outputText value="EmployeeNo" /></td>
-								<td><h:inputText binding="#{addPLevelText}" /></td>
+								<td>
+									<h:selectOneMenu binding="#{addPLevelText}">
+			   							<f:selectItems value="#{empPLevelController.activeEmployees}" var="e"
+			   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+			   						</h:selectOneMenu>
+			   					</td>
 							</tr>
 							<tr>
 								<td><h:outputText value="PLevel" /></td>
