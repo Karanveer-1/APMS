@@ -67,27 +67,38 @@
 		<br></br>
 		</p:fieldset>	
 		
-		<p:sidebar position="right" baseZIndex="20000" id="editDialog" header="Edit Employee" modal="true"
+		<p:dialog position="center" baseZIndex="20000" id="editDialog" header="Edit Employee" modal="true"
                 width="400" widgetVar="editEmployeeDialog">
                 <h3 style="font-weight:normal">Edit Approval</h3>
                 <h:form id="formEditDialog">
-                    <h:panelGrid columns="2">
+                    <table class="table">
+                    	<tbody>
+                    		<tr>
+                    			<td><h:outputText value="Approver" /></td>
+                    			<td>
+                    				<h:selectOneMenu value="#{assign.editEmployee.approEmpNo}" binding="#{editApproverText}">
+			   							<f:selectItems value="#{assign.activeEmployees}" var="e"
+			   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+			   						</h:selectOneMenu>
+                    			</td>
+                    		</tr>
+                    		
+                    	</tbody>
+                    </table>
                     
-                        <h:outputText value="Approver" />
-                        <h:selectOneMenu value="#{assign.editEmployee.approEmpNo}" binding="#{editApproverText}">
-   							<f:selectItems value="#{assign.activeEmployees}" var="e"
-   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
-   						</h:selectOneMenu>
+                        
+                        
                             
                         <p:commandButton
                             update=":formMain:assignTable :formMain:asignTable :formMain:invalidEmployeeGrowl :formEditDialog"
                             value="Save"
-                            action="#{assign.updateApprover(editApproverText.value)}" />
+                            action="#{assign.updateApprover(editApproverText.value)}" 
+                            style="float:right"/>
         
-                    </h:panelGrid>
+                   
                     
                 </h:form>
-            </p:sidebar>
+            </p:dialog>
             
 		</ui:define>
 	</ui:composition>

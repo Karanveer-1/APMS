@@ -87,6 +87,15 @@ public class PLevel implements Serializable {
           
         // Compare the data members and return accordingly  
         return c.getpLevelPK().getpLevel().equals(this.getpLevelPK().getpLevel()) && c.getpLevelPK().getStartDate().equals(this.getpLevelPK().getStartDate());
+    }
+
+    /**
+     * @see java.lang.Object#toString()
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "PLevel [pLevelPK=" + pLevelPK + ", wage=" + wage + "]";
     } 
 
 
