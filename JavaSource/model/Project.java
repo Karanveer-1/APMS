@@ -12,7 +12,6 @@ import javax.persistence.Table;
 
 @Table(name = "Project")
 public class Project implements Serializable {
-	private static String[] STATE = { "OPEN", "CLOSED", "ARCHIVED" };
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,13 +44,8 @@ public class Project implements Serializable {
 	private String comment;
 
 	public Project() {
-		proMgrEmpNo = 1;
-		proAssiEmpNo = 1;
-		proName = "Project";
-		state = STATE[0];
-		proDesc = "Project";
-		startDate = new Date();
-		endDate = new Date();
+		this.startDate = new Date();
+		this.endDate = new Date();
 
 	}
 
@@ -155,6 +149,10 @@ public class Project implements Serializable {
 		}
 
 		return false;
+	}
+
+	public boolean isEditable() {
+		return this.state.equals("OPEN");
 	}
 
 }
