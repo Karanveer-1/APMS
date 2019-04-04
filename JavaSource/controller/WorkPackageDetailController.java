@@ -18,6 +18,8 @@ public class WorkPackageDetailController implements Serializable {
 
 	private WorkPackage wp;
 
+	private WorkPackage ogwp;
+
 	public WorkPackageDetailController() {
 
 	}
@@ -29,7 +31,7 @@ public class WorkPackageDetailController implements Serializable {
 
 	public String viewWP(WorkPackage wp) {
 		this.wp = wp;
-	
+		this.ogwp = wp;
 		return "WorkPackageDetail.xhtml?faces-redirect=true";
 	}
 
@@ -42,6 +44,13 @@ public class WorkPackageDetailController implements Serializable {
 	}
 
 	public void save() {
-		System.out.println("Save " + wp);
+
+		if (this.database.updateWP(wp)) {
+			wp = this.database.getWPByID(wp.getWorkPackagePk());
+			ogwp = wp;
+		} else {
+			wp = ogwp;
+		}
+
 	}
 }

@@ -14,7 +14,7 @@
 
 		<ui:define name="windowTitle">Projects</ui:define>
 		<ui:define name="headerTitle">
-			<h:outputText value="Projects" class="navbar-brand" />
+			<h:outputText value="Work Package Detail" class="navbar-brand" />
 		</ui:define>
 		<ui:define name="navBar">
 			<ui:include src="/sections/WorkPackageManagementNavigationBar.xhtml" />
@@ -71,7 +71,7 @@
 						<p:ajax event="save" listener="#{wpdController.save}" />
 						<p:inputText class="btn" value="#{wpdController.wp.startDate}"
 							required="true" label="text">
-							<f:convertDateTime pattern="dd-mm-yyyy" />
+							<f:convertDateTime pattern="dd-MM-yyyy" />
 						</p:inputText>
 					</p:inplace>
 
@@ -81,7 +81,7 @@
 						<p:ajax event="save" listener="#{wpdController.save}" />
 						<p:inputText class="btn" value="#{wpdController.wp.endDate}"
 							required="true" label="text">
-							<f:convertDateTime pattern="dd-mm-yyyy" />
+							<f:convertDateTime pattern="dd-MM-yyyy" />
 						</p:inputText>
 					</p:inplace>
 
