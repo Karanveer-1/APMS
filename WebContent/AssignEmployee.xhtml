@@ -71,20 +71,31 @@
                 width="400" widgetVar="editEmployeeDialog">
                 <h3 style="font-weight:normal">Edit Approval</h3>
                 <h:form id="formEditDialog">
-                    <h:panelGrid columns="2">
+                    <table class="table">
+                    	<tbody>
+                    		<tr>
+                    			<td><h:outputText value="Approver" /></td>
+                    			<td>
+                    				<h:selectOneMenu value="#{assign.editEmployee.approEmpNo}" binding="#{editApproverText}">
+			   							<f:selectItems value="#{assign.activeEmployees}" var="e"
+			   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+			   						</h:selectOneMenu>
+                    			</td>
+                    		</tr>
+                    		
+                    	</tbody>
+                    </table>
                     
-                        <h:outputText value="Approver" />
-                        <h:selectOneMenu value="#{assign.editEmployee.approEmpNo}" binding="#{editApproverText}">
-   							<f:selectItems value="#{assign.activeEmployees}" var="e"
-   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
-   						</h:selectOneMenu>
+                        
+                        
                             
                         <p:commandButton
                             update=":formMain:assignTable :formMain:asignTable :formMain:invalidEmployeeGrowl :formEditDialog"
                             value="Save"
-                            action="#{assign.updateApprover(editApproverText.value)}" />
+                            action="#{assign.updateApprover(editApproverText.value)}" 
+                            style="float:right"/>
         
-                    </h:panelGrid>
+                   
                     
                 </h:form>
             </p:dialog>

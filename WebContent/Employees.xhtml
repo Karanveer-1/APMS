@@ -62,13 +62,13 @@
                     <p:column headerText="Edit">
                         <p:commandLink update=":#{p:component('editDialog')}"
                             action="#{employeesController.setEditEmployee(employee)}">
-                            <h:graphicImage value="resources/images/edit.png" style="max-width:40%; max-height:40%"/>
+                            <h:graphicImage value="resources/images/edit.png" style="max-width:30%; max-height:30%"/>
                         </p:commandLink>
                     </p:column>
                     <p:column headerText="Inactivate">
                         <p:commandLink update="employeeTable"
                             action="#{employeesController.deleteEmployee(employee)}">
-                        	<h:graphicImage value="resources/images/error.png" style="max-width:40%; max-height:40%"/>
+                        	<h:graphicImage value="resources/images/error.png" style="max-width:30%; max-height:30%"/>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>
@@ -77,41 +77,54 @@
             </h:form>
             
         
-            <p:dialog position="center" id="addDialog" header="Add Employee" modal="true" width="400"
-                widgetVar="addEmployeeDialog">
+            <p:dialog position="center" id="addDialog" header="Add Employee" modal="true" width="400" hight="100"
+                widgetVar="addEmployeeDialog" >
                 <h2 style="font-weight:normal">Add Employee</h2>
                 
                 <p:messages id="messages" showDetail="true" closable="true">
 				        <p:autoUpdate />
 				</p:messages>
-                
+               
                 <h:form id="formAddDialog">
-                    <h:panelGrid columns="2" cellpadding="50px" cellspacing="50px" style="padding:10px">
-                        <h:outputText value="Employee Number" />
-                        <h:inputText id="addEmpNo" binding="#{addEmpNoText}" />
-        
-                        <h:outputText id="addFirstName" value="First Name" />
-                        <h:inputText binding="#{addFirstNameText}" />
-        
-                        <h:outputText id="addlastName" value="Last Name" />
-                        <h:inputText binding="#{addLastNameText}" />
-        
-                        <h:outputText id="addUsername" value="Username" />
-                        <h:inputText binding="#{addUsernameText}" />
-
-                        <h:outputText id="addPassword" value="Password" />
-                        <h:inputText binding="#{addPasswordText}" />
-                        
-						<h:outputText id="addSupervisor" value="Supervisor" />
-                        <h:selectOneMenu binding="#{addSupervisorText}"> 
-   							<f:selectItems value="#{employeesController.employees}" var="e"
-   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
-   						</h:selectOneMenu>
-        
-                        <h:outputText id="addComment" value="Comment" />
-                        <h:inputText binding="#{addCommentText}" />
-        
-                        <p:commandButton resetValues="true"
+                    <table class="table">
+                    	<tbody >
+                    		<tr>
+                    			<td><h:outputText value="Employee Number" /></td>
+                    			<td> <h:inputText id="addEmpNo" binding="#{addEmpNoText}"/></td>              		
+                    		</tr>
+                    		<tr>
+                    			<td><h:outputText id="addFirstName" value="First Name" /></td>
+                    			<td><h:inputText binding="#{addFirstNameText}" /></td>              		
+                    		</tr>
+                    		<tr>
+                    			<td><h:outputText id="addlastName" value="Last Name" /></td>
+                    			<td><h:inputText binding="#{addLastNameText}" /></td>              		
+                    		</tr>
+                    		<tr>
+                    			<td><h:outputText id="addUsername" value="Username" /></td>
+                    			<td> <h:inputText binding="#{addUsernameText}" /></td>              		
+                    		</tr>
+                    		<tr>
+                    			<td><h:outputText id="addPassword" value="Password" /></td>
+                    			<td><h:inputText binding="#{addPasswordText}" /></td>              		
+                    		</tr>
+                    		<tr>
+                    			<td><h:outputText id="addSupervisor" value="Supervisor" /></td>
+                    			<td>
+                    				<h:selectOneMenu binding="#{addSupervisorText}"> 
+			   							<f:selectItems value="#{employeesController.employees}" var="e"
+			   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+			   						</h:selectOneMenu>
+                    			</td>              		
+                    		</tr>
+                    		<tr>
+                    			<td><h:outputText id="addComment" value="Comment" /></td>
+                    			<td><h:inputText binding="#{addCommentText}" /></td>
+                    		</tr>
+                    	
+                    	</tbody>
+                    </table>
+                    <p:commandButton resetValues="true"
                             update=":formMain:employeeTable :formMain:invalidEmployeeGrowl :formAddDialog"
                             value="Save"
                             action="#{employeesController.addEmployee(
@@ -121,48 +134,69 @@
                                     addUsernameText.value,
                                     addPasswordText.value,
                                     addSupervisorText.value,
-                                    addCommentText.value)}" />
-                    </h:panelGrid>
-                    
+                                    addCommentText.value)}" 
+                            style="float:right"/>
+
                 </h:form>
             </p:dialog>
 
             <p:dialog position="center" id="editDialog" header="Edit Employee" modal="true"
-                width="400" widgetVar="editEmployeeDialog" resizable="false"
+                width="400" hight="100" widgetVar="editEmployeeDialog" 
                 draggable="false">
                 
                 <h2 style="font-weight:normal">Edit Employee</h2>
                 
                 
                 <h:form id="formEditDialog">
-                    <h:panelGrid columns="2" cellpadding="50px" cellspacing="50px" style="padding:10px">
-                        <h:outputText value="First Name" />
-                        <h:inputText binding="#{editFirstNameText}"
-                            value="#{employeesController.editEmployee.firstName}" />
-        
-                        <h:outputText value="Last Name" />
-                        <h:inputText binding="#{editLastNameText}"
-                            value="#{employeesController.editEmployee.lastName}" />
-        
-                        <h:outputText value="Username" />
-                        <h:inputText binding="#{editUsernameText}"
-                            value="#{employeesController.editEmployee.userName}" />
-        
-                        <h:outputText value="Password" />
-                        <h:inputText binding="#{editPasswordText}"
-                            value="#{employeesController.editEmployee.password}" />
-                            
-                        <h:outputText value="Supervisor" />
-                        <h:selectOneMenu value="#{employeesController.editEmployee.superEmpNo}" binding="#{editSupervisorText}"> 
-   							<f:selectItems value="#{employeesController.employees}" var="e"
-   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
-   						</h:selectOneMenu>
-        
-                        <h:outputText id="editComment" value="Comment" />
-                        <h:inputText binding="#{editCommentText}"
-                            value="#{employeesController.editEmployee.comment}" />
-        
-                        <p:commandButton
+                
+                    <table class="table">
+                    	<tbody>
+                    		<tr>
+                    			<td><h:outputText value="First Name" /></td>
+                    			<td>
+                    				<h:inputText binding="#{editFirstNameText}"
+                            			value="#{employeesController.editEmployee.firstName}" />
+                    			</td>
+                    		</tr>
+                    		<tr>
+                    			<td><h:outputText value="Last Name" /></td>
+                    			<td>
+                    				 <h:inputText binding="#{editLastNameText}"
+                            			value="#{employeesController.editEmployee.lastName}" />
+                    			</td>
+                    		</tr>
+                    		<tr>
+                    			<td><h:outputText value="Username" /></td>
+                    			<td>
+                    				<h:inputText binding="#{editUsernameText}"
+                            		value="#{employeesController.editEmployee.userName}" />
+                    			</td>
+                    		</tr>
+                    		<tr>
+                    			<td><h:outputText value="Password" /></td>
+                    			<td>
+                    				 <h:inputText binding="#{editPasswordText}"
+                            			value="#{employeesController.editEmployee.password}" />
+                    			</td>
+                    		</tr>
+                    		<tr>
+                    			<td> <h:outputText value="Supervisor" /></td>
+                    			<td>
+                    				<h:selectOneMenu value="#{employeesController.editEmployee.superEmpNo}" binding="#{editSupervisorText}"> 
+			   							<f:selectItems value="#{employeesController.employees}" var="e"
+			   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+			   						</h:selectOneMenu>
+                    			</td>
+                    		</tr>
+                    		<tr>
+                    			<td><h:outputText id="editComment" value="Comment" /></td>
+                    			<td><h:inputText binding="#{editCommentText}"
+                            		value="#{employeesController.editEmployee.comment}" /></td>
+                    		</tr>
+                    	</tbody>
+                    </table>
+                        
+                    <p:commandButton
                             update=":formMain:employeeTable :formMain:invalidEmployeeGrowl :formEditDialog"
                             value="Save"
                             action="#{employeesController.editEmployee(
@@ -171,8 +205,9 @@
                                     editUsernameText.value,
                                     editPasswordText.value,
                                     editSupervisorText.value,
-                                    editCommentText.value)}" />
-                    </h:panelGrid>
+                                    editCommentText.value)}"
+                            style="float:right" />
+                   
                 </h:form>
             </p:dialog>
         </ui:define>
