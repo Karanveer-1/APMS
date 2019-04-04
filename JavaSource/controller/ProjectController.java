@@ -157,7 +157,7 @@ public class ProjectController implements Serializable {
 
 	public void onRowEdit(RowEditEvent event) {
 		editProject = (Project) event.getObject();
-		
+		System.out.println("IFHGT ME " + editProject);
 		boolean updateSuccess = this.database.updateProject(editProject);
 			
 		projects = database.getAllProjects();

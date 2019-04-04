@@ -50,9 +50,9 @@
 						<f:facet name="header">
            				Projects
         			</f:facet>
-						<p:ajax event="rowEdit" update=":pnav" />
+
 						<p:ajax event="rowEdit" listener="#{projectController.onRowEdit}"
-							update=":form:msgs" />
+							update=":form:msgs :pnav" />
 						<p:ajax event="rowEditCancel"
 							listener="#{projectController.onRowCancel}" update=":form:msgs" />
 
