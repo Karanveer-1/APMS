@@ -43,55 +43,76 @@
 					<h:form id="form">
 						<p:commandButton value="Add Work Package"
 							styleClass="ui-priority-primary" process="@this"
-							action="#{pdController.initAddWp}"
 							onclick="PF('addWPDialog').show();">
 
 						</p:commandButton>
 						<p:dialog id="addDialog" header="Add Work Package" modal="true"
-							width="400" widgetVar="addWPDialog" draggable="false">
+							width="700" widgetVar="addWPDialog" draggable="false">
 							<h:form id="formAddDialog">
 								<table class="table">
 									<tbody>
-										<tr>
-											<td><h:outputText value="Project Number" /></td>
-											<td><h:outputText id="addPropNo"
-													value="#{pdController.addWp.proNo}" /></td>
-										</tr>
+
+
+
 										<tr>
 											<td><h:outputText value="Parent Work Package" /></td>
 											<td><h:selectOneMenu
 													value="#{pdController.addWp.parentWPID}">
-													<f:selectItems value="#{pdController.wpList}"
-														var="wp" itemLabel="#{wp.wpid}"
-														itemValue="#{wp.wpid}" >
-														<p:ajax listener="#{pdController.onClick}" update=":formAddDialog"></p:ajax>
-														</f:selectItems>
+													<p:ajax event="change" listener="#{pdController.onClick}"
+														update=":form:formAddDialog:idInput"></p:ajax>
+													<f:selectItems value="#{pdController.wpList}" var="wp"
+														itemLabel="#{wp.wpid}" itemValue="#{wp.wpid}">
+
+													</f:selectItems>
 												</h:selectOneMenu></td>
 										</tr>
 										<tr>
-											<td><h:outputText value="Project Name" /></td>
-											<td><p:inputText
-													value="#{projectController.addProject.proName}" /></td>
+											<td><h:outputText value="WPID" /></td>
+
+											<td><h:outputText id="idInput"
+													value="#{pdController.suggestId}."
+													style="margin-right:3px;font-weight:bold;font-size:13px"></h:outputText>
+												<p:inputText value="#{pdController.addWp.wpid}"
+													required="true">
+												</p:inputText></td>
 										</tr>
+										<tr>
+											<td scope="row"><p:outputLabel
+													value="Responsible Employee" /></td>
+											<td><h:selectOneMenu
+													value="#{pdController.addWp.reEmpNo}">
+													<f:selectItems value="#{pdController.empPool}" var="emp"
+														itemLabel="#{emp.userName}" itemValue="#{emp.empNumber}"
+														style="color:black" />
+
+												</h:selectOneMenu></td>
+										</tr>
+
+										<tr>
+											<td><h:outputText value="Title" /></td>
+											<td><p:inputText value="#{pdController.addWp.title}"
+													required="true" /></td>
+										</tr>
+
 										<tr>
 											<td><h:outputText value="Description" /></td>
 											<td><p:inputTextarea
-													value="#{projectController.addProject.proDesc}" /></td>
+													value="#{pdController.addWp.description}" /></td>
 										</tr>
 										<tr>
 											<td><h:outputText for="start" value="Start Date" /></td>
 											<td><p:calendar id="start"
-													value="#{projectController.addProject.startDate}" /></td>
+													value="#{pdController.addWp.startDate}" required="true"/></td>
 										</tr>
 										<tr>
 											<td><h:outputText for="end" value="End Date" /></td>
 											<td><p:calendar id="end"
-													value="#{projectController.addProject.endDate}" /></td>
+													value="#{pdController.addWp.endDate}" required="true"/></td>
 										</tr>
 										<tr>
 											<td><h:outputText value="State" /></td>
 											<td><h:selectOneMenu
-													value="#{projectController.addProject.state}">
+													value="#{pdController.addWp.state}">
 													<f:selectItems value="#{projectController.statusCreation}" />
 												</h:selectOneMenu></td>
 										</tr>
@@ -112,7 +133,7 @@
 								<p:growl id="messageGrowl" showDetail="true" sticky="false" />
 
 							</h:form>
-						
+
 						</p:dialog>
 						<hr></hr>
 						<p:treeTable value="#{pdController.root}" var="wp" id="wp"

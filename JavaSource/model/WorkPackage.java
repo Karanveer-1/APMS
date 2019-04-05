@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "WorkPackage")
 public class WorkPackage implements Serializable {
-	private static String[] STATE = { "OPEN", "CLOSED", "ARCHIVED" };
+
 
 	@EmbeddedId
 	private WorkPackagePK workPackagePk;
@@ -102,13 +102,7 @@ public class WorkPackage implements Serializable {
 
 	public WorkPackage() {
 		this.workPackagePk = new WorkPackagePK();
-		this.description = "hihihi";
-		this.state = "OPEN";
-		this.title = "okayyy";
-		this.reEmpNo = 1;
-		this.startDate = new Date();
-		this.endDate = new Date();
-		this.isLeaf = false;
+	
 		
 
 	}

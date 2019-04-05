@@ -18,6 +18,7 @@ import javax.inject.Named;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import controller.ProjectController.StatusCreation;
 import model.Employee;
 //import model.ProAssi;
 import model.Project;
@@ -28,6 +29,21 @@ import model.WorkPackage;
 @SessionScoped
 public class ProjectDetailController implements Serializable {
 
+	public enum StatusCreation {
+
+		OPEN("Open");
+
+		private String label;
+
+		private StatusCreation(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+
+	}
 	@Inject
 	private DatabaseController database;
 
@@ -44,6 +60,8 @@ public class ProjectDetailController implements Serializable {
 	private WorkPackage addWp;
 
 	private List<WorkPackage> wpList;
+
+	private String suggestId;
 
 	public ProjectDetailController() {
 
@@ -66,7 +84,7 @@ public class ProjectDetailController implements Serializable {
 
 		this.project = project;
 		this.empPool = getAllEmpPool(project.getProNo());
-		this.wpEmp = getWPEmp(project.getProNo());
+		this.addWp = new WorkPackage();
 		initWPList();
 		treeInit(this.project.getProNo());
 		return "ProjectDetail.xhtml?faces-redirect=true";
@@ -181,12 +199,6 @@ public class ProjectDetailController implements Serializable {
 		this.addWp = addWp;
 	}
 
-	public void initAddWp() {
-		addWp = new WorkPackage();
-		addWp.setProNo(project.getProNo());
-
-	}
-
 	public void initWPList() {
 		this.wpList = this.database.getWPListByProNo(project.getProNo());
 		WorkPackage wp = new WorkPackage();
@@ -203,7 +215,20 @@ public class ProjectDetailController implements Serializable {
 	}
 
 	public void onClick() {
-		System.out.println("On Click");
+		System.out.println(addWp.getParentWPID());
+		suggestId = addWp.getParentWPID();
 	}
+
+	public String getSuggestId() {
+		return suggestId;
+	}
+
+	public void setSuggestId(String suggestId) {
+		this.suggestId = suggestId;
+	}
+	public StatusCreation[] getStatusCreation() {
+		return StatusCreation.values();
+	}
+
 
 }
