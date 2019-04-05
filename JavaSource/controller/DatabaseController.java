@@ -596,6 +596,16 @@ public class DatabaseController implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    public WorkPackage getWPById(String wpid) {
+        try {
+            return manager.createQuery("SELECT wp FROM WorkPackage wp WHERE wp.workPackagePk.wpid = :wpid", WorkPackage.class)
+                    .setParameter("wpid", wpid)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }       
+    }
+    
     // #########################################################################
     // # PLevel methods
     // #########################################################################
