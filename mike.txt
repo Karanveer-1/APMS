@@ -37,7 +37,9 @@ make project management ajax
 fix adding new WP
 modify WP.leaf whenever a WP is created or modified or deleted
 
+DELETE PROJECT ALSO DELETE ALL WORKPACKGE/PROEMP/WPEMP/WPNEED
 
+ADD VALIDATION to check for deletion
 
 
 
