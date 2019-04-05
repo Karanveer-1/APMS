@@ -66,6 +66,12 @@ public class DatabaseController implements Serializable {
 
 	}
 
+	public long countEmployees() {
+		String sql = "SELECT COUNT(e) FROM Employee e";
+		Query q = manager.createQuery(sql);
+		return (long) q.getSingleResult();
+	}
+
 	public Employee getEmployeeById(int id) {
 		TypedQuery<Employee> query = manager.createQuery("select e from Employee e where e.empNumber = :empNumber",
 				Employee.class);
