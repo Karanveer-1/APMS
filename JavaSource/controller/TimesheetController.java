@@ -107,7 +107,10 @@ public class TimesheetController implements Serializable {
             return new ArrayList<String>();
         }
 
-        return database.getAllEmpAssignedWpid(100, currentEmployee.getEmpNumber());
+        return database.getAllEmpAssignedWpid(100, currentEmployee.getEmpNumber())
+                .stream()
+                .filter(wp -> database.getWPById(wp) != null && database.getWPById(wp).getState().equals("OPEN"))
+                .collect(Collectors.toList());
     }
 
     public String saveTimesheet() {
