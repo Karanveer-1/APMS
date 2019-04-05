@@ -107,6 +107,7 @@ public class TimesheetController implements Serializable {
             return new ArrayList<String>();
         }
 
+        // check if WP open
         return database.getAllEmpAssignedWpid(100, currentEmployee.getEmpNumber());
     }
 
