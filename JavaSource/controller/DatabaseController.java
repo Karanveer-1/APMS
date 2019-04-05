@@ -148,6 +148,19 @@ public class DatabaseController implements Serializable {
 
         return result;
     }
+    
+    public List<Timesheet> getSubmittedTimesheets() {
+        List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
+
+        List<Timesheet> result = new ArrayList<Timesheet>();
+        for (Timesheet timesheet : timesheets) {
+            if (timesheet.getState().equalsIgnoreCase(TimesheetState.PENDING)) {
+                result.add(timesheet);
+            }
+        }
+
+        return result;
+    }
 
     public void addTimesheet(Timesheet t) {
         manager.persist(t);
