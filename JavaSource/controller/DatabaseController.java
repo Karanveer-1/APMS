@@ -253,8 +253,6 @@ public class DatabaseController implements Serializable {
 				return false;
 			}
 			this.manager.persist(newProject);
-			WorkPackage initialWP = new WorkPackage();
-
 			return true;
 		}
 
