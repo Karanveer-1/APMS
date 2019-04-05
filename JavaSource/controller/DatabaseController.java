@@ -47,12 +47,12 @@ public class DatabaseController implements Serializable {
 
     public List<Employee> getInActiveEmployees() {
         return manager.createQuery("SELECT e FROM Employee e WHERE e.state = 'Not Active'", Employee.class)
-            .getResultList();
+                .getResultList();
     }
 
     public Employee getEmployeeByUsername(String username) {
         TypedQuery<Employee> query = manager.createQuery("select e from Employee e where e.userName = :username",
-            Employee.class);
+                Employee.class);
         query.setParameter("username", username);
         try {
             Employee emp = query.getSingleResult();
@@ -65,7 +65,7 @@ public class DatabaseController implements Serializable {
 
     public Employee getEmployeeById(int id) {
         TypedQuery<Employee> query = manager.createQuery("select e from Employee e where e.empNumber = :empNumber",
-            Employee.class);
+                Employee.class);
         query.setParameter("empNumber", id);
         try {
             Employee emp = query.getSingleResult();
@@ -213,21 +213,21 @@ public class DatabaseController implements Serializable {
 
         return projects;
     }
-    
+
     public List<Project> getAllProjectsbyEmpNo(int empNo) {
         List<Project> projects = getAllProjects();
-        
+
         TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.empNo = :empNo",
                 ProEmp.class);
         query.setParameter("empNo", empNo);
         List<ProEmp> proEmps = query.getResultList();
         List<Project> temp = new ArrayList<Project>();
         for(ProEmp p : proEmps) {
-          for(Project pro : projects) {
-              if(p.getProEmp().getProNo() == pro.getProNo()) {
-                  temp.add(pro);
-              }
-          }
+            for(Project pro : projects) {
+                if(p.getProEmp().getProNo() == pro.getProNo()) {
+                    temp.add(pro);
+                }
+            }
         }
         return temp;
     }
@@ -279,16 +279,16 @@ public class DatabaseController implements Serializable {
 
     public List<Role> getRolesByEmpNo(int empNo) {
         TypedQuery<Role> query = manager.createQuery("select p from Role p where p.rolePk.empNo = :empNo",
-            Role.class);
+                Role.class);
         query.setParameter("empNo", empNo);
         List<Role> data = query.getResultList();
         return data;
     }
-    
-    
+
+
     public List<Employee> getEmployeeForProject(int projectId) {
         TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.proNo = :projectId",
-            ProEmp.class);
+                ProEmp.class);
         query.setParameter("projectId", projectId);
         List<ProEmp> data = query.getResultList();
 
@@ -302,19 +302,40 @@ public class DatabaseController implements Serializable {
 
     public List<Employee> getAllSupervisedEmployees(int empNo) {
         TypedQuery<Employee> query = manager.createQuery("select p from Employee p where p.superEmpNo = :empNo",
-            Employee.class);
+                Employee.class);
         query.setParameter("empNo", empNo);
         List<Employee> data = query.getResultList();
         return data;
     }
-    
+
     public List<Employee> getAllApproEmployees(int empNo) {
         TypedQuery<Employee> query = manager.createQuery("select p from Employee p where p.approEmpNo = :empNo",
-            Employee.class);
+                Employee.class);
         query.setParameter("empNo", empNo);
         List<Employee> data = query.getResultList();
         return data;
     }
+
+    public List<Employee> getEmployees(String pLevel) {
+        TypedQuery<Employee> query = manager.createQuery("select p from Employee p",
+                Employee.class);
+        List<Employee> employees = query.getResultList();
+        TypedQuery<EmpPLevel> query2 = manager.createQuery("select p from EmpPLevel p",
+                EmpPLevel.class);
+        List<EmpPLevel> empPLevels = query2.getResultList();  
+        ArrayList<Employee> empP1 = new ArrayList<Employee>();
+        for(Employee e : employees) {
+            for(EmpPLevel ep : empPLevels) {
+                if(e.getEmpNumber() == ep.getEmpPLevelPK().getEmpNo() && ep.getpLevel().equals(pLevel)) {
+                    empP1.add(e);
+                    break;
+                }
+            }
+        }
+        return empP1;
+    }
+
+
     public void addNewEmployeeToProject(int employeeNumber, int proNo) {
         ProEmp temp = new ProEmp();
         temp.setProEmp(new ProEmpPK(proNo, employeeNumber));
@@ -375,7 +396,7 @@ public class DatabaseController implements Serializable {
     public List<Project> getProjectsBySupervisor(int id) {
         List<ProEmp> proemp = new ArrayList<ProEmp>();
         TypedQuery<ProEmp> query = this.manager.createQuery("SELECT p from ProEmp p WHERE p.pk.empNo =:empNo",
-            ProEmp.class);
+                ProEmp.class);
         query.setParameter("empNo", id);
         try {
             proemp = query.getResultList();
@@ -520,14 +541,14 @@ public class DatabaseController implements Serializable {
         return this.manager.createQuery("SELECT wp from WPEmp wp", WPEmp.class).getResultList();
     }
     public List<WPEmp> getAllWPEmpByProNo(int proNo){
-		List<WPEmp> wpList = getAllWPEmp();
-		for (WPEmp wp : wpList) {
-			if (wp.getProNo() == proNo) {
-				wpList.add(wp);
-			}
-		}
-		return wpList;
-	}
+        List<WPEmp> wpList = getAllWPEmp();
+        for (WPEmp wp : wpList) {
+            if (wp.getProNo() == proNo) {
+                wpList.add(wp);
+            }
+        }
+        return wpList;
+    }
 
     public boolean persistWPEmp(WPEmp wpe) {
         WPEmp checkWp = this.manager.find(WPEmp.class, wpe.getPk());
@@ -556,13 +577,13 @@ public class DatabaseController implements Serializable {
 
     public PLevel getPLevelByPK(Date startDate, String pLevel) {
         TypedQuery<PLevel> query = manager.createQuery(
-            "select p from PLevel p where p.StartDate = :StartDate AND p.PLevel = :PLevel", PLevel.class);
+                "select p from PLevel p where p.StartDate = :StartDate AND p.PLevel = :PLevel", PLevel.class);
         query.setParameter("StartDate", startDate);
         query.setParameter("PLevel", pLevel);
         return query.getSingleResult();
     }
-    
-    
+
+
 
     public void updatePLevel(PLevel e) {
         manager.merge(e);
@@ -593,18 +614,18 @@ public class DatabaseController implements Serializable {
     // #########################################################################
     public boolean checkIfUserInRole(int empNo, String role) {
         List<Role> list = manager
-            .createQuery("SELECT r FROM Role r WHERE r.rolePk.empNo = :empNo AND r.rolePk.role = :role", Role.class)
-            .setParameter("empNo", empNo)
-            .setParameter("role", role)
-            .getResultList();
+                .createQuery("SELECT r FROM Role r WHERE r.rolePk.empNo = :empNo AND r.rolePk.role = :role", Role.class)
+                .setParameter("empNo", empNo)
+                .setParameter("role", role)
+                .getResultList();
 
         return !list.isEmpty();
     }
 
     public boolean checkIfSupervisor(int empNumber) {
         List<Employee> list = manager
-            .createQuery("SELECT e FROM Employee e WHERE e.superEmpNo = :number", Employee.class)
-            .setParameter("number", empNumber).getResultList();
+                .createQuery("SELECT e FROM Employee e WHERE e.superEmpNo = :number", Employee.class)
+                .setParameter("number", empNumber).getResultList();
         if (list.isEmpty()) {
             return false;
         } else {
@@ -614,15 +635,15 @@ public class DatabaseController implements Serializable {
 
     public boolean checkIfApprover(int empNo) {
         List<Employee> list = manager
-            .createQuery("SELECT e FROM Employee e WHERE e.approEmpNo = :number", Employee.class)
-            .setParameter("number", empNo).getResultList();
+                .createQuery("SELECT e FROM Employee e WHERE e.approEmpNo = :number", Employee.class)
+                .setParameter("number", empNo).getResultList();
 
         return !list.isEmpty();
     }
 
     public List<EmpPLevel> getEmpPLevels() {
         return manager.createQuery("SELECT p FROM EmpPLevel p", EmpPLevel.class)
-            .getResultList();
+                .getResultList();
     }
 
     public void addEmpPLevel(EmpPLevel e) {
@@ -639,7 +660,7 @@ public class DatabaseController implements Serializable {
 
     public List<Role> getRoles() {
         return manager.createQuery("SELECT p FROM Role p", Role.class)
-            .getResultList();
+                .getResultList();
     }
 
     public void addRole(Role e) {
@@ -662,9 +683,9 @@ public class DatabaseController implements Serializable {
     public WorkPackage getWpByPk(Integer proNo, String wpid) {
         TypedQuery<WorkPackage> query = manager.createQuery(
                 "select p from WorkPackage p where p.workPackagePk.proNo = :proNo AND p.workPackagePk.wpid = :wpid", WorkPackage.class);
-            query.setParameter("proNo", proNo);
-            query.setParameter("wpid", wpid);
-            return query.getSingleResult();
+        query.setParameter("proNo", proNo);
+        query.setParameter("wpid", wpid);
+        return query.getSingleResult();
     }
 
 
