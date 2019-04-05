@@ -103,6 +103,24 @@ public class DatabaseController implements Serializable {
         return manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
     }
 
+    public long countTimesheets() {
+    	String sql = "SELECT COUNT(t) FROM Timesheet t";
+    	Query q =  manager.createQuery(sql);
+    	return (long) q.getSingleResult();
+    }
+
+    public long countApprovedTimesheets() {
+    	String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Approved'";
+    	Query q =  manager.createQuery(sql);
+    	return (long) q.getSingleResult();
+    }
+
+    public long countRejectedTimesheets() {
+    	String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Returned'";
+    	Query q =  manager.createQuery(sql);
+    	return (long) q.getSingleResult();
+    }
+
     public List<Timesheet> getTimesheets(int empNo) {
         List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
 
@@ -221,6 +239,12 @@ public class DatabaseController implements Serializable {
         List<Project> projects = this.manager.createQuery("SELECT p from Project p", Project.class).getResultList();
 
         return projects;
+    }
+    
+    public long countProjects() {
+    	String sql = "SELECT COUNT(p) FROM Project p";
+    	Query q =  manager.createQuery(sql);
+    	return (long) q.getSingleResult();
     }
     
     public List<Project> getAllProjectsbyEmpNo(int empNo) {

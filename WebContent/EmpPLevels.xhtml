@@ -47,10 +47,10 @@
 							<f:convertDateTime pattern = "dd-MMM-yyyy" />
 						</h:outputText>
 					</p:column>
-					<p:column headerText="PLevel">
+					<p:column headerText="PLevel" style="width:150px">
 						<h:outputText value="#{empPLevel.pLevel}" />
 					</p:column>
-					<p:column headerText="Remove">
+					<p:column headerText="Remove" style="width:150px">
 						<p:commandLink  update=":formMain:empPLevelTable"
 							action="#{empPLevelController.removeEmpPLevel(empPLevel)}">
 							<h:graphicImage value="resources/images/error.png" style="max-width:15%; max-height:15%"/>							

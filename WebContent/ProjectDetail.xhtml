@@ -25,56 +25,77 @@
 
 
 
-				<table class="table table-striped">
-					<tbody>
-						<tr>
-							<td scope="row"><p:outputLabel value="Project Number: " /></td>
-							<td><p:outputLabel value="#{pdController.project.proNo}" /></td>
-						</tr>
-						<tr>
-							<td scope="row"><p:outputLabel value="Project Manager: " /></td>
-							<td><p:outputLabel
-									value="#{pdController.getEmpName(pdController.project.proMgrEmpNo)}" /></td>
-						</tr>
-						<tr>
-							<td scope="row"><p:outputLabel value="Project Assistant: " /></td>
-							<td><p:outputLabel
-									value="#{pdController.getEmpName(pdController.project.proAssiEmpNo)}" /></td>
-						</tr>
-						<tr>
-							<td scope="row"><p:outputLabel value="Project Name: " /></td>
-							<td><p:outputLabel value="#{pdController.project.proName}" /></td>
-						</tr>
-						<tr>
-							<td scope="row"><p:outputLabel value="Description: " /></td>
-							<td><p:outputLabel value="#{pdController.project.proDesc}" /></td>
-						</tr>
-						<tr>
-							<td scope="row"><p:outputLabel value="Start Date: " /></td>
-							<td><p:outputLabel value="#{pdController.project.startDate}">
-									<f:convertDateTime pattern="dd-MM-yyyy" />
-								</p:outputLabel></td>
-						</tr>
-						<tr>
-							<td scope="row"><p:outputLabel value="End Date: " /></td>
-							<td><p:outputLabel value="#{pdController.project.endDate}">
-									<f:convertDateTime pattern="dd-MM-yyyy" />
-								</p:outputLabel></td>
-						</tr>
-						<tr>
-							<td scope="row"><p:outputLabel value="State " /></td>
-							<td><p:outputLabel value="#{pdController.project.state}" /></td>
-						</tr>
-						<tr>
-							<td scope="row"><p:outputLabel value="Comment: " /></td>
-							<td><p:outputLabel value="#{pdController.project.comment}" /></td>
-						</tr>
+				<h:form id="form">
+
+					<table id="table" class="table table-striped">
+						<tbody>
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Number: " /></td>
+								<td><p:outputLabel value="#{pdController.project.proNo}" /></td>
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager: " /></td>
+								<td><p:outputLabel
+										value="#{pdController.getEmpName(pdController.project.proMgrEmpNo)}" /></td>
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Assistant: " /></td>
+								<td><h:selectOneMenu
+										rendered="#{paController.isProjectManager()}"
+										value="#{pdController.project.proAssiEmpNo}">
+										<f:selectItems value="#{pdController.empPool}" var="emp"
+											itemLabel="#{emp.userName}" itemValue="#{emp.empNumber}"
+											style="color:black" />
+
+									</h:selectOneMenu> <p:outputLabel rendered="#{paController.isPAnotPM()}"
+										value="#{pdController.getEmpName(pdController.project.proAssiEmpNo)}" />
+
+								</td>
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Name: " /></td>
+								<td><p:outputLabel value="#{pdController.project.proName}" /></td>
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="Description: " /></td>
+								<td><p:outputLabel value="#{pdController.project.proDesc}" /></td>
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="Start Date: " /></td>
+								<td><p:outputLabel
+										value="#{pdController.project.startDate}">
+										<f:convertDateTime pattern="dd-MM-yyyy" />
+									</p:outputLabel></td>
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="End Date: " /></td>
+								<td><p:outputLabel value="#{pdController.project.endDate}">
+										<f:convertDateTime pattern="dd-MM-yyyy" />
+									</p:outputLabel></td>
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="State " /></td>
+								<td><p:outputLabel value="#{pdController.project.state}" /></td>
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="Comment: " /></td>
+								<td><p:outputLabel value="#{pdController.project.comment}" /></td>
+							</tr>
 
 
 
 
-					</tbody>
-				</table>
+						</tbody>
+					</table>
+
+					<p:commandButton value="Submit" ajax="true"
+						rendered="#{paController.isProjectManager()}" update="form"
+						action="#{pdController.submit}">
+
+					</p:commandButton>
+					<p:growl id="msgs" showDetail="true" />
+				</h:form>
+
 
 			</p:panel>
 
