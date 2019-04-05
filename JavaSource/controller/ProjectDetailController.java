@@ -40,6 +40,8 @@ public class ProjectDetailController implements Serializable {
 	private List<Employee> wpEmp;
 
 	private TreeNode root;
+	
+	private WorkPackage addWp;
 
 	public ProjectDetailController() {
 
@@ -63,9 +65,7 @@ public class ProjectDetailController implements Serializable {
 		this.project = project;
 		this.empPool = getAllEmpPool(project.getProNo());
 		this.wpEmp = getWPEmp(project.getProNo());
-
 		treeInit(this.project.getProNo());
-
 		return "ProjectDetail.xhtml?faces-redirect=true";
 
 	}
@@ -167,6 +167,20 @@ public class ProjectDetailController implements Serializable {
 		this.database.updateProject(project);
 		FacesMessage msg = new FacesMessage("Project Assistant Updated");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		
+	}
+
+	public WorkPackage getAddWp() {
+		return addWp;
+	}
+
+	public void setAddWp(WorkPackage addWp) {
+		this.addWp = addWp;
+	}
+	
+	public void initAddWp() {
+		addWp = new WorkPackage();
+		addWp.setProNo(project.getProNo());
 		
 	}
 

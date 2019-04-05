@@ -26,7 +26,7 @@
 					<div class="col-sm-2"></div>
 					<div class="col-sm-8">
 						<h1>Project List</h1>
-						<h:outputText value="A list of all active employees." />
+						<h:outputText value="A list of all projects." />
 					</div>
 					<div class="col-sm-2"></div>
 				</div>
@@ -36,12 +36,12 @@
 					<p:growl id="msgs" showDetail="true" />
 
 
-					<p:commandButton value="Add Project" 
+					<p:commandButton value="Add Project"
 						styleClass="ui-priority-primary" process="@this"
 						onclick="PF('addProjectDialog').show();" >
-						
+
 						</p:commandButton>
-					
+
 					<hr></hr>
 
 					<p:dataTable id="project" var="project" widgetVar="project"
@@ -96,17 +96,6 @@
 							</p:cellEditor>
 						</p:column>
 
-						<p:column headerText="Description" style="width:100px">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{project.proDesc}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputTextarea value="#{project.proDesc}" style="width:100%"
-										label="Description" />
-								</f:facet>
-							</p:cellEditor>
-						</p:column>
 						<p:column headerText="Start Date" style="width:100px">
 
 							<p:cellEditor>
@@ -153,18 +142,6 @@
 							</p:cellEditor>
 						</p:column>
 
-
-						<p:column headerText="Comment" style="width:100px">
-							<p:cellEditor>
-								<f:facet name="output">
-									<h:outputText value="#{project.comment}" />
-								</f:facet>
-								<f:facet name="input">
-									<p:inputTextarea value="#{project.comment}" style="width:100%"
-										label="Comment" />
-								</f:facet>
-							</p:cellEditor>
-						</p:column>
 
 						<p:column headerText="Edit" style="width:100px">
 							<p:rowEditor rendered="#{project.editable}" />

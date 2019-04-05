@@ -20,81 +20,175 @@
 			<ui:include src="/sections/ProjectManagementNavigationBar.xhtml" />
 		</ui:define>
 		<ui:define name="content">
-
-		   <p:panel id="basic" 
-           			header="Project Management" footer="" 
-           			style="margin-left:50px; margin-right:50px;">
-		  	
-			<h:form id="form">
-				<p:treeTable value="#{pdController.root}" var="wp" id="wp" scrollable="true">
-
-					<p:column headerText="ID" style="width:100px; text-align:center">
-						<h:outputText value="#{wp.wpid}" />
-					</p:column>
-
-					<p:column headerText="Project No" style="width:100px; text-align:center">
-						<h:outputText value="#{wp.proNo}" />
-					</p:column>
-
-					<p:column headerText="Title" style="width:100px; text-align:center">
-						<h:outputText value="#{wp.title}" />
-					</p:column>
-
-
-					<p:column headerText="ReEmpNo" style="width:100px; text-align:center">
-						<h:outputText value="#{wp.reEmpNo}" />
-					</p:column>
-
-					<p:column headerText="State" style="width:100px; text-align:center">
-						<h:outputText value="#{wp.state}" />
-					</p:column>
-
-					<p:column headerText="Start Date" style="width:100px; text-align:center">
-						<h:outputText value="#{wp.startDate}">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputText>
-					</p:column>
-					<p:column headerText="End Date" style="width:100px; text-align:center">
-						<h:outputText value="#{wp.endDate}">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputText>
-					</p:column>
-
-					<p:column headerText="View" style="text-align:center; width:95px">
-						<p:commandLink value="View" update="wp"
-							action="#{wpdController.viewWP(wp)}">
-							<h:graphicImage value="resources/images/view.png" style="max-width:40%; max-height:40%"/>	
-						</p:commandLink>
-					</p:column>
-					<p:column headerText="Add" style="text-align:center; width:95px">
-						<p:commandLink value="Add" update="wp"
-							action="#{pdController.addWP(wp)}">
-							<h:graphicImage value="resources/images/add.png" style="max-width:40%; max-height:40%"/>	
-						</p:commandLink>
-					</p:column>
-
-
-					<p:column headerText="Delete" style="text-align:center;width:110px">
-						<p:commandLink value="Delete" update="wp"
-							action="#{pdController.deleteWp(wp)}">
-							<h:graphicImage value="resources/images/error.png" style="max-width:40%; max-height:40%"/>	
-						</p:commandLink>
-
-					</p:column>
-
-
-				</p:treeTable>
-
-
-			</h:form>
+			<p:fieldset scrollabe="true"
+				style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color: black">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-8">
+						<h1>Work Package Management</h1>
+						<h:outputText style="font-size:25px"
+							value="Project Number: #{pdController.project.proNo}" />
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<hr></hr>
+				<p:panel id="basic" footer=""
+					style="margin-left:50px; margin-right:50px;">
 
 
 
 
 
 
-		</p:panel>
+					<h:form id="form">
+						<p:commandButton value="Add Work Package"
+							styleClass="ui-priority-primary" process="@this"
+							action="#{pdController.initAddWp}"
+							onclick="PF('addWPDialog').show();">
 
+						</p:commandButton>
+						<p:dialog id="addDialog" header="Add Work Package" modal="true"
+							width="400" widgetVar="addWPDialog" draggable="false">
+							<h:form id="formAddDialog">
+								<table class="table">
+									<tbody>
+										<tr>
+											<td><h:outputText value="Project Number" /></td>
+											<td><h:outputText id="addPropNo"
+													value="#{pdController.addWp.proNo}" /></td>
+										</tr>
+										<tr>
+											<td><h:outputText value="Parent Work Package" /></td>
+											<td><h:selectOneMenu
+													value="#{projectController.addProject.proMgrEmpNo}">
+													<f:selectItems value="#{projectController.employeeList}"
+														var="e" itemLabel="#{e.userName}"
+														itemValue="#{e.empNumber}" />
+												</h:selectOneMenu></td>
+										</tr>
+										<tr>
+											<td><h:outputText value="Project Name" /></td>
+											<td><p:inputText
+													value="#{projectController.addProject.proName}" /></td>
+										</tr>
+										<tr>
+											<td><h:outputText value="Description" /></td>
+											<td><p:inputTextarea
+													value="#{projectController.addProject.proDesc}" /></td>
+										</tr>
+										<tr>
+											<td><h:outputText for="start" value="Start Date" /></td>
+											<td><p:calendar id="start"
+													value="#{projectController.addProject.startDate}" /></td>
+										</tr>
+										<tr>
+											<td><h:outputText for="end" value="End Date" /></td>
+											<td><p:calendar id="end"
+													value="#{projectController.addProject.endDate}" /></td>
+										</tr>
+										<tr>
+											<td><h:outputText value="State" /></td>
+											<td><h:selectOneMenu
+													value="#{projectController.addProject.state}">
+													<f:selectItems value="#{projectController.statusCreation}" />
+												</h:selectOneMenu></td>
+										</tr>
+										<tr>
+											<td><h:outputText value="Comment" /></td>
+											<td><p:inputTextarea
+													value="#{projectController.addProject.comment}" /></td>
+										</tr>
+
+									</tbody>
+								</table>
+
+								<p:commandButton resetValues="true" id="addButton"
+									update=":form:formAddDialog" value="Add"
+									action="#{projectController.persistProject()}"
+									style="float: right;" />
+
+								<p:growl id="messageGrowl" showDetail="true" sticky="false" />
+
+							</h:form>
+						
+						</p:dialog>
+						<hr></hr>
+						<p:treeTable value="#{pdController.root}" var="wp" id="wp"
+							scrollable="true">
+
+							<p:column headerText="ID" style="width:100px; text-align:center">
+								<h:outputText value="#{wp.wpid}" />
+							</p:column>
+
+
+							<p:column headerText="Title"
+								style="width:100px; text-align:center">
+								<h:outputText value="#{wp.title}" />
+							</p:column>
+
+
+							<p:column headerText="ReEmpNo"
+								style="width:100px; text-align:center">
+								<h:outputText value="#{wp.reEmpNo}" />
+							</p:column>
+
+							<p:column headerText="State"
+								style="width:100px; text-align:center">
+								<h:outputText value="#{wp.state}" />
+							</p:column>
+
+							<p:column headerText="Start Date"
+								style="width:100px; text-align:center">
+								<h:outputText value="#{wp.startDate}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="End Date"
+								style="width:100px; text-align:center">
+								<h:outputText value="#{wp.endDate}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="View" style="text-align:center; width:95px">
+								<p:commandLink value="View" update="wp"
+									action="#{wpdController.viewWP(wp)}">
+									<h:graphicImage value="resources/images/view.png"
+										style="max-width:40%; max-height:40%" />
+								</p:commandLink>
+							</p:column>
+							<p:column headerText="Add" style="text-align:center; width:95px">
+								<p:commandLink value="Add" update="wp"
+									action="#{pdController.addWP(wp)}">
+									<h:graphicImage value="resources/images/add.png"
+										style="max-width:40%; max-height:40%" />
+								</p:commandLink>
+							</p:column>
+
+
+							<p:column headerText="Delete"
+								style="text-align:center;width:110px">
+								<p:commandLink value="Delete" update="wp"
+									action="#{pdController.deleteWp(wp)}">
+									<h:graphicImage value="resources/images/error.png"
+										style="max-width:40%; max-height:40%" />
+								</p:commandLink>
+
+							</p:column>
+
+
+						</p:treeTable>
+
+
+					</h:form>
+
+
+
+
+
+
+				</p:panel>
+			</p:fieldset>
 
 
 

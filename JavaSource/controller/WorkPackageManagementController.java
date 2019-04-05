@@ -28,6 +28,8 @@ public class WorkPackageManagementController implements Serializable {
 	private List<WorkPackage> wpList;
 
 	private WorkPackage editWP;
+	
+
 
 	public WorkPackageManagementController() {
 
@@ -82,5 +84,6 @@ public class WorkPackageManagementController implements Serializable {
 	public void setEditWP(WorkPackage editWP) {
 		this.editWP = editWP;
 	}
+
 
 }

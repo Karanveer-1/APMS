@@ -259,7 +259,9 @@ public class DatabaseController implements Serializable {
 			if (newProject.getStartDate().after(newProject.getEndDate())) {
 				return false;
 			}
+			
 			this.manager.persist(newProject);
+			addNewEmployeeToProject(newProject.getProMgrEmpNo(), newProject.getProNo());
 			return true;
 		}
 
@@ -336,6 +338,7 @@ public class DatabaseController implements Serializable {
 
 		manager.persist(temp);
 	}
+
 
 	public List<Project> getProjectsBySupervisor(int id) {
 		List<ProEmp> proemp = new ArrayList<ProEmp>();
