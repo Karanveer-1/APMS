@@ -60,10 +60,12 @@
 										<tr>
 											<td><h:outputText value="Parent Work Package" /></td>
 											<td><h:selectOneMenu
-													value="#{projectController.addProject.proMgrEmpNo}">
-													<f:selectItems value="#{projectController.employeeList}"
-														var="e" itemLabel="#{e.userName}"
-														itemValue="#{e.empNumber}" />
+													value="#{pdController.addWp.parentWPID}">
+													<f:selectItems value="#{pdController.wpList}"
+														var="wp" itemLabel="#{wp.wpid}"
+														itemValue="#{wp.wpid}" >
+														<p:ajax listener="#{pdController.onClick}" update=":formAddDialog"></p:ajax>
+														</f:selectItems>
 												</h:selectOneMenu></td>
 										</tr>
 										<tr>

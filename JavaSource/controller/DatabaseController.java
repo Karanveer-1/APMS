@@ -389,6 +389,16 @@ public class DatabaseController implements Serializable {
 		return ids;
 	}
 
+	public List<WorkPackage> getWPListByProNo(int proNo){
+		List<WorkPackage> result = new ArrayList<WorkPackage>();
+		List<WorkPackage> wps = getAllWp();
+		for(WorkPackage wp: wps) {
+			if(wp.getProNo() == proNo) {
+				result.add(wp);
+			}
+		}
+		return result;
+	}
 	public List<WorkPackage> getLowerWP(String wpid) {
 		List<WorkPackage> result = new ArrayList<WorkPackage>();
 		if (wpid != null) {

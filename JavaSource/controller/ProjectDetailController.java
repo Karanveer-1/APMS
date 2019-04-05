@@ -40,8 +40,10 @@ public class ProjectDetailController implements Serializable {
 	private List<Employee> wpEmp;
 
 	private TreeNode root;
-	
+
 	private WorkPackage addWp;
+
+	private List<WorkPackage> wpList;
 
 	public ProjectDetailController() {
 
@@ -65,6 +67,7 @@ public class ProjectDetailController implements Serializable {
 		this.project = project;
 		this.empPool = getAllEmpPool(project.getProNo());
 		this.wpEmp = getWPEmp(project.getProNo());
+		initWPList();
 		treeInit(this.project.getProNo());
 		return "ProjectDetail.xhtml?faces-redirect=true";
 
@@ -162,12 +165,12 @@ public class ProjectDetailController implements Serializable {
 	public String getEmpName(int id) {
 		return this.database.getEmployeeById(id).getUserName();
 	}
-	
+
 	public void submit() {
 		this.database.updateProject(project);
 		FacesMessage msg = new FacesMessage("Project Assistant Updated");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-		
+
 	}
 
 	public WorkPackage getAddWp() {
@@ -177,11 +180,30 @@ public class ProjectDetailController implements Serializable {
 	public void setAddWp(WorkPackage addWp) {
 		this.addWp = addWp;
 	}
-	
+
 	public void initAddWp() {
 		addWp = new WorkPackage();
 		addWp.setProNo(project.getProNo());
-		
+
+	}
+
+	public void initWPList() {
+		this.wpList = this.database.getWPListByProNo(project.getProNo());
+		WorkPackage wp = new WorkPackage();
+		wp.setWpid("Project");
+		this.wpList.add(wp);
+	}
+
+	public List<WorkPackage> getWpList() {
+		return wpList;
+	}
+
+	public void setWpList(List<WorkPackage> wpList) {
+		this.wpList = wpList;
+	}
+
+	public void onClick() {
+		System.out.println("On Click");
 	}
 
 }
