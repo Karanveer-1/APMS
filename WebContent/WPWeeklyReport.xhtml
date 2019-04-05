@@ -38,7 +38,12 @@
 					type="preRenderView" />
 
 				<h:form id="formMain">
-					<table class="table table-striped">
+				    <p:remoteCommand name="pageInitComamnd" 
+				    autoRun="true" 
+				    action="#{wpWeeklyReportController.pageInit()}"
+                    update="selectTable report" />
+				    
+					<table jsf:id="selectTable" class="table table-striped">
 						<tbody>
 							<tr>
 								<td><h:outputText value="Project: " /></td>

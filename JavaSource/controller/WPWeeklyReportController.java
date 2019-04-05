@@ -56,6 +56,16 @@ public class WPWeeklyReportController implements Serializable {
 
         projectNos = database.getAllProjectNoForProjectManager(currentEmployee.getEmpNumber());
     }
+    
+    public void pageInit() {        
+        proNo = null;
+        wpid = null;
+        rows = null;
+        wpids = null;
+        projectNos = null;
+        
+        init();
+    }
 
     public void onProjectChange() {
         if (proNo != null) {
