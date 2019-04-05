@@ -42,19 +42,26 @@ public class WPWeeklyReportController implements Serializable {
     private String wpid;
 
     public void init() {
+        Employee currentEmployee = ((Employee) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap().get(LoginController.USER_KEY));
+        
+        if (currentEmployee == null) {
+            return;
+        }
+        
         if (auth.isUserSystemAdmin()) {
             projectNos = database.getAllProjectNo();
             return;
         }
 
-        projectNos = database.getAllProjectNoForProjectManager(((Employee) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap().get(LoginController.USER_KEY)).getEmpNumber());
+        projectNos = database.getAllProjectNoForProjectManager(currentEmployee.getEmpNumber());
     }
 
     public void onProjectChange() {
         if (proNo != null) {
             wpids = getLeafWpids(proNo);
         }
+        
         wpid = null;
     }
 
@@ -68,17 +75,6 @@ public class WPWeeklyReportController implements Serializable {
                             return m.getTimesheetRowPk().getWpid();
                         }).distinct().anyMatch(k -> k.equals(wp.getWpid()) && wp.isLeaf()))
                 .map(WorkPackage::getWpid).collect(Collectors.toList());
-
-        //
-        // return database.getTimesheetRows()
-        // .stream()
-        // .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
-        // .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
-        // .map(m -> {
-        // return m.getTimesheetRowPk().getWpid();
-        // })
-        // .distinct()
-        // .collect(Collectors.toList());
     }
 
     private List<Employee> getParticipatingEmployees() {
