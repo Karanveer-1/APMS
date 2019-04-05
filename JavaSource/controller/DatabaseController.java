@@ -654,5 +654,18 @@ public class DatabaseController implements Serializable {
         manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
     }
 
+    /**
+     * @param proNo
+     * @param wpid
+     * @return
+     */
+    public WorkPackage getWpByPk(Integer proNo, String wpid) {
+        TypedQuery<WorkPackage> query = manager.createQuery(
+                "select p from WorkPackage p where p.workPackagePk.proNo = :proNo AND p.workPackagePk.wpid = :wpid", WorkPackage.class);
+            query.setParameter("proNo", proNo);
+            query.setParameter("wpid", wpid);
+            return query.getSingleResult();
+    }
+
 
 }

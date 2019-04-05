@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+<h:head>
+	<title>IGNORED!</title>
+</h:head>
+
+<h:body>
+	<ui:composition template="/templates/MasterLayout.xhtml">
+
+		<ui:define name="windowTitle">WP Weekly Report</ui:define>
+		<ui:define name="headerTitle">
+			<h:outputText value="WP Weekly Report" class="navbar-brand" />
+		</ui:define>
+		<ui:define name="navBar">
+			<ui:include src="/sections/ReportNavigationBar.xhtml" />
+		</ui:define>
+
+		<ui:define name="content">
+			<p:panel id="basic" header="WP Weekly Report" footer=""
+				style="margin-left:50px; margin-right:50px;">
+
+				<f:event listener="#{wpEffortReportController.init}"
+					type="preRenderView" />
+
+				<h:form id="formMain">
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<td><h:outputText value="Project: " /></td>
+								<td><p:selectOneMenu id="project"
+										value="#{wpEffortReportController.proNo}" style="width: 200px">
+										<p:ajax
+											listener="#{wpEffortReportController.onProjectChange()}"
+											update="wp generate" />
+										<f:selectItem itemLabel="Select Project" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{wpEffortReportController.projectNos}" />
+									</p:selectOneMenu></td>
+							</tr>
+							<tr>
+								<td><h:outputText value="Workpackage: " /></td>
+								<td><p:selectOneMenu id="wp"
+										value="#{wpEffortReportController.wpid}"
+										disabled="#{!wpEffortReportController.canSelectWP()}"
+										style="width: 200px">
+										<p:ajax update="generate" />
+										<f:selectItem itemLabel="Select Workpackage" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems value="#{wpEffortReportController.wpids}" />
+									</p:selectOneMenu></td>
+							</tr>
+							<tr>
+								<td><p:commandButton id="generate" value="Search"
+										disabled="#{!wpEffortReportController.canGenerateReport()}"
+										action="#{wpEffortReportController.generateReport()}"
+										update=":report"
+										process="@this">
+										</p:commandButton></td>
+								<td><h:outputText value="&nbsp;" /></td>
+							</tr>
+						</tbody>
+					</table>
+					<hr />
+					</h:form>
+					<h:form id="report"  widgetVar="report" >
+					<table>
+						<tr>
+							<th>PLevel</th>
+							<th>Calculated Hours</th>
+							<th>Estimated Additional Hours</th>
+						</tr>
+						<tr>
+							<td>P1</td>
+							<td>placeholder</td>
+							<td>
+							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstP1 != 0}" value="#{wpEffortReportController.wp.reEstP1}"></p:outputLabel>
+							<p:inputText id="P1input"  rendered="#{wpEffortReportController.wp.reEstP1 == 0}" binding="#{reEstP1}" value="#{wpEffortReportController.wp.reEstP1}"></p:inputText>
+							<p:commandButton rendered="#{wpEffortReportController.wp.reEstP1 == 0}" value="Save" action="#{wpEffortReportController.saveEstimateP1(reEstP1.value)}" update=":report">
+							</p:commandButton>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>P2</td>
+							<td>placeholder</td>
+							<td>
+							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstP2 != 0}" value="#{wpEffortReportController.wp.reEstP2}"></p:outputLabel>
+							<p:inputText id="P2input"  rendered="#{wpEffortReportController.wp.reEstP2 == 0}" binding="#{reEstP2}" value="#{wpEffortReportController.wp.reEstP2}"></p:inputText>
+							<p:commandButton rendered="#{wpEffortReportController.wp.reEstP2 == 0}" value="Save" action="#{wpEffortReportController.saveEstimateP2(reEstP2.value)}" update=":report">
+							</p:commandButton>
+							</td>
+						</tr>
+						<tr>
+							<td>P3</td>
+							<td>placeholder</td>
+							<td>
+							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstP3 != 0}" value="#{wpEffortReportController.wp.reEstP3}"></p:outputLabel>
+							<p:inputText id="P3input"  rendered="#{wpEffortReportController.wp.reEstP3 == 0}" binding="#{reEstP3}" value="#{wpEffortReportController.wp.reEstP3}"></p:inputText>
+							<p:commandButton rendered="#{wpEffortReportController.wp.reEstP3 == 0}" value="Save" action="#{wpEffortReportController.saveEstimateP3(reEstP3.value)}" update=":report">
+							</p:commandButton>
+							</td>
+						</tr>
+						<tr>
+							<td>P4</td>
+							<td>placeholder</td>
+							<td>
+							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstP4 != 0}" value="#{wpEffortReportController.wp.reEstP4}"></p:outputLabel>
+							<p:inputText id="P4input"  rendered="#{wpEffortReportController.wp.reEstP4 == 0}" binding="#{reEstP4}" value="#{wpEffortReportController.wp.reEstP4}"></p:inputText>
+							<p:commandButton rendered="#{wpEffortReportController.wp.reEstP4 == 0}" value="Save" action="#{wpEffortReportController.saveEstimateP4(reEstP4.value)}" update=":report">
+							</p:commandButton>
+							</td>
+						</tr>
+						<tr>
+							<td>P5</td>
+							<td>placeholder</td>
+							<td>
+							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstP5 != 0}" value="#{wpEffortReportController.wp.reEstP5}"></p:outputLabel>
+							<p:inputText id="P5input"  rendered="#{wpEffortReportController.wp.reEstP5 == 0}" binding="#{reEstP5}" value="#{wpEffortReportController.wp.reEstP5}"></p:inputText>
+							<p:commandButton rendered="#{wpEffortReportController.wp.reEstP5 == 0}" value="Save" action="#{wpEffortReportController.saveEstimateP5(reEstP5.value)}" update=":report">
+							</p:commandButton>
+							</td>
+						</tr>
+						<tr>
+							<td>P6</td>
+							<td>placeholder</td>
+							<td>
+							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstP6 != 0}" value="#{wpEffortReportController.wp.reEstP6}"></p:outputLabel>
+							<p:inputText id="P6input"  rendered="#{wpEffortReportController.wp.reEstP6 == 0}" binding="#{reEstP6}" value="#{wpEffortReportController.wp.reEstP6}"></p:inputText>
+							<p:commandButton rendered="#{wpEffortReportController.wp.reEstP6 == 0}" value="Save" action="#{wpEffortReportController.saveEstimateP6(reEstP6.value)}" update=":report">
+							</p:commandButton>
+							</td>
+						</tr>
+						<tr>
+							<td>DS</td>
+							<td>placeholder</td>
+							<td>
+							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstDS != 0}" value="#{wpEffortReportController.wp.reEstDS}"></p:outputLabel>
+							<p:inputText id="DSinput"  rendered="#{wpEffortReportController.wp.reEstDS == 0}" binding="#{reEstDS}" value="#{wpEffortReportController.wp.reEstDS}"></p:inputText>
+							<p:commandButton rendered="#{wpEffortReportController.wp.reEstDS == 0}" value="Save" action="#{wpEffortReportController.saveEstimateDS(reEstDS.value)}" update=":report">
+							</p:commandButton>
+							</td>
+						</tr>
+						<tr>
+							<td>SS</td>
+							<td>placeholder</td>
+							<td>
+							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstSS != 0}" value="#{wpEffortReportController.wp.reEstSS}"></p:outputLabel>
+							<p:inputText id="SSinput"  rendered="#{wpEffortReportController.wp.reEstSS == 0}" binding="#{reEstSS}" value="#{wpEffortReportController.wp.reEstSS}"></p:inputText>
+							<p:commandButton rendered="#{wpEffortReportController.wp.reEstSS == 0}" value="Save" action="#{wpEffortReportController.saveEstimateSS(reEstSS.value)}" update=":report">
+							</p:commandButton>
+							</td>
+						</tr>
+						<tr>
+							<td>JS</td>
+							<td>placeholder</td>
+							<td>
+							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstJS != 0}" value="#{wpEffortReportController.wp.reEstJS}"></p:outputLabel>
+							<p:inputText id="JSinput"  rendered="#{wpEffortReportController.wp.reEstJS == 0}" binding="#{reEstJS}" value="#{wpEffortReportController.wp.reEstJS}"></p:inputText>
+							<p:commandButton rendered="#{wpEffortReportController.wp.reEstJS == 0}" value="Save" action="#{wpEffortReportController.saveEstimateJS(reEstJS.value)}" update=":report">
+							</p:commandButton>
+							</td>
+						</tr>
+					</table>
+				</h:form>
+			</p:panel>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
