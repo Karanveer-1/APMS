@@ -34,6 +34,13 @@
 				</div>
 
            		<hr></hr>
+           		
+           		<p:commandButton value="Add Timesheet" id="addButton"
+							onclick="PF('addTimesheetDialog').show();">
+							<p:ajax update=":formAddDialog:createButton" />
+				</p:commandButton>
+           
+           		<hr></hr>
 			<f:event listener="#{timesheetController.init}" type="preRenderView" />
 			<h:outputText value="&nbsp;" />
 			
@@ -74,7 +81,7 @@
 						<p:commandLink 
 							action="#{timesheetController.viewTimesheet(timesheet)}"
 							style="width: 100%;">
-						  <h:graphicImage value="resources/images/view.png" style="max-width:30%; max-height:30%; "/>			
+						  <h:graphicImage value="resources/images/view.png" style="max-width:25%; max-height:25%; "/>			
 					</p:commandLink>
 					</p:column>
 					<p:column headerText="Edit" style="width:100px; text-align: center;">
@@ -83,7 +90,7 @@
 							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
 							style="width: 100%">
 						
-						  <h:graphicImage value="resources/images/edit.png" style="max-width:30%; max-height:30%; "/>
+						  <h:graphicImage value="resources/images/edit.png" style="max-width:25%; max-height:25%; "/>
 						</p:commandLink>
 					</p:column>
 					<p:column headerText="Delete" style="width:100px; text-align: center;">
@@ -91,7 +98,7 @@
 							action="#{timesheetController.deleteTimesheet(timesheet)}"
 							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
 							update=":formMain" style="width: 100%">
-						 <h:graphicImage value="resources/images/error.png" style="max-width:30%; max-height:30%"/>	
+						 <h:graphicImage value="resources/images/error.png" style="max-width:25%; max-height:25%"/>	
 						
 						</p:commandLink>
 					</p:column>
@@ -101,7 +108,7 @@
 							rendered="#{timesheetController.canSubmitTimesheet(timesheet)}"
 							update=":formMain" style="width: 100%" >
 							
-							<h:graphicImage value="resources/images/submit.png" style="max-width:30%; max-height:30%"/>	
+							<h:graphicImage value="resources/images/submit.png" style="max-width:25%; max-height:25%"/>	
 							
 						</p:commandLink>
 						<p:commandLink 
@@ -109,7 +116,7 @@
 							rendered="#{timesheetController.canCancelSubmitTimesheet(timesheet)}"
 							update=":formMain" style="width: 100%">
 							
-							<h:graphicImage value="resources/images/cancel.png" style="max-width:30%; max-height:30%"/>	
+							<h:graphicImage value="resources/images/cancel.png" style="max-width:35%; max-height:35%"/>	
 							
 						</p:commandLink>
 					</p:column>

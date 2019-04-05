@@ -13,15 +13,14 @@
 		 	<p style="font-size: 250%; text-align: center;">
 		 	
 		 	Welcome to APMS
-
-		 	<div class="container-fluid"> 
+		 	<div class="container-fluid">
 		 	<div class="row" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
 			  <div class="col-sm-4">
 			  	<div class="card" style="padding:20px; margin: 0 7px; margin-top:10px;">
 				  <div class="card-body">
 				  <span>
 				  	<img src="resources/images/employeeIcon.png" style=" margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 30%;"/>						
-				  	<h1>4</h1>
+				  	<h1>#{dashboardController.employeeCount}</h1>
 				  	<h5 class="card-title">Employees</h5>
 				  </span>
 				    <p class="card-text"></p>
@@ -33,6 +32,9 @@
 				  	<p:panelMenu>
 			        <p:submenu label="Employee Features">
 			            <p:menuitem value="Assign Approvers" action="AssignEmployee.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			            <p:menuitem value="Active Employees" action="Employees.xhtml?faces-redirect=true" icon="fa fa-heartbeat" />
+			            <p:menuitem value="Inactive Employees" action="InactiveEmployees.xhtml?faces-redirect=true" icon="fa fa-minus-circle" />
+			            <p:menuitem value="Employee P Level" action="EmpPLevels.xhtml?faces-redirect=true" icon="fa fa-bar-chart" />
 			        </p:submenu>
 			       </p:panelMenu>
 			  	</h:form>
@@ -41,7 +43,7 @@
 			  <div class="col-sm-4">
 			  	<div class="card" style="padding:20px; margin: 0 7px; margin-top:10px;">
 				  <div class="card-body">
-				    <span>
+				     <span>
 				    <img src="resources/images/timesheet.png"
 						style="margin-bottom: -35px; display: block; margin-left: auto; margin-right: auto; width: 30%;" />
 				  	<h1>4</h1>
@@ -60,7 +62,9 @@
 				<h:form>
 				  	<p:panelMenu>
 			        <p:submenu label="Timesheet Features">
-			            <p:menuitem value="Approved Timesheets" action="AssignEmployee.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			            <p:menuitem value="Approved Timesheets" action="ApproveTimesheet.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			            <p:menuitem value="Create Timesheet" action="Timesheets.xhtml?faces-redirect=true" icon="fa fa-plus-circle" />
+			       
 			        </p:submenu>
 			       </p:panelMenu>
 			  	</h:form>
@@ -80,7 +84,9 @@
 				<h:form>
 				  	<p:panelMenu>
 			        <p:submenu label="Project Features">
-			            <p:menuitem value="Assign Approvers" action="AssignEmployee.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			            <p:menuitem value="All Packages" action="Projects.xhtml?faces-redirect=true" icon="fa fa-list-ul" />
+			            <p:menuitem value="Work Packages" action="WorkPackage.xhtml?faces-redirect=true" icon="fa fa-briefcase" />
+			        
 			        </p:submenu>
 			       </p:panelMenu>
 			  	</h:form>

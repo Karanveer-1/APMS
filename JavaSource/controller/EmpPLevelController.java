@@ -16,6 +16,7 @@ import org.primefaces.PrimeFaces;
 
 import model.EmpPLevel;
 import model.EmpPLevelPK;
+import model.Employee;
 import model.PLevel;
 
 /**
@@ -35,12 +36,14 @@ public class EmpPLevelController implements Serializable {
     private List<String> empPLevelDropDownList;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private EmpPLevel editEmpPLevel;
+    private List<Employee> activeEmployees;
 
     @PostConstruct
     public void init() {
         editEmpPLevel = null;
         pLevels = database.getPLevels();
         empPLevels = database.getEmpPLevels();
+        setActiveEmployees(database.getActiveEmployees());
         empPLevelDropDownList = new ArrayList<String>();
         populateDropDown();
         System.out.println(pLevels);
@@ -158,5 +161,17 @@ public class EmpPLevelController implements Serializable {
     }
     public void closeDialog() {
         PrimeFaces.current().executeScript("PF('errorDialog').hide();");
+    }
+
+    public List<Employee> getActiveEmployees() {
+        return activeEmployees;
+    }
+
+    public void setActiveEmployees(List<Employee> activeEmployees) {
+        this.activeEmployees = activeEmployees;
+    }
+    
+    public Employee getEmployeeById(int id) {
+        return database.getEmployeeById(id);
     }
 }
