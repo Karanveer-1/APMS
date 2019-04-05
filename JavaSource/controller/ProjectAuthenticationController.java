@@ -53,18 +53,22 @@ public class ProjectAuthenticationController implements Serializable {
 		return false;
 	}
 
-//	public boolean isProjectAssistant() {
-//		List<ProAssi> allProAssi = this.database.getAllProAssi();
-//		for (ProAssi pa : allProAssi) {
-//			if (currentEmployee.getEmpNumber() == pa.getEmpNo()) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+	public boolean isProjectAssistant() {
+		List<Project> allProject = this.database.getAllProjects();
+		for (Project p : allProject) {
+			if (currentEmployee.getEmpNumber() == p.getProAssiEmpNo()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public boolean isPMorPA() {
-		return isProjectManager() ;
+		return isProjectManager() || isProjectAssistant() ;
+	}
+	
+	public boolean isPAnotPM() {
+		return !isProjectManager() && isProjectAssistant() ;
 	}
 
 	public boolean isREEmp() {
