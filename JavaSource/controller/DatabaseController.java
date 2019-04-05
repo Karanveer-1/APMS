@@ -270,6 +270,14 @@ public class DatabaseController implements Serializable {
 
         return ids;
     }
+    
+    public List<Integer> getAllProjectNoForProjectManager(Integer proNo) {
+        List<Integer> ids = manager.createQuery("SELECT p.proNo from Project p where p.proMgrEmpNo = :no", Integer.class)
+                .setParameter("no", proNo).getResultList();
+        
+        return ids;
+    }
+
 
     public Project findByProjectNo(final int proNo) {
         return this.manager.find(Project.class, proNo);

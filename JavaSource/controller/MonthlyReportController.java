@@ -4,13 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import model.Employee;
 import model.PLevel;
 import model.Project;
+import model.TimesheetRowState;
 import model.WorkPackage;
 
 @Named("monthlyReport")
@@ -18,19 +21,27 @@ import model.WorkPackage;
 public class MonthlyReportController implements Serializable {
     @Inject
     private DatabaseController database;
+    @Inject
+    private LoginController login;
+    @Inject AuthenticationController auth;
     
     private Project project;
     private Integer proNo;
+    
     private List<WorkPackage> allWP;
     private List<PLevel> pLevel = new ArrayList<PLevel>();
     
     public List<Integer> init() {
-        return database.getAllProjectNo();
+        if (auth.isUserSystemAdmin()) {
+            return database.getAllProjectNo();
+        }
+        
+        return database.getAllProjectNoForProjectManager(login.getCurrentEmployee().getEmpNumber());
     }
             
     public void generateReport() {
         project = database.findByProjectNo(proNo.intValue());
-        allWP = database.getAllWp();
+        allWP = getLeafWpids(proNo.intValue());
         findPLevel();
     }
 
@@ -103,5 +114,60 @@ public class MonthlyReportController implements Serializable {
     public void setProNo(Integer proNo) {
         this.proNo = proNo;
     }
+    
+    private List<WorkPackage> getLeafWpids(int proNo) {
+        return database.getAllWp()
+                .stream()
+                .filter(wp -> wp.getProNo() == proNo)
+                .filter(wp -> wp.isLeaf())
+                .collect(Collectors.toList());
+    }
+    
+    public float getTotalForEmployee(int empNo, String wpid) {
+        return (float) database.getTimesheetRows()
+            .stream()
+            .filter(r -> r.getTimesheetRowPk().getEmpNo() == empNo)
+            .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
+            .filter(r -> r.getTimesheetRowPk().getWpid().equals(wpid))
+            .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
+            .mapToDouble(r -> {
+                float sat = r.getSat();
+                float sun = r.getSun();
+                float mon = r.getMon();
+                float tue = r.getTue();
+                float wed = r.getWed();
+                float thu = r.getThu();
+                float fri = r.getFri();
+
+                return sat + sun + mon + tue + wed + thu + fri;
+            })
+            .sum();
+    }
+
+    public float getTotalForAllEmployees(String wpid) {
+        return (float) getParticipatingEmployees(wpid)
+            .stream()
+            .mapToDouble(e -> {
+                return getTotalForEmployee(e.getEmpNumber(), wpid);
+            })
+            .sum();
+    }
+    
+    private List<Employee> getParticipatingEmployees(String wpid) {
+        return database.getEmployees()
+            .stream()
+            .filter(e -> database.getTimesheetRows()
+                .stream()
+                .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
+                .filter(r -> r.getTimesheetRowPk().getWpid().equals(wpid))
+                .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
+                .map(r -> {
+                    return r.getTimesheetRowPk().getEmpNo();
+                })
+                .distinct()
+                .anyMatch(re -> e.getEmpNumber() == re))
+            .collect(Collectors.toList());
+    }
+
         
 }
