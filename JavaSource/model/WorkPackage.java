@@ -103,7 +103,8 @@ public class WorkPackage implements Serializable {
 	public WorkPackage() {
 		this.workPackagePk = new WorkPackagePK();
 	
-		
+		this.startDate = new Date();
+		this.endDate = new Date();
 
 	}
 
