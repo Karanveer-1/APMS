@@ -16,6 +16,7 @@
 		<ui:define name="headerTitle">
 			<h:outputText value="Plevel" class="navbar-brand" />
 		</ui:define>
+		<ui:define name="navBar"><ui:include src="/sections/EmployeeNavigationBar.xhtml" /></ui:define>
 
 		<ui:define name="content">
 		
@@ -33,8 +34,7 @@
 
 			<h:form id="formMain">
 				<p:commandButton id="addButton" value="Add PLevel"
-					onclick="PF('addPLevelDialog').show();" 
-					style="background:transparent; color: #88AA00;"/>
+					onclick="PF('addPLevelDialog').show();"/>
 					
 				<hr></hr>
 
@@ -55,51 +55,68 @@
 						<p:commandLink 
 							update=":#{p:component('editDialog')}"
 							action="#{pLevelController.setEditPLevel(pLevel)}">
-							<h:graphicImage value="resources/images/edit.png" style="max-width:20%; max-height:20%; "/>
+							<h:graphicImage value="resources/images/edit.png" style="max-width:15%; max-height:15%; "/>
 						</p:commandLink>
 					</p:column>
 					<p:column headerText="Remove" style="width:80px; text-align: center;">
 						<p:commandLink
 							update=":formMain:pLevelTable :formEditDialog"
 							action="#{pLevelController.remove(pLevel)}">
-							<h:graphicImage value="resources/images/error.png" style="max-width:20%; max-height:20%"/>	
+							<h:graphicImage value="resources/images/error.png" style="max-width:15%; max-height:15%"/>	
 						</p:commandLink>
 					</p:column>
 				</p:dataTable>
 			</h:form>
-			<p:sidebar position="right" baseZIndex="20000" id="editDialog" header="Edit PLevel" modal="true"
+
+			<p:dialog position="center" baseZIndex="20000" id="editDialog" header="Edit PLevel" modal="true"
 				width="400" widgetVar="editPLevelDialog" resizable="false"
+
                 draggable="false">
                 
 				 <h2 style="font-weight:normal">Edit Plevel</h2>
 				
 				<h:form id="formEditDialog">
-					<h:panelGrid columns="2" cellpadding="50px" cellspacing="50px" style="padding:10px">
-						<h:outputText value="PLEVEL" />
-						<h:inputText binding="#{editPLevel}" disabled="true"
-							value="#{pLevelController.editPLevel.pLevelPK.pLevel}" />
-						
+					<table class="table">
+						<tbody>
+							<tr>
+								<td><h:outputText value="PLEVEL" /></td>
+								<td>
+									<h:inputText binding="#{editPLevel}" disabled="true"
+										value="#{pLevelController.editPLevel.pLevelPK.pLevel}" />
+								</td>
+								
+							</tr>
+							<tr>
+								<td><h:outputText value="StartDate" /></td>
+								<td>
+									<h:inputText binding="#{editStartDate}" disabled="true"
+										value="#{pLevelController.editPLevel.pLevelPK.startDate}" />
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputText value="Wage" /></td>
+								<td>
+									<h:inputText id="wage" binding="#{editWageText}" validatorMessage="Enter a wage between 0.0 and 100000000.0"
+										value="#{pLevelController.editPLevel.wage}" >
+										<f:validateDoubleRange minimum="0.00" maximum="100000000.0" />
+									</h:inputText>
+									<h:message for="wage" style="color:red" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
 
-						<h:outputText value="StartDate" />
-						<h:inputText binding="#{editStartDate}" disabled="true"
-							value="#{pLevelController.editPLevel.pLevelPK.startDate}" />
-						<h:outputText value="Wage" />
-						<h:inputText id="wage" binding="#{editWageText}" validatorMessage="Enter a wage between 0.0 and 100000000.0"
-							value="#{pLevelController.editPLevel.wage}" >
-							<f:validateDoubleRange minimum="0.00" maximum="100000000.0" />
-						</h:inputText>
-						<h:message for="wage" style="color:red" />
-						
-					</h:panelGrid>
 					
 					<br></br>
 					<p:commandButton update=":formMain:pLevelTable :formEditDialog"
 						value="Save"
 						action="#{pLevelController.editPLevel(editWageText.value)}" 
-						style="float: middle;" />
+						style="float: right;" />
 					
 				</h:form>
-			</p:sidebar>
+			</p:dialog>
+
+
 			<p:dialog id="errorDialog" header="PLevel and StartDate not Unique" modal="true"
 				width="400" widgetVar="errorDialog" resizable="false"
 				draggable="false">

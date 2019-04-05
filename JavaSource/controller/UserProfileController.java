@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -75,12 +76,15 @@ public class UserProfileController implements Serializable {
                 password = PasswordHash.createHash(password);
             } catch (CannotPerformOperationException e) {
                 e.printStackTrace();
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Something went wrong", null);
+                FacesContext.getCurrentInstance().addMessage(null, message);
             }
             currentEmployee.setPassword(password);
             database.updateEmployee(currentEmployee);
             PrimeFaces.current().executeScript("PF('passwordChangedDialog').show();");
         } else {
-            System.out.println("WHITE SPACE PASSWORD");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please enter something", null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
     

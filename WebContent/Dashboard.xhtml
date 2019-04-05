@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
 	<ui:composition template="/templates/MasterLayout.xhtml">
 		<ui:define name="windowTitle">Dashboard</ui:define>
@@ -12,8 +13,92 @@
 		 	<p style="font-size: 250%; text-align: center;">
 		 	
 		 	Welcome to APMS
+		 	<div class="container-fluid">
+		 	<div class="row" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+			  <div class="col-sm-4">
+			  	<div class="card" style="padding:20px; margin: 0 7px; margin-top:10px;">
+				  <div class="card-body">
+				  <span>
+				  	<img src="resources/images/employeeIcon.png" style=" margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 30%;"/>						
+				  	<h1>#{dashboardController.employeeCount}</h1>
+				  	<h5 class="card-title">Employees</h5>
+				  </span>
+				    <p class="card-text"></p>
+				    <a href="#" class="btn btn-primary">More Info</a>
+				  </div>
+				  <br/><br/><br/><br/><br/>
+				</div>
+				<h:form>
+				  	<p:panelMenu>
+			        <p:submenu label="Employee Features">
+			            <p:menuitem value="Assign Approvers" action="AssignEmployee.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			            <p:menuitem value="Active Employees" action="Employees.xhtml?faces-redirect=true" icon="fa fa-heartbeat" />
+			            <p:menuitem value="Inactive Employees" action="InactiveEmployees.xhtml?faces-redirect=true" icon="fa fa-minus-circle" />
+			            <p:menuitem value="Employee P Level" action="EmpPLevels.xhtml?faces-redirect=true" icon="fa fa-bar-chart" />
+			        </p:submenu>
+			       </p:panelMenu>
+			  	</h:form>
+			  </div>
+			 
+			  <div class="col-sm-4">
+			  	<div class="card" style="padding:20px; margin: 0 7px; margin-top:10px;">
+				  <div class="card-body">
+				     <span>
+				    <img src="resources/images/timesheet.png"
+						style="margin-bottom: -35px; display: block; margin-left: auto; margin-right: auto; width: 30%;" />
+				  	<h1>#{dashboardController.timesheetCount}</h1>
+				  	<h5 class="card-title">Timesheets</h5>
+				  	
+        			<div class="alert alert-success" role="alert">
+					  #{dashboardController.approvedTimesheetCount} Approved Timesheets
+					</div>
+					<div class="alert alert-warning" role="alert" style="margin-top:-20px;">
+					  #{dashboardController.rejectedTimesheetCount} Rejected Timesheets
+					</div>
+				  </span>
+				    <a href="#" class="btn btn-primary">More Info</a>
+				  </div>
+				</div>
+				<h:form>
+				  	<p:panelMenu>
+			        <p:submenu label="Timesheet Features">
+			            <p:menuitem value="Approved Timesheets" action="ApproveTimesheet.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			            <p:menuitem value="Create Timesheet" action="Timesheets.xhtml?faces-redirect=true" icon="fa fa-plus-circle" />
+			       
+			        </p:submenu>
+			       </p:panelMenu>
+			  	</h:form>
+			  </div>
+			  <div class="col-sm-4">
+			  	<div class="card" style="padding:20px; margin: 0 7px; margin-top:10px;">
+				  <div class="card-body">
+				    <span>
+				    <img src="resources/images/package.png" style=" margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 30%;"/>						
+				  	<h1>#{dashboardController.projectCount}</h1>
+				  	<h5 class="card-title">Projects</h5>
+				  </span>
+				    <a href="#" class="btn btn-primary">More Info</a>
+				  </div>
+				  <br/><br/><br/><br/><br/>
+				</div>
+				<h:form>
+				  	<p:panelMenu>
+			        <p:submenu label="Project Features">
+			            <p:menuitem value="All Packages" action="Projects.xhtml?faces-redirect=true" icon="fa fa-list-ul" />
+			            <p:menuitem value="Work Packages" action="WorkPackage.xhtml?faces-redirect=true" icon="fa fa-briefcase" />
+			        
+			        </p:submenu>
+			       </p:panelMenu>
+			  	</h:form>
+			  </div>
+			</div>
+			</div>
 		 	
 		 	</p>
+		 	
+		 	
+			  
+		 	
 		</ui:define>
 	</ui:composition>
 </html>

@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import model.EmpPLevel;
@@ -41,6 +42,12 @@ public class DatabaseController implements Serializable {
     // #########################################################################
     public List<Employee> getEmployees() {
         return manager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
+    }
+    
+    public long countEmployees() {
+    	String sql = "SELECT COUNT(e) FROM Employee e";
+    	Query q =  manager.createQuery(sql);
+    	return (long) q.getSingleResult();
     }
 
     public List<Employee> getActiveEmployees() {
@@ -94,6 +101,24 @@ public class DatabaseController implements Serializable {
     // #########################################################################
     public List<Timesheet> getTimesheets() {
         return manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
+    }
+
+    public long countTimesheets() {
+    	String sql = "SELECT COUNT(t) FROM Timesheet t";
+    	Query q =  manager.createQuery(sql);
+    	return (long) q.getSingleResult();
+    }
+
+    public long countApprovedTimesheets() {
+    	String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Approved'";
+    	Query q =  manager.createQuery(sql);
+    	return (long) q.getSingleResult();
+    }
+
+    public long countRejectedTimesheets() {
+    	String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Returned'";
+    	Query q =  manager.createQuery(sql);
+    	return (long) q.getSingleResult();
     }
 
     public List<Timesheet> getTimesheets(int empNo) {
@@ -214,6 +239,12 @@ public class DatabaseController implements Serializable {
         List<Project> projects = this.manager.createQuery("SELECT p from Project p", Project.class).getResultList();
 
         return projects;
+    }
+    
+    public long countProjects() {
+    	String sql = "SELECT COUNT(p) FROM Project p";
+    	Query q =  manager.createQuery(sql);
+    	return (long) q.getSingleResult();
     }
     
     public List<Project> getAllProjectsbyEmpNo(int empNo) {
