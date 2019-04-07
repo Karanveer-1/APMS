@@ -64,6 +64,8 @@ public class ProjectDetailController implements Serializable {
 
 	private String suggestId;
 
+	private boolean editable;
+
 	public ProjectDetailController() {
 
 	}
@@ -142,7 +144,7 @@ public class ProjectDetailController implements Serializable {
 			parent.addHoursFromChild(wp);
 			this.database.updateWP(parent);
 			updateParentWP(wp, this.database.getParentWP(parent));
-		
+
 		}
 
 	}
@@ -264,5 +266,19 @@ public class ProjectDetailController implements Serializable {
 	public String createNew() {
 		return "CreateWorkPackage.xhtml?faces-redirect=true";
 	}
+
+	public void toggleLeaf() {
+		System.out.println("helllloo");
+		this.editable = !this.editable;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+	
 
 }

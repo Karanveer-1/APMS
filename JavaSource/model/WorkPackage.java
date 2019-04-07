@@ -105,6 +105,25 @@ public class WorkPackage implements Serializable {
 		this.startDate = new Date();
 		this.endDate = new Date();
 
+		this.pmEstP1 = 0;
+		this.pmEstP2 = 0;
+		this.pmEstP3 = 0;
+		this.pmEstP4 = 0;
+		this.pmEstP5 = 0;
+		this.pmEstP6 = 0;
+		this.pmEstSS = 0;
+		this.pmEstDS = 0;
+		this.pmEstJS = 0;
+		this.reEstP1 = 0;
+		this.reEstP2 = 0;
+		this.reEstP3 = 0;
+		this.reEstP4 = 0;
+		this.reEstP5 = 0;
+		this.reEstP6 = 0;
+		this.reEstSS = 0;
+		this.reEstDS = 0;
+		this.reEstJS = 0;
+
 	}
 
 	public WorkPackage(WorkPackagePK workPackagePk, int reEmpNo, String title, String description, String parentWPID,
