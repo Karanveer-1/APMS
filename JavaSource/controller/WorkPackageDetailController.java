@@ -15,6 +15,24 @@ import model.WorkPackage;
 @SessionScoped
 public class WorkPackageDetailController implements Serializable {
 
+	
+	public enum Status {
+
+		OPEN("Open"), ARCHIVED("Archived");
+
+		private String label;
+
+		private Status(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+
+	}
+	
+	
 	@Inject
 	private DatabaseController database;
 
@@ -108,6 +126,9 @@ public class WorkPackageDetailController implements Serializable {
 
 	public void setEditwp(WorkPackage editwp) {
 		this.editwp = editwp;
+	}
+	public Status[] getStatus() {
+		return Status.values();
 	}
 
 }

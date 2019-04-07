@@ -25,17 +25,17 @@
 				style="margin-left:50px; margin-right:50px;">
 
 				<h:form id="form">
-					<table id="table" class="table table-striped">
+					<table id="table" class="table table-bordered">
 						<tbody>
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Number" /></td>
 								<td><h:outputText value="#{wpdController.wp.proNo}" /></td>
 							</tr>
-								<tr>
+							<tr>
 								<td scope="row"><p:outputLabel value="Parent ID" /></td>
 								<td><h:outputText value="#{wpdController.wp.parentWPID}" /></td>
 							</tr>
-							
+
 							<tr>
 								<td scope="row"><p:outputLabel value="Work Package ID" /></td>
 								<td><p:inputText value="#{wpdController.wp.wpid}"
@@ -69,6 +69,168 @@
 										value="#{wpdController.wp.title}"
 										rendered="#{!wpdController.editable}" /></td>
 							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Start Date" /></td>
+								<td><p:calendar id="start"
+										value="#{wpdController.editwp.startDate}"
+										rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.startDate}">
+										<f:convertDateTime pattern="dd-MM-yyyy"
+											rendered="#{!wpdController.editable}" />
+									</h:outputText></td>
+							</tr>
+
+
+							<tr>
+								<td scope="row"><p:outputLabel value="End Date" /></td>
+								<td><p:calendar id="end"
+										value="#{wpdController.editwp.endDate}"
+										rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.endDate}">
+										<f:convertDateTime pattern="dd-MM-yyyy"
+											rendered="#{!wpdController.editable}" />
+									</h:outputText></td>
+							</tr>
+
+
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Description" /></td>
+								<td><p:inputTextarea
+										value="#{wpdController.editwp.description}" label="text"
+										rendered="#{wpdController.editable}" /> <h:outputText
+										value="#{wpdController.wp.description}"
+										rendered="#{!wpdController.editable}" /></td>
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="State" /></td>
+								<td><h:selectOneMenu value="#{wpdController.editwp.state}"
+										rendered="#{wpdController.editable}">
+										<f:selectItems value="#{wpdController.status}" />
+									</h:selectOneMenu> <h:outputText value="#{wpdController.wp.state}"
+										rendered="#{!wpdController.editable}" /></td>
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="Comment" /></td>
+								<td><p:inputTextarea
+										value="#{wpdController.editwp.comment}" label="text"
+										rendered="#{wpdController.editable}" /> <h:outputText
+										value="#{wpdController.wp.comment}"
+										rendered="#{!wpdController.editable}" /></td>
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Labour Level" /></td>
+								<td scope="row"><p:outputLabel value="Estimated Man Day" /></td>
+								<td scope="row"><p:outputLabel value="Estimated Budget" /></td>
+
+							</tr>
+
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager P1" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstP1}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstP1}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager P2" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstP2}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstP2}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager P3" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstP3}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstP3}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager P4" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstP4}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstP4}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager P5" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstP5}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstP5}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager P6" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstP6}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstP6}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager DS" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstDS}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstDS}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager SS" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstSS}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstSS}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager JS" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstJS}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstJS}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Responsible Employee P1" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstP1}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstP1}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+							
+							
+
 
 
 						</tbody>
