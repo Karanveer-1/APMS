@@ -57,10 +57,13 @@ public class WorkPackageDetailController implements Serializable {
 
 	}
 
+	
 	public String viewWP(WorkPackage wp) {
 		this.wp = wp;
 		this.ogwp = wp;
 		this.editwp = wp;
+		this.editable = false;
+		this.wpEditable = editable && this.wp.isEditable() && this.wp.isLeaf();
 		this.empPool = getAllEmpPool(this.wp.getProNo());
 		return "WorkPackageDetail.xhtml?faces-redirect=true";
 	}

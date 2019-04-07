@@ -50,6 +50,17 @@
 									</p:commandLink></td>
 
 							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="Leaf Work Package" /></td>
+								<td><h:outputText value="#{wpdController.wp.leaf}" /></td>
+								
+							</tr>
+
+		<tr>
+								<td scope="row"><p:outputLabel value="Charged Status"/></td>
+								<td><h:outputText value="#{!wpdController.wp.editable}" /></td>
+								
+							</tr>
 
 							<tr>
 								<td scope="row"><p:outputLabel value="Work Package ID" /></td>
@@ -149,7 +160,7 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstP1}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstP1}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -159,7 +170,7 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstP2}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstP2}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -169,7 +180,7 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstP3}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstP3}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -179,7 +190,7 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstP4}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstP4}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -189,7 +200,7 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstP5}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstP5}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -199,7 +210,7 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstP6}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstP6}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -209,7 +220,7 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstDS}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstDS}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -219,7 +230,7 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstSS}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstSS}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -229,7 +240,7 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstJS}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstJS}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -240,7 +251,7 @@
 								<td><p:inputText value="#{wpdController.wp.reEstP1}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.reEstP1}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -250,7 +261,7 @@
 								<td><p:inputText value="#{wpdController.wp.reEstP2}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.reEstP2}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -260,7 +271,7 @@
 								<td><p:inputText value="#{wpdController.wp.reEstP3}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.reEstP3}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -270,7 +281,7 @@
 								<td><p:inputText value="#{wpdController.wp.reEstP4}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.reEstP4}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -280,7 +291,7 @@
 								<td><p:inputText value="#{wpdController.wp.reEstP5}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.reEstP5}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -290,7 +301,7 @@
 								<td><p:inputText value="#{wpdController.wp.reEstP6}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.reEstP6}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -300,7 +311,7 @@
 								<td><p:inputText value="#{wpdController.wp.reEstDS}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.reEstDS}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -310,7 +321,7 @@
 								<td><p:inputText value="#{wpdController.wp.reEstSS}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.reEstSS}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
@@ -320,7 +331,7 @@
 								<td><p:inputText value="#{wpdController.wp.reEstJS}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.reEstJS}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
