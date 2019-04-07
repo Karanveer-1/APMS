@@ -115,26 +115,24 @@ public class ProjectDetailController implements Serializable {
 		return pool;
 	}
 
-	public void addWP() {
-		System.out.println("ADDING THIS" + addWp);
+	public String addWP() {
+
 		addWp.setProNo(project.getProNo());
 		if (addWp.getParentWPID().equals("Project")) {
 			addWp.setParentWPID(null);
+		} else {
+			addWp.setWpid(addWp.getParentWPID() + "." + addWp.getWpid());
 		}
-		addWp.setWpid(addWp.getParentWPID() + "." + addWp.getWpid());
+
 		if (addWp.isLeaf()) {
 			addWp.setEditable(true);
-
 		}
+		this.database.persistWP(addWp);
 
 		addWp = new WorkPackage();
 
-//		WorkPackage newWp = new WorkPackage();
-//		newWp.setWpid("Hi" + wp.getWpid());
-//		newWp.setParentWPID(wp.getWpid());
-//		wp.setLeaf(false);
-//		this.database.persistChildWP(wp, newWp);
-//		treeInit(this.project.getProNo());
+		treeInit(this.project.getProNo());
+		return "WorkPackageManagement.xhtml?faces-redirect=true";
 
 	}
 
@@ -219,6 +217,13 @@ public class ProjectDetailController implements Serializable {
 
 	public void initWPList() {
 		this.wpList = this.database.getWPListByProNo(project.getProNo());
+		List<WorkPackage> result = new ArrayList<WorkPackage>();
+		for (WorkPackage wp : wpList) {
+			if (!wp.isLeaf()) {
+				result.add(wp);
+			}
+		}
+		this.wpList = result;
 		WorkPackage wp = new WorkPackage();
 		wp.setWpid("Project");
 		this.wpList.add(wp);
@@ -236,6 +241,7 @@ public class ProjectDetailController implements Serializable {
 	public void onClick() {
 		System.out.println(addWp.getParentWPID());
 		suggestId = addWp.getParentWPID();
+		System.out.println("Suggest ID" + suggestId);
 	}
 
 	public String getSuggestId() {

@@ -20,6 +20,7 @@
 			<ui:include src="/sections/ProjectManagementNavigationBar.xhtml" />
 		</ui:define>
 		<ui:define name="content">
+		<f:event listener="#{pdController.initWPList}" type="preRenderView" />
 			<p:fieldset scrollabe="true"
 				style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
 				<div class="row" style="color: black">
@@ -37,7 +38,7 @@
 
 
 
-
+			
 
 
 
@@ -116,80 +117,80 @@
 								</tr>
 								<tr>
 									<td><h:outputText value="Project Manager P1" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.pmEstP1}" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstP1}" /></td>
 								</tr>
 								<tr>
 									<td><h:outputText value="Project Manager P2" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.pmEstP2}" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstP2}" /></td>
 								</tr>
 								<tr>
 									<td><h:outputText value="Project Manager P3" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.pmEstP3}" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstP3}" /></td>
 								</tr>
 								<tr>
 									<td><h:outputText value="Project Manager P4" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.pmEstP4}" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstP4}" /></td>
 								</tr>
 								<tr>
 									<td><h:outputText value="Project Manager P5" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.pmEstP5}" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstP5}" /></td>
 								</tr>
 								<tr>
 									<td><h:outputText value="Project Manager P6" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.pmEstP6}" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstP6}" /></td>
 								</tr>
 								<tr>
 									<td><h:outputText value="Project Manager DS" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.pmEstDS}" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstDS}" /></td>
 								</tr>
 								<tr>
 									<td><h:outputText value="Project Manager SS" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.pmEstSS}" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstSS}" /></td>
 								</tr>
 								<tr>
 									<td><h:outputText value="Project Manager JS" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.pmEstJS}" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstJS}" /></td>
 								</tr>
 
 								<tr>
 									<td><h:outputText value="Responsible Engineer P1" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.reEstP1}" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstP1}" /></td>
 								</tr>
 
 								<tr>
 									<td><h:outputText value="Responsible Engineer P2" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.reEstP2}" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstP2}" /></td>
 								</tr>
 								<tr>
 									<td><h:outputText value="Responsible Engineer P3" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.reEstP3}" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstP3}" /></td>
 								</tr>
 								<tr>
 									<td><h:outputText value="Responsible Engineer P4" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.reEstP4}" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstP4}" /></td>
 								</tr>
 								<tr>
 									<td><h:outputText value="Responsible Engineer P5" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.reEstP5}" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstP5}" /></td>
 								</tr>
 								<tr>
 									<td><h:outputText value="Responsible Engineer P6" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.reEstP6}" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstP6}" /></td>
 								</tr>
 
 								<tr>
 									<td><h:outputText value="Responsible Engineer DS" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.reEstDS}" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstDS}" /></td>
 								</tr>
 
 								<tr>
 									<td><h:outputText value="Responsible Engineer SS" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.reEstSS}" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstSS}" /></td>
 								</tr>
 
 								<tr>
 									<td><h:outputText value="Responsible Engineer DS" /></td>
-									<td><p:inputTextarea value="#{pdController.addWp.reEstJS}" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstJS}" /></td>
 								</tr>
 
 
