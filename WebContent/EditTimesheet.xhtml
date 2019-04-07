@@ -69,9 +69,7 @@
 						<tr>
 							<th><h:outputText value="State: " /></th>
 							<td>
-								<h:inputText value="#{timesheetController.editTimesheet.state}">
-									<p:ajax update="@this" />
-								</h:inputText>
+								<h:outputText value="#{timesheetController.editTimesheet.state}" />
 							</td>
 						</tr>
 						
@@ -105,7 +103,7 @@
 						<p:selectOneMenu value="#{row.timesheetRowPk.proNo}"
 							style="width:100%" dynamic="true">
 							<f:selectItems value="#{timesheetController.projectNumbers}" />
-							<p:ajax update=":formMain" />
+							<p:ajax update=":formMain"/>
 						</p:selectOneMenu>
 					</p:column>
 
