@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @Table(name = "WorkPackage")
 public class WorkPackage implements Serializable {
 
-
 	@EmbeddedId
 	private WorkPackagePK workPackagePk;
 
@@ -42,8 +41,8 @@ public class WorkPackage implements Serializable {
 
 	@Column(name = "EndDate", nullable = false)
 	private Date endDate;
-	
-	@Column(name="Editable", nullable = false)
+
+	@Column(name = "Editable", nullable = false)
 	private boolean editable;
 
 	@Column(name = "PMEstP1")
@@ -102,9 +101,28 @@ public class WorkPackage implements Serializable {
 
 	public WorkPackage() {
 		this.workPackagePk = new WorkPackagePK();
-	
+
 		this.startDate = new Date();
 		this.endDate = new Date();
+
+		this.pmEstP1 = 0;
+		this.pmEstP2 = 0;
+		this.pmEstP3 = 0;
+		this.pmEstP4 = 0;
+		this.pmEstP5 = 0;
+		this.pmEstP6 = 0;
+		this.pmEstSS = 0;
+		this.pmEstDS = 0;
+		this.pmEstJS = 0;
+		this.reEstP1 = 0;
+		this.reEstP2 = 0;
+		this.reEstP3 = 0;
+		this.reEstP4 = 0;
+		this.reEstP5 = 0;
+		this.reEstP6 = 0;
+		this.reEstSS = 0;
+		this.reEstDS = 0;
+		this.reEstJS = 0;
 
 	}
 
@@ -385,7 +403,6 @@ public class WorkPackage implements Serializable {
 		this.isLeaf = isLeaf;
 	}
 
-	
 	public boolean isEditable() {
 		return editable;
 	}
@@ -404,6 +421,28 @@ public class WorkPackage implements Serializable {
 				+ pmEstJS + ", reEstP1=" + reEstP1 + ", reEstP2=" + reEstP2 + ", reEstP3=" + reEstP3 + ", reEstP4="
 				+ reEstP4 + ", reEstP5=" + reEstP5 + ", reEstP6=" + reEstP6 + ", reEstDS=" + reEstDS + ", reEstSS="
 				+ reEstSS + ", reEstJS=" + reEstJS + "]";
+	}
+
+	public void addHoursFromChild(WorkPackage wp) {
+		this.pmEstP1 += wp.pmEstP1;
+		this.pmEstP2 += wp.pmEstP2;
+		this.pmEstP3 += wp.pmEstP3;
+		this.pmEstP4 += wp.pmEstP4;
+		this.pmEstP5 += wp.pmEstP5;
+		this.pmEstP6 += wp.pmEstP6;
+		this.pmEstSS += wp.pmEstSS;
+		this.pmEstDS += wp.pmEstDS;
+		this.pmEstJS += wp.pmEstJS;
+		this.reEstP1 += wp.reEstP1;
+		this.reEstP2 += wp.reEstP2;
+		this.reEstP3 += wp.reEstP3;
+		this.reEstP4 += wp.reEstP4;
+		this.reEstP5 = wp.reEstP5;
+		this.reEstP6 += wp.reEstP6;
+		this.reEstSS += wp.reEstSS;
+		this.reEstDS += wp.reEstDS;
+		this.reEstJS += wp.reEstJS;
+
 	}
 
 }

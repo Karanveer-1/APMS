@@ -64,6 +64,8 @@ public class ProjectDetailController implements Serializable {
 
 	private String suggestId;
 
+	private boolean editable;
+
 	public ProjectDetailController() {
 
 	}
@@ -126,6 +128,7 @@ public class ProjectDetailController implements Serializable {
 
 		if (addWp.isLeaf()) {
 			addWp.setEditable(true);
+			updateParentWP(addWp, this.database.getParentWP(addWp));
 		}
 		this.database.persistWP(addWp);
 
@@ -137,6 +140,12 @@ public class ProjectDetailController implements Serializable {
 	}
 
 	public void updateParentWP(WorkPackage wp, WorkPackage parent) {
+		if (parent != null) {
+			parent.addHoursFromChild(wp);
+			this.database.updateWP(parent);
+			updateParentWP(wp, this.database.getParentWP(parent));
+
+		}
 
 	}
 
@@ -239,9 +248,7 @@ public class ProjectDetailController implements Serializable {
 	}
 
 	public void onClick() {
-		System.out.println(addWp.getParentWPID());
 		suggestId = addWp.getParentWPID();
-		System.out.println("Suggest ID" + suggestId);
 	}
 
 	public String getSuggestId() {
@@ -259,5 +266,19 @@ public class ProjectDetailController implements Serializable {
 	public String createNew() {
 		return "CreateWorkPackage.xhtml?faces-redirect=true";
 	}
+
+	public void toggleLeaf() {
+		System.out.println("helllloo");
+		this.editable = !this.editable;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+	
 
 }
