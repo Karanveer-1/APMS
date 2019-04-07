@@ -19,6 +19,8 @@ public class WorkPackageDetailController implements Serializable {
 	private WorkPackage wp;
 
 	private WorkPackage ogwp;
+	
+	
 
 	public WorkPackageDetailController() {
 

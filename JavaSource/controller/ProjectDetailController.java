@@ -18,6 +18,7 @@ import javax.inject.Named;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import controller.ProjectController.StatusCreation;
 import model.Employee;
 //import model.ProAssi;
 import model.Project;
@@ -27,6 +28,22 @@ import model.WorkPackage;
 @Named("pdController")
 @SessionScoped
 public class ProjectDetailController implements Serializable {
+
+	public enum StatusCreation {
+
+		OPEN("Open");
+
+		private String label;
+
+		private StatusCreation(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+
+	}
 
 	@Inject
 	private DatabaseController database;
@@ -40,6 +57,12 @@ public class ProjectDetailController implements Serializable {
 	private List<Employee> wpEmp;
 
 	private TreeNode root;
+
+	private WorkPackage addWp;
+
+	private List<WorkPackage> wpList;
+
+	private String suggestId;
 
 	public ProjectDetailController() {
 
@@ -62,10 +85,9 @@ public class ProjectDetailController implements Serializable {
 
 		this.project = project;
 		this.empPool = getAllEmpPool(project.getProNo());
-		this.wpEmp = getWPEmp(project.getProNo());
-
+		this.addWp = new WorkPackage();
+		initWPList();
 		treeInit(this.project.getProNo());
-
 		return "ProjectDetail.xhtml?faces-redirect=true";
 
 	}
@@ -93,13 +115,28 @@ public class ProjectDetailController implements Serializable {
 		return pool;
 	}
 
-	public void addWP(WorkPackage wp) {
-		WorkPackage newWp = new WorkPackage();
-		newWp.setWpid("Hi" + wp.getWpid());
-		newWp.setParentWPID(wp.getWpid());
-		wp.setLeaf(false);
-		this.database.persistChildWP(wp, newWp);
+	public String addWP() {
+
+		addWp.setProNo(project.getProNo());
+		if (addWp.getParentWPID().equals("Project")) {
+			addWp.setParentWPID(null);
+		} else {
+			addWp.setWpid(addWp.getParentWPID() + "." + addWp.getWpid());
+		}
+
+		if (addWp.isLeaf()) {
+			addWp.setEditable(true);
+		}
+		this.database.persistWP(addWp);
+
+		addWp = new WorkPackage();
+
 		treeInit(this.project.getProNo());
+		return "WorkPackageManagement.xhtml?faces-redirect=true";
+
+	}
+
+	public void updateParentWP(WorkPackage wp, WorkPackage parent) {
 
 	}
 
@@ -162,12 +199,65 @@ public class ProjectDetailController implements Serializable {
 	public String getEmpName(int id) {
 		return this.database.getEmployeeById(id).getUserName();
 	}
-	
+
 	public void submit() {
 		this.database.updateProject(project);
 		FacesMessage msg = new FacesMessage("Project Assistant Updated");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-		
+
+	}
+
+	public WorkPackage getAddWp() {
+		return addWp;
+	}
+
+	public void setAddWp(WorkPackage addWp) {
+		this.addWp = addWp;
+	}
+
+	public void initWPList() {
+		this.wpList = this.database.getWPListByProNo(project.getProNo());
+		List<WorkPackage> result = new ArrayList<WorkPackage>();
+		for (WorkPackage wp : wpList) {
+			if (!wp.isLeaf()) {
+				result.add(wp);
+			}
+		}
+		this.wpList = result;
+		WorkPackage wp = new WorkPackage();
+		wp.setWpid("Project");
+		this.wpList.add(wp);
+		this.suggestId = this.wpList.get(0).getWpid();
+	}
+
+	public List<WorkPackage> getWpList() {
+		return wpList;
+	}
+
+	public void setWpList(List<WorkPackage> wpList) {
+		this.wpList = wpList;
+	}
+
+	public void onClick() {
+		System.out.println(addWp.getParentWPID());
+		suggestId = addWp.getParentWPID();
+		System.out.println("Suggest ID" + suggestId);
+	}
+
+	public String getSuggestId() {
+		return suggestId;
+	}
+
+	public void setSuggestId(String suggestId) {
+		this.suggestId = suggestId;
+	}
+
+	public StatusCreation[] getStatusCreation() {
+		return StatusCreation.values();
+	}
+
+	public String createNew() {
+		return "CreateWorkPackage.xhtml?faces-redirect=true";
 	}
 
 }

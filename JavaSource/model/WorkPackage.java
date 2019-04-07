@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "WorkPackage")
 public class WorkPackage implements Serializable {
-	private static String[] STATE = { "OPEN", "CLOSED", "ARCHIVED" };
+
 
 	@EmbeddedId
 	private WorkPackagePK workPackagePk;
@@ -42,6 +42,9 @@ public class WorkPackage implements Serializable {
 
 	@Column(name = "EndDate", nullable = false)
 	private Date endDate;
+	
+	@Column(name="Editable", nullable = false)
+	private boolean editable;
 
 	@Column(name = "PMEstP1")
 	private Integer pmEstP1;
@@ -99,14 +102,9 @@ public class WorkPackage implements Serializable {
 
 	public WorkPackage() {
 		this.workPackagePk = new WorkPackagePK();
-		this.description = "hihihi";
-		this.state = "OPEN";
-		this.title = "okayyy";
-		this.reEmpNo = 1;
+	
 		this.startDate = new Date();
 		this.endDate = new Date();
-		this.isLeaf = false;
-		
 
 	}
 
@@ -385,6 +383,15 @@ public class WorkPackage implements Serializable {
 
 	public void setLeaf(boolean isLeaf) {
 		this.isLeaf = isLeaf;
+	}
+
+	
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
 	}
 
 	@Override

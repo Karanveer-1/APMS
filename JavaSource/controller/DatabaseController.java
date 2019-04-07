@@ -16,7 +16,6 @@ import javax.persistence.TypedQuery;
 import model.EmpPLevel;
 import model.Employee;
 import model.PLevel;
-//import model.ProAssi;
 import model.ProEmp;
 import model.ProEmpPK;
 import model.Project;
@@ -43,7 +42,7 @@ public class DatabaseController implements Serializable {
     public List<Employee> getEmployees() {
         return manager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
     }
-    
+
     public long countEmployees() {
     	String sql = "SELECT COUNT(e) FROM Employee e";
     	Query q =  manager.createQuery(sql);
@@ -148,7 +147,7 @@ public class DatabaseController implements Serializable {
 
         return result;
     }
-    
+
     public List<Timesheet> getSubmittedTimesheets() {
         List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
 
@@ -253,16 +252,16 @@ public class DatabaseController implements Serializable {
 
         return projects;
     }
-    
+
     public long countProjects() {
     	String sql = "SELECT COUNT(p) FROM Project p";
     	Query q =  manager.createQuery(sql);
     	return (long) q.getSingleResult();
     }
-    
+
     public List<Project> getAllProjectsbyEmpNo(int empNo) {
         List<Project> projects = getAllProjects();
-        
+
         TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.empNo = :empNo",
                 ProEmp.class);
         query.setParameter("empNo", empNo);
@@ -283,11 +282,11 @@ public class DatabaseController implements Serializable {
 
         return ids;
     }
-    
+
     public List<Integer> getAllProjectNoForProjectManager(Integer proNo) {
         List<Integer> ids = manager.createQuery("SELECT p.proNo from Project p where p.proMgrEmpNo = :no", Integer.class)
                 .setParameter("no", proNo).getResultList();
-        
+
         return ids;
     }
 
@@ -338,8 +337,8 @@ public class DatabaseController implements Serializable {
         List<Role> data = query.getResultList();
         return data;
     }
-    
-    
+
+
     public List<Employee> getEmployeeForProject(int projectId) {
         TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.proNo = :projectId",
             ProEmp.class);
@@ -361,7 +360,7 @@ public class DatabaseController implements Serializable {
         List<Employee> data = query.getResultList();
         return data;
     }
-    
+
     public List<Employee> getAllApproEmployees(int empNo) {
         TypedQuery<Employee> query = manager.createQuery("select p from Employee p where p.approEmpNo = :empNo",
             Employee.class);
@@ -376,55 +375,6 @@ public class DatabaseController implements Serializable {
         manager.persist(temp);
     }
 
-    // public List<ProAssi> getAllProAssi() {
-    // List<ProAssi> projects = this.manager.createQuery("SELECT p from ProAssi p",
-    // ProAssi.class).getResultList();
-    // return projects;
-    // }
-    //
-    // public List<ProAssi> getProAssiByProNo(int proNo) {
-    // List<ProAssi> pa = new ArrayList<ProAssi>();
-    // for (ProAssi p : getAllProAssi()) {
-    // if (p.getPk().getProNo() == proNo) {
-    // pa.add(p);
-    // }
-    // }
-    // return pa;
-    //
-    // }
-    //
-    // public List<Employee> getEmployeeByProAssi(int proNo) {
-    // List<Employee> el = new ArrayList<Employee>();
-    // System.out.println("Hel" + getProAssiByProNo(proNo));
-    // for (ProAssi proass : getProAssiByProNo(proNo)) {
-    // System.out.println("Emp" + getEmployeeById(proass.getPk().getEmpNo()));
-    // el.add(getEmployeeById(proass.getPk().getEmpNo()));
-    // }
-    // return el;
-    // }
-    //
-    // public boolean persistProAss(ProAssi proass) {
-    // ProAssi p = this.manager.find(ProAssi.class, proass);
-    // if (p == null) {
-    // this.manager.persist(proass);
-    // return true;
-    // }
-    // return false;
-    // }
-    //
-    // public boolean deleteProAss(ProAssi proAssi) {
-    // if (getProAssiByProNo(proAssi.getPk().getProNo()) != null) {
-    // try {
-    // this.manager.remove(proAssi);
-    // this.manager.flush();
-    // return true;
-    //
-    // } catch (Exception e) {
-    // return false;
-    // }
-    // }
-    // return false;
-    // }
 
     public List<Project> getProjectsBySupervisor(int id) {
         List<ProEmp> proemp = new ArrayList<ProEmp>();
@@ -455,18 +405,7 @@ public class DatabaseController implements Serializable {
         return result;
     }
 
-    // public List<Project> getProjectsByAssistantNo(int id) {
-    // List<Project> result = new ArrayList<Project>();
-    //
-    // List<ProAssi> allPa = getAllProAssi();
-    // for (ProAssi pa : allPa) {
-    // if (pa.getEmpNo() == id) {
-    // result.add(findByProjectNo(pa.getProNo()));
-    // }
-    // }
-    // return result;
-    //
-    // }
+
 
     // #########################################################################
     // # WorkPackage methods
@@ -487,6 +426,17 @@ public class DatabaseController implements Serializable {
         }
         return ids;
     }
+    
+    public List<WorkPackage> getWPListByProNo(int proNo){
+		List<WorkPackage> result = new ArrayList<WorkPackage>();
+		List<WorkPackage> wps = getAllWp();
+		for(WorkPackage wp: wps) {
+			if(wp.getProNo() == proNo) {
+				result.add(wp);
+			}
+		}
+		return result;
+	}
 
     public List<WorkPackage> getLowerWP(String wpid) {
         List<WorkPackage> result = new ArrayList<WorkPackage>();
@@ -573,7 +523,7 @@ public class DatabaseController implements Serializable {
     public List<WPEmp> getAllWPEmp() {
         return this.manager.createQuery("SELECT wp from WPEmp wp", WPEmp.class).getResultList();
     }
-    
+
     public WorkPackage getWPByID(WorkPackagePK pk) {
     	return this.manager.find(WorkPackage.class, pk);
     }
@@ -604,7 +554,7 @@ public class DatabaseController implements Serializable {
         }
         return false;
     }
-    
+
     public List<String> getAllEmpAssignedWpid(int proNo, int empNo) {
         return manager.createQuery("SELECT wp FROM WPEmp wp WHERE wp.pk.empNo = :empNo AND wp.pk.proNo = :proNo", WPEmp.class)
                 .setParameter("proNo", proNo)
@@ -624,9 +574,9 @@ public class DatabaseController implements Serializable {
                     .getSingleResult();
         } catch (Exception e) {
             return null;
-        }       
+        }
     }
-    
+
     // #########################################################################
     // # PLevel methods
     // #########################################################################
@@ -641,8 +591,8 @@ public class DatabaseController implements Serializable {
         query.setParameter("PLevel", pLevel);
         return query.getSingleResult();
     }
-    
-    
+
+
 
     public void updatePLevel(PLevel e) {
         manager.merge(e);
@@ -716,7 +666,7 @@ public class DatabaseController implements Serializable {
     public void removeEmpPLevel(EmpPLevel ep) {
         manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
     }
-    
+
     public PLevel getPLevelByStartDate(Date startDate, String pLevel) {
         TypedQuery<PLevel> query = manager.createQuery(
             "select p from PLevel p where p.pLevelPK.startDate <= :StartDate AND p.pLevelPK.pLevel = :PLevel order by p.pLevelPK.startDate desc", PLevel.class);
