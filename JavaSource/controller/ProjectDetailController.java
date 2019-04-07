@@ -130,6 +130,9 @@ public class ProjectDetailController implements Serializable {
 			addWp.setEditable(true);
 			updateParentWP(addWp, this.database.getParentWP(addWp));
 		}
+		else {
+			addWp.setEditable(false);
+		}
 		this.database.persistWP(addWp);
 
 		addWp = new WorkPackage();

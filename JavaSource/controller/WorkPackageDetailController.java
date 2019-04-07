@@ -99,7 +99,7 @@ public class WorkPackageDetailController implements Serializable {
 	}
 
 	public boolean isWpEditable() {
-		this.wpEditable = editable && this.wp.isEditable();
+		this.wpEditable = editable && this.wp.isEditable() && this.wp.isLeaf();
 		return wpEditable;
 	}
 

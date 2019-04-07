@@ -7,7 +7,10 @@
 
 <h:head>
 	<title>IGNORED!</title>
+	<style>
+</style>
 </h:head>
+
 
 <h:body>
 	<ui:composition template="/templates/MasterLayout.xhtml">
@@ -30,10 +33,22 @@
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Number" /></td>
 								<td><h:outputText value="#{wpdController.wp.proNo}" /></td>
+								<td style="border: 1px solid white;"><p:commandLink
+										ajax="true" update=":form"
+										action="#{wpdController.toggleEditable()}">
+										<h:graphicImage value="resources/images/edit.png"
+											style="max-width:20px; max-height:20px" />
+									</p:commandLink></td>
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel value="Parent ID" /></td>
 								<td><h:outputText value="#{wpdController.wp.parentWPID}" /></td>
+								<td style="border: 1px solid white;"><p:commandLink
+										rendered="#{wpdController.editable}">
+										<h:graphicImage value="resources/images/submit.png"
+											style="max-width:10%; max-height:10%" />
+									</p:commandLink></td>
+
 							</tr>
 
 							<tr>
@@ -47,8 +62,7 @@
 
 
 							<tr>
-								<td scope="row"><p:outputLabel value="Responsible Employee"
-										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="Responsible Employee" /></td>
 								<td><h:selectOneMenu
 										value="#{wpdController.editwp.reEmpNo}"
 										rendered="#{wpdController.wpEditable}">
@@ -75,9 +89,9 @@
 								<td><p:calendar id="start"
 										value="#{wpdController.editwp.startDate}"
 										rendered="#{wpdController.wpEditable}" /> <h:outputText
+										rendered="#{!wpdController.editable}"
 										value="#{wpdController.wp.startDate}">
-										<f:convertDateTime pattern="dd-MM-yyyy"
-											rendered="#{!wpdController.editable}" />
+										<f:convertDateTime pattern="dd-MM-yyyy" />
 									</h:outputText></td>
 							</tr>
 
@@ -87,6 +101,7 @@
 								<td><p:calendar id="end"
 										value="#{wpdController.editwp.endDate}"
 										rendered="#{wpdController.wpEditable}" /> <h:outputText
+										rendered="#{!wpdController.editable}"
 										value="#{wpdController.wp.endDate}">
 										<f:convertDateTime pattern="dd-MM-yyyy"
 											rendered="#{!wpdController.editable}" />
@@ -100,8 +115,8 @@
 								<td><p:inputTextarea
 										value="#{wpdController.editwp.description}" label="text"
 										rendered="#{wpdController.editable}" /> <h:outputText
-										value="#{wpdController.wp.description}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.editable}"
+										value="#{wpdController.wp.description}" /></td>
 							</tr>
 
 							<tr>
@@ -220,7 +235,8 @@
 							</tr>
 
 							<tr>
-								<td scope="row"><p:outputLabel value="Responsible Employee P1" /></td>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee P1" /></td>
 								<td><p:inputText value="#{wpdController.wp.reEstP1}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.reEstP1}"
@@ -228,8 +244,88 @@
 								<td scope="row"><p:outputLabel value="PSome Number" /></td>
 
 							</tr>
-							
-							
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee P2" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstP2}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstP2}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee P3" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstP3}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstP3}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee P4" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstP4}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstP4}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee P5" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstP5}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstP5}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee P6" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstP6}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstP6}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee DS" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstDS}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstDS}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee SS" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstSS}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstSS}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee JS" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstJS}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstJS}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+
 
 
 
