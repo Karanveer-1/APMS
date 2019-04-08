@@ -61,7 +61,7 @@ public class WPWeeklyReportController implements Serializable {
         
         init();
     }
-
+    
     public void onProjectChange() {
         if (proNo != null) {
             wpids = getLeafWpids(proNo);

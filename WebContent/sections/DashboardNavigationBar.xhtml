@@ -10,8 +10,9 @@
 			data-active-color="danger">
 			<div class="sidebar-wrapper">
 				<div class="logo">
-					<img src="resources/images/APMS_Logo_ShapeOnly.png" style="margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 20%;"/>	
-				
+					<img src="resources/images/APMS_Logo_ShapeOnly.png"
+						style="margin-bottom: -35px; display: block; margin-left: auto; margin-right: auto; width: 20%;" />
+
 					<span class="simple-text" style="font-size: 150%; margin-top: 30px">
 						<h3>APMS</h3>
 					</span>
@@ -44,7 +45,9 @@
 						</h:commandLink></li>
 
 					<li><h:commandLink id="nav-wp-weekly-report"
-							action="WPWeeklyReport.xhtml?faces-redirect=true">
+							action="WPWeeklyReport.xhtml?faces-redirect=true"
+							rendered="#{authController.isUserProjectManager() ||
+							 authController.isUserSystemAdmin()}">
 							<i class="ti-bookmark-alt"></i>
                             Reports
                         </h:commandLink></li>
