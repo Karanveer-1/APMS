@@ -21,225 +21,225 @@
 		</ui:define>
 
 		<ui:define name="content">
+			<p:panel id="basic" header="Work Package Detail" footer=""
+				style="margin-left:50px; margin-right:50px;">
 
+				<h:form id="form">
+					<table id="table" class="table table-bordered">
+						<tbody>
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Number" /></td>
+								<td><h:outputText value="#{wpdController.wp.proNo}" /></td>
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="Parent ID" /></td>
+								<td><h:outputText value="#{wpdController.wp.parentWPID}" /></td>
+							</tr>
 
-			<h:form id="form">
-
-				<h:panelGrid columns="2" columnClasses="column" cellpadding="15">
-					<h:outputLabel for="proNo" value="Project Number:" />
-					<p:inplace id="proNo" toggleable="false">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.proNo}"
-							required="true" label="text" />
-					</p:inplace>
-
-
-					<h:outputLabel for="wpid" value="WPID:" />
-					<p:inplace id="wpid" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.wpid}"
-							required="true" label="text" />
-					</p:inplace>
-
-
-					<h:outputLabel for="REEmpNo" value="Responsible Employee Number:" />
-					<p:inplace id="REEmpNo" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.reEmpNo}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="WPTitle" value="Title:" />
-					<p:inplace id="WPTitle" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.title}"
-							required="true" label="text" />
-					</p:inplace>
-
-
-					<h:outputLabel for="desc" value="Description:" />
-					<p:inplace id="desc" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputTextarea class="btn"
-							value="#{wpdController.wp.description}" required="true"
-							label="text" />
-					</p:inplace>
-
-
-					<h:outputLabel for="start" value="Start Date:" />
-					<p:inplace id="start" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.startDate}"
-							required="true" label="text">
-							<f:convertDateTime pattern="dd-MM-yyyy" />
-						</p:inputText>
-					</p:inplace>
-
-
-					<h:outputLabel for="end" value="End Date:" />
-					<p:inplace id="end" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.endDate}"
-							required="true" label="text">
-							<f:convertDateTime pattern="dd-MM-yyyy" />
-						</p:inputText>
-					</p:inplace>
+							<tr>
+								<td scope="row"><p:outputLabel value="Work Package ID" /></td>
+								<td><p:inputText value="#{wpdController.wp.wpid}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.wpid}"
+										rendered="#{!wpdController.editable}" /></td>
+							</tr>
 
 
 
-					<h:outputLabel for="parentId" value="Parent WPID:" />
-					<p:inplace id="parentId" toggleable="false">
-						<h:outputText class="btn" value="#{wpdController.wp.parentWPID}" />
-					</p:inplace>
+							<tr>
+								<td scope="row"><p:outputLabel value="Responsible Employee"
+										rendered="#{!wpdController.editable}" /></td>
+								<td><h:selectOneMenu
+										value="#{wpdController.editwp.reEmpNo}"
+										rendered="#{wpdController.wpEditable}">
+										<f:selectItems value="#{wpdController.empPool}" var="emp"
+											itemLabel="#{emp.userName}" itemValue="#{emp.empNumber}"
+											style="color:black" />
 
-					<h:outputLabel for="state" value="State:" />
-					<p:inplace id="state" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.state}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="comment" value="Comment:" />
-					<p:inplace id="comment" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputTextarea class="btn" value="#{wpdController.wp.comment}"
-							required="true" label="text" />
-					</p:inplace>
+									</h:selectOneMenu> <h:outputText value="#{wpdController.wp.reEmpNo}"
+										rendered="#{!wpdController.editable}" /></td>
 
 
-					<h:outputLabel for="pmestp1" value="Project Manager Est P1:" />
-					<p:inplace id="pmestp1" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.pmEstP1}"
-							required="true" label="text" />
-					</p:inplace>
+							</tr>
 
-					<h:outputLabel for="pmestp2" value="Project Manager Est P2:" />
-					<p:inplace id="pmestp2" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.pmEstP2}"
-							required="true" label="text" />
-					</p:inplace>
+							<tr>
+								<td scope="row"><p:outputLabel value="Title" /></td>
+								<td><p:inputText value="#{wpdController.editwp.title}"
+										label="text" rendered="#{wpdController.editable}" /> <h:outputText
+										value="#{wpdController.wp.title}"
+										rendered="#{!wpdController.editable}" /></td>
+							</tr>
 
-					<h:outputLabel for="pmestp3" value="Project Manager Est P3:" />
-					<p:inplace id="pmestp3" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.pmEstP3}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="pmestp4" value="Project Manager Est P4:" />
-					<p:inplace id="pmestp4" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.pmEstP4}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="pmestp5" value="Project Manager Est P5:" />
-					<p:inplace id="pmestp5" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.pmEstP5}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="pmestp6" value="Project Manager Est P6:" />
-					<p:inplace id="pmestp6" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.pmEstP6}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="pmestds" value="Project Manager Est DS:" />
-					<p:inplace id="pmestds" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.pmEstDS}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="pmestss" value="Project Manager Est SS:" />
-					<p:inplace id="pmestss" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.pmEstSS}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="pmestjs" value="Project Manager Est JS:" />
-					<p:inplace id="pmestjs" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.pmEstJS}"
-							required="true" label="text" />
-					</p:inplace>
+							<tr>
+								<td scope="row"><p:outputLabel value="Start Date" /></td>
+								<td><p:calendar id="start"
+										value="#{wpdController.editwp.startDate}"
+										rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.startDate}">
+										<f:convertDateTime pattern="dd-MM-yyyy"
+											rendered="#{!wpdController.editable}" />
+									</h:outputText></td>
+							</tr>
 
 
-					<h:outputLabel for="reestp1" value="Responsible Engineer Est P1:" />
-					<p:inplace id="reestp1" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.reEstP1}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="reestp2" value="Responsible Engineer Est P2:" />
-					<p:inplace id="reestp2" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.reEstP2}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="reestp3" value="Responsible Engineer Est P3:" />
-					<p:inplace id="reestp3" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.reEstP3}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="reestp4" value="Responsible Engineer Est P4:" />
-					<p:inplace id="reestp4" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.reEstP4}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="reestp5" value="Responsible Engineer Est P5:" />
-					<p:inplace id="reestp5" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.reEstP5}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="reestp6" value="Responsible Engineer Est P6:" />
-					<p:inplace id="reestp6" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.reEstP6}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="reestds" value="Responsible Engineer Est DS:" />
-					<p:inplace id="reestds" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.reEstDS}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="reestss" value="Responsible Engineer Est SS:" />
-					<p:inplace id="reestss" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.reEstSS}"
-							required="true" label="text" />
-					</p:inplace>
-
-					<h:outputLabel for="reestjs" value="Responsible Engineer Est JS:" />
-					<p:inplace id="reestjs" editor="true">
-						<p:ajax event="save" listener="#{wpdController.save}" />
-						<p:inputText class="btn" value="#{wpdController.wp.reEstJS}"
-							required="true" label="text" />
-					</p:inplace>
-
-				</h:panelGrid>
-			</h:form>
+							<tr>
+								<td scope="row"><p:outputLabel value="End Date" /></td>
+								<td><p:calendar id="end"
+										value="#{wpdController.editwp.endDate}"
+										rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.endDate}">
+										<f:convertDateTime pattern="dd-MM-yyyy"
+											rendered="#{!wpdController.editable}" />
+									</h:outputText></td>
+							</tr>
 
 
 
+							<tr>
+								<td scope="row"><p:outputLabel value="Description" /></td>
+								<td><p:inputTextarea
+										value="#{wpdController.editwp.description}" label="text"
+										rendered="#{wpdController.editable}" /> <h:outputText
+										value="#{wpdController.wp.description}"
+										rendered="#{!wpdController.editable}" /></td>
+							</tr>
 
+							<tr>
+								<td scope="row"><p:outputLabel value="State" /></td>
+								<td><h:selectOneMenu value="#{wpdController.editwp.state}"
+										rendered="#{wpdController.editable}">
+										<f:selectItems value="#{wpdController.status}" />
+									</h:selectOneMenu> <h:outputText value="#{wpdController.wp.state}"
+										rendered="#{!wpdController.editable}" /></td>
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="Comment" /></td>
+								<td><p:inputTextarea
+										value="#{wpdController.editwp.comment}" label="text"
+										rendered="#{wpdController.editable}" /> <h:outputText
+										value="#{wpdController.wp.comment}"
+										rendered="#{!wpdController.editable}" /></td>
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Labour Level" /></td>
+								<td scope="row"><p:outputLabel value="Estimated Man Day" /></td>
+								<td scope="row"><p:outputLabel value="Estimated Budget" /></td>
+
+							</tr>
+
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager P1" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstP1}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstP1}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager P2" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstP2}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstP2}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager P3" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstP3}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstP3}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager P4" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstP4}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstP4}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager P5" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstP5}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstP5}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager P6" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstP6}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstP6}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager DS" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstDS}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstDS}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager SS" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstSS}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstSS}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Project Manager JS" /></td>
+								<td><p:inputText value="#{wpdController.wp.pmEstJS}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.pmEstJS}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Responsible Employee P1" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstP1}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstP1}"
+										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+
+							</tr>
+							
+							
+
+
+
+						</tbody>
+					</table>
+				</h:form>
+
+
+
+			</p:panel>
 
 
 
