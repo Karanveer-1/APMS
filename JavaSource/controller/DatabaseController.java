@@ -297,7 +297,7 @@ public class DatabaseController implements Serializable {
 
 	public boolean persistProject(Project newProject) {
 		Project p = this.manager.find(Project.class, newProject.getProNo());
-
+		addNewEmployeeToProject(newProject.getProMgrEmpNo(), newProject.getProNo());
 		if (p == null) {
 			this.manager.persist(newProject);
 			return true;
@@ -586,12 +586,21 @@ public class DatabaseController implements Serializable {
 		return manager.createQuery("SELECT p FROM PLevel p", PLevel.class).getResultList();
 	}
 
-	public PLevel getPLevelByPK(Date startDate, String pLevel) {
+	public List<PLevel> getPLevelByPK(Date startDate, String pLevel) {
 		TypedQuery<PLevel> query = manager.createQuery(
-				"select p from PLevel p where p.StartDate = :StartDate AND p.PLevel = :PLevel", PLevel.class);
+				"select p from PLevel p where p.pLevelPK.startDate = :StartDate AND p.pLevelPK.pLevel = :PLevel",
+				PLevel.class);
 		query.setParameter("StartDate", startDate);
 		query.setParameter("PLevel", pLevel);
-		return query.getSingleResult();
+		return query.getResultList();
+	}
+
+	public List<PLevel> getPLevelByLevel(String pLevel) {
+		TypedQuery<PLevel> query = manager.createQuery("select p from PLevel p where  p.pLevelPK.pLevel = :PLevel",
+				PLevel.class);
+
+		query.setParameter("PLevel", pLevel);
+		return query.getResultList();
 	}
 
 	public void updatePLevel(PLevel e) {

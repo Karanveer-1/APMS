@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import model.Employee;
+import model.PLevel;
 import model.WorkPackage;
 
 @Named("wpdController")
@@ -48,6 +50,8 @@ public class WorkPackageDetailController implements Serializable {
 
 	private WorkPackage editwp;
 
+	private List<PLevel> pLevels;
+
 	public WorkPackageDetailController() {
 
 	}
@@ -64,6 +68,7 @@ public class WorkPackageDetailController implements Serializable {
 		this.editable = false;
 		this.wpEditable = editable && this.wp.isEditable() && this.wp.isLeaf();
 		this.empPool = getAllEmpPool(this.wp.getProNo());
+		this.pLevels = this.database.getPLevels();
 		return "WorkPackageDetail.xhtml?faces-redirect=true";
 	}
 
@@ -91,13 +96,6 @@ public class WorkPackageDetailController implements Serializable {
 			wp = editwp;
 		}
 
-//		if (this.database.updateWP(wp)) {
-//			wp = this.database.getWPByID(wp.getWorkPackagePk());
-//			ogwp = wp;
-//		} else {
-//			wp = ogwp;
-//		}
-
 	}
 
 	public void updateParentWP(WorkPackage wp, WorkPackage parent) {
@@ -108,6 +106,22 @@ public class WorkPackageDetailController implements Serializable {
 
 		}
 
+	}
+
+	public float getBudgetByPLevel(int hr, String pLevel) {
+
+		List<PLevel> result = this.database.getPLevelByLevel(pLevel);
+		if (result.size() == 0) {
+			return 0;
+		}
+		PLevel closest = result.get(0);
+		for (PLevel pl : result) {
+			Date current = pl.getpLevelPK().getStartDate();
+			if (current.before(wp.getStartDate()) && current.after(closest.getpLevelPK().getStartDate())) {
+				closest = pl;
+			}
+		}
+		return closest.getWage() * hr;
 	}
 
 	public void toggleEditable() {
@@ -157,6 +171,10 @@ public class WorkPackageDetailController implements Serializable {
 
 	public Status[] getStatus() {
 		return Status.values();
+	}
+
+	public Employee getEmployeeByNo(int id) {
+		return this.database.getEmployeeById(id);
 	}
 
 }

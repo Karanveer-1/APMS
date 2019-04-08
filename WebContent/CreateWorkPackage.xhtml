@@ -17,7 +17,7 @@
 			<h:outputText value="Projects" class="navbar-brand" />
 		</ui:define>
 		<ui:define name="navBar">
-			<ui:include src="/sections/ProjectManagementNavigationBar.xhtml" />
+			<ui:include src="/sections/CreateWorkPackageNavigation.xhtml" />
 		</ui:define>
 		<ui:define name="content">
 			<f:event listener="#{pdController.initWPList}" type="preRenderView" />
@@ -116,138 +116,122 @@
 									<td><h:outputText value="Comment" /></td>
 									<td><p:inputTextarea value="#{pdController.addWp.comment}" /></td>
 								</tr>
-								<tr>
-									<td><h:outputText value="Project Manager P1" /></td>
-									<td><p:inputText value="#{pdController.addWp.pmEstP1}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.pmEstP1}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText value="Project Manager P2" /></td>
-									<td><p:inputText value="#{pdController.addWp.pmEstP2}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.pmEstP2}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText value="Project Manager P3" /></td>
-									<td><p:inputText value="#{pdController.addWp.pmEstP3}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.pmEstP3}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText value="Project Manager P4" /></td>
-									<td><p:inputText value="#{pdController.addWp.pmEstP4}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.pmEstP4}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText value="Project Manager P5" /></td>
-									<td><p:inputText value="#{pdController.addWp.pmEstP5}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.pmEstP5}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText value="Project Manager P6" /></td>
-									<td><p:inputText value="#{pdController.addWp.pmEstP6}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.pmEstP6}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText value="Project Manager DS" /></td>
-									<td><p:inputText value="#{pdController.addWp.pmEstDS}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.pmEstDS}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText value="Project Manager SS" /></td>
-									<td><p:inputText value="#{pdController.addWp.pmEstSS}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.pmEstSS}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText value="Project Manager JS" /></td>
-									<td><p:inputText value="#{pdController.addWp.pmEstJS}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.pmEstJS}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Project Manager P1" /></td>
+										<td><p:inputText value="#{pdController.addWp.pmEstP1}" /></td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Project Manager P2" /></td>
+										<td><p:inputText value="#{pdController.addWp.pmEstP2}" /></td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Project Manager P3" /></td>
+										<td><p:inputText value="#{pdController.addWp.pmEstP3}" /></td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Project Manager P4" /></td>
+										<td><p:inputText value="#{pdController.addWp.pmEstP4}" /></td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Project Manager P5" /></td>
+										<td><p:inputText value="#{pdController.addWp.pmEstP5}" /></td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Project Manager P6" /></td>
+										<td><p:inputText value="#{pdController.addWp.pmEstP6}" /></td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Project Manager DS" /></td>
+										<td><p:inputText value="#{pdController.addWp.pmEstDS}" /></td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Project Manager SS" /></td>
+										<td><p:inputText value="#{pdController.addWp.pmEstSS}" /></td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Project Manager JS" /></td>
+										<td><p:inputText value="#{pdController.addWp.pmEstJS}" /></td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Responsible Engineer P1" /></td>
+										<td><p:inputText value="#{pdController.addWp.reEstP1}" /></td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Responsible Engineer P2" /></td>
+										<td><p:inputText value="#{pdController.addWp.reEstP2}" /></td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Responsible Engineer P3" /></td>
+										<td><p:inputText value="#{pdController.addWp.reEstP3}" />
+										</td>
+									</tr>
+								</h:panelGroup>
 
-								<tr>
-									<td><h:outputText value="Responsible Engineer P1" /></td>
-									<td><p:inputText value="#{pdController.addWp.reEstP1}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.reEstP1}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-
-								<tr>
-									<td><h:outputText value="Responsible Engineer P2" /></td>
-									<td><p:inputText value="#{pdController.addWp.reEstP2}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.reEstP2}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText value="Responsible Engineer P3" /></td>
-									<td><p:inputText value="#{pdController.addWp.reEstP3}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.reEstP3}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText value="Responsible Engineer P4" /></td>
-									<td><p:inputText value="#{pdController.addWp.reEstP4}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.reEstP4}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText value="Responsible Engineer P5" /></td>
-									<td><p:inputText value="#{pdController.addWp.reEstP5}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.reEstP5}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText value="Responsible Engineer P6" /></td>
-									<td><p:inputText value="#{pdController.addWp.reEstP6}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.reEstP6}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-
-								<tr>
-									<td><h:outputText value="Responsible Engineer DS" /></td>
-									<td><p:inputText value="#{pdController.addWp.reEstDS}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.reEstDS}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-
-								<tr>
-									<td><h:outputText value="Responsible Engineer SS" /></td>
-									<td><p:inputText value="#{pdController.addWp.reEstSS}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.reEstSS}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-
-								<tr>
-									<td><h:outputText value="Responsible Engineer JS" /></td>
-									<td><p:inputText value="#{pdController.addWp.reEstJS}"
-											rendered="#{pdController.editable}" /> <h:outputText
-											value="#{pdController.addWp.reEstJS}" style="font-size:22px"
-											rendered="#{!pdController.editable}" /></td>
-								</tr>
-
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Responsible Engineer P4" /></td>
+										<td><p:inputText value="#{pdController.addWp.reEstP4}" />
+										</td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Responsible Engineer P5" /></td>
+										<td><p:inputText value="#{pdController.addWp.reEstP5}" />
+										</td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Responsible Engineer P6" /></td>
+										<td><p:inputText value="#{pdController.addWp.reEstP6}" />
+										</td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Responsible Engineer SS" /></td>
+										<td><p:inputText value="#{pdController.addWp.reEstSS}" />
+										</td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Responsible Engineer DS" /></td>
+										<td><p:inputText value="#{pdController.addWp.reEstDS}" />
+										</td>
+									</tr>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{pdController.editable}">
+									<tr>
+										<td><h:outputText value="Responsible Engineer JS" /></td>
+										<td><p:inputText value="#{pdController.addWp.reEstJS}" />
+										</td>
+									</tr>
+								</h:panelGroup>
 
 							</tbody>
 						</table>
