@@ -21,124 +21,139 @@
 		</ui:define>
 
 		<ui:define name="content">
-		
-		<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
-				<div class="row" style="color:black">
-				  <div class="col-sm-2">
-				  </div>
-				  <div class="col-sm-8">
-				  	<h1>Timesheets</h1>
-	           		<h:outputText value="A list of timesheets." />
-				  </div>
-				  <div class="col-sm-2"></div>
+			<f:event listener="#{timesheetController.init}" type="preRenderView" />
+
+			<p:fieldset scrollabe="true"
+				style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color: black">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-8">
+						<h1>Timesheets</h1>
+						<h:outputText value="A list of timesheets." />
+					</div>
+					<div class="col-sm-2"></div>
 				</div>
 
-           		<hr></hr>
-           		
-           		<p:commandButton value="Add Timesheet" id="addButton"
-							onclick="PF('addTimesheetDialog').show();">
-							<p:ajax update=":formAddDialog:createButton" />
-				</p:commandButton>
-           
-           		<hr></hr>
-			<f:event listener="#{timesheetController.init}" type="preRenderView" />
-			<h:outputText value="&nbsp;" />
-			
-			<h:form id="formMain">
+				<hr></hr>
 
-				<p:dataTable id="viewTable"
-					value="#{timesheetController.timesheets}" var="timesheet">
-					<p:column headerText="Employee No"
-						rendered="#{authController.userSystemAdmin}" style="width:100px; text-align: center;">
-						
-						<h:outputText value="#{timesheet.timesheetPk.empNo}" />
-					</p:column>
-					<p:column headerText="Date" style="width:100px;text-align: center;">
-						<h:outputText value="#{timesheet.timesheetPk.startDate}">
-							<f:convertDateTime pattern="MMM. dd, yyyy" />
-						</h:outputText>
-					</p:column>
-					<p:column headerText="State" style="width:100px;text-align: center;">
-						
-						<h:outputText value="#{timesheet.state}" />
-					</p:column>
-					<p:column headerText="Approved Emp No" style="width:100px; text-align: center;">
-						<h:outputText value="#{timesheet.approvedEmpNo}" />
-					</p:column>
-					<p:column headerText="Overtime" style="width:100px; text-align: center;">
-						<h:outputText value="#{timesheet.overtime}" />
-					</p:column>
-					<p:column headerText="Flextime" style="width:100px; text-align: center;">
-						<h:outputText value="#{timesheet.flextime}" />
-					</p:column>
-					<p:column headerText="Signature" style="width:100px; text-align: center;">
-						<h:outputText value="#{timesheet.signature}" />
-					</p:column>
-					<p:column headerText="Comment" style="width:100px;">
-						<h:outputText value="#{timesheet.comment}" />
-					</p:column>
-					<p:column headerText="View" style="width:100px; text-align: center;">
-						<p:commandLink 
-							action="#{timesheetController.viewTimesheet(timesheet)}"
-							style="width: 100%;">
-						  <h:graphicImage value="resources/images/view.png" style="max-width:25%; max-height:25%; "/>			
-					</p:commandLink>
-					</p:column>
-					<p:column headerText="Edit" style="width:100px; text-align: center;">
-						<p:commandLink
-							action="#{timesheetController.editTimesheet(timesheet)}"
-							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
-							style="width: 100%">
-						
-						  <h:graphicImage value="resources/images/edit.png" style="max-width:25%; max-height:25%; "/>
-						</p:commandLink>
-					</p:column>
-					<p:column headerText="Delete" style="width:100px; text-align: center;">
-						<p:commandLink 
-							action="#{timesheetController.deleteTimesheet(timesheet)}"
-							disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
-							update=":formMain" style="width: 100%">
-						 <h:graphicImage value="resources/images/error.png" style="max-width:25%; max-height:25%"/>	
-						
-						</p:commandLink>
-					</p:column>
-					<p:column headerText="Submit / Cancel" style="width:100px; text-align: center;">
-						<p:commandLink 
-							action="#{timesheetController.submitTimesheet(timesheet)}"
-							rendered="#{timesheetController.canSubmitTimesheet(timesheet)}"
-							update=":formMain" style="width: 100%" >
-							
-							<h:graphicImage value="resources/images/submit.png" style="max-width:25%; max-height:25%"/>	
-							
-						</p:commandLink>
-						<p:commandLink 
-							action="#{timesheetController.cancelSubmitTimesheet(timesheet)}"
-							rendered="#{timesheetController.canCancelSubmitTimesheet(timesheet)}"
-							update=":formMain" style="width: 100%">
-							
-							<h:graphicImage value="resources/images/cancel.png" style="max-width:35%; max-height:35%"/>	
-							
-						</p:commandLink>
-					</p:column>
-				</p:dataTable>
-			</h:form>
-		
+				<h:outputText value="&nbsp;" />
 
-			<p:dialog id="addDialog" header="Select Date" modal="true"
-				widgetVar="addTimesheetDialog" resizable="false" draggable="false">
-				<h:form id="formAddDialog">
-					<p:calendar id="datePicker" pattern="MMM. dd, yyyy" mode="inline"
-						binding="#{createTimesheetDate}"
-						mindate="#{timesheetController.calendarCurrentTimesheetStartDate()}">
-						<p:ajax event="dateSelect" update="createButton" />
-					</p:calendar>
 
-					<p:commandButton id="createButton" value="Create"
-						action="#{timesheetController.addTimesheet(createTimesheetDate.value)}"
-						disabled="#{timesheetController.canCreateTimesheet(createTimesheetDate.value)}" />
+				<h:form id="outerForm">
+					<p:messages id="messages" showDetail="false" closable="true">
+						<p:autoUpdate />
+					</p:messages>
 				</h:form>
-			</p:dialog>
-			<br></br>
+
+				<h:form id="formMain">
+					<p:dataTable id="viewTable"
+						value="#{timesheetController.timesheets}" var="timesheet">
+						<p:column headerText="Employee No"
+							rendered="#{authController.userSystemAdmin}"
+							style="width:100px; text-align: center;">
+
+							<h:outputText value="#{timesheet.timesheetPk.empNo}" />
+						</p:column>
+						<p:column headerText="Date"
+							style="width:100px;text-align: center;">
+							<h:outputText value="#{timesheet.timesheetPk.startDate}">
+								<f:convertDateTime pattern="MMM. dd, yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="State"
+							style="width:100px;text-align: center;">
+
+							<h:outputText value="#{timesheet.state}" />
+						</p:column>
+						<p:column headerText="Approved Emp No"
+							style="width:100px; text-align: center;">
+							<h:outputText value="#{timesheet.approvedEmpNo}" />
+						</p:column>
+						<p:column headerText="Overtime"
+							style="width:100px; text-align: center;">
+							<h:outputText value="#{timesheet.overtime}" />
+						</p:column>
+						<p:column headerText="Flextime"
+							style="width:100px; text-align: center;">
+							<h:outputText value="#{timesheet.flextime}" />
+						</p:column>
+						<p:column headerText="Signature"
+							style="width:100px; text-align: center;">
+							<h:outputText value="#{timesheet.signature}" />
+						</p:column>
+						<p:column headerText="Comment" style="width:100px;">
+							<h:outputText value="#{timesheet.comment}" />
+						</p:column>
+						<p:column headerText="View"
+							style="width:100px; text-align: center;">
+							<p:commandLink
+								action="#{timesheetController.viewTimesheet(timesheet)}"
+								style="width: 100%;">
+								<h:graphicImage value="resources/images/view.png"
+									style="max-width:25%; max-height:25%; " />
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="Edit"
+							style="width:100px; text-align: center;">
+							<p:commandLink
+								action="#{timesheetController.editTimesheet(timesheet)}"
+								disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
+								style="width: 100%">
+
+								<h:graphicImage value="resources/images/edit.png"
+									style="max-width:25%; max-height:25%; " />
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="Delete"
+							style="width:100px; text-align: center;">
+							<p:commandLink
+								action="#{timesheetController.deleteTimesheet(timesheet)}"
+								disabled="#{!timesheetController.canEditTimesheet(timesheet)}"
+								update=":formMain" style="width: 100%">
+								<h:graphicImage value="resources/images/error.png"
+									style="max-width:25%; max-height:25%" />
+
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="Submit / Cancel"
+							style="width:100px; text-align: center;">
+							<p:commandLink
+								action="#{timesheetController.submitTimesheet(timesheet)}"
+								rendered="#{timesheetController.canSubmitTimesheet(timesheet)}"
+								update=":formMain" style="width: 100%">
+
+								<h:graphicImage value="resources/images/submit.png"
+									style="max-width:25%; max-height:25%" />
+
+							</p:commandLink>
+							<p:commandLink
+								action="#{timesheetController.cancelSubmitTimesheet(timesheet)}"
+								rendered="#{timesheetController.canCancelSubmitTimesheet(timesheet)}"
+								update=":formMain" style="width: 100%">
+
+								<h:graphicImage value="resources/images/cancel.png"
+									style="max-width:35%; max-height:35%" />
+
+							</p:commandLink>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+
+				<p:dialog id="addDialog" header="Select Date" modal="true"
+					widgetVar="addTimesheetDialog" resizable="false" draggable="false">
+					<h:form id="formAddDialog">
+						<p:calendar id="datePicker" pattern="MMM. dd, yyyy" mode="inline"
+							binding="#{createTimesheetDate}"
+							mindate="#{timesheetController.calendarCurrentTimesheetStartDate()}">
+							<p:ajax event="dateSelect" update="createButton" />
+						</p:calendar>
+
+						<p:commandButton id="createButton" value="Create"
+							action="#{timesheetController.addTimesheet(createTimesheetDate.value)}"
+							disabled="#{timesheetController.canCreateTimesheet(createTimesheetDate.value)}" />
+					</h:form>
+				</p:dialog>
+				<br></br>
 			</p:fieldset>
 		</ui:define>
 	</ui:composition>
