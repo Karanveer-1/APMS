@@ -20,7 +20,7 @@
 			<ui:include src="/sections/ProjectNavigationBar.xhtml" />
 		</ui:define>
 		<ui:define name="content">
-
+			<f:event listener="#{pmController.init}" type="preRenderView" />
 			<p:panel id="basic" header="Project Management" footer=""
 				style="margin-left:50px; margin-right:50px;">
 
@@ -28,7 +28,7 @@
 				<h:form id="form">
 					<p:growl id="msgs" showDetail="true" />
 
-
+						
 
 
 					<p:dataTable id="project" var="project" widgetVar="project"
