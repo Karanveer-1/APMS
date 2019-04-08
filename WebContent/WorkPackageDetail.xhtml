@@ -28,6 +28,8 @@
 				style="margin-left:50px; margin-right:50px;">
 
 				<h:form id="form">
+					<p:growl id="messageGrowl" showDetail="true" sticky="false" />
+
 					<table id="table" class="table table-bordered">
 						<tbody>
 							<tr>
@@ -37,29 +39,32 @@
 										ajax="true" update=":form"
 										action="#{wpdController.toggleEditable()}">
 										<h:graphicImage value="resources/images/edit.png"
-											style="max-width:20px; max-height:20px" />
+											style="max-width:20px; max-height:20px" /> Edit
 									</p:commandLink></td>
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel value="Parent ID" /></td>
 								<td><h:outputText value="#{wpdController.wp.parentWPID}" /></td>
 								<td style="border: 1px solid white;"><p:commandLink
+										ajax="true"
+										update=":form"
+										action="#{wpdController.save()}"
 										rendered="#{wpdController.editable}">
 										<h:graphicImage value="resources/images/submit.png"
-											style="max-width:10%; max-height:10%" />
+											style="max-width:20px; max-height:20px" /> Submit
 									</p:commandLink></td>
 
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel value="Leaf Work Package" /></td>
 								<td><h:outputText value="#{wpdController.wp.leaf}" /></td>
-								
+
 							</tr>
 
-		<tr>
-								<td scope="row"><p:outputLabel value="Charged Status"/></td>
+							<tr>
+								<td scope="row"><p:outputLabel value="Charged Status" /></td>
 								<td><h:outputText value="#{!wpdController.wp.editable}" /></td>
-								
+
 							</tr>
 
 							<tr>

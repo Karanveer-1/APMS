@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -77,16 +79,37 @@ public class WorkPackageDetailController implements Serializable {
 	}
 
 	public void save() {
-
-		if (this.database.updateWP(wp)) {
-			wp = this.database.getWPByID(wp.getWorkPackagePk());
-			ogwp = wp;
-		} else {
-			wp = ogwp;
+		System.out.println("Im edititng this" + this.editwp);
+		if(this.editwp.isEditable()) {
+			this.editwp.setEditable(false);
+			updateParentWP(editwp, this.database.getParentWP(editwp));
 		}
+		this.database.updateWP(editwp);
+		wp = editwp;
+		
+		
+		
+		
+		FacesMessage msg = new FacesMessage("Work Package Updated");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+//		if (this.database.updateWP(wp)) {
+//			wp = this.database.getWPByID(wp.getWorkPackagePk());
+//			ogwp = wp;
+//		} else {
+//			wp = ogwp;
+//		}
 
 	}
 
+	public void updateParentWP(WorkPackage wp, WorkPackage parent) {
+		if (parent != null) {
+			parent.addHoursFromChild(wp);
+			this.database.updateWP(parent);
+			updateParentWP(wp, this.database.getParentWP(parent));
+
+		}
+
+	}
 	public void toggleEditable() {
 		editwp = wp;
 		this.editable = !this.editable;

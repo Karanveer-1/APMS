@@ -55,9 +55,7 @@ public class WorkPackageManagementController implements Serializable {
 		}
 
 	}
-	public String print() {
-		return "Total Length" + wpList.size();
-	}
+
 
 	public void onRowCancel(RowEditEvent event) {
 		FacesMessage msg = new FacesMessage("Edit Cancelled");
