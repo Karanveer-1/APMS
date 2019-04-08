@@ -400,9 +400,29 @@ public class TimesheetController implements Serializable {
     public void setProjectNumbers(List<Integer> projectNumbers) {
         this.projectNumbers = projectNumbers;
     }
+    
+    private boolean hasEnoughHours(Timesheet t) {
+        List<TimesheetRow> rows = database.getTimesheetRows(t);
+        float totalHours = (float) rows
+                .stream()
+                .mapToDouble(r -> {
+                    return getTimesheetRowValues(r)
+                            .stream()
+                            .mapToDouble(Float::doubleValue)
+                            .sum();
+                })
+                .sum();
+                
+        return totalHours >= 40 * rows.size() ? true : false;
+    }
 
     public void submitTimesheet(Timesheet t) {
-
+        if (!hasEnoughHours(t)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "All rows must have at least 40 hours.", null);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+        
         try {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
