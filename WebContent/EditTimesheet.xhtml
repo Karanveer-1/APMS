@@ -35,7 +35,7 @@
 
 
 				<h:form id="formMain" style="text-align:left !important;">
-					<p:growl id="growl" showDetail="false" sticky="true" />
+					<!-- <p:growl id="growl" showDetail="false" sticky="true" /> -->
 
 					<p:panel>
 						<table class="table">
@@ -91,6 +91,12 @@
 						update="editTable" />
 
 					<hr></hr>
+
+
+					<p:messages id="messages" showDetail="false" closable="true">
+						<p:autoUpdate />
+					</p:messages>
+
 
 					<p:dataTable id="editTable"
 						value="#{timesheetController.editTimesheetRows}" var="row">

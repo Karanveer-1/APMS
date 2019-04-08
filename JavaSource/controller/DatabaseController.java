@@ -283,6 +283,11 @@ public class DatabaseController implements Serializable {
 		return ids;
 	}
 
+	public List<Integer> getAllProjectManagerEmpNos() {
+	    return manager.createQuery("SELECT p.proMgrEmpNo FROM Project p", Integer.class)
+	            .getResultList();
+	}
+	
 	public List<Integer> getAllProjectNoForProjectManager(Integer proNo) {
 		List<Integer> ids = manager
 				.createQuery("SELECT p.proNo from Project p where p.proMgrEmpNo = :no", Integer.class)
