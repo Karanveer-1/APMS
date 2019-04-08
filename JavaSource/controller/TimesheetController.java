@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
@@ -9,23 +10,27 @@ import java.security.SecureRandom;
 import java.security.Signature;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import model.Employee;
+import model.Project;
 import model.Timesheet;
 import model.TimesheetPK;
 import model.TimesheetRow;
 import model.TimesheetRowPK;
 import model.TimesheetRowState;
 import model.TimesheetState;
-import model.WorkPackage;
 import utils.DateUtils;
+import utils.Pair;
 
 // WPEmp Table
 // Make sure that the WP that can be chosen are only the ones assigned to the current employee!
@@ -45,7 +50,7 @@ public class TimesheetController implements Serializable {
     private Employee currentEmployee;
 
     private List<Integer> projectNumbers;
-
+    
     public void init() {
         try {
             currentEmployee = getLoggedInEmployee();
@@ -77,9 +82,16 @@ public class TimesheetController implements Serializable {
             null);
         editTimesheetRows = new ArrayList<TimesheetRow>();
 
-        projectNumbers = database.getAllProjectNo();
+        projectNumbers = getRelaventProNos();
 
         return "EditTimesheet.xhtml?faces-redirect=true";
+    }
+    
+    public List<Integer> getRelaventProNos() {
+        return database.getAllProjectsbyEmpNo(currentEmployee.getEmpNumber())
+            .stream()
+            .map(Project::getProNo)
+            .collect(Collectors.toList());
     }
 
     public String editTimesheet(Timesheet t) {
@@ -104,16 +116,27 @@ public class TimesheetController implements Serializable {
 
     public List<String> getRelaventWpIds(TimesheetRow row) {
         if (row.getTimesheetRowPk().getProNo() == null) {
+            row.getTimesheetRowPk().setWpid(null);
             return new ArrayList<String>();
         }
 
-        return database.getAllEmpAssignedWpid(100, currentEmployee.getEmpNumber())
-                .stream()
-                .filter(wp -> database.getWPById(wp) != null && database.getWPById(wp).getState().equals("OPEN"))
-                .collect(Collectors.toList());
+        List<String> wpids = database.getAllEmpAssignedWpid(row.getTimesheetRowPk().getProNo(), currentEmployee.getEmpNumber())
+            .stream()
+            .filter(wp -> database.getWPById(wp) != null && database.getWPById(wp).getState().equals("OPEN"))
+            .collect(Collectors.toList());
+        
+        if (wpids.isEmpty()) {
+            row.getTimesheetRowPk().setWpid(null);
+        }
+        
+        return wpids;
     }
 
     public String saveTimesheet() {
+        if (!isValidTimesheet()) {
+            return null;
+        }
+
         editTimesheet.setState(TimesheetState.DRAFT);
 
         database.updateTimesheet(editTimesheet);
@@ -125,8 +148,93 @@ public class TimesheetController implements Serializable {
 
         updateTimesheetRowsState(editTimesheetRows, TimesheetRowState.DRAFT);
         timesheets = updateUserTimesheets();
-        
+
         return "Timesheets.xhtml?faces-redirect=true";
+    }
+    
+    public boolean isValidTimesheet() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        boolean hasError = false;
+
+        for (TimesheetRow row : editTimesheetRows) {
+            if (!isTimesheetRowValuesInRange(row)) {
+                FacesMessage msg = new FacesMessage("Timesheet values must be between 0.0 and 24.0.");
+                context.addMessage(null, msg);
+                hasError = true;
+                break;
+            }
+        }
+
+        if (hasDuplicateTimesheetRow(editTimesheetRows)) {
+            FacesMessage msg = new FacesMessage("Duplicate project number and workpackage id combination.");
+            context.addMessage(null, msg);
+            hasError = true;
+        }
+        
+        for (TimesheetRow row : editTimesheetRows) {
+            if (isTimesheetRowKeysNull(row)) {
+                FacesMessage msg = new FacesMessage("Timesheet can not have any empty project number or workpackage id.");
+                context.addMessage(null, msg);
+                hasError = true;
+                break;
+            }
+        }
+
+        if (hasError) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    public boolean isTimesheetRowValuesInRange(TimesheetRow r) {
+        List<Float> values = new ArrayList<Float>() {
+            {
+                add(r.getSat());
+                add(r.getSun());
+                add(r.getMon());
+                add(r.getTue());
+                add(r.getWed());
+                add(r.getThu());
+                add(r.getFri());
+            }
+        };
+
+        for (float i : values) {
+            BigDecimal a = new BigDecimal(i);
+
+            BigDecimal min = new BigDecimal(0);
+            BigDecimal max = new BigDecimal(24);
+
+            if (a.compareTo(min) < 0 || a.compareTo(max) > 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean hasDuplicateTimesheetRow(List<TimesheetRow> rows) {
+        Set<Pair<Integer, String>> sets = new HashSet<>();
+
+        for (TimesheetRow row : rows) {
+            TimesheetRowPK pk = row.getTimesheetRowPk();            
+            if (!sets.add(new Pair<Integer, String>(pk.getProNo(), pk.getWpid()))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    public boolean isTimesheetRowKeysNull(TimesheetRow row) {
+        TimesheetRowPK pk = row.getTimesheetRowPk();
+        
+        if (pk.getProNo() == null || pk.getWpid() == null) {
+            return true;
+        }
+        
+        return false;
     }
 
     public String discardTimesheetChanges() {
@@ -184,7 +292,8 @@ public class TimesheetController implements Serializable {
             Date end = DateUtils.getTimesheetEndDate(date);
 
             if (DateUtils.isWithinRange(
-                timesheet.getTimesheetPk().getStartDate(), start, end)) {
+                timesheet.getTimesheetPk().getStartDate(), start, end)
+                && timesheet.getTimesheetPk().getEmpNo() == currentEmployee.getEmpNumber()) {
                 return true;
             }
         }
@@ -205,9 +314,9 @@ public class TimesheetController implements Serializable {
     public Date calendarCurrentTimesheetStartDate() {
         return DateUtils.getTimesheetStartDate(DateUtils.today());
     }
-    
+
     public Date getStartDateCustom(Date date) {
-        return DateUtils.getTimesheetStartDate(date); 
+        return DateUtils.getTimesheetStartDate(date);
     }
 
     public boolean canEditTimesheet(Timesheet t) {
