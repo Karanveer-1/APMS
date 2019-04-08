@@ -164,11 +164,14 @@ public class TimesheetController implements Serializable {
                 break;
             }
         }
-
-        if (hasDuplicateTimesheetRow(editTimesheetRows)) {
-            FacesMessage msg = new FacesMessage("Duplicate project number and workpackage id combination.");
-            context.addMessage(null, msg);
-            hasError = true;
+        
+        for (TimesheetRow row : editTimesheetRows) {
+            if (!isTimesheetRowValuesValidMultiple(row)) {
+                FacesMessage msg = new FacesMessage("Timesheet values must be multiples of 0.25.");
+                context.addMessage(null, msg);
+                hasError = true;
+                break;
+            }
         }
         
         for (TimesheetRow row : editTimesheetRows) {
@@ -179,6 +182,12 @@ public class TimesheetController implements Serializable {
                 break;
             }
         }
+        
+        if (hasDuplicateTimesheetRow(editTimesheetRows)) {
+            FacesMessage msg = new FacesMessage("Duplicate project number and workpackage id combination.");
+            context.addMessage(null, msg);
+            hasError = true;
+        }
 
         if (hasError) {
             return false;
@@ -186,9 +195,9 @@ public class TimesheetController implements Serializable {
         
         return true;
     }
-
-    public boolean isTimesheetRowValuesInRange(TimesheetRow r) {
-        List<Float> values = new ArrayList<Float>() {
+    
+    private List<Float> getTimesheetRowValues(TimesheetRow r) {
+        return new ArrayList<Float>() {
             {
                 add(r.getSat());
                 add(r.getSun());
@@ -199,6 +208,22 @@ public class TimesheetController implements Serializable {
                 add(r.getFri());
             }
         };
+    }
+    
+    public boolean isTimesheetRowValuesValidMultiple(TimesheetRow r) {
+        List<Float> values = getTimesheetRowValues(r);
+        
+        for (float i : values) {
+            if (i % 0.25 != 0) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    public boolean isTimesheetRowValuesInRange(TimesheetRow r) {
+        List<Float> values = getTimesheetRowValues(r);
 
         for (float i : values) {
             BigDecimal a = new BigDecimal(i);
@@ -444,5 +469,4 @@ public class TimesheetController implements Serializable {
 
         database.updateTimesheetRows(rows);
     }
-
 }
