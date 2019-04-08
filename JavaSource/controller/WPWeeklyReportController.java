@@ -61,7 +61,7 @@ public class WPWeeklyReportController implements Serializable {
         
         init();
     }
-
+    
     public void onProjectChange() {
         if (proNo != null) {
             wpids = getLeafWpids(proNo);
@@ -127,7 +127,7 @@ public class WPWeeklyReportController implements Serializable {
 
     public Date getWeekStartDate() {
         if (proNo == null || wpid == null) {
-            return new Date();
+            return null;
         }
 
         return database.getAllWp().stream().filter(wp -> wp.getProNo() == proNo).filter(wp -> wp.getWpid().equals(wpid))

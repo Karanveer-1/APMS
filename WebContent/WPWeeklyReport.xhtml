@@ -21,28 +21,27 @@
 		</ui:define>
 
 		<ui:define name="content">
-			<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
-				<div class="row" style="color:black">
-				  <div class="col-sm-2">
-				  </div>
-				  <div class="col-sm-8">
-				  	<h1>Weekly Report</h1>
-				  </div>
-				  <div class="col-sm-2"></div>
+			<p:fieldset scrollabe="true"
+				style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color: black">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-8">
+						<h1>Weekly Report</h1>
+					</div>
+					<div class="col-sm-2"></div>
 				</div>
 
-           		<hr></hr>
-			
+				<hr></hr>
+
 
 				<f:event listener="#{wpWeeklyReportController.init}"
 					type="preRenderView" />
 
 				<h:form id="formMain">
-				    <p:remoteCommand name="pageInitComamnd" 
-				    autoRun="true" 
-				    action="#{wpWeeklyReportController.pageInit()}"
-                    update="selectTable report" />
-				    
+					<p:remoteCommand name="pageInitComamnd" autoRun="true"
+						action="#{wpWeeklyReportController.pageInit()}"
+						update="selectTable report" />
+
 					<table jsf:id="selectTable" class="table table-striped">
 						<tbody>
 							<tr>
@@ -111,7 +110,7 @@
 
 							<p:column headerText="Week Start Date" style="width:150px">
 								<h:outputText value="#{row.weekNo}">
-								    <f:convertDateTime pattern="MMM. dd, yyyy" />
+									<f:convertDateTime pattern="MMM. dd, yyyy" />
 								</h:outputText>
 							</p:column>
 
@@ -125,14 +124,24 @@
 								</p:column>
 								<p:column style="text-align: left;">
 									<h:outputText
-										value="#{wpWeeklyReportController.getTotalForEmployee(row.empNo)}" />
+										value="#{wpWeeklyReportController.getTotalForEmployee(row.empNo)}">
+										<f:convertNumber pattern="#0.00" />
+									</h:outputText>
 								</p:column>
 							</p:summaryRow>
-							
+
 							<p:columnGroup type="footer">
 								<p:row>
-									<p:column style="text-align:right" colspan="3" footerText="Complete Total:" />
-									<p:column style="text-align:left" footerText="#{wpWeeklyReportController.getTotalForAllEmployees()}" />
+									<p:column style="text-align:right" colspan="3"
+										footerText="Complete Total:" />
+									<p:column style="text-align:left">
+										<f:facet name="footer">
+											<h:outputText
+												value="#{wpWeeklyReportController.getTotalForAllEmployees()}">
+												<f:convertNumber pattern="#0.00" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
 								</p:row>
 							</p:columnGroup>
 						</p:dataTable>
