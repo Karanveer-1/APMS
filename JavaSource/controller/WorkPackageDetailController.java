@@ -76,17 +76,19 @@ public class WorkPackageDetailController implements Serializable {
 	}
 
 	public void save() {
-		System.out.println("Im edititng this" + this.editwp);
+
 		if (this.editwp.isCharged()) {
 			this.editwp.setEditable(false);
 			updateParentWP(editwp, this.database.getParentWP(editwp));
+			this.database.deleteWorkPackage(wp);
+			this.database.persistWP(editwp);
 		}
+		System.out.println("Is this true" + this.database.updateWP(editwp));
 		if (this.database.updateWP(editwp)) {
 			FacesMessage msg = new FacesMessage("Work Package Updated");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-		} else {
-			FacesMessage msg = new FacesMessage("Invalid Input");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
+			editable = false;
+			wp = editwp;
 		}
 
 //		if (this.database.updateWP(wp)) {
@@ -115,7 +117,6 @@ public class WorkPackageDetailController implements Serializable {
 	}
 
 	public boolean isEditable() {
-		editable = this.wp.getState().equals(Status.OPEN);
 		return editable;
 	}
 

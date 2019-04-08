@@ -494,6 +494,8 @@ public class DatabaseController implements Serializable {
 
 	public boolean updateWP(WorkPackage wp) {
 		WorkPackage checkWp = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
+		System.out.println("what can be wrong" + checkWp);
+		System.out.println("This is the OG wp" + wp);
 		if (checkWp != null) {
 			this.manager.merge(wp);
 			return true;
