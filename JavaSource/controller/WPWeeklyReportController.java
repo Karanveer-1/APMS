@@ -1,9 +1,7 @@
 package controller;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -21,9 +19,6 @@ import model.TimesheetRowState;
 import model.WPWeeklyReportRow;
 import model.WorkPackage;
 
-/*
- * Only PM can see
- */
 @Named("wpWeeklyReportController")
 @SessionScoped
 public class WPWeeklyReportController implements Serializable {
@@ -75,8 +70,6 @@ public class WPWeeklyReportController implements Serializable {
         wpid = null;
     }
 
-    // Get any WP that is in any approved timesheet that is in the current project
-    // number
     private List<String> getLeafWpids(int proNo) {
         return database.getAllWp().stream()
                 .filter(wp -> database.getTimesheetRows().stream()
