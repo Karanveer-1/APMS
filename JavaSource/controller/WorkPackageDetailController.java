@@ -17,7 +17,6 @@ import model.WorkPackage;
 @SessionScoped
 public class WorkPackageDetailController implements Serializable {
 
-	
 	public enum Status {
 
 		OPEN("Open"), ARCHIVED("Archived");
@@ -33,8 +32,7 @@ public class WorkPackageDetailController implements Serializable {
 		}
 
 	}
-	
-	
+
 	@Inject
 	private DatabaseController database;
 
@@ -59,7 +57,6 @@ public class WorkPackageDetailController implements Serializable {
 
 	}
 
-	
 	public String viewWP(WorkPackage wp) {
 		this.wp = wp;
 		this.ogwp = wp;
@@ -80,18 +77,18 @@ public class WorkPackageDetailController implements Serializable {
 
 	public void save() {
 		System.out.println("Im edititng this" + this.editwp);
-		if(this.editwp.isEditable()) {
+		if (this.editwp.isCharged()) {
 			this.editwp.setEditable(false);
 			updateParentWP(editwp, this.database.getParentWP(editwp));
 		}
-		this.database.updateWP(editwp);
-		wp = editwp;
-		
-		
-		
-		
-		FacesMessage msg = new FacesMessage("Work Package Updated");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+		if (this.database.updateWP(editwp)) {
+			FacesMessage msg = new FacesMessage("Work Package Updated");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		} else {
+			FacesMessage msg = new FacesMessage("Invalid Input");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+
 //		if (this.database.updateWP(wp)) {
 //			wp = this.database.getWPByID(wp.getWorkPackagePk());
 //			ogwp = wp;
@@ -110,12 +107,15 @@ public class WorkPackageDetailController implements Serializable {
 		}
 
 	}
+
 	public void toggleEditable() {
 		editwp = wp;
 		this.editable = !this.editable;
+		System.out.println("Edit toggle");
 	}
 
 	public boolean isEditable() {
+		editable = this.wp.getState().equals(Status.OPEN);
 		return editable;
 	}
 
@@ -153,6 +153,7 @@ public class WorkPackageDetailController implements Serializable {
 	public void setEditwp(WorkPackage editwp) {
 		this.editwp = editwp;
 	}
+
 	public Status[] getStatus() {
 		return Status.values();
 	}

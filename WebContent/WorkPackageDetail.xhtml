@@ -72,7 +72,7 @@
 								<td><p:inputText value="#{wpdController.wp.wpid}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.wpid}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 							</tr>
 
 
@@ -87,7 +87,7 @@
 											style="color:black" />
 
 									</h:selectOneMenu> <h:outputText value="#{wpdController.wp.reEmpNo}"
-										rendered="#{!wpdController.editable}" /></td>
+									rendered="#{!wpdController.wpEditable}" /></td>
 
 
 							</tr>
@@ -105,7 +105,7 @@
 								<td><p:calendar id="start"
 										value="#{wpdController.editwp.startDate}"
 										rendered="#{wpdController.wpEditable}" /> <h:outputText
-										rendered="#{!wpdController.editable}"
+								rendered="#{!wpdController.wpEditable}"
 										value="#{wpdController.wp.startDate}">
 										<f:convertDateTime pattern="dd-MM-yyyy" />
 									</h:outputText></td>
@@ -117,7 +117,7 @@
 								<td><p:calendar id="end"
 										value="#{wpdController.editwp.endDate}"
 										rendered="#{wpdController.wpEditable}" /> <h:outputText
-										rendered="#{!wpdController.editable}"
+									rendered="#{!wpdController.wpEditable}"
 										value="#{wpdController.wp.endDate}">
 										<f:convertDateTime pattern="dd-MM-yyyy"
 											rendered="#{!wpdController.editable}" />

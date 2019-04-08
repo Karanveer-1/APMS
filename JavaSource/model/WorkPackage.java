@@ -437,12 +437,34 @@ public class WorkPackage implements Serializable {
 		this.reEstP2 += wp.reEstP2;
 		this.reEstP3 += wp.reEstP3;
 		this.reEstP4 += wp.reEstP4;
-		this.reEstP5 = wp.reEstP5;
+		this.reEstP5 += wp.reEstP5;
 		this.reEstP6 += wp.reEstP6;
 		this.reEstSS += wp.reEstSS;
 		this.reEstDS += wp.reEstDS;
 		this.reEstJS += wp.reEstJS;
 
+	}
+
+	public boolean isCharged() {
+		int sum = pmEstP1;
+		sum += pmEstP2;
+		sum += pmEstP3;
+		sum += pmEstP4;
+		sum += pmEstP5;
+		sum += pmEstP6;
+		sum += pmEstSS;
+		sum += pmEstDS;
+		sum += pmEstJS;
+		sum += reEstP1;
+		sum += reEstP2;
+		sum += reEstP3;
+		sum += reEstP4;
+		sum += reEstP5;
+		sum += reEstP6;
+		sum += reEstSS;
+		sum += reEstDS;
+		sum += reEstJS;
+		return sum != 0;
 	}
 
 }
