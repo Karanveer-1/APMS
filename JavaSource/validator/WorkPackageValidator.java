@@ -45,6 +45,9 @@ public class WorkPackageValidator {
 		if (!wp.isLeaf() && !hasChild(database, wp)) {
 			return true;
 		}
+		if(wp.getState().equals("OPEN")) {
+			return true;
+		}
 		return false;
 	}
 
@@ -62,6 +65,10 @@ public class WorkPackageValidator {
 
 	public static boolean canAddChild(WorkPackage wp) {
 		return wp.getState().equals("OPEN");
+	}
+	
+	public static boolean canModify(DatabaseController database, WorkPackage wp) {
+		return wp.getState().equals("OPEN") && database.findByProjectNo(wp.getProNo()).getState().equals("OPEN");
 	}
 
 }
