@@ -37,6 +37,8 @@ public class EmpPLevelController implements Serializable {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private EmpPLevel editEmpPLevel;
     private List<Employee> activeEmployees;
+    static private SimpleDateFormat dm = new SimpleDateFormat("dd-MMM-yyyy");
+
 
     @PostConstruct
     public void init() {
@@ -54,7 +56,7 @@ public class EmpPLevelController implements Serializable {
     void populateDropDown() {
         empPLevelDropDownList.clear();
         for(PLevel p : pLevels) {
-            empPLevelDropDownList.add(p.getpLevelPK().getpLevel() + " : " + p.getpLevelPK().getStartDate());
+            empPLevelDropDownList.add(p.getpLevelPK().getpLevel() + " : " + dm.format(p.getpLevelPK().getStartDate()));
         }
     }
 
@@ -119,7 +121,7 @@ public class EmpPLevelController implements Serializable {
         boolean validPK = true;
         EmpPLevel tempEmpPLevel = null;
         for(PLevel p : pLevels) {
-            if((p.getpLevelPK().getpLevel() + " : " + p.getpLevelPK().getStartDate()).equals(pLevelText)) {
+            if((p.getpLevelPK().getpLevel() + " : " + dm.format(p.getpLevelPK().getStartDate())).equals(pLevelText)) {
                 tempEmpPLevel = new EmpPLevel(new EmpPLevelPK(empNo, p.getpLevelPK().getStartDate()), p.getpLevelPK().getpLevel());
             }
         }
