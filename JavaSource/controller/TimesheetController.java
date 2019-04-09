@@ -412,8 +412,9 @@ public class TimesheetController implements Serializable {
                             .sum();
                 })
                 .sum();
-                
-        return (totalHours - (t.getFlextime() + t.getOvertime())) == rows.size();
+
+        float total = Math.abs(totalHours - (t.getFlextime() + t.getOvertime())) - 40.0f;
+        return total < 0.0001;
     }
 
     public void submitTimesheet(Timesheet t) {
