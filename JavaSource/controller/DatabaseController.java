@@ -37,8 +37,8 @@ import utils.DateUtils;
 @Stateless
 public class DatabaseController implements Serializable {
 
-    @PersistenceContext(unitName = "apms", type = PersistenceContextType.TRANSACTION)
-    private EntityManager manager;
+	@PersistenceContext(unitName = "apms", type = PersistenceContextType.TRANSACTION)
+	private EntityManager manager;
 
 	// #########################################################################
 	// # Employee methods
@@ -106,23 +106,25 @@ public class DatabaseController implements Serializable {
 		return manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
 	}
 
-    public long countTimesheets(int id) {
-        Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.timesheetPk.empNo = :empNumber");
-        q.setParameter("empNumber", id);
-        return (long) q.getSingleResult();
-    }
+	public long countTimesheets(int id) {
+		Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.timesheetPk.empNo = :empNumber");
+		q.setParameter("empNumber", id);
+		return (long) q.getSingleResult();
+	}
 
-    public long countApprovedTimesheets(int id) {
-        Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Approved' AND t.timesheetPk.empNo = :empNumber");
-        q.setParameter("empNumber", id);
-        return (long) q.getSingleResult();
-    }
+	public long countApprovedTimesheets(int id) {
+		Query q = manager.createQuery(
+				"SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Approved' AND t.timesheetPk.empNo = :empNumber");
+		q.setParameter("empNumber", id);
+		return (long) q.getSingleResult();
+	}
 
-    public long countRejectedTimesheets(int id) {
-        Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Returned' AND t.timesheetPk.empNo = :empNumber");
-        q.setParameter("empNumber", id);
-        return (long) q.getSingleResult();
-    }
+	public long countRejectedTimesheets(int id) {
+		Query q = manager.createQuery(
+				"SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Returned' AND t.timesheetPk.empNo = :empNumber");
+		q.setParameter("empNumber", id);
+		return (long) q.getSingleResult();
+	}
 
 	public List<Timesheet> getTimesheets(int empNo) {
 		List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
@@ -562,6 +564,17 @@ public class DatabaseController implements Serializable {
 			}
 		}
 		return wpList;
+	}
+
+	public List<WorkPackage> getAssignedWPByEmpNo(int empNo) {
+		List<WPEmp> allwpe = getAllWPEmp();
+		List<WorkPackage> result = new ArrayList<WorkPackage>();
+		for (WPEmp e : allwpe) {
+			if (e.getEmpNo() == empNo) {
+				result.add(getWPByID(new WorkPackagePK(e.getProNo(), e.getWpid())));
+			}
+		}
+		return result;
 	}
 
 	public List<WPEmp> getAllWPEmp() {

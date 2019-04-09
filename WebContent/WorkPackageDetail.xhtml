@@ -49,7 +49,8 @@
 								<td scope="row"><p:outputLabel value="Parent ID" /></td>
 								<td><h:outputText value="#{wpdController.wp.parentWPID}" /></td>
 								<td style="border: 1px solid white;"><p:commandLink
-										ajax="true" update=":form :formAddDialog :empList" action="#{wpdController.save()}"
+										ajax="true" update=":form :formAddDialog :empList"
+										action="#{wpdController.save()}"
 										rendered="#{wpdController.editable}">
 										<h:graphicImage value="resources/images/submit.png"
 											style="max-width:20px; max-height:20px" /> Submit
@@ -78,9 +79,7 @@
 							</h:panelGroup>
 							<tr>
 								<td scope="row"><p:outputLabel value="Work Package ID" /></td>
-								<td> <h:outputText
-										value="#{wpdController.wp.wpid}"
-							 /></td>
+								<td><h:outputText value="#{wpdController.wp.wpid}" /></td>
 							</tr>
 
 
