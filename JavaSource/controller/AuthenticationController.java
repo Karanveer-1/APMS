@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -41,5 +42,11 @@ public class AuthenticationController implements Serializable {
     
     public boolean isUserApprover() {
         return database.checkIfApprover(currentEmployee.getEmpNumber());
+    }
+    
+    public boolean isUserProjectManager() {
+        return database.getAllProjectManagerEmpNos()
+        .stream()
+        .anyMatch(p -> p == currentEmployee.getEmpNumber());
     }
 }

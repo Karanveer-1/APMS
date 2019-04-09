@@ -16,7 +16,6 @@ import javax.persistence.TypedQuery;
 import model.EmpPLevel;
 import model.Employee;
 import model.PLevel;
-//import model.ProAssi;
 import model.ProEmp;
 import model.ProEmpPK;
 import model.Project;
@@ -28,6 +27,8 @@ import model.TimesheetRow;
 import model.TimesheetRowPK;
 import model.TimesheetState;
 import model.WPEmp;
+import model.WPNeed;
+import model.WPNeedPK;
 import model.WorkPackage;
 import model.WorkPackagePK;
 import utils.DateUtils;
@@ -43,11 +44,11 @@ public class DatabaseController implements Serializable {
     public List<Employee> getEmployees() {
         return manager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
     }
-    
+
     public long countEmployees() {
-    	String sql = "SELECT COUNT(e) FROM Employee e";
-    	Query q =  manager.createQuery(sql);
-    	return (long) q.getSingleResult();
+        String sql = "SELECT COUNT(e) FROM Employee e";
+        Query q = manager.createQuery(sql);
+        return (long) q.getSingleResult();
     }
 
     public List<Employee> getActiveEmployees() {
@@ -56,12 +57,12 @@ public class DatabaseController implements Serializable {
 
     public List<Employee> getInActiveEmployees() {
         return manager.createQuery("SELECT e FROM Employee e WHERE e.state = 'Not Active'", Employee.class)
-            .getResultList();
+                .getResultList();
     }
 
     public Employee getEmployeeByUsername(String username) {
         TypedQuery<Employee> query = manager.createQuery("select e from Employee e where e.userName = :username",
-            Employee.class);
+                Employee.class);
         query.setParameter("username", username);
         try {
             Employee emp = query.getSingleResult();
@@ -74,7 +75,7 @@ public class DatabaseController implements Serializable {
 
     public Employee getEmployeeById(int id) {
         TypedQuery<Employee> query = manager.createQuery("select e from Employee e where e.empNumber = :empNumber",
-            Employee.class);
+                Employee.class);
         query.setParameter("empNumber", id);
         try {
             Employee emp = query.getSingleResult();
@@ -104,21 +105,21 @@ public class DatabaseController implements Serializable {
     }
 
     public long countTimesheets() {
-    	String sql = "SELECT COUNT(t) FROM Timesheet t";
-    	Query q =  manager.createQuery(sql);
-    	return (long) q.getSingleResult();
+        String sql = "SELECT COUNT(t) FROM Timesheet t";
+        Query q = manager.createQuery(sql);
+        return (long) q.getSingleResult();
     }
 
     public long countApprovedTimesheets() {
-    	String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Approved'";
-    	Query q =  manager.createQuery(sql);
-    	return (long) q.getSingleResult();
+        String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Approved'";
+        Query q = manager.createQuery(sql);
+        return (long) q.getSingleResult();
     }
 
     public long countRejectedTimesheets() {
-    	String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Returned'";
-    	Query q =  manager.createQuery(sql);
-    	return (long) q.getSingleResult();
+        String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Returned'";
+        Query q = manager.createQuery(sql);
+        return (long) q.getSingleResult();
     }
 
     public List<Timesheet> getTimesheets(int empNo) {
@@ -142,6 +143,19 @@ public class DatabaseController implements Serializable {
             Employee e = getEmployeeById(timesheet.getTimesheetPk().getEmpNo());
 
             if (e.getApproEmpNo() == empNo && timesheet.getState().equalsIgnoreCase(TimesheetState.PENDING)) {
+                result.add(timesheet);
+            }
+        }
+
+        return result;
+    }
+
+    public List<Timesheet> getSubmittedTimesheets() {
+        List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
+
+        List<Timesheet> result = new ArrayList<Timesheet>();
+        for (Timesheet timesheet : timesheets) {
+            if (timesheet.getState().equalsIgnoreCase(TimesheetState.PENDING)) {
                 result.add(timesheet);
             }
         }
@@ -240,27 +254,27 @@ public class DatabaseController implements Serializable {
 
         return projects;
     }
-    
+
     public long countProjects() {
-    	String sql = "SELECT COUNT(p) FROM Project p";
-    	Query q =  manager.createQuery(sql);
-    	return (long) q.getSingleResult();
+        String sql = "SELECT COUNT(p) FROM Project p";
+        Query q = manager.createQuery(sql);
+        return (long) q.getSingleResult();
     }
-    
+
     public List<Project> getAllProjectsbyEmpNo(int empNo) {
         List<Project> projects = getAllProjects();
-        
+
         TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.empNo = :empNo",
                 ProEmp.class);
         query.setParameter("empNo", empNo);
         List<ProEmp> proEmps = query.getResultList();
         List<Project> temp = new ArrayList<Project>();
-        for(ProEmp p : proEmps) {
-          for(Project pro : projects) {
-              if(p.getProEmp().getProNo() == pro.getProNo()) {
-                  temp.add(pro);
-              }
-          }
+        for (ProEmp p : proEmps) {
+            for (Project pro : projects) {
+                if (p.getProEmp().getProNo() == pro.getProNo()) {
+                    temp.add(pro);
+                }
+            }
         }
         return temp;
     }
@@ -270,14 +284,19 @@ public class DatabaseController implements Serializable {
 
         return ids;
     }
-    
-    public List<Integer> getAllProjectNoForProjectManager(Integer proNo) {
-        List<Integer> ids = manager.createQuery("SELECT p.proNo from Project p where p.proMgrEmpNo = :no", Integer.class)
-                .setParameter("no", proNo).getResultList();
-        
-        return ids;
+
+    public List<Integer> getAllProjectManagerEmpNos() {
+        return manager.createQuery("SELECT p.proMgrEmpNo FROM Project p", Integer.class)
+                .getResultList();
     }
 
+    public List<Integer> getAllProjectNoForProjectManager(Integer proNo) {
+        List<Integer> ids = manager
+                .createQuery("SELECT p.proNo from Project p where p.proMgrEmpNo = :no", Integer.class)
+                .setParameter("no", proNo).getResultList();
+
+        return ids;
+    }
 
     public Project findByProjectNo(final int proNo) {
         return this.manager.find(Project.class, proNo);
@@ -319,17 +338,15 @@ public class DatabaseController implements Serializable {
     }
 
     public List<Role> getRolesByEmpNo(int empNo) {
-        TypedQuery<Role> query = manager.createQuery("select p from Role p where p.rolePk.empNo = :empNo",
-            Role.class);
+        TypedQuery<Role> query = manager.createQuery("select p from Role p where p.rolePk.empNo = :empNo", Role.class);
         query.setParameter("empNo", empNo);
         List<Role> data = query.getResultList();
         return data;
     }
-    
-    
+
     public List<Employee> getEmployeeForProject(int projectId) {
         TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.proNo = :projectId",
-            ProEmp.class);
+                ProEmp.class);
         query.setParameter("projectId", projectId);
         List<ProEmp> data = query.getResultList();
 
@@ -343,19 +360,20 @@ public class DatabaseController implements Serializable {
 
     public List<Employee> getAllSupervisedEmployees(int empNo) {
         TypedQuery<Employee> query = manager.createQuery("select p from Employee p where p.superEmpNo = :empNo",
-            Employee.class);
+                Employee.class);
         query.setParameter("empNo", empNo);
         List<Employee> data = query.getResultList();
         return data;
     }
-    
+
     public List<Employee> getAllApproEmployees(int empNo) {
         TypedQuery<Employee> query = manager.createQuery("select p from Employee p where p.approEmpNo = :empNo",
-            Employee.class);
+                Employee.class);
         query.setParameter("empNo", empNo);
         List<Employee> data = query.getResultList();
         return data;
     }
+
     public void addNewEmployeeToProject(int employeeNumber, int proNo) {
         ProEmp temp = new ProEmp();
         temp.setProEmp(new ProEmpPK(proNo, employeeNumber));
@@ -363,60 +381,10 @@ public class DatabaseController implements Serializable {
         manager.persist(temp);
     }
 
-    // public List<ProAssi> getAllProAssi() {
-    // List<ProAssi> projects = this.manager.createQuery("SELECT p from ProAssi p",
-    // ProAssi.class).getResultList();
-    // return projects;
-    // }
-    //
-    // public List<ProAssi> getProAssiByProNo(int proNo) {
-    // List<ProAssi> pa = new ArrayList<ProAssi>();
-    // for (ProAssi p : getAllProAssi()) {
-    // if (p.getPk().getProNo() == proNo) {
-    // pa.add(p);
-    // }
-    // }
-    // return pa;
-    //
-    // }
-    //
-    // public List<Employee> getEmployeeByProAssi(int proNo) {
-    // List<Employee> el = new ArrayList<Employee>();
-    // System.out.println("Hel" + getProAssiByProNo(proNo));
-    // for (ProAssi proass : getProAssiByProNo(proNo)) {
-    // System.out.println("Emp" + getEmployeeById(proass.getPk().getEmpNo()));
-    // el.add(getEmployeeById(proass.getPk().getEmpNo()));
-    // }
-    // return el;
-    // }
-    //
-    // public boolean persistProAss(ProAssi proass) {
-    // ProAssi p = this.manager.find(ProAssi.class, proass);
-    // if (p == null) {
-    // this.manager.persist(proass);
-    // return true;
-    // }
-    // return false;
-    // }
-    //
-    // public boolean deleteProAss(ProAssi proAssi) {
-    // if (getProAssiByProNo(proAssi.getPk().getProNo()) != null) {
-    // try {
-    // this.manager.remove(proAssi);
-    // this.manager.flush();
-    // return true;
-    //
-    // } catch (Exception e) {
-    // return false;
-    // }
-    // }
-    // return false;
-    // }
-
     public List<Project> getProjectsBySupervisor(int id) {
         List<ProEmp> proemp = new ArrayList<ProEmp>();
         TypedQuery<ProEmp> query = this.manager.createQuery("SELECT p from ProEmp p WHERE p.pk.empNo =:empNo",
-            ProEmp.class);
+                ProEmp.class);
         query.setParameter("empNo", id);
         try {
             proemp = query.getResultList();
@@ -442,19 +410,6 @@ public class DatabaseController implements Serializable {
         return result;
     }
 
-    // public List<Project> getProjectsByAssistantNo(int id) {
-    // List<Project> result = new ArrayList<Project>();
-    //
-    // List<ProAssi> allPa = getAllProAssi();
-    // for (ProAssi pa : allPa) {
-    // if (pa.getEmpNo() == id) {
-    // result.add(findByProjectNo(pa.getProNo()));
-    // }
-    // }
-    // return result;
-    //
-    // }
-
     // #########################################################################
     // # WorkPackage methods
     // #########################################################################
@@ -475,6 +430,17 @@ public class DatabaseController implements Serializable {
         return ids;
     }
 
+    public List<WorkPackage> getWPListByProNo(int proNo) {
+        List<WorkPackage> result = new ArrayList<WorkPackage>();
+        List<WorkPackage> wps = getAllWp();
+        for (WorkPackage wp : wps) {
+            if (wp.getProNo() == proNo) {
+                result.add(wp);
+            }
+        }
+        return result;
+    }
+
     public List<WorkPackage> getLowerWP(String wpid) {
         List<WorkPackage> result = new ArrayList<WorkPackage>();
         if (wpid != null) {
@@ -486,6 +452,13 @@ public class DatabaseController implements Serializable {
             }
         }
         return result;
+    }
+
+    public WorkPackage getParentWP(WorkPackage wp) {
+        if (wp.getParentWPID() == null) {
+            return null;
+        }
+        return this.manager.find(WorkPackage.class, new WorkPackagePK(wp.getProNo(), wp.getParentWPID()));
     }
 
     public List<WorkPackage> getRootWP() {
@@ -560,19 +533,20 @@ public class DatabaseController implements Serializable {
     public List<WPEmp> getAllWPEmp() {
         return this.manager.createQuery("SELECT wp from WPEmp wp", WPEmp.class).getResultList();
     }
-    
+
     public WorkPackage getWPByID(WorkPackagePK pk) {
-    	return this.manager.find(WorkPackage.class, pk);
+        return this.manager.find(WorkPackage.class, pk);
     }
-    public List<WPEmp> getAllWPEmpByProNo(int proNo){
-		List<WPEmp> wpList = getAllWPEmp();
-		for (WPEmp wp : wpList) {
-			if (wp.getProNo() == proNo) {
-				wpList.add(wp);
-			}
-		}
-		return wpList;
-	}
+
+    public List<WPEmp> getAllWPEmpByProNo(int proNo) {
+        List<WPEmp> wpList = getAllWPEmp();
+        for (WPEmp wp : wpList) {
+            if (wp.getProNo() == proNo) {
+                wpList.add(wp);
+            }
+        }
+        return wpList;
+    }
 
     public boolean persistWPEmp(WPEmp wpe) {
         WPEmp checkWp = this.manager.find(WPEmp.class, wpe.getPk());
@@ -591,29 +565,25 @@ public class DatabaseController implements Serializable {
         }
         return false;
     }
-    
+
     public List<String> getAllEmpAssignedWpid(int proNo, int empNo) {
-        return manager.createQuery("SELECT wp FROM WPEmp wp WHERE wp.pk.empNo = :empNo AND wp.pk.proNo = :proNo", WPEmp.class)
-                .setParameter("proNo", proNo)
-                .setParameter("empNo", empNo)
-                .getResultList()
-                .stream()
-                .map(wp -> {
+        return manager
+                .createQuery("SELECT wp FROM WPEmp wp WHERE wp.pk.empNo = :empNo AND wp.pk.proNo = :proNo", WPEmp.class)
+                .setParameter("proNo", proNo).setParameter("empNo", empNo).getResultList().stream().map(wp -> {
                     return wp.getWpid();
-                })
-                .collect(Collectors.toList());
+                }).collect(Collectors.toList());
     }
 
     public WorkPackage getWPById(String wpid) {
         try {
-            return manager.createQuery("SELECT wp FROM WorkPackage wp WHERE wp.workPackagePk.wpid = :wpid", WorkPackage.class)
-                    .setParameter("wpid", wpid)
-                    .getSingleResult();
+            return manager
+                    .createQuery("SELECT wp FROM WorkPackage wp WHERE wp.workPackagePk.wpid = :wpid", WorkPackage.class)
+                    .setParameter("wpid", wpid).getSingleResult();
         } catch (Exception e) {
             return null;
-        }       
+        }
     }
-    
+
     // #########################################################################
     // # PLevel methods
     // #########################################################################
@@ -623,13 +593,11 @@ public class DatabaseController implements Serializable {
 
     public PLevel getPLevelByPK(Date startDate, String pLevel) {
         TypedQuery<PLevel> query = manager.createQuery(
-            "select p from PLevel p where p.StartDate = :StartDate AND p.PLevel = :PLevel", PLevel.class);
+                "select p from PLevel p where p.StartDate = :StartDate AND p.PLevel = :PLevel", PLevel.class);
         query.setParameter("StartDate", startDate);
         query.setParameter("PLevel", pLevel);
         return query.getSingleResult();
     }
-    
-    
 
     public void updatePLevel(PLevel e) {
         manager.merge(e);
@@ -660,18 +628,16 @@ public class DatabaseController implements Serializable {
     // #########################################################################
     public boolean checkIfUserInRole(int empNo, String role) {
         List<Role> list = manager
-            .createQuery("SELECT r FROM Role r WHERE r.rolePk.empNo = :empNo AND r.rolePk.role = :role", Role.class)
-            .setParameter("empNo", empNo)
-            .setParameter("role", role)
-            .getResultList();
+                .createQuery("SELECT r FROM Role r WHERE r.rolePk.empNo = :empNo AND r.rolePk.role = :role", Role.class)
+                .setParameter("empNo", empNo).setParameter("role", role).getResultList();
 
         return !list.isEmpty();
     }
 
     public boolean checkIfSupervisor(int empNumber) {
         List<Employee> list = manager
-            .createQuery("SELECT e FROM Employee e WHERE e.superEmpNo = :number", Employee.class)
-            .setParameter("number", empNumber).getResultList();
+                .createQuery("SELECT e FROM Employee e WHERE e.superEmpNo = :number", Employee.class)
+                .setParameter("number", empNumber).getResultList();
         if (list.isEmpty()) {
             return false;
         } else {
@@ -681,15 +647,14 @@ public class DatabaseController implements Serializable {
 
     public boolean checkIfApprover(int empNo) {
         List<Employee> list = manager
-            .createQuery("SELECT e FROM Employee e WHERE e.approEmpNo = :number", Employee.class)
-            .setParameter("number", empNo).getResultList();
+                .createQuery("SELECT e FROM Employee e WHERE e.approEmpNo = :number", Employee.class)
+                .setParameter("number", empNo).getResultList();
 
         return !list.isEmpty();
     }
 
     public List<EmpPLevel> getEmpPLevels() {
-        return manager.createQuery("SELECT p FROM EmpPLevel p", EmpPLevel.class)
-            .getResultList();
+        return manager.createQuery("SELECT p FROM EmpPLevel p", EmpPLevel.class).getResultList();
     }
 
     public void addEmpPLevel(EmpPLevel e) {
@@ -703,10 +668,11 @@ public class DatabaseController implements Serializable {
     public void removeEmpPLevel(EmpPLevel ep) {
         manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
     }
-    
+
     public PLevel getPLevelByStartDate(Date startDate, String pLevel) {
         TypedQuery<PLevel> query = manager.createQuery(
-            "select p from PLevel p where p.pLevelPK.startDate <= :StartDate AND p.pLevelPK.pLevel = :PLevel order by p.pLevelPK.startDate desc", PLevel.class);
+                "select p from PLevel p where p.pLevelPK.startDate <= :StartDate AND p.pLevelPK.pLevel = :PLevel order by p.pLevelPK.startDate desc",
+                PLevel.class);
         query.setParameter("StartDate", startDate);
         query.setParameter("PLevel", pLevel);
         query.setMaxResults(1);
@@ -715,8 +681,7 @@ public class DatabaseController implements Serializable {
     }
 
     public List<Role> getRoles() {
-        return manager.createQuery("SELECT p FROM Role p", Role.class)
-            .getResultList();
+        return manager.createQuery("SELECT p FROM Role p", Role.class).getResultList();
     }
 
     public void addRole(Role e) {
@@ -730,6 +695,49 @@ public class DatabaseController implements Serializable {
     public void removeRole(Role ep) {
         manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
     }
+    /**
+     * @param proNo
+     * @param wpid
+     * @return
+     */
+    public WorkPackage getWpByPk(Integer proNo, String wpid) {
+        TypedQuery<WorkPackage> query = manager.createQuery(
+                "select p from WorkPackage p where p.workPackagePk.proNo = :proNo AND p.workPackagePk.wpid = :wpid", WorkPackage.class);
+        query.setParameter("proNo", proNo);
+        query.setParameter("wpid", wpid);
+        return query.getSingleResult();
+    }
 
+    public List<WPNeed> getWPNeeds() {
+        return manager.createQuery("SELECT p FROM WPNeed p", WPNeed.class).getResultList();
+    }
+
+    public WPNeed getWPNeedsByPK(Date startDate, String wpid, int proNo) {
+        TypedQuery<WPNeed> query = manager.createQuery(
+                "select p from WPNeed p where p.wpNeedPK.startDate = :StartDate AND p.wpNeedPK.proNo = :ProNo AND p.wpNeedPK.wpid = :WPID", WPNeed.class);
+        query.setParameter("StartDate", startDate);
+        query.setParameter("ProNo", proNo);
+        query.setParameter("WPID", wpid);
+
+        try {
+            return query.getSingleResult();
+        } catch (Exception e) {
+            WPNeed temp = new WPNeed(new WPNeedPK(proNo, startDate, wpid));
+            addWPNeed(temp);
+            return temp;
+        }
+    }
+
+    public void updateWPNeed(WPNeed e) {
+        manager.merge(e);
+    }
+
+    public void addWPNeed(WPNeed e) {
+        manager.persist(e);
+    }
+
+    public void removeWPNeed(WPNeed e) {
+        manager.remove(manager.contains(e) ? e : manager.merge(e));
+    }
 
 }

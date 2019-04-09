@@ -20,8 +20,7 @@ public class WorkPackagePK implements Serializable {
 	private String wpid;
 
 	public WorkPackagePK() {
-		this.proNo = 100;
-		this.wpid = "COMP101";
+
 	}
 
 	public WorkPackagePK(int proNo, String wpid) {
