@@ -104,21 +104,21 @@ public class DatabaseController implements Serializable {
         return manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
     }
 
-    public long countTimesheets() {
-        String sql = "SELECT COUNT(t) FROM Timesheet t";
-        Query q = manager.createQuery(sql);
+    public long countTimesheets(int id) {
+        Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.timesheetPk.empNo = :empNumber");
+        q.setParameter("empNumber", id);
         return (long) q.getSingleResult();
     }
 
-    public long countApprovedTimesheets() {
-        String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Approved'";
-        Query q = manager.createQuery(sql);
+    public long countApprovedTimesheets(int id) {
+        Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Approved' AND t.timesheetPk.empNo = :empNumber");
+        q.setParameter("empNumber", id);
         return (long) q.getSingleResult();
     }
 
-    public long countRejectedTimesheets() {
-        String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Returned'";
-        Query q = manager.createQuery(sql);
+    public long countRejectedTimesheets(int id) {
+        Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Returned' AND t.timesheetPk.empNo = :empNumber");
+        q.setParameter("empNumber", id);
         return (long) q.getSingleResult();
     }
 
