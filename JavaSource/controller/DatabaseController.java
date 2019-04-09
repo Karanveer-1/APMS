@@ -302,12 +302,16 @@ public class DatabaseController implements Serializable {
 
 	/**
 	 * Also add the project manager to the proemp database
+	 * 
 	 * @param newProject
 	 * @return
 	 */
 	public boolean persistProject(Project newProject) {
 		Project p = this.manager.find(Project.class, newProject.getProNo());
 		addNewEmployeeToProject(newProject.getProMgrEmpNo(), newProject.getProNo());
+		if (newProject.getProAssiEmpNo() != newProject.getProMgrEmpNo()) {
+			addNewEmployeeToProject(newProject.getProAssiEmpNo(), newProject.getProNo());
+		}
 		if (p == null) {
 			this.manager.persist(newProject);
 			return true;
@@ -318,9 +322,9 @@ public class DatabaseController implements Serializable {
 
 	public boolean updateProject(Project project) {
 		Project p = this.manager.find(Project.class, project.getProNo());
-
+		
 		if (p != null) {
-
+			addNewEmployeeToProject(project.getProMgrEmpNo(), project.getProNo());
 			this.manager.merge(project);
 			return true;
 		}
@@ -382,6 +386,13 @@ public class DatabaseController implements Serializable {
 		temp.setProEmp(new ProEmpPK(proNo, employeeNumber));
 
 		manager.persist(temp);
+	}
+	
+	public void updateEmployeeToProject(int employeeNumber, int proNo) {
+		ProEmp temp = new ProEmp();
+		temp.setProEmp(new ProEmpPK(proNo, employeeNumber));
+
+		manager.merge(temp);
 	}
 
 	public List<Project> getProjectsBySupervisor(int id) {

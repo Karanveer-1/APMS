@@ -136,15 +136,16 @@ public class ProjectController implements Serializable {
 	public void persistProject() throws IOException {
 
 		// manager will assistant for now
-		addProject.setProAssiEmpNo(addProject.getProMgrEmpNo());
+
 		if (ProjectValidator.isValid(addProject)) {
 			database.persistProject(addProject);
 			FacesMessage msg = new FacesMessage("Project #" + addProject.getProNo() + " Added");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			addProject = new Project();
+			projects = database.getAllProjects();
 			PrimeFaces.current().executeScript("PF('addProjectDialog').hide();");
 		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Project", null);
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message:", "Invalid Project");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 
@@ -152,26 +153,31 @@ public class ProjectController implements Serializable {
 
 	public void onRowEdit(RowEditEvent event) {
 		editProject = (Project) event.getObject();
-		boolean updateSuccess = this.database.updateProject(editProject);
-
-		projects = database.getAllProjects();
-		if (updateSuccess) {
-			FacesMessage msg = new FacesMessage("Project #" + editProject.getProNo() + " Edited");
+		if (ProjectValidator.isValid(editProject)) {
+			this.database.updateProject(editProject);
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message:",
+					"Project #" + editProject.getProNo() + " Edited");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
+
 		} else {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed To Edit Project", null);
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message:", "Failed To Edit Project");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
+		projects = database.getAllProjects();
 
 	}
 
 	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edit Cancelled");
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message:", "Cancel Edit");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		projects = database.getAllProjects();
 	}
 
 	public void deleteProject(Project project) throws IOException {
 		this.database.deleteProjectByProNo(project.getProNo());
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message:",
+				"Project " + project.getProNo() + " Deleted");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 		projects = this.database.getAllProjects();
 	}
 
