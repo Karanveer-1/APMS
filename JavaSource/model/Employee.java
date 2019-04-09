@@ -160,4 +160,12 @@ public class Employee implements Serializable {
         
         return false;
     }
+
+	@Override
+	public String toString() {
+		return "Employee [empNumber=" + empNumber + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", userName=" + userName + ", password=" + password + ", superEmpNo=" + superEmpNo + ", approEmpNo="
+				+ approEmpNo + ", state=" + state + ", comment=" + comment + ", passphrase=" + passphrase + "]";
+	}
+    
 }
