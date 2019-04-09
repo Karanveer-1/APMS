@@ -26,6 +26,8 @@ import model.TimesheetRow;
 import model.TimesheetRowPK;
 import model.TimesheetState;
 import model.WPEmp;
+import model.WPNeed;
+import model.WPNeedPK;
 import model.WorkPackage;
 import utils.DateUtils;
 
@@ -688,5 +690,38 @@ public class DatabaseController implements Serializable {
         return query.getSingleResult();
     }
 
+    public List<WPNeed> getWPNeeds() {
+        return manager.createQuery("SELECT p FROM WPNeed p", WPNeed.class).getResultList();
+    }
+
+    public WPNeed getWPNeedsByPK(Date startDate, String wpid, int proNo) {
+        TypedQuery<WPNeed> query = manager.createQuery(
+                "select p from WPNeed p where p.wpNeedPK.startDate = :StartDate AND p.wpNeedPK.proNo = :ProNo AND p.wpNeedPK.wpid = :WPID", WPNeed.class);
+        query.setParameter("StartDate", startDate);
+        query.setParameter("ProNo", proNo);
+        query.setParameter("WPID", wpid);
+        
+        try {
+            return query.getSingleResult();
+        } catch (Exception e) {
+            WPNeed temp = new WPNeed(new WPNeedPK(proNo, startDate, wpid));
+            addWPNeed(temp);
+            return temp;
+        }
+    }
+
+    public void updateWPNeed(WPNeed e) {
+        manager.merge(e);
+    }
+
+    public void addWPNeed(WPNeed e) {
+        manager.persist(e);
+    }
+
+    public void removeWPNeed(WPNeed e) {
+        manager.remove(manager.contains(e) ? e : manager.merge(e));
+    }
+
+    
 
 }

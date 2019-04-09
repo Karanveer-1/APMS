@@ -12,16 +12,16 @@
 <h:body>
 	<ui:composition template="/templates/MasterLayout.xhtml">
 
-		<ui:define name="windowTitle">WP Weekly Report</ui:define>
+		<ui:define name="windowTitle">WP Effort Report</ui:define>
 		<ui:define name="headerTitle">
-			<h:outputText value="WP Weekly Report" class="navbar-brand" />
+			<h:outputText value="WP Effort Report" class="navbar-brand" />
 		</ui:define>
 		<ui:define name="navBar">
 			<ui:include src="/sections/ReportNavigationBar.xhtml" />
 		</ui:define>
 
 		<ui:define name="content">
-			<p:panel id="basic" header="WP Weekly Report" footer=""
+			<p:panel id="basic" header="WP Effort Report" footer=""
 				style="margin-left:50px; margin-right:50px;">
 
 				<f:event listener="#{wpEffortReportController.init}"
@@ -55,118 +55,341 @@
 									</p:selectOneMenu></td>
 							</tr>
 							<tr>
-								<td><p:commandButton id="generate" value="Search"
+								<td><p:commandButton id="generate" value="Generate"
 										disabled="#{!wpEffortReportController.canGenerateReport()}"
 										action="#{wpEffortReportController.generateReport()}"
-										update=":report"
-										process="@this">
-										</p:commandButton></td>
+										update=":formMain" /></td>
 								<td><h:outputText value="&nbsp;" /></td>
 							</tr>
+
 						</tbody>
 					</table>
+
 					<hr />
-					</h:form>
-					<h:form id="report"  widgetVar="report" >
-					<table>
-						<tr>
-							<th>PLevel</th>
-							<th>Calculated Hours</th>
-							<th>Estimated Additional Hours</th>
-						</tr>
-						<tr>
-							<td>P1</td>
-							<td><p:outputLabel value="#{wpEffortReportController.p1}" rendered="#{wpEffortReportController.p1 != 0.0}"></p:outputLabel></td>
-							<td>
-							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstP1 != 0}" value="#{wpEffortReportController.wp.reEstP1}"></p:outputLabel>
-							<p:inputText id="P1input"  rendered="#{wpEffortReportController.wp.reEstP1 == 0}" binding="#{reEstP1}" value="#{wpEffortReportController.wp.reEstP1}"></p:inputText>
-							<p:commandButton rendered="#{wpEffortReportController.wp.reEstP1 == 0}" value="Save" action="#{wpEffortReportController.saveEstimateP1(reEstP1.value)}" update=":report">
-							</p:commandButton>
-							</td>
-						</tr>
-						
-						<tr>
-							<td>P2</td>
-							<td><p:outputLabel value="#{wpEffortReportController.p2}" rendered="#{wpEffortReportController.p2 != 0.0}"></p:outputLabel></td>
-							<td>
-							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstP2 != 0}" value="#{wpEffortReportController.wp.reEstP2}"></p:outputLabel>
-							<p:inputText id="P2input"  rendered="#{wpEffortReportController.wp.reEstP2 == 0}" binding="#{reEstP2}" value="#{wpEffortReportController.wp.reEstP2}"></p:inputText>
-							<p:commandButton rendered="#{wpEffortReportController.wp.reEstP2 == 0}" value="Save" action="#{wpEffortReportController.saveEstimateP2(reEstP2.value)}" update=":report">
-							</p:commandButton>
-							</td>
-						</tr>
-						<tr>
-							<td>P3</td>
-							<td><p:outputLabel value="#{wpEffortReportController.p3}" rendered="#{wpEffortReportController.p3 != 0.0}"></p:outputLabel></td>
-							<td>
-							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstP3 != 0}" value="#{wpEffortReportController.wp.reEstP3}"></p:outputLabel>
-							<p:inputText id="P3input"  rendered="#{wpEffortReportController.wp.reEstP3 == 0}" binding="#{reEstP3}" value="#{wpEffortReportController.wp.reEstP3}"></p:inputText>
-							<p:commandButton rendered="#{wpEffortReportController.wp.reEstP3 == 0}" value="Save" action="#{wpEffortReportController.saveEstimateP3(reEstP3.value)}" update=":report">
-							</p:commandButton>
-							</td>
-						</tr>
-						<tr>
-							<td>P4</td>
-							<td><p:outputLabel value="#{wpEffortReportController.p4}" rendered="#{wpEffortReportController.p4 != 0.0}"></p:outputLabel></td>
-							<td>
-							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstP4 != 0}" value="#{wpEffortReportController.wp.reEstP4}"></p:outputLabel>
-							<p:inputText id="P4input"  rendered="#{wpEffortReportController.wp.reEstP4 == 0}" binding="#{reEstP4}" value="#{wpEffortReportController.wp.reEstP4}"></p:inputText>
-							<p:commandButton rendered="#{wpEffortReportController.wp.reEstP4 == 0}" value="Save" action="#{wpEffortReportController.saveEstimateP4(reEstP4.value)}" update=":report">
-							</p:commandButton>
-							</td>
-						</tr>
-						<tr>
-							<td>P5</td>
-							<td><p:outputLabel value="#{wpEffortReportController.p5}" rendered="#{wpEffortReportController.p5 != 0.0}"></p:outputLabel></td>
-							<td>
-							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstP5 != 0}" value="#{wpEffortReportController.wp.reEstP5}"></p:outputLabel>
-							<p:inputText id="P5input"  rendered="#{wpEffortReportController.wp.reEstP5 == 0}" binding="#{reEstP5}" value="#{wpEffortReportController.wp.reEstP5}"></p:inputText>
-							<p:commandButton rendered="#{wpEffortReportController.wp.reEstP5 == 0}" value="Save" action="#{wpEffortReportController.saveEstimateP5(reEstP5.value)}" update=":report">
-							</p:commandButton>
-							</td>
-						</tr>
-						<tr>
-							<td>P6</td>
-							<td><p:outputLabel value="#{wpEffortReportController.p6}" rendered="#{wpEffortReportController.p6 != 0.0}"></p:outputLabel></td>
-							<td>
-							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstP6 != 0}" value="#{wpEffortReportController.wp.reEstP6}"></p:outputLabel>
-							<p:inputText id="P6input"  rendered="#{wpEffortReportController.wp.reEstP6 == 0}" binding="#{reEstP6}" value="#{wpEffortReportController.wp.reEstP6}"></p:inputText>
-							<p:commandButton rendered="#{wpEffortReportController.wp.reEstP6 == 0}" value="Save" action="#{wpEffortReportController.saveEstimateP6(reEstP6.value)}" update=":report">
-							</p:commandButton>
-							</td>
-						</tr>
-						<tr>
-							<td>DS</td>
-							<td><p:outputLabel value="#{wpEffortReportController.DS}" rendered="#{wpEffortReportController.DS != 0.0}"></p:outputLabel></td>
-							<td>
-							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstDS != 0}" value="#{wpEffortReportController.wp.reEstDS}"></p:outputLabel>
-							<p:inputText id="DSinput"  rendered="#{wpEffortReportController.wp.reEstDS == 0}" binding="#{reEstDS}" value="#{wpEffortReportController.wp.reEstDS}"></p:inputText>
-							<p:commandButton rendered="#{wpEffortReportController.wp.reEstDS == 0}" value="Save" action="#{wpEffortReportController.saveEstimateDS(reEstDS.value)}" update=":report">
-							</p:commandButton>
-							</td>
-						</tr>
-						<tr>
-							<td>SS</td>
-							<td><p:outputLabel value="#{wpEffortReportController.SS}" rendered="#{wpEffortReportController.SS != 0.0}"></p:outputLabel></td>
-							<td>
-							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstSS != 0}" value="#{wpEffortReportController.wp.reEstSS}"></p:outputLabel>
-							<p:inputText id="SSinput"  rendered="#{wpEffortReportController.wp.reEstSS == 0}" binding="#{reEstSS}" value="#{wpEffortReportController.wp.reEstSS}"></p:inputText>
-							<p:commandButton rendered="#{wpEffortReportController.wp.reEstSS == 0}" value="Save" action="#{wpEffortReportController.saveEstimateSS(reEstSS.value)}" update=":report">
-							</p:commandButton>
-							</td>
-						</tr>
-						<tr>
-							<td>JS</td>
-							<td><p:outputLabel value="#{wpEffortReportController.JS}" rendered="#{wpEffortReportController.JS != 0.0}"></p:outputLabel></td>
-							<td>
-							<p:outputLabel rendered="#{wpEffortReportController.wp.reEstJS != 0}" value="#{wpEffortReportController.wp.reEstJS}"></p:outputLabel>
-							<p:inputText id="JSinput"  rendered="#{wpEffortReportController.wp.reEstJS == 0}" binding="#{reEstJS}" value="#{wpEffortReportController.wp.reEstJS}"></p:inputText>
-							<p:commandButton rendered="#{wpEffortReportController.wp.reEstJS == 0}" value="Save" action="#{wpEffortReportController.saveEstimateJS(reEstJS.value)}" update=":report">
-							</p:commandButton>
-							</td>
-						</tr>
-					</table>
+					<p:calendar binding="#{selectedDate}" />
+					<p:commandButton value="Add New Entry"
+						action="#{wpEffortReportController.addEntry(selectedDate.value)}"
+						update=":formMain" />
+					<h:panelGroup id="report">
+						<p:panelGrid columns="2">
+							<h:outputText value="Project No: " />
+							<h:outputText value="#{wpEffortReportController.proNo}" />
+
+							<h:outputText value="Workpackage Id: " />
+							<h:outputText value="#{wpEffortReportController.wpid}" />
+
+							<h:outputText value="Week Start Date: " />
+							<h:outputText
+								value="#{wpEffortReportController.getWeekStartDate()}">
+								<f:convertDateTime pattern="MMM. dd, yyyy" />
+							</h:outputText>
+						</p:panelGrid>
+
+						<hr />
+						<p:panelGrid>
+							<p:row>
+								<p:column>PLevel</p:column>
+								<p:column>Responsible Engineer Estimate</p:column>
+							</p:row>
+							<p:row>
+								<p:column>P1</p:column>
+								<p:column>
+									<h:outputText value="#{wpEffortReportController.wp.reEstP1}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>P2</p:column>
+								<p:column>
+									<h:outputText value="#{wpEffortReportController.wp.reEstP2}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>P3</p:column>
+								<p:column>
+									<h:outputText value="#{wpEffortReportController.wp.reEstP3}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>P4</p:column>
+								<p:column>
+									<h:outputText value="#{wpEffortReportController.wp.reEstP4}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>P5</p:column>
+								<p:column>
+									<h:outputText value="#{wpEffortReportController.wp.reEstP5}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>P6</p:column>
+								<p:column>
+									<h:outputText value="#{wpEffortReportController.wp.reEstP6}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>DS</p:column>
+								<p:column>
+									<h:outputText value="#{wpEffortReportController.wp.reEstDS}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>JS</p:column>
+								<p:column>
+									<h:outputText value="#{wpEffortReportController.wp.reEstJS}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>SS</p:column>
+								<p:column>
+									<h:outputText value="#{wpEffortReportController.wp.reEstSS}" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+						<p:dataTable value="#{wpEffortReportController.rows}" var="row">
+							<f:facet name="header">Work Package Effort Report</f:facet>
+							<p:column headerText="Start Date">
+								<h:outputText value="#{row.startDate}" />
+							</p:column>
+							<p:column headerText="PLevel">
+								<p:panelGrid>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.pLevels[0]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.pLevels[1]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.pLevels[2]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.pLevels[3]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.pLevels[4]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.pLevels[5]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.pLevels[6]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.pLevels[7]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.pLevels[8]}" />
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:column>
+							<p:column headerText="Recorded MD">
+								<p:panelGrid>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.calculatedHours[0]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.calculatedHours[1]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.calculatedHours[2]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.calculatedHours[3]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.calculatedHours[4]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.calculatedHours[5]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.calculatedHours[6]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.calculatedHours[7]}" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.calculatedHours[8]}" />
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:column>
+							<p:column headerText="Reestimated MD">
+								<p:panelGrid>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.wpNeed.reNeedP1}"
+												rendered="#{row.wpNeed.reNeedP1 != 0}" />
+											<p:inputText id="P1input"
+												rendered="#{row.wpNeed.reNeedP1 == 0}" binding="#{reEstP1}"
+												value="#{row.wpNeed.reNeedP1}"></p:inputText>
+										</p:column>
+										<p:column rendered="#{row.wpNeed.reNeedP1 == 0}">
+											<p:commandButton value="Save"
+												action="#{wpEffortReportController.saveEstimateP1(row, reEstP1.value)}"
+												update=":formMain" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.wpNeed.reNeedP2}"
+												rendered="#{row.wpNeed.reNeedP2 != 0}" />
+											<p:inputText id="P2input"
+												rendered="#{row.wpNeed.reNeedP2 == 0}" binding="#{reEstP2}"
+												value="#{row.wpNeed.reNeedP2}"></p:inputText>
+										</p:column>
+										<p:column rendered="#{row.wpNeed.reNeedP2 == 0}">
+											<p:commandButton value="Save"
+												action="#{wpEffortReportController.saveEstimateP2(row, reEstP2.value)}"
+												update=":formMain" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.wpNeed.reNeedP3}"
+												rendered="#{row.wpNeed.reNeedP3 != 0}" />
+											<p:inputText id="P3input"
+												rendered="#{row.wpNeed.reNeedP3 == 0}" binding="#{reEstP3}"
+												value="#{row.wpNeed.reNeedP3}"></p:inputText>
+										</p:column>
+										<p:column rendered="#{row.wpNeed.reNeedP3 == 0}">
+											<p:commandButton value="Save"
+												action="#{wpEffortReportController.saveEstimateP3(row, reEstP3.value)}"
+												update=":formMain" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.wpNeed.reNeedP4}"
+												rendered="#{row.wpNeed.reNeedP4 != 0}" />
+											<p:inputText id="P4input"
+												rendered="#{row.wpNeed.reNeedP4 == 0}" binding="#{reEstP4}"
+												value="#{row.wpNeed.reNeedP4}"></p:inputText>
+										</p:column>
+										<p:column rendered="#{row.wpNeed.reNeedP4 == 0}">
+											<p:commandButton value="Save"
+												action="#{wpEffortReportController.saveEstimateP4(row, reEstP4.value)}"
+												update=":formMain" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.wpNeed.reNeedP5}"
+												rendered="#{row.wpNeed.reNeedP5 != 0}" />
+											<p:inputText id="P5input"
+												rendered="#{row.wpNeed.reNeedP5 == 0}" binding="#{reEstP5}"
+												value="#{row.wpNeed.reNeedP5}"></p:inputText>
+										</p:column>
+										<p:column rendered="#{row.wpNeed.reNeedP5 == 0}">
+											<p:commandButton value="Save"
+												action="#{wpEffortReportController.saveEstimateP5(row, reEstP5.value)}"
+												update=":formMain" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.wpNeed.reNeedP6}"
+												rendered="#{row.wpNeed.reNeedP6 != 0}" />
+											<p:inputText id="P6input"
+												rendered="#{row.wpNeed.reNeedP6 == 0}" binding="#{reEstP6}"
+												value="#{row.wpNeed.reNeedP6}"></p:inputText>
+										</p:column>
+										<p:column rendered="#{row.wpNeed.reNeedP6 == 0}">
+											<p:commandButton value="Save"
+												action="#{wpEffortReportController.saveEstimateP6(row, reEstP6.value)}"
+												update=":formMain" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.wpNeed.reNeedDS}"
+												rendered="#{row.wpNeed.reNeedDS != 0}" />
+											<p:inputText id="DSinput"
+												rendered="#{row.wpNeed.reNeedDS == 0}" binding="#{reEstDS}"
+												value="#{row.wpNeed.reNeedDS}"></p:inputText>
+										</p:column>
+										<p:column rendered="#{row.wpNeed.reNeedDS == 0}">
+											<p:commandButton value="Save"
+												action="#{wpEffortReportController.saveEstimateDS(row, reEstDS.value)}"
+												update=":formMain" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.wpNeed.reNeedJS}"
+												rendered="#{row.wpNeed.reNeedJS != 0}" />
+											<p:inputText id="JSinput"
+												rendered="#{row.wpNeed.reNeedJS == 0}" binding="#{reEstJS}"
+												value="#{row.wpNeed.reNeedJS}"></p:inputText>
+										</p:column>
+										<p:column rendered="#{row.wpNeed.reNeedJS == 0}">
+											<p:commandButton value="Save"
+												action="#{wpEffortReportController.saveEstimateJS(row, reEstJS.value)}"
+												update=":formMain" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputText value="#{row.wpNeed.reNeedSS}"
+												rendered="#{row.wpNeed.reNeedSS != 0}" />
+											<p:inputText id="SSinput"
+												rendered="#{row.wpNeed.reNeedSS == 0}" binding="#{reEstSS}"
+												value="#{row.wpNeed.reNeedSS}"></p:inputText>
+										</p:column>
+										<p:column rendered="#{row.wpNeed.reNeedSS == 0}">
+											<p:commandButton value="Save"
+												action="#{wpEffortReportController.saveEstimateSS(row, reEstSS.value)}"
+												update=":formMain" />
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:column>
+						</p:dataTable>
+					</h:panelGroup>
 				</h:form>
+				<p:dialog id="errorDialog" header="Entry already Exists"
+					modal="true" width="400" widgetVar="errorDialog" resizable="false"
+					draggable="false">
+					<h:form id="formErrorDialog">
+						<p:commandButton update=":formMain :formErrorDialog" value="OK"
+							action="#{wpEffortReportController.closeDialog()}" />
+					</h:form>
+				</p:dialog>
 			</p:panel>
 		</ui:define>
 	</ui:composition>

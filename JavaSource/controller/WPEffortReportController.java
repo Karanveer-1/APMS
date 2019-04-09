@@ -19,8 +19,12 @@ import model.EmpPLevel;
 import model.Employee;
 import model.TimesheetRow;
 import model.TimesheetRowState;
-import model.WPWeeklyReportRow;
+import model.WPEffortRow;
+import model.WPNeed;
+import model.WPNeedPK;
 import model.WorkPackage;
+import model.WorkPackagePK;
+import utils.DateUtils;
 
 /*
  * Only PM can see
@@ -29,36 +33,27 @@ import model.WorkPackage;
 @SessionScoped
 public class WPEffortReportController implements Serializable {
 
-
     @Inject
     private DatabaseController database;
+
     private List<Integer> projectNos;
     private List<String> wpids;
+    private List<WPEffortRow> rows;
+
     private Integer proNo;
     private String wpid;
     private WorkPackage wp;
-    private Boolean showReport;
-    
-    private float P1;
-    private float P2;
-    private float P3;
-    private float P4;
-    private float P5;
-    private float P6;
-    private float DS;
-    private float SS;
-    private float JS;
-
+    private boolean show;
+    private String[] pLevels = {"P1", "P2", "P3", "P4", "P5", "P6", "DS", "JS", "SS"};
 
     public void init() {
         projectNos = database.getAllProjectNo();
-        showReport = false;
+        show = false;
     }
 
     public void onProjectChange() {
         if (proNo != null) {
             wpids = getLeafWpids(proNo);
-            System.out.println(wpids);
         }
         wpid = null;
     }
@@ -77,174 +72,268 @@ public class WPEffortReportController implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the projectNos
-     */
-    public List<Integer> getProjectNos() {
-        return projectNos;
+    private List<Employee> getParticipatingEmployees() {
+        return database.getEmployees()
+                .stream()
+                .filter(e -> database.getTimesheetRows()
+                        .stream()
+                        .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
+                        .filter(r -> r.getTimesheetRowPk().getWpid().equals(wpid))
+                        .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
+                        .map(r -> {
+                            return r.getTimesheetRowPk().getEmpNo();
+                        })
+                        .distinct()
+                        .anyMatch(re -> e.getEmpNumber() == re))
+                .collect(Collectors.toList());
     }
 
-    /**
-     * Sets the projectNos for this WPEffortReportController
-     * @param projectNos the projectNos to set
-     */
-    public void setProjectNos(List<Integer> projectNos) {
-        this.projectNos = projectNos;
+    private float getSumHoursForRows(int empNo, Date date) {
+        return (float) database.getTimesheetRows()
+                .stream()
+                .filter(r -> r.getTimesheetRowPk().getEmpNo() == empNo)
+                .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
+                .filter(r -> r.getTimesheetRowPk().getWpid().equals(wpid))
+                .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
+                .filter(r -> r.getTimesheetRowPk().getStartDate().equals(date))
+                .mapToDouble(r -> {
+                    float sat = r.getSat();
+                    float sun = r.getSun();
+                    float mon = r.getMon();
+                    float tue = r.getTue();
+                    float wed = r.getWed();
+                    float thu = r.getThu();
+                    float fri = r.getFri();
+
+                    return sat + sun + mon + tue + wed + thu + fri;
+                })
+                .sum();
     }
 
-    /**
-     * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the wpids
-     */
-    public List<String> getWpids() {
-        return wpids;
+    private List<TimesheetRow> getRelaventTimesheetRows() {
+        List<TimesheetRow> rows = database.getTimesheetRows()
+                .stream()
+                .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
+                .filter(r -> r.getTimesheetRowPk().getWpid().equals(wpid))
+                .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
+                .collect(Collectors.toList());
+
+        rows.sort(new Comparator<TimesheetRow>() {
+            @Override
+            public int compare(TimesheetRow a, TimesheetRow b) {
+                return ((TimesheetRow) a).getTimesheetRowPk().getStartDate()
+                        .compareTo(((TimesheetRow) b).getTimesheetRowPk().getStartDate());
+            }
+        });
+
+        return rows;
     }
 
-    /**
-     * Sets the wpids for this WPEffortReportController
-     * @param wpids the wpids to set
-     */
-    public void setWpids(List<String> wpids) {
-        this.wpids = wpids;
+    public Date getWeekStartDate() {
+        if (proNo == null || wpid == null) {
+            return new Date();
+        }
+
+        return database.getAllWp()
+                .stream()
+                .filter(wp -> wp.getProNo() == proNo)
+                .filter(wp -> wp.getWpid().equals(wpid))
+                .findFirst()
+                .map(WorkPackage::getStartDate)
+                .get();
     }
 
-    /**
-     * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the proNo
-     */
-    public Integer getProNo() {
-        return proNo;
+    public float getTotalForEmployee(int empNo) {
+        return (float) database.getTimesheetRows()
+                .stream()
+                .filter(r -> r.getTimesheetRowPk().getEmpNo() == empNo)
+                .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
+                .filter(r -> r.getTimesheetRowPk().getWpid().equals(wpid))
+                .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
+                .mapToDouble(r -> {
+                    float sat = r.getSat();
+                    float sun = r.getSun();
+                    float mon = r.getMon();
+                    float tue = r.getTue();
+                    float wed = r.getWed();
+                    float thu = r.getThu();
+                    float fri = r.getFri();
+
+                    return sat + sun + mon + tue + wed + thu + fri;
+                })
+                .sum();
     }
 
-    /**
-     * Sets the proNo for this WPEffortReportController
-     * @param proNo the proNo to set
-     */
-    public void setProNo(Integer proNo) {
-        this.proNo = proNo;
+    public float getTotalForAllEmployees() {
+        return (float) getParticipatingEmployees()
+                .stream()
+                .mapToDouble(e -> {
+                    return getTotalForEmployee(e.getEmpNumber());
+                })
+                .sum();
     }
-
-    /**
-     * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the wpid
-     */
-    public String getWpid() {
-        return wpid;
-    }
-
-    /**
-     * Sets the wpid for this WPEffortReportController
-     * @param wpid the wpid to set
-     */
-    public void setWpid(String wpid) {
-        this.wpid = wpid;
-    }
-
 
     public void generateReport() {
         wp = database.getWpByPk(proNo, wpid);
-        System.out.println(wp);
-        showReport = true;
-    }
+        rows = new ArrayList<>();
+        show = true;
 
-    public float getTotalP1() {
-        if(wpid == null) {
-            return 0;
+        List<Employee> participatingEmployees = getParticipatingEmployees();
+        List<TimesheetRow> relaventRows = getRelaventTimesheetRows();
+
+        List<Date> dates = relaventRows
+                .stream()
+                .map(r -> {
+                    return r.getTimesheetRowPk().getStartDate();
+                })
+                .distinct()
+                .collect(Collectors.toList());
+
+        List<EmpPLevel> empPLevels = database.getEmpPLevels();
+        List<WPNeed> wpNeeds = database.getWPNeeds();
+        for(WPNeed need : wpNeeds) {
+            System.out.println(proNo + " proNo: " + need.getWpNeedPK().getProNo());
+            System.out.println(wpid + " wpid: " + need.getWpNeedPK().getWpid());
+            if(need.getWpNeedPK().getProNo() == proNo && need.getWpNeedPK().getWpid().equals(wpid)) {
+                float[] hours = new float[9];
+                Date d = need.getWpNeedPK().getStartDate();
+                hours[0] = getHoursByPLevel("P1", d);
+                hours[1] = getHoursByPLevel("P2", d);
+                hours[2] = getHoursByPLevel("P3", d);
+                hours[3] = getHoursByPLevel("P4", d);
+                hours[4] = getHoursByPLevel("P5", d);
+                hours[5] = getHoursByPLevel("P6", d);
+                hours[6] = getHoursByPLevel("DS", d);
+                hours[7] = getHoursByPLevel("JS", d);
+                hours[8] = getHoursByPLevel("SS", d);
+                WPEffortRow row = new WPEffortRow(d, pLevels, hours, database.getWPNeedsByPK(d, wpid, proNo));
+                System.out.println(row.toString());
+                rows.add(row);
+            }
         }
-        List<Employee> emps = database.getEmployees("P1");
-        return getTotal(emps);
-    }
-
-    public float getTotalP2() {
-        if(wpid == null) {
-            return 0;
+/*
+        for(Date d : dates) {
+            float[] hours = new float[9];
+            hours[0] = getHoursByPLevel("P1", d);
+            hours[1] = getHoursByPLevel("P2", d);
+            hours[2] = getHoursByPLevel("P3", d);
+            hours[3] = getHoursByPLevel("P4", d);
+            hours[4] = getHoursByPLevel("P5", d);
+            hours[5] = getHoursByPLevel("P6", d);
+            hours[6] = getHoursByPLevel("DS", d);
+            hours[7] = getHoursByPLevel("JS", d);
+            hours[8] = getHoursByPLevel("SS", d);
+            WPEffortRow row = new WPEffortRow(d, pLevels, hours, database.getWPNeedsByPK(d, wpid, proNo));
+            System.out.println(row.toString());
+            rows.add(row);
         }
-        List<Employee> emps = database.getEmployees("P2");
-        return getTotal(emps);
+        */
+        System.out.println("size:" + rows.size());
     }
+    public void closeDialog() {
+        PrimeFaces.current().executeScript("PF('errorDialog').hide();");
+    }
+    
+    public void addEntry(Date startDate) {
+        Date customStartDate = DateUtils.getTimesheetStartDate(startDate);
+        List<TimesheetRow> relaventRows = getRelaventTimesheetRows();
+        List<Date> dates = relaventRows
+                .stream()
+                .map(r -> {
+                    return r.getTimesheetRowPk().getStartDate();
+                })
+                .distinct()
+                .collect(Collectors.toList());
+        if(dates.contains(customStartDate)) {
+            PrimeFaces.current().executeScript("PF('errorDialog').show();");
 
-    public float getTotalP3() {
-        if(wpid == null) {
-            return 0;
+        } else {
+            WPNeed tempWPNeed = new WPNeed(new WPNeedPK(proNo, customStartDate, wpid));
+            database.addWPNeed(tempWPNeed);
         }
-        List<Employee> emps = database.getEmployees("P3");
-        return getTotal(emps);
+        generateReport();
     }
 
-    public float getTotalP4() {
-        if(wpid == null) {
-            return 0;
-        }
-        List<Employee> emps = database.getEmployees("P4");
-        return getTotal(emps);
-    }
 
-    public float getTotalP5() {
-        if(wpid == null) {
-            return 0;
-        }
-        List<Employee> emps = database.getEmployees("P5");
-        return getTotal(emps);
-    }
+    public float getHoursByPLevel(String pLevel, Date d) {
 
-    public float getTotalP6() {
-        if(wpid == null) {
-            return 0;
-        }
-        List<Employee> emps = database.getEmployees("P6");
-        return getTotal(emps);
-    }
-
-    public float getTotalDS() {
-        if(wpid == null) {
-            return 0;
-        }
-        List<Employee> emps = database.getEmployees("DS");
-        return getTotal(emps);
-    }
-
-    public float getTotalJS() {
-        if(wpid == null) {
-            return 0;
-        }
-        List<Employee> emps = database.getEmployees("JS");
-        return getTotal(emps);
-    }
-
-    public float getTotalSS() {
-        if(wpid == null) {
-            return 0;
-        }
-        List<Employee> emps = database.getEmployees("SS");
-        return getTotal(emps);
-    }
-
-    public float getTotal(List<Employee> emps) {
+        List<EmpPLevel> empPLevels = database.getEmpPLevels();
         float total = 0;
-        for(Employee e : emps) {
-            float sum =  (float) database.getTimesheetRows()
-                    .stream()
-                    .filter(r -> r.getTimesheetRowPk().getEmpNo() == e.getEmpNumber())
-                    .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
-                    .filter(r -> r.getTimesheetRowPk().getWpid().equals(wpid))
-                    .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
-                    .mapToDouble(r -> {
-                        float sat = r.getSat();
-                        float sun = r.getSun();
-                        float mon = r.getMon();
-                        float tue = r.getTue();
-                        float wed = r.getWed();
-                        float thu = r.getThu();
-                        float fri = r.getFri();
+        List<String> relevantEmpNo = new ArrayList<String>();
+        for(EmpPLevel ep : empPLevels) {
+            if(ep.getpLevel().equals(pLevel)) {
+                relevantEmpNo.add("" + ep.getEmpPLevelPK().getEmpNo());
+            }
+            for(String e : relevantEmpNo) {
+                for(TimesheetRow tsr : database.getTimesheetRows()
+                        .stream()
+                        .collect(Collectors.toList())) {
+                }
 
-                        return sat + sun + mon + tue + wed + thu + fri;
-                    })
-                    .sum();
-            total += sum;
+                float sum =  (float) database.getTimesheetRows()
+                        .stream()
+                        .filter(r -> r.getTimesheetRowPk().getStartDate().equals(DateUtils.getTimesheetStartDate(d)))
+                        .filter(r -> (r.getTimesheetRowPk().getEmpNo() + "").equals(e))
+                        .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
+                        .filter(r -> r.getTimesheetRowPk().getWpid().equals(wpid))
+                        .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
+                        .mapToDouble(r -> {
+                            float sat = r.getSat();
+                            float sun = r.getSun();
+                            float mon = r.getMon();
+                            float tue = r.getTue();
+                            float wed = r.getWed();
+                            float thu = r.getThu();
+                            float fri = r.getFri();
+                            return sat + sun + mon + tue + wed + thu + fri;
+                        })
+                        .sum();
+                total += sum;
+            }
         }
+
         return total;
+
     }
+    
+
+    public void saveEstimateP1(WPEffortRow row, int val) {
+        row.getWpNeed().setReNeedP1(val);
+        database.updateWPNeed(row.getWpNeed());
+    }
+    public void saveEstimateP2(WPEffortRow row, int val) {
+        row.getWpNeed().setReNeedP2(val);
+        database.updateWPNeed(row.getWpNeed());
+    }
+    public void saveEstimateP3(WPEffortRow row, int val) {
+        row.getWpNeed().setReNeedP3(val);
+        database.updateWPNeed(row.getWpNeed());
+    }
+    public void saveEstimateP4(WPEffortRow row, int val) {
+        row.getWpNeed().setReNeedP4(val);
+        database.updateWPNeed(row.getWpNeed());
+    }
+    public void saveEstimateP5(WPEffortRow row, int val) {
+        row.getWpNeed().setReNeedP5(val);
+        database.updateWPNeed(row.getWpNeed());
+    }
+    public void saveEstimateP6(WPEffortRow row, int val) {
+        row.getWpNeed().setReNeedP6(val);
+        database.updateWPNeed(row.getWpNeed());
+    }
+    public void saveEstimateJS(WPEffortRow row, int val) {
+        row.getWpNeed().setReNeedJS(val);
+        database.updateWPNeed(row.getWpNeed());
+    }
+    public void saveEstimateDS(WPEffortRow row, int val) {
+        row.getWpNeed().setReNeedDS(val);
+        database.updateWPNeed(row.getWpNeed());
+    }
+    public void saveEstimateSS(WPEffortRow row, int val) {
+        row.getWpNeed().setReNeedSS(val);
+        database.updateWPNeed(row.getWpNeed());
+    }
+   
 
     // Should be get all leafs
     public boolean canSelectWP() {
@@ -255,52 +344,45 @@ public class WPEffortReportController implements Serializable {
         return proNo != null && wpid != null;
     }
 
-    public void saveEstimateP1(int i) {
-        wp.setReEstP1(i);
-        database.updateWP(wp);
-        database.getWpByPk(proNo, wpid);
-    }
-    public void saveEstimateP2(int i) {
-        wp.setReEstP2(i);
-        database.updateWP(wp);
-        database.getWpByPk(proNo, wpid);
-    }
-    public void saveEstimateP3(int i) {
-        wp.setReEstP3(i);
-        database.updateWP(wp);
-        database.getWpByPk(proNo, wpid);
-    }
-    public void saveEstimateP4(int i) {
-        wp.setReEstP4(i);
-        database.updateWP(wp);
-        database.getWpByPk(proNo, wpid);
-    }
-    public void saveEstimateP5(int i) {
-        wp.setReEstP5(i);
-        database.updateWP(wp);
-        database.getWpByPk(proNo, wpid);
-    }
-    public void saveEstimateP6(int i) {
-        wp.setReEstP6(i);
-        database.updateWP(wp);
-        database.getWpByPk(proNo, wpid);
-    }
-    public void saveEstimateDS(int i) {
-        wp.setReEstDS(i);
-        database.updateWP(wp);
-        database.getWpByPk(proNo, wpid);
-    }
-    public void saveEstimateSS(int i) {
-        wp.setReEstSS(i);
-        database.updateWP(wp);
-        database.getWpByPk(proNo, wpid);
-    }
-    public void saveEstimateJS(int i) {
-        wp.setReEstJS(i);
-        database.updateWP(wp);
-        database.getWpByPk(proNo, wpid);
+    public List<Integer> getProjectNos() {
+        return projectNos;
     }
 
+    public void setProjectNos(List<Integer> projectNos) {
+        this.projectNos = projectNos;
+    }
+
+    public List<String> getWpids() {
+        return wpids;
+    }
+
+    public void setWpids(List<String> wpids) {
+        this.wpids = wpids;
+    }
+
+    public Integer getProNo() {
+        return proNo;
+    }
+
+    public void setProNo(Integer proNo) {
+        this.proNo = proNo;
+    }
+
+    public String getWpid() {
+        return wpid;
+    }
+
+    public void setWpid(String wpid) {
+        this.wpid = wpid;
+    }
+
+    public List<WPEffortRow> getRows() {
+        return rows;
+    }
+
+    public void setRows(List<WPEffortRow> rows) {
+        this.rows = rows;
+    }
 
     /**
      * Returns the {bare_field_name} for this WPEffortReportController.
@@ -320,171 +402,33 @@ public class WPEffortReportController implements Serializable {
 
     /**
      * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the showReport
+     * @return the pLevels
      */
-    public Boolean getShowReport() {
-        return showReport;
+    public String[] getpLevels() {
+        return pLevels;
     }
 
     /**
-     * Sets the showReport for this WPEffortReportController
-     * @param showReport the showReport to set
+     * Sets the pLevels for this WPEffortReportController
+     * @param pLevels the pLevels to set
      */
-    public void setShowReport(Boolean showReport) {
-        this.showReport = showReport;
-    }
-
-    /**
-     * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the p1
-     */
-    public float getP1() {
-        P1 = getTotalP1();
-        return P1;
-    }
-
-    /**
-     * Sets the p1 for this WPEffortReportController
-     * @param p1 the p1 to set
-     */
-    public void setP1(float p1) {
-        P1 = p1;
+    public void setpLevels(String[] pLevels) {
+        this.pLevels = pLevels;
     }
 
     /**
      * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the p2
+     * @return the show
      */
-    public float getP2() {
-        P2 = getTotalP2();
-        return P2;
+    public boolean isShow() {
+        return show;
     }
 
     /**
-     * Sets the p2 for this WPEffortReportController
-     * @param p2 the p2 to set
+     * Sets the show for this WPEffortReportController
+     * @param show the show to set
      */
-    public void setP2(float p2) {
-        P2 = p2;
+    public void setShow(boolean show) {
+        this.show = show;
     }
-
-    /**
-     * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the p3
-     */
-    public float getP3() {
-        P3 = getTotalP3();
-        return P3;
-    }
-
-    /**
-     * Sets the p3 for this WPEffortReportController
-     * @param p3 the p3 to set
-     */
-    public void setP3(float p3) {
-        P3 = p3;
-    }
-
-    /**
-     * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the p4
-     */
-    public float getP4() {
-        P4 = getTotalP4();
-        return P4;
-    }
-
-    /**
-     * Sets the p4 for this WPEffortReportController
-     * @param p4 the p4 to set
-     */
-    public void setP4(float p4) {
-        P4 = p4;
-    }
-
-    /**
-     * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the p5
-     */
-    public float getP5() {
-        P5 = getTotalP5();
-        return P5;
-    }
-
-    /**
-     * Sets the p5 for this WPEffortReportController
-     * @param p5 the p5 to set
-     */
-    public void setP5(float p5) {
-        P5 = p5;
-    }
-
-    /**
-     * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the p6
-     */
-    public float getP6() {
-        P6 = getTotalP6();
-        return P6;
-    }
-
-    /**
-     * Sets the p6 for this WPEffortReportController
-     * @param p6 the p6 to set
-     */
-    public void setP6(float p6) {
-        P6 = p6;
-    }
-
-    /**
-     * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the dS
-     */
-    public float getDS() {
-        DS = getTotalDS();
-       return DS;
-    }
-
-    /**
-     * Sets the dS for this WPEffortReportController
-     * @param dS the dS to set
-     */
-    public void setDS(float dS) {
-        DS = dS;
-    }
-
-    /**
-     * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the sS
-     */
-    public float getSS() {
-        SS = getTotalSS();
-        return SS;
-    }
-
-    /**
-     * Sets the sS for this WPEffortReportController
-     * @param sS the sS to set
-     */
-    public void setSS(float sS) {
-        SS = sS;
-    }
-
-    /**
-     * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the jS
-     */
-    public float getJS() {
-        JS = getTotalJS();
-        return JS;
-    }
-
-    /**
-     * Sets the jS for this WPEffortReportController
-     * @param jS the jS to set
-     */
-    public void setJS(float jS) {
-        JS = jS;
-    }
-
 }

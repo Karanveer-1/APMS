@@ -208,7 +208,7 @@ CREATE TABLE WPNeed
 	RENeedDS       INTEGER         DEFAULT '0',
 	RENeedSS       INTEGER         DEFAULT '0',
 	RENeedJS       INTEGER         DEFAULT '0',
-    State          VARCHAR(30)     NOT NULL,
+    State          VARCHAR(30)     ,
     Comment        VARCHAR(1000)   ,
     PRIMARY KEY(ProNo, WPID, StartDate)
 );
