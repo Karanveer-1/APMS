@@ -7,7 +7,7 @@
 
 <!-- Nav BAR -->
 <ui:composition>
-	<h:form id="pnav">
+	<h:form>
 		<div class="sidebar" data-background-color="black"
 			data-active-color="danger">
 			<div class="sidebar-wrapper">
@@ -21,40 +21,25 @@
 						
 					</span>	
 				</div>
-				
-				
-				<ul class="nav" id="pulnav">
-					
-					<li><p:commandLink action="Projects.xhtml?faces-redirect=true"
-							rendered="#{paController.isSupervisor()}">
-							<i class="ti-pencil-alt"></i>
-							All Projects
-						</p:commandLink></li>
-
+				<ul class="nav">
 					<li><p:commandLink
-							action="ProjectManagement.xhtml?faces-redirect=true"
+							action="ProjectDetail.xhtml?faces-redirect=true"
 							rendered="#{paController.isPMorPA()}">
-							<i class="ti-target"></i>
-							Project Management
-							
-							 
+							<i class="ti-pencil-alt"></i>
+							 Project Detail
 						</p:commandLink></li>
+						
+						
+
+				
+	
 
 					<li><p:commandLink
-							action="WorkPackage.xhtml?faces-redirect=true"
-							rendered="#{paController.isREEmp()}">
-							<i class="ti-package"></i>
-							Work Packages 
-						</p:commandLink></li>
-
-
-					<li><p:commandLink
-							action="Dashboard.xhtml?faces-redirect=true">
+							action="WorkPackageManagement.xhtml?faces-redirect=true">
 							<i class="ti-arrow-circle-left"></i>
 							Back
 						</p:commandLink></li>
 				</ul>
-		
 			</div>
 		</div>
 	</h:form>

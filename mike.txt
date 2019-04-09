@@ -55,3 +55,8 @@ Add a new PROJECT
  add a new column a WorkPackage
  always check the budget for the non-leaf so it aligns with their leaves addition
   can delete if there no estimated or children
+
+  TODO:
+  DELETE
+  ASSIGN TO WP
+  VALIDATION
