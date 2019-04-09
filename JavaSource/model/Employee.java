@@ -38,10 +38,7 @@ public class Employee implements Serializable {
 
     @Column(name = "Comment")
     private String comment;
-        
-    @Column(name = "Passphrase", nullable = false)
-    private String passphrase;
-
+    
     public Employee() {
     }
 
@@ -129,14 +126,6 @@ public class Employee implements Serializable {
     public void setComment(String comment) {
         this.comment = comment;
     }
-    
-    public String getPassphrase() {
-        return passphrase;
-    }
-
-    public void setPassphrase(String passphrase) {
-        this.passphrase = passphrase;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -165,7 +154,7 @@ public class Employee implements Serializable {
 	public String toString() {
 		return "Employee [empNumber=" + empNumber + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", userName=" + userName + ", password=" + password + ", superEmpNo=" + superEmpNo + ", approEmpNo="
-				+ approEmpNo + ", state=" + state + ", comment=" + comment + ", passphrase=" + passphrase + "]";
+				+ approEmpNo + ", state=" + state + ", comment=" + comment+ "]";
 	}
     
 }
