@@ -69,12 +69,13 @@
 
 							</tr>
 
-							<tr>
-								<td scope="row"><p:outputLabel value="Charged Status" /></td>
-								<td><h:outputText value="#{!wpdController.wp.editable}" /></td>
+							<h:panelGroup rendered="#{wpdController.wp.leaf}">
+								<tr>
+									<td scope="row"><p:outputLabel value="Charged Status" /></td>
+									<td><h:outputText value="#{!wpdController.wp.editable}" /></td>
 
-							</tr>
-
+								</tr>
+							</h:panelGroup>
 							<tr>
 								<td scope="row"><p:outputLabel value="Work Package ID" /></td>
 								<td><p:inputText value="#{wpdController.wp.wpid}"
@@ -168,99 +169,144 @@
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Manager P1" /></td>
 								<td><p:inputText value="#{wpdController.wp.pmEstP1}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.pmEstP1}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.pmEstP1}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP1,'P1')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP1,'P1')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Manager P2" /></td>
 								<td><p:inputText value="#{wpdController.wp.pmEstP2}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.pmEstP2}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.pmEstP2}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP2,'P2')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP2,'P2')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Manager P3" /></td>
 								<td><p:inputText value="#{wpdController.wp.pmEstP3}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.pmEstP3}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.pmEstP3}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP3,'P3')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP3,'P3')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Manager P4" /></td>
 								<td><p:inputText value="#{wpdController.wp.pmEstP4}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.pmEstP4}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.pmEstP4}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP4,'P4')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP4,'P4')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Manager P5" /></td>
 								<td><p:inputText value="#{wpdController.wp.pmEstP5}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.pmEstP5}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.pmEstP5}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP5, 'P5')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP5, 'P5')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Manager P6" /></td>
 								<td><p:inputText value="#{wpdController.wp.pmEstP6}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.pmEstP6}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.pmEstP6}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP6, 'P6')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP6, 'P6')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Manager DS" /></td>
 								<td><p:inputText value="#{wpdController.wp.pmEstDS}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.pmEstDS}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.pmEstDS}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstDS, 'DS')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstDS, 'DS')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Manager SS" /></td>
 								<td><p:inputText value="#{wpdController.wp.pmEstSS}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.pmEstSS}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.pmEstSS}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstSS, 'SS')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstSS, 'SS')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Manager JS" /></td>
 								<td><p:inputText value="#{wpdController.wp.pmEstJS}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.pmEstJS}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.pmEstJS}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstJS, 'JS')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstJS, 'JS')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 
@@ -268,99 +314,144 @@
 								<td scope="row"><p:outputLabel
 										value="Responsible Employee P1" /></td>
 								<td><p:inputText value="#{wpdController.wp.reEstP1}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.reEstP1}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.reEstP1}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP1,'P1')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP1,'P1')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel
 										value="Responsible Employee P2" /></td>
 								<td><p:inputText value="#{wpdController.wp.reEstP2}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.reEstP2}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.reEstP2}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP2,'P2')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP2,'P2')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel
 										value="Responsible Employee P3" /></td>
 								<td><p:inputText value="#{wpdController.wp.reEstP3}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.reEstP3}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.reEstP3}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP3,'P3')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP3,'P3')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel
 										value="Responsible Employee P4" /></td>
 								<td><p:inputText value="#{wpdController.wp.reEstP4}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.reEstP4}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.reEstP4}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP4,'P4')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP4,'P4')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel
 										value="Responsible Employee P5" /></td>
 								<td><p:inputText value="#{wpdController.wp.reEstP5}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.reEstP5}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.reEstP5}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP5, 'P5')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP5, 'P5')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel
 										value="Responsible Employee P6" /></td>
 								<td><p:inputText value="#{wpdController.wp.reEstP6}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.reEstP6}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.reEstP6}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP6,'P6')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP6,'P6')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel
 										value="Responsible Employee DS" /></td>
 								<td><p:inputText value="#{wpdController.wp.reEstDS}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.reEstDS}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.reEstDS}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstDS, 'DS')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstDS, 'DS')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel
 										value="Responsible Employee SS" /></td>
 								<td><p:inputText value="#{wpdController.wp.reEstSS}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.reEstSS}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.reEstSS}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstSS, 'SS')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstSS, 'SS')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel
 										value="Responsible Employee JS" /></td>
 								<td><p:inputText value="#{wpdController.wp.reEstJS}"
-										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
-										value="#{wpdController.wp.reEstJS}"
-										rendered="#{!wpdController.wpEditable}" /></td>
+										label="text" rendered="#{wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:inputText> <h:outputText value="#{wpdController.wp.reEstJS}"
+										rendered="#{!wpdController.wpEditable}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
 								<td scope="row"><p:outputLabel
-										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstJS, 'JS')}" /></td>
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstJS, 'JS')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 

@@ -152,15 +152,23 @@ public class ProjectDetailController implements Serializable {
 		if (addWp.isLeaf()) {
 			addWp.setEditable(true);
 			updateParentWP(addWp, this.database.getParentWP(addWp));
+
 		} else {
+
 			addWp.setEditable(false);
 		}
-		this.database.persistWP(addWp);
 
-		addWp = new WorkPackage();
+		if (WorkPackageValidator.isValid(addWp)) {
+			this.database.persistWP(addWp);
+			addWp = new WorkPackage();
+			treeInit(this.project.getProNo());
+			return "WorkPackageManagement.xhtml?faces-redirect=true";
 
-		treeInit(this.project.getProNo());
-		return "WorkPackageManagement.xhtml?faces-redirect=true";
+		}
+
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message:", "Invalid Input");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		return "";
 
 	}
 
@@ -326,7 +334,8 @@ public class ProjectDetailController implements Serializable {
 
 	public boolean canDeleteWP(WorkPackage wp) {
 		if (wp != null) {
-			return canModify() && WorkPackageValidator.canDelete(database, wp);
+			return canModify() && WorkPackageValidator.canDelete(database, wp)
+					&& ProjectValidator.canDelete(database, this.database.findByProjectNo(wp.getProNo()));
 		}
 		return true;
 

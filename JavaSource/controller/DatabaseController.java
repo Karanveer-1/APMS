@@ -336,8 +336,15 @@ public class DatabaseController implements Serializable {
 
 	public boolean deleteProjectByProNo(final int proNo) {
 		Project p = this.findByProjectNo(proNo);
-
 		try {
+			TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.proNo = :projectId",
+					ProEmp.class);
+			query.setParameter("projectId", proNo);
+			List<ProEmp> data = query.getResultList();
+			for (ProEmp d : data) {
+				this.manager.remove(d);
+				this.manager.flush();
+			}
 			this.manager.remove(p);
 			this.manager.flush();
 			return true;
@@ -518,8 +525,6 @@ public class DatabaseController implements Serializable {
 
 	public boolean updateWP(WorkPackage wp) {
 		WorkPackage checkWp = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
-		System.out.println("what can be wrong" + checkWp);
-		System.out.println("This is the OG wp" + wp);
 		if (checkWp != null) {
 			this.manager.merge(wp);
 			return true;
@@ -530,6 +535,15 @@ public class DatabaseController implements Serializable {
 	public boolean deleteWorkPackage(final WorkPackage wp) {
 		WorkPackage workpackage = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
 		try {
+			TypedQuery<WPEmp> query = manager.createQuery(
+					"select p from WPEmp p where p.pk.proNo = :projectId and p.pk.wpid =:wpid", WPEmp.class);
+			query.setParameter("projectId", wp.getProNo());
+			query.setParameter("wpid", wp.getWpid());
+			List<WPEmp> data = query.getResultList();
+			for (WPEmp d : data) {
+				this.manager.remove(d);
+				this.manager.flush();
+			}
 			this.manager.remove(workpackage);
 			this.manager.flush();
 			return true;
