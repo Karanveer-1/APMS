@@ -81,12 +81,17 @@ public class TimesheetController implements Serializable {
         editTimesheetRows = new ArrayList<TimesheetRow>();
 
         projectNumbers = getRelaventProNos();
+        System.out.println(projectNumbers);
 
         return "EditTimesheet.xhtml?faces-redirect=true";
     }
 
     public List<Integer> getRelaventProNos() {
-        return database.getAllProjectsbyEmpNo(currentEmployee.getEmpNumber()).stream().map(Project::getProNo)
+        return database.getAllProjectsbyEmpNo(currentEmployee.getEmpNumber())
+                .stream()
+                .map(p -> {
+                    return p.getProNo();
+                })
                 .collect(Collectors.toList());
     }
 
@@ -107,7 +112,7 @@ public class TimesheetController implements Serializable {
     }
 
     public List<String> getRelaventWpIds(TimesheetRow row) {
-        if (row.getTimesheetRowPk().getProNo() == null) {
+        if (row.getTimesheetRowPk().getProNo() == null || projectNumbers.isEmpty()) {
             row.getTimesheetRowPk().setWpid(null);
             return new ArrayList<String>();
         }
@@ -290,10 +295,10 @@ public class TimesheetController implements Serializable {
         if (!proNos.isEmpty()) {
             row.getTimesheetRowPk().setProNo(database.getAllProjectNo().get(0));
 
-            List<String> wpids = database.getWpIdByProjectNo(proNos.get(0));
+            List<String> wpidsList = database.getAllEmpAssignedWpid(proNos.get(0), currentEmployee.getEmpNumber());
 
-            if (!wpids.isEmpty()) {
-                row.getTimesheetRowPk().setWpid(wpids.get(0));
+            if (!wpidsList.isEmpty() && !proNos.isEmpty()) {
+                row.getTimesheetRowPk().setWpid(wpidsList.get(0));
             }
         }
 
