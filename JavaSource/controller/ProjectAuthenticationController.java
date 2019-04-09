@@ -38,6 +38,7 @@ public class ProjectAuthenticationController implements Serializable {
 		for (Employee emp : empList) {
 			if (emp.getSuperEmpNo() == currentEmployee.getEmpNumber()) {
 				return true;
+				
 			}
 		}
 		return false;
@@ -83,6 +84,9 @@ public class ProjectAuthenticationController implements Serializable {
 	private static Employee getLoggedInEmployee() {
 		return (Employee) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 				.get(LoginController.USER_KEY);
+	}
+	public boolean canSeeProject() {
+		return isSupervisor() ||isProjectManager() ||isProjectAssistant() || isREEmp();
 	}
 
 }

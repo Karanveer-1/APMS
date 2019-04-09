@@ -14,12 +14,14 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletResponse;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 
 import model.Employee;
 import model.Project;
+import model.WorkPackage;
 import validator.ProjectValidator;
 
 @Named("projectController")
@@ -91,6 +93,7 @@ public class ProjectController implements Serializable {
 		employeeList = database.getActiveEmployees();
 		editProject = new Project();
 		currentEmployee = getLoggedInEmployee();
+		authenticate();
 		employeeList = getAssignedEmployeeList();
 
 	}
@@ -182,8 +185,10 @@ public class ProjectController implements Serializable {
 	}
 
 	private static Employee getLoggedInEmployee() {
+
 		return (Employee) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 				.get(LoginController.USER_KEY);
+
 	}
 
 	public Employee getCurrentEmployee() {
@@ -209,6 +214,85 @@ public class ProjectController implements Serializable {
 
 	public boolean canDelete(Project pro) {
 		return ProjectValidator.canDelete(database, pro);
+	}
+
+	public boolean isSupervisor() {
+		List<Employee> empList = this.database.getEmployees();
+		for (Employee emp : empList) {
+			if (emp.getSuperEmpNo() == currentEmployee.getEmpNumber()) {
+				return true;
+
+			}
+		}
+
+		return false;
+	}
+
+	public boolean isProjectManager() {
+		List<Project> allProject = this.database.getAllProjects();
+		for (Project p : allProject) {
+			if (currentEmployee.getEmpNumber() == p.getProMgrEmpNo()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isProjectAssistant() {
+		List<Project> allProject = this.database.getAllProjects();
+		for (Project p : allProject) {
+			if (currentEmployee.getEmpNumber() == p.getProAssiEmpNo()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isPMorPA() {
+		return isProjectManager() || isProjectAssistant();
+	}
+
+	public boolean isREEmp() {
+		for (WorkPackage wp : this.database.getAllWp()) {
+			if (currentEmployee.getEmpNumber() == wp.getReEmpNo()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void authenticate() {
+		if (!isSupervisor()) {
+			if (isPMorPA()) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+				try {
+					response.sendRedirect("ProjectManagement.xhtml");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if (isREEmp()) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+				try {
+					response.sendRedirect("WorkPackage.xhtml");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				FacesContext context = FacesContext.getCurrentInstance();
+				HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+				try {
+					response.sendRedirect("Dashboard.xhtml");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
 	}
 
 }
