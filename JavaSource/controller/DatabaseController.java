@@ -36,8 +36,9 @@ import utils.DateUtils;
 
 @Stateless
 public class DatabaseController implements Serializable {
-	@PersistenceContext(unitName = "apms", type = PersistenceContextType.TRANSACTION)
-	private EntityManager manager;
+
+    @PersistenceContext(unitName = "apms", type = PersistenceContextType.TRANSACTION)
+    private EntityManager manager;
 
 	// #########################################################################
 	// # Employee methods
@@ -105,23 +106,23 @@ public class DatabaseController implements Serializable {
 		return manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
 	}
 
-	public long countTimesheets() {
-		String sql = "SELECT COUNT(t) FROM Timesheet t";
-		Query q = manager.createQuery(sql);
-		return (long) q.getSingleResult();
-	}
+    public long countTimesheets(int id) {
+        Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.timesheetPk.empNo = :empNumber");
+        q.setParameter("empNumber", id);
+        return (long) q.getSingleResult();
+    }
 
-	public long countApprovedTimesheets() {
-		String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Approved'";
-		Query q = manager.createQuery(sql);
-		return (long) q.getSingleResult();
-	}
+    public long countApprovedTimesheets(int id) {
+        Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Approved' AND t.timesheetPk.empNo = :empNumber");
+        q.setParameter("empNumber", id);
+        return (long) q.getSingleResult();
+    }
 
-	public long countRejectedTimesheets() {
-		String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Returned'";
-		Query q = manager.createQuery(sql);
-		return (long) q.getSingleResult();
-	}
+    public long countRejectedTimesheets(int id) {
+        Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Returned' AND t.timesheetPk.empNo = :empNumber");
+        q.setParameter("empNumber", id);
+        return (long) q.getSingleResult();
+    }
 
 	public List<Timesheet> getTimesheets(int empNo) {
 		List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
