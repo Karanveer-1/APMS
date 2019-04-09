@@ -39,7 +39,8 @@
 						</h:commandLink></li>
 
 					<li><h:commandLink id="nav-projects"
-							action="Projects.xhtml?faces-redirect=true">
+							action="Projects.xhtml?faces-redirect=true"
+							rendered="#{paController.canSeeProject()}">
 							<i class="ti-pencil-alt"></i>
 							Projects
 						</h:commandLink></li>

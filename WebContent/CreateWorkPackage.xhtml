@@ -45,6 +45,7 @@
 
 
 					<h:form id="formAddDialog">
+					<p:messages id="msg" showDetail="true" />
 						<table class="table">
 							<tbody>
 
@@ -63,7 +64,7 @@
 										</h:selectOneMenu></td>
 								</tr>
 								<tr>
-									<td><h:outputText value="WPID" /></td>
+									<td><h:outputText value="WPID(*)" /></td>
 
 									<td><p:inputText value="#{pdController.addWp.wpid}">
 										</p:inputText></td>
@@ -87,22 +88,22 @@
 										</p:selectBooleanCheckbox></td>
 								</tr>
 								<tr>
-									<td><h:outputText value="Title" /></td>
+									<td><h:outputText value="Title(*)" /></td>
 									<td><p:inputText value="#{pdController.addWp.title}" /></td>
 								</tr>
 
 								<tr>
-									<td><h:outputText value="Description" /></td>
+									<td><h:outputText value="Description(*)" /></td>
 									<td><p:inputTextarea
 											value="#{pdController.addWp.description}" /></td>
 								</tr>
 								<tr>
-									<td><h:outputText for="start" value="Start Date" /></td>
+									<td><h:outputText for="start" value="Start Date(*)" /></td>
 									<td><p:calendar id="start"
 											value="#{pdController.addWp.startDate}" /></td>
 								</tr>
 								<tr>
-									<td><h:outputText for="end" value="End Date" /></td>
+									<td><h:outputText for="end" value="End Date(*)" /></td>
 									<td><p:calendar id="end"
 											value="#{pdController.addWp.endDate}" /></td>
 								</tr>
@@ -237,16 +238,15 @@
 						</table>
 
 						<p:commandButton resetValues="true" id="addButton"
-							update=":formAddDialog " value="Add" 
+							update=":formAddDialog :formAddDialog:msg" value="Add"
 							action="#{pdController.addWP}" style="float: left;" />
 
 						<p:commandButton resetValues="true" id="backButton"
-							update=":formAddDialog " value="Cancel" 
+							update=":formAddDialog " value="Cancel"
 							action="WorkPackageManagement.xhtml?faces-redirect=true"
 							style="float: right;" />
 
-						<p:growl id="messageGrowl" showDetail="true" sticky="false" />
-
+						
 					</h:form>
 
 

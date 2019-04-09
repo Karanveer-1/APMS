@@ -31,15 +31,13 @@
 						<tbody>
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Number: " /></td>
-								<td><p:inputText value="#{pdController.project.proNo}"
-										label="text" rendered="#{pdController.editable}" /> <h:outputText
-										value="#{pdController.project.proNo}"
-										rendered="#{!pdController.editable}" /></td>
+								<td><h:outputText value="#{pdController.editpro.proNo}" /></td>
 								<h:panelGroup rendered="#{pdController.canModify()}">
 									<td style="border: 1px solid white;"><p:commandLink
-											ajax="true" update=":form"
+											ajax="true" update=":form :form:msgs"
 											action="#{pdController.toggleEditable()}"
 											rendered="#{!pdController.editable}">
+
 											<h:graphicImage value="resources/images/edit.png"
 												style="max-width:20px; max-height:20px" /> Edit
 									</p:commandLink></td>
@@ -51,7 +49,8 @@
 								<td><h:outputText
 										value="#{pdController.getEmpName(pdController.project.proMgrEmpNo)}" /></td>
 								<td style="border: 1px solid white;"><p:commandLink
-										ajax="true" update=":form" action="#{pdController.submit()}"
+										ajax="true" update=":form :form:msgs"
+										action="#{pdController.submit()}"
 										rendered="#{pdController.editable}">
 										<h:graphicImage value="resources/images/submit.png"
 											style="max-width:20px; max-height:20px" /> Submit
@@ -61,7 +60,7 @@
 								<td scope="row"><p:outputLabel value="Project Assistant: " /></td>
 								<td><h:selectOneMenu
 										rendered="#{paController.isProjectManager() and pdController.editable}"
-										value="#{pdController.project.proAssiEmpNo}">
+										value="#{pdController.editpro.proAssiEmpNo}">
 										<f:selectItems value="#{pdController.empPool}" var="emp"
 											itemLabel="#{emp.userName}" itemValue="#{emp.empNumber}"
 											style="color:black" />
@@ -72,7 +71,7 @@
 
 								</td>
 								<td style="border: 1px solid white;"><p:commandLink
-										ajax="true" update=":form"
+										ajax="true" update=":form :form:msgs"
 										action="#{pdController.toggleEditable()}"
 										rendered="#{pdController.editable}">
 										<h:graphicImage value="resources/images/cancel.png"
@@ -82,7 +81,7 @@
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Name " /></td>
-								<td><p:inputText value="#{pdController.project.proName}"
+								<td><p:inputText value="#{pdController.editpro.proName}"
 										label="text" rendered="#{pdController.editable}" /> <h:outputText
 										value="#{pdController.project.proName}"
 										rendered="#{!pdController.editable}" /></td>
@@ -92,7 +91,7 @@
 							<tr>
 								<td scope="row"><p:outputLabel value="Start Date" /></td>
 								<td><p:calendar id="start"
-										value="#{pdController.project.startDate}"
+										value="#{pdController.editpro.startDate}"
 										rendered="#{pdController.editable}" /> <h:outputText
 										rendered="#{!pdController.editable}"
 										value="#{pdController.project.startDate}">
@@ -102,7 +101,7 @@
 							<tr>
 								<td scope="row"><p:outputLabel value="End Date" /></td>
 								<td><p:calendar id="end"
-										value="#{pdController.project.endDate}"
+										value="#{pdController.editpro.endDate}"
 										rendered="#{pdController.editable}" /> <h:outputText
 										rendered="#{!pdController.editable}"
 										value="#{pdController.project.endDate}">
@@ -113,15 +112,18 @@
 							<tr>
 								<td scope="row"><p:outputLabel value="Description" /></td>
 								<td><p:inputTextarea style="width:100%"
-										value="#{pdController.project.proDesc}" label="text"
-										readonly="#{!pdController.editable}" /></td>
+										value="#{pdController.editpro.proDesc}" label="text"
+										rendered="#{pdController.editable}" /> <p:inputTextarea
+										style="width:100%" value="#{pdController.project.proDesc}"
+										readonly="true" label="text"
+										rendered="#{!pdController.editable}" /></td>
 							</tr>
 
 							<tr>
 								<td scope="row"><p:outputLabel value="State " /></td>
 								<td><p:outputLabel value="#{pdController.project.state}"
 										rendered="#{!pdController.editable}" /> <h:selectOneMenu
-										value="#{project.state}" style="color:black"
+										value="#{pdController.editpro.state}" style="color:black"
 										rendered="#{pdController.editable}">
 										<f:selectItems style="color:black"
 											value="#{pdController.status}" />
@@ -130,9 +132,159 @@
 							<tr>
 								<td scope="row"><p:outputLabel value="Comment" /></td>
 								<td><p:inputTextarea style="width:100%"
-										value="#{pdController.project.comment}" label="text"
-										readonly="#{!pdController.editable}" /></td>
+										value="#{pdController.editpro.comment}" label="text"
+										rendered="#{pdController.editable}" /> <p:inputTextarea
+										style="width:100%" value="#{pdController.project.comment}"
+										readonly="true" label="text"
+										rendered="#{!pdController.editable}" /></td>
 							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Labour Level" /></td>
+								<td scope="row"><p:outputLabel
+										value="Estimated Man Day (hrs)" /></td>
+								<td scope="row"><p:outputLabel value="Estimated Budget ($)" /></td>
+
+							</tr>
+
+
+							<tr>
+								<td scope="row"><p:outputLabel value="P1" /></td>
+								<td><h:outputText
+										value="#{pdController.getChildWPHours('P1')}" label="text">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
+								<td scope="row"><p:outputLabel
+										value="#{pdController.getBudgetByPLevel('P1')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="P2" /></td>
+								<td><h:outputText
+										value="#{pdController.getChildWPHours('P2')}" label="text">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
+								<td scope="row"><p:outputLabel
+										value="#{pdController.getBudgetByPLevel('P2')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="P3" /></td>
+								<td><h:outputText
+										value="#{pdController.getChildWPHours('P3')}" label="text">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
+								<td scope="row"><p:outputLabel
+										value="#{pdController.getBudgetByPLevel('P3')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="P4" /></td>
+								<td><h:outputText
+										value="#{pdController.getChildWPHours('P4')}" label="text">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
+								<td scope="row"><p:outputLabel
+										value="#{pdController.getBudgetByPLevel('P4')}">
+
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="P5" /></td>
+								<td><h:outputText
+										value="#{pdController.getChildWPHours('P5')}" label="text">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
+								<td scope="row"><p:outputLabel
+										value="#{pdController.getBudgetByPLevel('P5')}">
+
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="P6" /></td>
+								<td><h:outputText
+										value="#{pdController.getChildWPHours('P6')}" label="text">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
+								<td scope="row"><p:outputLabel
+										value="#{pdController.getBudgetByPLevel('P6')}">
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="SS" /></td>
+								<td><h:outputText
+										value="#{pdController.getChildWPHours('SS')}" label="text">
+
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
+								<td scope="row"><p:outputLabel
+										value="#{pdController.getBudgetByPLevel('SS')}">
+
+										<f:convertNumber integerOnly="true" type="number" />
+
+									</p:outputLabel></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="DS" /></td>
+								<td><h:outputText
+										value="#{pdController.getChildWPHours('DS')}" label="text">
+										<f:convertNumber integerOnly="true" type="number" />
+
+									</h:outputText></td>
+								<td scope="row"><p:outputLabel
+										value="#{pdController.getBudgetByPLevel('DS')}">
+
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="JS" /></td>
+								<td><h:outputText
+										value="#{pdController.getChildWPHours('JS')}" label="text">
+										<f:convertNumber integerOnly="true" type="number" />
+									</h:outputText></td>
+								<td scope="row"><p:outputLabel
+										value="#{pdController.getBudgetByPLevel('JS')}">
+
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="Total Budget" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{pdController.getTotalHours()} "> (hrs)
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
+								<td scope="row"><p:outputLabel
+										value="#{pdController.getTotalBudget()}"> ($)
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
+
+							</tr>
+
+
+
 
 
 

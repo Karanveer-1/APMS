@@ -17,6 +17,8 @@ import org.primefaces.PrimeFaces;
 import model.Employee;
 import model.PLevel;
 import model.WorkPackage;
+import validator.ProjectValidator;
+import validator.WorkPackageValidator;
 
 @Named("wpdController")
 @SessionScoped
@@ -244,7 +246,8 @@ public class WorkPackageDetailController implements Serializable {
 	}
 
 	public boolean canDeleteEmp() {
-		return this.wp.getState().equals("OPEN");
+		return WorkPackageValidator.canDelete(database, this.wp)
+				&& ProjectValidator.canDelete(database, this.database.findByProjectNo(this.wp.getProNo()));
 	}
 
 	public float getTotalBudget() {
