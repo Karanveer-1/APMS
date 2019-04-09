@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import validator.ProjectValidator;
+
 @Entity
 
 @Table(name = "Project")
@@ -152,7 +154,7 @@ public class Project implements Serializable {
 	}
 
 	public boolean isEditable() {
-		return this.state.equals("OPEN");
+		return ProjectValidator.canModify(this);
 	}
 
 }

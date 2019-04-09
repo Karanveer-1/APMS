@@ -38,9 +38,9 @@
 
 					<p:commandButton value="Add Project"
 						styleClass="ui-priority-primary" process="@this"
-						onclick="PF('addProjectDialog').show();" >
+						onclick="PF('addProjectDialog').show();">
 
-						</p:commandButton>
+					</p:commandButton>
 
 					<hr></hr>
 
@@ -73,7 +73,7 @@
 									<h:outputText value="#{project.proName}" />
 								</f:facet>
 								<f:facet name="input">
-									<p:inputText value="#{project.proName}" style="width:100%" 
+									<p:inputText value="#{project.proName}" style="width:100%"
 										label="Project Name" />
 								</f:facet>
 							</p:cellEditor>
@@ -150,7 +150,8 @@
 
 						<p:column headerText="Assign"
 							style="text-align:center; width:100px">
-							<p:commandLink action="#{assignProject.addEmployees(project)}">
+							<p:commandLink action="#{assignProject.addEmployees(project)}"
+								rendered="#{project.editable}">
 								<h:graphicImage value="resources/images/assign.png"
 									style="max-width:20%; max-height:20%" />
 							</p:commandLink>
@@ -160,6 +161,7 @@
 							style="text-align:center; width:100px">
 
 							<p:commandLink update="project"
+								rendered="#{projectController.canDelete(project)}"
 								action="#{projectController.deleteProject(project)}">
 								<h:graphicImage value="resources/images/error.png"
 									style="max-width:20%; max-height:20%" />
@@ -177,12 +179,17 @@
 				<p:dialog id="addDialog" header="Add Project" modal="true"
 					width="400" widgetVar="addProjectDialog" draggable="false">
 					<h:form id="formAddDialog">
+						<p:messages id="messageGrowl" showDetail="true" sticky="false" />
 						<table class="table">
+
 							<tbody>
+
 								<tr>
 									<td><h:outputText value="Project Number" /></td>
 									<td><p:inputText id="addPropNo"
-											value="#{projectController.addProject.proNo}" /></td>
+											value="#{projectController.addProject.proNo}">
+											<f:convertNumber integerOnly="true" type="number" />
+										</p:inputText></td>
 								</tr>
 								<tr>
 									<td><h:outputText value="Project Manager" /></td>
@@ -228,12 +235,13 @@
 							</tbody>
 						</table>
 
+
 						<p:commandButton resetValues="true" id="addButton"
 							update=":form:project, :formAddDialog :pnav" value="Add"
 							action="#{projectController.persistProject()}"
 							style="float: right;" />
 
-						<p:growl id="messageGrowl" showDetail="true" sticky="false" />
+
 
 					</h:form>
 					<p:ajax event="close" listener="#{projectController.close}"

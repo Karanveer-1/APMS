@@ -300,6 +300,11 @@ public class DatabaseController implements Serializable {
 		return this.manager.find(Project.class, proNo);
 	}
 
+	/**
+	 * Also add the project manager to the proemp database
+	 * @param newProject
+	 * @return
+	 */
 	public boolean persistProject(Project newProject) {
 		Project p = this.manager.find(Project.class, newProject.getProNo());
 		addNewEmployeeToProject(newProject.getProMgrEmpNo(), newProject.getProNo());

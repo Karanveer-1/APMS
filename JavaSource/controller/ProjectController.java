@@ -20,6 +20,7 @@ import org.primefaces.event.RowEditEvent;
 
 import model.Employee;
 import model.Project;
+import validator.ProjectValidator;
 
 @Named("projectController")
 @ViewScoped
@@ -57,7 +58,6 @@ public class ProjectController implements Serializable {
 
 	}
 
-	
 	@Inject
 	private DatabaseController database;
 
@@ -92,7 +92,6 @@ public class ProjectController implements Serializable {
 		editProject = new Project();
 		currentEmployee = getLoggedInEmployee();
 		employeeList = getAssignedEmployeeList();
-//		projects = 	database.getProjectsBySupervisor(currentEmployee.getEmpNumber());
 
 	}
 
@@ -135,36 +134,32 @@ public class ProjectController implements Serializable {
 	}
 
 	public void persistProject() throws IOException {
+
 		// manager will assistant for now
 		addProject.setProAssiEmpNo(addProject.getProMgrEmpNo());
-		
-		boolean addSuccess = database.persistProject(addProject);
-		if (addSuccess) {
+		if (ProjectValidator.isValid(addProject)) {
+			database.persistProject(addProject);
 			FacesMessage msg = new FacesMessage("Project #" + addProject.getProNo() + " Added");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			addProject = new Project();
 			PrimeFaces.current().executeScript("PF('addProjectDialog').hide();");
-
-			projects = database.getAllProjects();
 		} else {
-			FacesMessage msg = new FacesMessage("Invalid Project");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Project", null);
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-
 		}
-
 
 	}
 
 	public void onRowEdit(RowEditEvent event) {
 		editProject = (Project) event.getObject();
 		boolean updateSuccess = this.database.updateProject(editProject);
-			
+
 		projects = database.getAllProjects();
 		if (updateSuccess) {
 			FacesMessage msg = new FacesMessage("Project #" + editProject.getProNo() + " Edited");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} else {
-			FacesMessage msg = new FacesMessage("Failed To Edit Project");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed To Edit Project", null);
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 
@@ -174,7 +169,6 @@ public class ProjectController implements Serializable {
 		FacesMessage msg = new FacesMessage("Edit Cancelled");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
-
 
 	public void deleteProject(Project project) throws IOException {
 		this.database.deleteProjectByProNo(project.getProNo());
@@ -193,7 +187,7 @@ public class ProjectController implements Serializable {
 	public Status[] getStatuses() {
 		return Status.values();
 	}
-	
+
 	public StatusCreation[] getStatusCreation() {
 		return StatusCreation.values();
 	}
@@ -207,6 +201,8 @@ public class ProjectController implements Serializable {
 		addProject = new Project();
 	}
 
-	
+	public boolean canDelete(Project pro) {
+		return ProjectValidator.canDelete(database, pro);
+	}
 
 }
