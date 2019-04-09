@@ -44,7 +44,8 @@
 					<h:form id="form">
 						<p:commandButton value="Add Work Package"
 							styleClass="ui-priority-primary" process="@this"
-							action="#{pdController.createNew()}">
+							action="#{pdController.createNew()}"
+							rendered="#{pdController.canModify()}">
 
 						</p:commandButton>
 
@@ -95,9 +96,9 @@
 
 
 
-							<p:column headerText="Delete"
+							<p:column headerText="Delete"  
 								style="text-align:center;width:110px">
-								<p:commandLink update="wp" action="#{pdController.deleteWp(wp)}">
+								<p:commandLink update="wp" action="#{pdController.deleteWp(wp)}" rendered="#{pdController.canDeleteWP(wp)}">
 									<h:graphicImage value="resources/images/error.png"
 										style="max-width:30%; max-height:30%" />
 								</p:commandLink>

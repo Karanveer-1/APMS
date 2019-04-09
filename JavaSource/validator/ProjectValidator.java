@@ -10,15 +10,14 @@ import model.WorkPackage;
 
 public class ProjectValidator {
 
-	@Inject
-	private static DatabaseController database;
+	
 
 	public static boolean isValid(Project pro) {
 		return isValidDate(pro);
 	}
 
 	public static boolean isValidDate(Project pro) {
-		return !pro.getStartDate().after(pro.getEndDate());
+		return pro.getStartDate().before(pro.getEndDate());
 	}
 
 	public static boolean isValidFields(Project pro) {
@@ -33,7 +32,7 @@ public class ProjectValidator {
 		return true;
 	}
 
-	public static boolean canDelete(Project pro) {
+	public static boolean canDelete(DatabaseController database, Project pro) {
 		List<WorkPackage> allWp = database.getAllWp();
 		for (WorkPackage e : allWp) {
 			if (e.getProNo() == pro.getProNo()) {
@@ -41,6 +40,13 @@ public class ProjectValidator {
 			}
 		}
 		return true;
+	}
+
+	public static boolean canModify(Project pro){
+		if(pro.getState().equals("OPEN")){
+			return true;
+		}
+		return false;
 	}
 
 }

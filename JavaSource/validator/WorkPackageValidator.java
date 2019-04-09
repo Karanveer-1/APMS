@@ -9,15 +9,14 @@ import model.WorkPackage;
 
 public class WorkPackageValidator {
 
-	@Inject
-	private static DatabaseController database;
+
 
 	public static boolean isValid(WorkPackage wp) {
 		return isValidDate(wp) && isValidFields(wp);
 	}
 
 	public static boolean isValidDate(WorkPackage wp) {
-		return !wp.getStartDate().after(wp.getEndDate());
+		return wp.getStartDate().before(wp.getEndDate());
 
 	}
 
@@ -38,21 +37,23 @@ public class WorkPackageValidator {
 
 	}
 
-	public static boolean canDelete(WorkPackage wp) {
+	public static boolean canDelete(DatabaseController database, WorkPackage wp) {
 		if (wp.isLeaf() && !wp.isCharged()) {
 			return true;
 		}
 
-		if (!wp.isLeaf() && !hasChild(wp)) {
+		if (!wp.isLeaf() && !hasChild(database, wp)) {
 			return true;
 		}
 		return false;
 	}
 
-	public static boolean hasChild(WorkPackage wp) {
+	public static boolean hasChild(DatabaseController database, WorkPackage wp) {
+
 		List<WorkPackage> allWp = database.getAllWp();
+		System.out.println("ALL WP " + database.getAllWp());
 		for (WorkPackage e : allWp) {
-			if (e.getParentWPID().equals(wp.getParentWPID()) && e.getProNo() == wp.getProNo()) {
+			if (e.getParentWPID() != null && e.getParentWPID().equals(wp.getWpid()) && e.getProNo() == wp.getProNo()) {
 				return true;
 			}
 		}

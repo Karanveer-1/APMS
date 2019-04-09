@@ -247,7 +247,29 @@ public class WorkPackageDetailController implements Serializable {
 		return this.wp.getState().equals("OPEN");
 	}
 
-	public boolean displayEdit() {
-		return this.wp.getState().equals("OPEN") && !this.editable;
+	public float getTotalBudget() {
+		float result = 0;
+		result += getBudgetByPLevel(wp.getPmEstP1(), "P1");
+		result += getBudgetByPLevel(wp.getPmEstP2(), "P2");
+		result += getBudgetByPLevel(wp.getPmEstP3(), "P3");
+		result += getBudgetByPLevel(wp.getPmEstP4(), "P4");
+		result += getBudgetByPLevel(wp.getPmEstP5(), "P5");
+		result += getBudgetByPLevel(wp.getPmEstP6(), "P6");
+		result += getBudgetByPLevel(wp.getPmEstSS(), "SS");
+		result += getBudgetByPLevel(wp.getPmEstDS(), "DS");
+		result += getBudgetByPLevel(wp.getPmEstJS(), "JS");
+
+		result += getBudgetByPLevel(wp.getReEstP1(), "P1");
+		result += getBudgetByPLevel(wp.getReEstP2(), "P2");
+		result += getBudgetByPLevel(wp.getReEstP3(), "P3");
+		result += getBudgetByPLevel(wp.getReEstP4(), "P4");
+		result += getBudgetByPLevel(wp.getReEstP5(), "P5");
+		result += getBudgetByPLevel(wp.getReEstP6(), "P6");
+		result += getBudgetByPLevel(wp.getReEstSS(), "SS");
+		result += getBudgetByPLevel(wp.getReEstDS(), "DS");
+		result += getBudgetByPLevel(wp.getReEstJS(), "JS");
+
+		return result;
 	}
+
 }

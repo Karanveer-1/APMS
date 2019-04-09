@@ -158,8 +158,9 @@
 
 							<tr>
 								<td scope="row"><p:outputLabel value="Labour Level" /></td>
-								<td scope="row"><p:outputLabel value="Estimated Man Day" /></td>
-								<td scope="row"><p:outputLabel value="Estimated Budget" /></td>
+								<td scope="row"><p:outputLabel
+										value="Estimated Man Day (hrs)" /></td>
+								<td scope="row"><p:outputLabel value="Estimated Budget ($)" /></td>
 
 							</tr>
 
@@ -360,6 +361,19 @@
 										rendered="#{!wpdController.wpEditable}" /></td>
 								<td scope="row"><p:outputLabel
 										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstJS, 'JS')}" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Total Budget" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.wp.getBudget()} "> (hrs)
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getTotalBudget()}"> ($)
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
 
 							</tr>
 

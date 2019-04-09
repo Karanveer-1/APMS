@@ -24,6 +24,8 @@ import model.Employee;
 import model.Project;
 import model.WPEmp;
 import model.WorkPackage;
+import validator.ProjectValidator;
+import validator.WorkPackageValidator;
 
 @Named("pdController")
 @SessionScoped
@@ -129,8 +131,7 @@ public class ProjectDetailController implements Serializable {
 		if (addWp.isLeaf()) {
 			addWp.setEditable(true);
 			updateParentWP(addWp, this.database.getParentWP(addWp));
-		}
-		else {
+		} else {
 			addWp.setEditable(false);
 		}
 		this.database.persistWP(addWp);
@@ -282,6 +283,17 @@ public class ProjectDetailController implements Serializable {
 	public void setEditable(boolean editable) {
 		this.editable = editable;
 	}
-	
+
+	public boolean canModify() {
+		return ProjectValidator.canModify(this.project);
+	}
+
+	public boolean canDeleteWP(WorkPackage wp) {
+		if (wp != null) {
+			return canModify() && WorkPackageValidator.canDelete(database, wp);
+		}
+		return true;
+
+	}
 
 }
