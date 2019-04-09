@@ -2,6 +2,7 @@ package controller;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
+import model.Employee;
 import model.Role;
 import model.RolePK;
 import model.Role;
@@ -30,11 +32,18 @@ public class RoleController implements Serializable {
     private DatabaseController database;
 
     private List<Role> roles;    
+    private List<Employee> employees;
+    private List<String> usernames;
+    private String[] possibleRoles = {"SYSTEM ADMIN", "HUMAN RESOURCE"};
 
     @PostConstruct
     public void init() {
         roles = database.getRoles();
-        System.out.println(roles);
+        employees = database.getEmployees();
+        usernames = new ArrayList<String>();
+        for(Employee e : employees) {
+            usernames.add(e.getUserName());
+        }
     }
 
     /**
@@ -63,24 +72,83 @@ public class RoleController implements Serializable {
         roles = database.getRoles();
     }
     
-    public void add(int empNo, String role) {
+    public Employee getEmployeeByUsername(String username) {
+        for(Employee e : database.getEmployees()) {
+            if(e.getUserName().equals(username)) {
+                return e;
+            }
+        }
+        return null;
+        
+    }
+    
+    public void add(String username, String role) {
         roles = database.getRoles();  
+        Employee selected = getEmployeeByUsername(username);
         boolean validPK = true;
         for(Role p : roles) {
             System.out.println(p.getRolePk().getRole() + " : " + role);
             System.out.println(p.getRolePk().getRole().equals(role));
             
-            if(p.getRolePk().getRole().equals(role) && p.getRolePk().getEmpNo() == empNo) {
+            if(p.getRolePk().getRole().equals(role) && p.getRolePk().getEmpNo() == selected.getEmpNumber()) {
                 validPK = false;
                 PrimeFaces.current().executeScript("PF('errorDialog').show();");
                 break;
             }
         }
         if(validPK) {
-            database.addRole(new Role(new RolePK(empNo, role)));
+            database.addRole(new Role(new RolePK(selected.getEmpNumber(), role)));
         }
         roles = database.getRoles();  
         PrimeFaces.current().executeScript("PF('addRoleDialog').hide();");
+    }
+
+    /**
+     * Returns the {bare_field_name} for this RoleController.
+     * @return the employees
+     */
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    /**
+     * Sets the employees for this RoleController
+     * @param employees the employees to set
+     */
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
+
+    /**
+     * Returns the {bare_field_name} for this RoleController.
+     * @return the usernames
+     */
+    public List<String> getUsernames() {
+        return usernames;
+    }
+
+    /**
+     * Sets the usernames for this RoleController
+     * @param usernames the usernames to set
+     */
+    public void setUsernames(List<String> usernames) {
+        this.usernames = usernames;
+    }
+
+    /**
+     * Returns the {bare_field_name} for this RoleController.
+     * @return the possibleRoles
+     */
+    public String[] getPossibleRoles() {
+        return possibleRoles;
+    }
+
+    /**
+     * Sets the possibleRoles for this RoleController
+     * @param possibleRoles the possibleRoles to set
+     */
+    public void setPossibleRoles(String[] possibleRoles) {
+        this.possibleRoles = possibleRoles;
     }
     
 }
