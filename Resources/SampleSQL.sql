@@ -47,6 +47,8 @@ INSERT INTO APMS.Employee VALUES('1', 'Admin', 'Admin', 'admin', 'sha1:64000:18:
 INSERT INTO APMS.Employee VALUES('2', 'Karanveer', 'Khanna', 'karan', 'sha1:64000:18:XLut11LQ4mTSfG/qtpIlx+0pV22c3CWw:TLNw6ESsnrM512eCYCSl+8bu', '1', '1', 'Active', '');
 INSERT INTO APMS.Employee VALUES('3', 'Ryan', 'Liang', 'ryan', 'sha1:64000:18:CoHbU5wqpLwD9vhz0ristkDVhHcDrNa/:w8M4ttFIRj2KgUjgSrTFTDZI', '1', '2', 'Active', '');
 INSERT INTO APMS.Employee VALUES('4', 'Test', 'Test', 'test', 'sha1:64000:18:Gva6Da/2KniKBQFetzoF/ApJppU18smV:DWMsNXsx4DtG0BJlLRDB7Ngf', '2', '3', 'Active', '');
+INSERT INTO APMS.Employee VALUES('5', 'Supervisor', 'Dummy', 'supervisor', 'sha1:64000:18:/axiKNrox3dGIXbCHqC6xFGTXhD2B/Oj:iUa7GwjiY4pWpUvlDQ9kS0U6', '1', '1', 'Active', '');
+INSERT INTO APMS.Employee VALUES('6', 'Project Manager', 'Dummy', 'pm', 'sha1:64000:18:tegJHYBSaKJfPy8TQ2Jy1hbqCKRQ1OXD:TPr+EWeZ4Dk+pbInXc8z5OFy', '5', '5', 'Active', '');
 
 
 -- Create table EmpPLevel
