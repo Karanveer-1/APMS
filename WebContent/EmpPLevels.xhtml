@@ -39,26 +39,28 @@
 				<hr></hr>
 				<p:dataTable id="empPLevelTable" value="#{empPLevelController.empPLevels}"
 					var="empPLevel">
-					<p:column headerText="EmpNo">
-						<h:outputText value="#{empPLevel.empPLevelPK.empNo}" />
+					<p:column headerText="Employee Username">
+						<h:outputText value="#{empPLevelController.getEmployeeById(empPLevel.empPLevelPK.empNo).userName}" />
 					</p:column>
-					<p:column headerText="StartDate">
+					<p:column headerText="Start Date">
 						<h:outputText value="#{empPLevel.empPLevelPK.startDate}" >
 							<f:convertDateTime pattern = "dd-MMM-yyyy" />
 						</h:outputText>
 					</p:column>
-					<p:column headerText="PLevel">
+					<p:column headerText="PLevel" style="width:150px">
 						<h:outputText value="#{empPLevel.pLevel}" />
 					</p:column>
-					<p:column headerText="Remove">
-						<p:commandButton value="Remove" update=":formMain:empPLevelTable"
-							action="#{empPLevelController.removeEmpPLevel(empPLevel)}" />
+					<p:column headerText="Remove" style="width:150px">
+						<p:commandLink  update=":formMain:empPLevelTable"
+							action="#{empPLevelController.removeEmpPLevel(empPLevel)}">
+							<h:graphicImage value="resources/images/error.png" style="max-width:15%; max-height:15%"/>							
+						</p:commandLink>
 					</p:column>
 				</p:dataTable>
 			</h:form>
 			</p:fieldset>
 			
-			<p:dialog position="right" baseZIndex="20000" id="addDialog" header="Assign Employee PLevel" modal="true"
+			<p:dialog position="center" id="addDialog" header="Assign Employee PLevel" modal="true"
 				width="400" widgetVar="addEmpPLevelDialog">
 				<h3 style="font-weight:normal">Add Employee PLevel</h3>
                 
@@ -67,19 +69,32 @@
 				</p:messages>
 				
 				<h:form id="formAddDialog">
-					<h:panelGrid columns="1">
-						<h:outputText value="EmployeeNo" />
-						<h:inputText binding="#{addPLevelText}" />
-
-						<h:outputText value="PLevel" />
-			            <p:selectOneMenu id="empPLevelDropDown" binding="#{addPLevelDrop}" style="width:150px">
-			                <f:selectItems value="#{empPLevelController.empPLevelDropDownList}" />
-			            </p:selectOneMenu>
-
-					</h:panelGrid>
+					<table class="table">
+						<tbody>
+							<tr>
+								<td><h:outputText value="EmployeeNo" /></td>
+								<td>
+									<h:selectOneMenu binding="#{addPLevelText}">
+			   							<f:selectItems value="#{empPLevelController.activeEmployees}" var="e"
+			   								itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+			   						</h:selectOneMenu>
+			   					</td>
+							</tr>
+							<tr>
+								<td><h:outputText value="PLevel" /></td>
+								<td>
+									<p:selectOneMenu id="empPLevelDropDown" binding="#{addPLevelDrop}" style="width:150px">
+						                <f:selectItems value="#{empPLevelController.empPLevelDropDownList}" />
+						            </p:selectOneMenu>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+			
 					<p:commandButton update=":formMain:empPLevelTable :addDialog"
 						value="Assign PLevel"
-						action="#{empPLevelController.add(addPLevelText.value, addPLevelDrop.value)}" />
+						action="#{empPLevelController.add(addPLevelText.value, addPLevelDrop.value)}" 
+						style="float:right"/>
 				</h:form>
 			</p:dialog>
 			

@@ -20,6 +20,10 @@ public class ApproveTimesheetController implements Serializable {
     
     @Inject
     private DatabaseController database;
+    
+    @Inject
+    private AuthenticationController auth;
+    
     private List<Timesheet> submittedTimesheets;
 
     private Employee currentEmployee;
@@ -78,6 +82,10 @@ public class ApproveTimesheetController implements Serializable {
     }
 
     private List<Timesheet> databaseGetSubmittedTimesheets() {
+        if (auth.isUserSystemAdmin()) {
+            return database.getSubmittedTimesheets();
+        }
+        
         return database.getSubmittedTimesheets(currentEmployee.getEmpNumber());
     }
 

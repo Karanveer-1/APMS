@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>IGNORED!</title>
+</h:head>
+
+<h:body>
+	<ui:composition template="/templates/MasterLayout.xhtml">
+
+		<ui:define name="windowTitle">Projects</ui:define>
+		<ui:define name="headerTitle">
+			<h:outputText value="Projects" class="navbar-brand" />
+		</ui:define>
+		<ui:define name="navBar">
+			<ui:include src="/sections/ProjectManagementNavigationBar.xhtml" />
+		</ui:define>
+		<ui:define name="content">
+			<f:event listener="#{pdController.initWPList}" type="preRenderView" />
+			<p:fieldset scrollabe="true"
+				style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color: black">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-8">
+						<h1>Work Package Management</h1>
+						<h:outputText style="font-size:25px"
+							value="Project Number: #{pdController.project.proNo}" />
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+				<hr></hr>
+				<p:panel id="basic" footer=""
+					style="margin-left:50px; margin-right:50px;">
+
+
+
+
+
+
+
+
+
+					<h:form id="formAddDialog">
+						<table class="table">
+							<tbody>
+
+
+
+								<tr>
+									<td><h:outputText value="Parent Work Package" /></td>
+									<td><h:selectOneMenu
+											value="#{pdController.addWp.parentWPID}">
+											<p:ajax event="change" listener="#{pdController.onClick}"
+												update=":formAddDialog" />
+											<f:selectItems value="#{pdController.wpList}" var="wp"
+												itemLabel="#{wp.wpid}" itemValue="#{wp.wpid}">
+
+											</f:selectItems>
+										</h:selectOneMenu></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="WPID" /></td>
+
+									<td><p:inputText value="#{pdController.addWp.wpid}">
+										</p:inputText></td>
+								</tr>
+								<tr>
+									<td scope="row"><h:outputText value="Responsible Employee" /></td>
+									<td><h:selectOneMenu value="#{pdController.addWp.reEmpNo}">
+											<f:selectItems value="#{pdController.empPool}" var="emp"
+												itemLabel="#{emp.userName}" itemValue="#{emp.empNumber}"
+												style="color:black" />
+
+										</h:selectOneMenu></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Leaf Work Package"></h:outputText></td>
+									<td><p:selectBooleanCheckbox
+											value="#{pdController.addWp.leaf}" itemLabel="Leaf">
+											<p:ajax update=":formAddDialog"
+												listener="#{pdController.toggleLeaf}" />
+
+										</p:selectBooleanCheckbox></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Title" /></td>
+									<td><p:inputText value="#{pdController.addWp.title}" /></td>
+								</tr>
+
+								<tr>
+									<td><h:outputText value="Description" /></td>
+									<td><p:inputTextarea
+											value="#{pdController.addWp.description}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText for="start" value="Start Date" /></td>
+									<td><p:calendar id="start"
+											value="#{pdController.addWp.startDate}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText for="end" value="End Date" /></td>
+									<td><p:calendar id="end"
+											value="#{pdController.addWp.endDate}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="State" /></td>
+									<td><h:selectOneMenu value="#{pdController.addWp.state}">
+											<f:selectItems value="#{pdController.statusCreation}" />
+										</h:selectOneMenu></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Comment" /></td>
+									<td><p:inputTextarea value="#{pdController.addWp.comment}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Project Manager P1" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstP1}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.pmEstP1}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Project Manager P2" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstP2}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.pmEstP2}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Project Manager P3" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstP3}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.pmEstP3}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Project Manager P4" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstP4}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.pmEstP4}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Project Manager P5" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstP5}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.pmEstP5}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Project Manager P6" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstP6}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.pmEstP6}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Project Manager DS" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstDS}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.pmEstDS}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Project Manager SS" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstSS}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.pmEstSS}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Project Manager JS" /></td>
+									<td><p:inputText value="#{pdController.addWp.pmEstJS}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.pmEstJS}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+
+								<tr>
+									<td><h:outputText value="Responsible Engineer P1" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstP1}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.reEstP1}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+
+								<tr>
+									<td><h:outputText value="Responsible Engineer P2" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstP2}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.reEstP2}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Responsible Engineer P3" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstP3}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.reEstP3}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Responsible Engineer P4" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstP4}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.reEstP4}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Responsible Engineer P5" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstP5}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.reEstP5}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Responsible Engineer P6" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstP6}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.reEstP6}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+
+								<tr>
+									<td><h:outputText value="Responsible Engineer DS" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstDS}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.reEstDS}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+
+								<tr>
+									<td><h:outputText value="Responsible Engineer SS" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstSS}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.reEstSS}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+
+								<tr>
+									<td><h:outputText value="Responsible Engineer JS" /></td>
+									<td><p:inputText value="#{pdController.addWp.reEstJS}"
+											rendered="#{pdController.editable}" /> <h:outputText
+											value="#{pdController.addWp.reEstJS}" style="font-size:22px"
+											rendered="#{!pdController.editable}" /></td>
+								</tr>
+
+
+							</tbody>
+						</table>
+
+						<p:commandButton resetValues="true" id="addButton"
+							update=":formAddDialog " value="Add"
+							action="#{pdController.addWP}" style="float: right;" />
+
+						<p:growl id="messageGrowl" showDetail="true" sticky="false" />
+
+					</h:form>
+
+
+					<hr></hr>
+
+
+
+
+
+
+
+				</p:panel>
+			</p:fieldset>
+
+
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

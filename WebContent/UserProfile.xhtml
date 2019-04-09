@@ -24,7 +24,10 @@
             </div>
             <hr>
             </hr>
-            <table class="table" style="cellspacing:10px;">
+        <p:accordionPanel multiple="true">
+        <p:tab title="General Information" style="background:transparent">
+               <br></br>
+               <table class="table" style="cellspacing:10px;">
                <tr>
                   <th width="70%">
                      <p:outputLabel value="Employee #: "/>
@@ -58,12 +61,31 @@
                   </td>
                </tr>
             </table>
-            <h:form id="formMain">
-               <p:outputLabel value="Change Password"/>
-               <p:password id="nonFeedback" value="#{userProfileController.password}" />
-               <p:commandButton action="#{userProfileController.changePassword}" value="Change Password"/>
-               <h2>PROJECTS</h2>
-               <p:dataTable id="projectTable" value="#{userProfileController.projects}"
+        </p:tab>
+        <p:tab title="Change Password">
+        	<br></br>
+            	<h:form>
+            	<table class="table">
+                    	<tbody >
+                    		<tr>
+                    			<td> <p:outputLabel value="New Password"/></td>
+                    			<td> <p:password id="nonFeedback" value="#{userProfileController.password}" /></td>              		
+                    		</tr>
+                    		<tr>
+                    			<td><p></p></td>
+                    			<td>               <p:commandButton action="#{userProfileController.changePassword}" value="Change Password"/></td>              		
+                    		</tr>
+                    	</tbody>
+                 </table>
+                 <p:messages id="messages" showDetail="true" closable="true">
+            		<p:autoUpdate />
+         		</p:messages>
+                 </h:form>
+               
+        </p:tab>
+        <p:tab title="Projects">
+        	<h2>PROJECTS</h2>
+            <p:dataTable scrollable="true" scrollHeight="3%" id="projectTable" value="#{userProfileController.projects}"
                   var="project">
                   <p:column headerText="ProNo">
                      <h:outputText value="#{project.proNo}" />
@@ -81,8 +103,11 @@
                      <h:outputText value="#{project.startDate}" />
                   </p:column>
                </p:dataTable>
-               <h2>WORKPACKAGES</h2>
-               <p:dataTable id="workPackageTable" value="#{userProfileController.workpackages}"
+        </p:tab>
+        
+        <p:tab title="Work Packages">
+             <h2>WORK PACKAGES</h2>
+               <p:dataTable scrollable="true" scrollHeight="3%" id="workPackageTable" value="#{userProfileController.workpackages}"
                   var="wp">
                   <p:column headerText="WPID">
                      <h:outputText value="#{wp.wpid}" />
@@ -106,8 +131,10 @@
                      <h:outputText value="#{wp.state}" />
                   </p:column>
                </p:dataTable>
-               <h2>ROLES</h2>
-               <p:dataTable id="roleTable" value="#{userProfileController.roles}"
+        </p:tab>
+        <p:tab title="Roles">
+            <h2>ROLES</h2>
+               <p:dataTable scrollable="true" scrollHeight="3%" id="roleTable" value="#{userProfileController.roles}"
                   var="role">
                   <p:column headerText="EmpNo">
                      <h:outputText value="#{role.rolePk.empNo}" />
@@ -116,8 +143,10 @@
                      <h:outputText value="#{role.rolePk.role}" />
                   </p:column>
                </p:dataTable>
-               <h2>Supervised Employees</h2>
-               <p:dataTable id="superEmpTable" value="#{userProfileController.superEmployees}"
+        </p:tab>
+        <p:tab title="Supervised Employees">
+            <h2>SUPERVISED EMPLOYEES</h2>
+               <p:dataTable scrollable="true" scrollHeight="3%" id="superEmpTable" value="#{userProfileController.superEmployees}"
                   var="e">
                   <p:column headerText="EmpNo">
                      <h:outputText value="#{e.empNumber}" />
@@ -129,8 +158,11 @@
                      <h:outputText value="#{e.lastName}" />
                   </p:column>
                </p:dataTable>
-               <h2>Approved Employees</h2>
-               <p:dataTable id="approEmpTable" value="#{userProfileController.approEmployees}"
+        </p:tab>
+        
+        <p:tab title="Approved Employees">
+            <h2>APPROVED EMPLOYEES</h2>
+               <p:dataTable scrollable="true" scrollHeight="3%" id="approEmpTable" value="#{userProfileController.approEmployees}"
                   var="e">
                   <p:column headerText="EmpNo">
                      <h:outputText value="#{e.empNumber}" />
@@ -142,26 +174,14 @@
                      <h:outputText value="#{e.lastName}" />
                   </p:column>
                </p:dataTable>
-            </h:form>
-            <h:form>
-               <p:commandButton id="configure-signature" onclick="PF('keyPhraseDialog').show();" value="Configure Signature" />
-            </h:form>
-         </p:fieldset>
-         <p:sidebar position="right" baseZIndez="20000" id="keyPhrase" header="Enter a phrase" modal="true" width="400"
-            widgetVar="keyPhraseDialog">
-           </p:sidebar>
-         <h2 style="font-weight:normal">Enter a Phrase</h2>
-         <p:messages id="messages" showDetail="true" closable="true">
-            <p:autoUpdate />
-         </p:messages>
-         <h:form id="formAddDialog">
-            <h:panelGrid columns="1">
-               <h:outputText id="addKeyPhrase" value="Key Phrase" />
-               <h:inputText binding="#{addKeyPhrase}" />
-               <p:commandButton value="Enter" resetValues="true" update=":formAddDialog"
-                  action="#{sig.encryptWithPhrase(addKeyPhrase.value)}" />
-            </h:panelGrid>
-         </h:form>
+        </p:tab>
+    </p:accordionPanel>
+    
+   	<br></br>
+	<br></br>
+    </p:fieldset>
+         
+         
          <p:dialog id="passwordChangedDialog" header="Password Changed" modal="true"
             width="400" widgetVar="passwordChangedDialog" resizable="false"
             draggable="false">

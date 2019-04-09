@@ -21,187 +21,184 @@
 		</ui:define>
 
 		<ui:define name="content">
-		<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
-				<div class="row" style="color:black">
-				  <div class="col-sm-2">
-				  </div>
-				  <div class="col-sm-8">
-				  	<h1>Edit Timesheet</h1>
-				  </div>
-				  <div class="col-sm-2"></div>
+			<p:fieldset scrollabe="true"
+				style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color: black">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-8">
+						<h1>Edit Timesheet</h1>
+					</div>
+					<div class="col-sm-2"></div>
 				</div>
 
-           		<hr></hr>
-			
-		
-			<h:form id="formMain" style="text-align:left !important;">
-				<p:panel>
-				<table class="table">
-					<tbody>
-						<tr>
-							<th><h:outputText value="Start Date: " /></th>
-							<td>
-								<h:outputText
-									value="#{timesheetController.editTimesheet.timesheetPk.startDate}">
-									<f:convertDateTime pattern="MMM, dd, yyyy" />
-								</h:outputText>
-							</td>
-						</tr>
-						
-						<tr>
-							<th><h:outputText value="Overtime:  " /></th>
-							<td>
-								<h:inputText value="#{timesheetController.editTimesheet.overtime}">
-								<p:ajax update="@this" />
-								</h:inputText>
-							</td>
-						</tr>
-						
-						<tr>
-							<th><h:outputText value="Flextime: " /></th>
-							<td>
-								<h:inputText value="#{timesheetController.editTimesheet.flextime}">
-								<p:ajax update="@this" />
-								</h:inputText>
-							</td>
-						</tr>
-						
-						<tr>
-							<th><h:outputText value="State: " /></th>
-							<td>
-								<h:inputText value="#{timesheetController.editTimesheet.state}">
-									<p:ajax update="@this" />
-								</h:inputText>
-							</td>
-						</tr>
-						
-						<tr>
-							<th><h:outputText value="Comment: " /></th>
-							<td>
-								<p:inputTextarea rows="6" cols="50" style="resize: none"
-									value="#{timesheetController.editTimesheet.comment}">
-									<p:ajax update="@this" />
-								</p:inputTextarea>
-							</td>
-						</tr>	
-					</tbody>
-				</table>
-				
-				</p:panel>
-				
-				<br></br>
 				<hr></hr>
 
-				<p:commandButton value="Add Row"
-					action="#{timesheetController.addTimesheetRow()}"
-					update="editTable" 
-					style="background:transparent; color: #88AA00;"/>
-					
+
+				<h:form id="formMain" style="text-align:left !important;">
+					<!-- <p:growl id="growl" showDetail="false" sticky="true" /> -->
+
+					<p:panel>
+						<table class="table">
+							<tbody>
+								<tr>
+									<th><h:outputText value="Start Date: " /></th>
+									<td><h:outputText
+											value="#{timesheetController.editTimesheet.timesheetPk.startDate}">
+											<f:convertDateTime pattern="MMM, dd, yyyy" />
+										</h:outputText></td>
+								</tr>
+
+								<tr>
+									<th><h:outputText value="Overtime:  " /></th>
+									<td><h:inputText
+											value="#{timesheetController.editTimesheet.overtime}">
+											<p:ajax update="@this" />
+										</h:inputText></td>
+								</tr>
+
+								<tr>
+									<th><h:outputText value="Flextime: " /></th>
+									<td><h:inputText
+											value="#{timesheetController.editTimesheet.flextime}">
+											<p:ajax update="@this" />
+										</h:inputText></td>
+								</tr>
+
+								<tr>
+									<th><h:outputText value="State: " /></th>
+									<td><h:outputText
+											value="#{timesheetController.editTimesheet.state}" /></td>
+								</tr>
+
+								<tr>
+									<th><h:outputText value="Comment: " /></th>
+									<td><p:inputTextarea rows="6" cols="50"
+											style="resize: none"
+											value="#{timesheetController.editTimesheet.comment}">
+											<p:ajax update="@this" />
+										</p:inputTextarea></td>
+								</tr>
+							</tbody>
+						</table>
+
+					</p:panel>
+
+					<br></br>
 					<hr></hr>
 
-				<p:dataTable id="editTable"
-					value="#{timesheetController.editTimesheetRows}" var="row">
+					<p:commandButton value="Add Row"
+						action="#{timesheetController.addTimesheetRow()}"
+						update="editTable" />
 
-					<p:column headerText="Project No" style="width:100px;">
-						<p:selectOneMenu value="#{row.timesheetRowPk.proNo}"
-							style="width:100%" dynamic="true">
-							<f:selectItems value="#{timesheetController.projectNumbers}" />
-							<p:ajax update=":formMain" />
-						</p:selectOneMenu>
-					</p:column>
+					<hr></hr>
 
-					<p:column headerText="WPID" style="width:130px;">
-						<p:selectOneMenu value="#{row.timesheetRowPk.wpid}"
-							style="width:100%" dynamic="true" update=":formMain">
-							<f:selectItems
-								value="#{timesheetController.getRelaventWpIds(row)}" />
-							<p:ajax update=":formMain" />
-						</p:selectOneMenu>
-					</p:column>
 
-					<!-- <p:column headerText="Start Date">
-						<h:outputText value="#{row.timesheetRowPk.startDate}">
-							<f:convertDateTime pattern="MMM. dd, yyyy" />
-						</h:outputText>
-					</p:column>
-					  -->
+					<p:messages id="messages" showDetail="false" closable="true">
+						<p:autoUpdate />
+					</p:messages>
 
-					<p:column headerText="Sat" style="width:100px;">
-						<p:inputText value="#{row.sat}" autocomplete="off"
-							style="width: 100%">
-							<p:ajax event="keyup" />
-						</p:inputText>
-					</p:column>
 
-					<p:column headerText="Sun" style="width:100px;">
-						<p:inputText value="#{row.sun}" autocomplete="off"
-							style="width: 100%">
-							<p:ajax event="keyup" />
-						</p:inputText>
-					</p:column>
+					<p:dataTable id="editTable"
+						value="#{timesheetController.editTimesheetRows}" var="row">
 
-					<p:column headerText="Mon" style="width:100px;">
-						<p:inputText value="#{row.mon}" autocomplete="off"
-							style="width: 100%">
-							<p:ajax event="keyup" />
-						</p:inputText>
-					</p:column>
+						<p:column headerText="Project No" style="width:100px;">
+							<p:selectOneMenu value="#{row.timesheetRowPk.proNo}"
+								style="width:100%"
+								disabled="#{timesheetController.projectNumbers.size() == 0}">
+								<f:selectItems value="#{timesheetController.projectNumbers}" />
+								<p:ajax update="wpid" />
+							</p:selectOneMenu>
+						</p:column>
 
-					<p:column headerText="Tue" style="width:100px;">
-						<p:inputText value="#{row.tue}" autocomplete="off"
-							style="width: 100%">
-							<p:ajax event="keyup" />
-						</p:inputText>
-					</p:column>
+						<p:column headerText="WPID" style="width:130px;">
+							<p:selectOneMenu id="wpid" value="#{row.timesheetRowPk.wpid}"
+								style="width:100%"
+								disabled="#{timesheetController.getRelaventWpIds(row).size() == 0}">
+								<f:selectItems
+									value="#{timesheetController.getRelaventWpIds(row)}" />
+								<p:ajax update="@form" />
+							</p:selectOneMenu>
+						</p:column>
 
-					<p:column headerText="Wed" style="width:100px;">
-						<p:inputText value="#{row.wed}" autocomplete="off"
-							style="width: 100%">
-							<p:ajax event="keyup" />
-						</p:inputText>
-					</p:column>
+						<p:column headerText="Sat" style="width:100px;">
+							<p:inputText value="#{row.sat}" autocomplete="off"
+								style="width: 100%">
+								<p:ajax event="keyup" />
+							</p:inputText>
+						</p:column>
 
-					<p:column headerText="Thu" style="width:100px;">
-						<p:inputText value="#{row.thu}" autocomplete="off"
-							style="width: 100%">
-							<p:ajax event="keyup" />
-						</p:inputText>
-					</p:column>
+						<p:column headerText="Sun" style="width:100px;">
+							<p:inputText value="#{row.sun}" autocomplete="off"
+								style="width: 100%">
+								<p:ajax event="keyup" />
+							</p:inputText>
+						</p:column>
 
-					<p:column headerText="Fri" style="width:100px;">
-						<p:inputText value="#{row.fri}" autocomplete="off"
-							style="width: 100%">
-							<p:ajax event="keyup" />
-						</p:inputText>
-					</p:column>
+						<p:column headerText="Mon" style="width:100px;">
+							<p:inputText value="#{row.mon}" autocomplete="off"
+								style="width: 100%">
+								<p:ajax event="keyup" />
+							</p:inputText>
+						</p:column>
 
-					<p:column headerText="Note" style="width:100px;">
-						<p:inputText value="#{row.note}" autocomplete="off"
-							style="width: 100%">
-							<p:ajax event="keyup" />
-						</p:inputText>
-					</p:column>
+						<p:column headerText="Tue" style="width:100px;">
+							<p:inputText value="#{row.tue}" autocomplete="off"
+								style="width: 100%">
+								<p:ajax event="keyup" />
+							</p:inputText>
+						</p:column>
 
-					<p:column headerText="Comment" style="width:100px;">
-						<p:inputText value="#{row.comment}" autocomplete="off"
-							style="width: 100%">
-							<p:ajax event="keyup" />
-						</p:inputText>
-					</p:column>
+						<p:column headerText="Wed" style="width:100px;">
+							<p:inputText value="#{row.wed}" autocomplete="off"
+								style="width: 100%">
 
-					<p:column>
-						<p:commandButton value="Delete"
-							action="#{timesheetController.deleteTimesheetRow(row)}"
-							update=":formMain" style="width:100px;" />
-					</p:column>
-				</p:dataTable>
-			</h:form>
+								<p:ajax event="keyup" />
+							</p:inputText>
+						</p:column>
 
-			<p:dialog id="errorDialog" header="Add Employee" modal="true"
-				width="400" widgetVar="errorDialog" resizable="false"
-				draggable="false">
-				<h:outputText value="Error in timesheet!" />
-			</p:dialog>
+						<p:column headerText="Thu" style="width:100px;">
+							<p:inputText value="#{row.thu}" autocomplete="off"
+								style="width: 100%">
+
+								<p:ajax event="keyup" />
+							</p:inputText>
+						</p:column>
+
+						<p:column headerText="Fri" style="width:100px;">
+							<p:inputText value="#{row.fri}" autocomplete="off"
+								style="width: 100%">
+
+								<p:ajax event="keyup" />
+							</p:inputText>
+						</p:column>
+
+						<p:column headerText="Note" style="width:100px;">
+							<p:inputText value="#{row.note}" autocomplete="off"
+								style="width: 100%">
+								<p:ajax event="keyup" />
+							</p:inputText>
+						</p:column>
+
+						<p:column headerText="Comment" style="width:100px;">
+							<p:inputText value="#{row.comment}" autocomplete="off"
+								style="width: 100%">
+								<p:ajax event="keyup" />
+							</p:inputText>
+						</p:column>
+
+						<p:column>
+							<p:commandButton value="Delete"
+								action="#{timesheetController.deleteTimesheetRow(row)}"
+								update=":formMain" style="width:100px;" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+
+				<p:dialog id="errorDialog" header="Add Employee" modal="true"
+					width="400" widgetVar="errorDialog" resizable="false"
+					draggable="false">
+					<h:outputText value="Error in timesheet!" />
+				</p:dialog>
 			</p:fieldset>
 		</ui:define>
 	</ui:composition>
