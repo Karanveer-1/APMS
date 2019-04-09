@@ -151,7 +151,9 @@ public class ProjectDetailController implements Serializable {
 
 		if (addWp.isLeaf()) {
 			addWp.setEditable(true);
-			updateParentWP(addWp, this.database.getParentWP(addWp));
+			if(WorkPackageValidator.isValid(addWp)) {
+				updateParentWP(addWp, this.database.getParentWP(addWp));
+			}
 
 		} else {
 

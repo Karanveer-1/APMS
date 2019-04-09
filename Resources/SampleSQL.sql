@@ -310,3 +310,4 @@ CREATE TABLE Signature(
 	PublicKey 	   BLOB 		   NOT NULL,
 	PRIMARY KEY(EmpNo, StartDate)
 );
+
