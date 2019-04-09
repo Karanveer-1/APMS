@@ -13,7 +13,7 @@ public class ProjectValidator {
 	
 
 	public static boolean isValid(Project pro) {
-		return isValidDate(pro);
+		return isValidDate(pro) && isValidFields(pro);
 	}
 
 	public static boolean isValidDate(Project pro) {

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -123,6 +124,24 @@ public class DatabaseController implements Serializable {
         q.setParameter("empNumber", id);
         return (long) q.getSingleResult();
     }
+    
+    public List<Integer> getAllProjectNoByRe() {
+        Employee engineer = (Employee) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap()
+                .get(LoginController.USER_KEY);
+        int reEmpNo = engineer.getEmpNumber();
+        List<Integer> ids = manager.createQuery("SELECT p.workPackagePk.proNo from WorkPackage p where p.reEmpNo = :engineer", Integer.class)
+                .setParameter("engineer", reEmpNo).getResultList();
+        System.out.println(ids);
+        List<Integer> result = new ArrayList<Integer>();
+        for(Integer i : ids) {
+            if(!result.contains(i)) {
+                result.add(i);
+            }
+        }
+        return result;
+    }
+   
 
 	public List<Timesheet> getTimesheets(int empNo) {
 		List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
@@ -337,8 +356,15 @@ public class DatabaseController implements Serializable {
 
 	public boolean deleteProjectByProNo(final int proNo) {
 		Project p = this.findByProjectNo(proNo);
-
 		try {
+			TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.proNo = :projectId",
+					ProEmp.class);
+			query.setParameter("projectId", proNo);
+			List<ProEmp> data = query.getResultList();
+			for (ProEmp d : data) {
+				this.manager.remove(d);
+				this.manager.flush();
+			}
 			this.manager.remove(p);
 			this.manager.flush();
 			return true;
@@ -519,8 +545,6 @@ public class DatabaseController implements Serializable {
 
 	public boolean updateWP(WorkPackage wp) {
 		WorkPackage checkWp = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
-		System.out.println("what can be wrong" + checkWp);
-		System.out.println("This is the OG wp" + wp);
 		if (checkWp != null) {
 			this.manager.merge(wp);
 			return true;
@@ -531,6 +555,15 @@ public class DatabaseController implements Serializable {
 	public boolean deleteWorkPackage(final WorkPackage wp) {
 		WorkPackage workpackage = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
 		try {
+			TypedQuery<WPEmp> query = manager.createQuery(
+					"select p from WPEmp p where p.pk.proNo = :projectId and p.pk.wpid =:wpid", WPEmp.class);
+			query.setParameter("projectId", wp.getProNo());
+			query.setParameter("wpid", wp.getWpid());
+			List<WPEmp> data = query.getResultList();
+			for (WPEmp d : data) {
+				this.manager.remove(d);
+				this.manager.flush();
+			}
 			this.manager.remove(workpackage);
 			this.manager.flush();
 			return true;

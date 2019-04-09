@@ -130,7 +130,7 @@ public class EmployeeController implements Serializable {
 		} else if (isDuplicateUsername(username, isEdit)) {
 			addErrorMessage("Duplicate username found");
 			return false;
-		} else if(Integer.parseInt(empNo) <= 0) {
+		} else if(!isEdit && Integer.parseInt(empNo) <= 0) {
 		    addErrorMessage("Employee number must be a positive integer");
             return false;
 		}

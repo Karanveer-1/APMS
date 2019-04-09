@@ -488,4 +488,39 @@ public class WorkPackage implements Serializable {
 		sum += reEstJS;
 		return sum;
 	}
+
+	public int getPLevel(String lvl) {
+		if (lvl.equals("P1")) {
+			return pmEstP1 + reEstP1;
+		}
+
+		if (lvl.equals("P2")) {
+			return pmEstP2 + reEstP2;
+		}
+		if (lvl.equals("P3")) {
+			return pmEstP3 + reEstP3;
+		}
+		if (lvl.equals("P4")) {
+			return pmEstP4 + reEstP4;
+		}
+		if (lvl.equals("P5")) {
+			return pmEstP5 + reEstP5;
+		}
+		if (lvl.equals("P6")) {
+			return pmEstP6 + reEstP6;
+		}
+		if (lvl.equals("DS")) {
+			return pmEstDS + reEstDS;
+		}
+		if (lvl.equals("SS")) {
+			return pmEstSS + reEstSS;
+		}
+		if (lvl.equals("JS")) {
+			return pmEstJS + reEstJS;
+		}
+
+		return 0;
+
+	}
+
 }

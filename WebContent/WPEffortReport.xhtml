@@ -26,7 +26,10 @@
 
 				<f:event listener="#{wpEffortReportController.init}"
 					type="preRenderView" />
-
+				<h:form>
+					<p:remoteCommand name="pageInitComamnd" autoRun="true"
+						action="#{wpEffortReportController.pageInit()}" update=":formMain :formMain:report" />
+				</h:form>"
 				<h:form id="formMain">
 					<table class="table table-striped">
 						<tbody>
@@ -58,7 +61,7 @@
 								<td><p:commandButton id="generate" value="Generate"
 										disabled="#{!wpEffortReportController.canGenerateReport()}"
 										action="#{wpEffortReportController.generateReport()}"
-										update=":formMain" /></td>
+										update="report" /></td>
 								<td><h:outputText value="&nbsp;" /></td>
 							</tr>
 
@@ -66,7 +69,8 @@
 					</table>
 
 					<hr />
-					<p:calendar binding="#{selectedDate}" />
+					<p:calendar binding="#{selectedDate}" pattern="dd-MMM-yyyy">
+					</p:calendar>
 					<p:commandButton value="Add New Entry"
 						action="#{wpEffortReportController.addEntry(selectedDate.value)}"
 						update=":formMain" />
@@ -81,7 +85,7 @@
 							<h:outputText value="Week Start Date: " />
 							<h:outputText
 								value="#{wpEffortReportController.getWeekStartDate()}">
-								<f:convertDateTime pattern="MMM. dd, yyyy" />
+								<f:convertDateTime pattern="dd-MMM-yyyy" />
 							</h:outputText>
 						</p:panelGrid>
 
@@ -149,7 +153,9 @@
 						<p:dataTable value="#{wpEffortReportController.rows}" var="row">
 							<f:facet name="header">Work Package Effort Report</f:facet>
 							<p:column headerText="Start Date">
-								<h:outputText value="#{row.startDate}" />
+								<h:outputText value="#{row.startDate}">
+									<f:convertDateTime pattern="dd-MMM-yyyy" />
+								</h:outputText>
 							</p:column>
 							<p:column headerText="PLevel">
 								<p:panelGrid>

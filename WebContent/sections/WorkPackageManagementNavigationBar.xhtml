@@ -20,8 +20,10 @@
 				</div>
 				<ul class="nav">
 
-					<li><p:commandLink onclick="PF('addEmpDialog').show();">
-							<i class="ti-user"></i>
+					<li><p:commandLink onclick="PF('addEmpDialog').show();"
+							rendered="#{wpdController.canModifyWP()}">
+							<i class="ti-user">
+							</i>
 							Assign Employee
 						</p:commandLink></li>
 
