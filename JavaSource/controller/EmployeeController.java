@@ -62,6 +62,8 @@ public class EmployeeController implements Serializable {
 	public void editEmployee(String firstName, String lastName, String username, String password, int supervisorId, String comment) {
 		activeEmployees = database.getActiveEmployees();
 		String state = EmployeeState.ACTIVE;
+		int currEmpNo = database.getEmployeeByUsername(username).getEmpNumber();
+		String currEmpNoStr = Integer.toString(currEmpNo);
 		
 		if (password.isEmpty()) {
 		    password = this.editPassword;
@@ -73,7 +75,7 @@ public class EmployeeController implements Serializable {
 		    }
 		}
 
-		if (validateEmployee(null, firstName, lastName, username, password, state, comment, true)) {
+		if (validateEmployee(currEmpNoStr, firstName, lastName, username, password, state, comment, true)) {
     		editEmployee.setFirstName(firstName);
     		editEmployee.setLastName(lastName);
     		editEmployee.setUserName(username);
