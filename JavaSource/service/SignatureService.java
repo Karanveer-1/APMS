@@ -14,29 +14,30 @@ import model.Employee;
 import service.PasswordHash.CannotPerformOperationException;
 
 
+// Not used anymore
 @Named("sig")
 @RequestScoped
 public class SignatureService {
     @Inject LoginController login;
     @Inject DatabaseController database;
     
-    public void encryptWithPhrase(String phrase) {
-        if (phrase == null || phrase.trim().length() == 0) {
-            addErrorMessage("Please enter the value");
-        } else {
-            try {
-                String hashedPhrase = PasswordHash.createHash(phrase);
-                Employee currentEmployee = login.getCurrentEmployee();
-                currentEmployee.setPassphrase(hashedPhrase);
-                database.updateEmployee(currentEmployee);
-            } catch (CannotPerformOperationException e) {
-                e.printStackTrace();
-            }
-            
-            PrimeFaces.current().executeScript("PF('keyPhraseDialog').hide();");
-        }
-        
-    }
+//    public void encryptWithPhrase(String phrase) {
+//        if (phrase == null || phrase.trim().length() == 0) {
+//            addErrorMessage("Please enter the value");
+//        } else {
+//            try {
+//                String hashedPhrase = PasswordHash.createHash(phrase);
+//                Employee currentEmployee = login.getCurrentEmployee();
+//                currentEmployee.setPassphrase(hashedPhrase);
+//                database.updateEmployee(currentEmployee);
+//            } catch (CannotPerformOperationException e) {
+//                e.printStackTrace();
+//            }
+//            
+//            PrimeFaces.current().executeScript("PF('keyPhraseDialog').hide();");
+//        }
+//        
+//    }
     
     private void addErrorMessage(String summary) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, null);
