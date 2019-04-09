@@ -69,11 +69,16 @@
 				</p:messages>
 				
 				<h:form id="formAddDialog">
+
 					<table class="table">
 						<tbody>
 							<tr>
 								<td><h:outputText value="EmployeeNo" /></td>
-								<td><h:inputText binding="#{addPLevelText}" /></td>
+								<td>
+									<h:inputText binding="#{addPLevelText}" validatorMessage="Employee number cannot be negative.">
+			                        	<f:validateLongRange minimum = "0" />
+			                        </h:inputText>
+                        		</td>
 							</tr>
 							<tr>
 								<td><h:outputText value="PLevel" /></td>
@@ -85,7 +90,7 @@
 							</tr>
 						</tbody>
 					</table>
-			
+		
 					<p:commandButton update=":formMain:empPLevelTable :addDialog"
 						value="Assign PLevel"
 						action="#{empPLevelController.add(addPLevelText.value, addPLevelDrop.value)}" 

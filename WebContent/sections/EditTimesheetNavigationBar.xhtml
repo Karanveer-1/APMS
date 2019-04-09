@@ -23,7 +23,8 @@
 				</div>
 				<ul class="nav">
 					<li><p:commandLink
-							action="#{timesheetController.saveTimesheet()}">
+							action="#{timesheetController.saveTimesheet()}"
+							update="formMain"> <!--  @Nirajan, added this to work on validation. -->
                             <i class="ti-save"></i>
                             Save
                         </p:commandLink></li>

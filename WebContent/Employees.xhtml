@@ -86,11 +86,14 @@
 				</p:messages>
                
                 <h:form id="formAddDialog">
+
                     <table class="table">
                     	<tbody >
                     		<tr>
                     			<td><h:outputText value="Employee Number" /></td>
-                    			<td> <h:inputText id="addEmpNo" binding="#{addEmpNoText}"/></td>              		
+                    			<td> <h:inputText id="addEmpNo" binding="#{addEmpNoText}" validatorMessage="Employee number cannot be negative.">
+	                        		<f:validateLongRange minimum = "0" />
+	                        	</h:inputText></td>              		
                     		</tr>
                     		<tr>
                     			<td><h:outputText id="addFirstName" value="First Name" /></td>
@@ -125,6 +128,7 @@
                     	</tbody>
                     </table>
                     <p:commandButton resetValues="true"
+
                             update=":formMain:employeeTable :formMain:invalidEmployeeGrowl :formAddDialog"
                             value="Save"
                             action="#{employeesController.addEmployee(

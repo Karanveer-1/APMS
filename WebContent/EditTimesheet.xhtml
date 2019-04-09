@@ -127,8 +127,10 @@
 					  -->
 
 					<p:column headerText="Sat" style="width:100px;">
-						<p:inputText value="#{row.sat}" autocomplete="off"
-							style="width: 100%">
+						<p:inputText id="sat" value="#{row.sat}" autocomplete="off"
+							style="width: 100%" validatorMessage="Value is outside range of 0 hours to 24 hours">
+							<f:validateDoubleRange minimum = "0" maximum = "24.0" />
+							<p:message for="sat" />
 							<p:ajax event="keyup" />
 						</p:inputText>
 					</p:column>
