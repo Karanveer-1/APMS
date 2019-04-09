@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -284,6 +285,25 @@ public class DatabaseController implements Serializable {
 
         return ids;
     }
+    
+    public List<Integer> getAllProjectNoByRe() {
+        Employee engineer = (Employee) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap()
+                .get(LoginController.USER_KEY);
+        int reEmpNo = engineer.getEmpNumber();
+        List<Integer> ids = manager.createQuery("SELECT p.workPackagePk.proNo from WorkPackage p where p.reEmpNo = :engineer", Integer.class)
+                .setParameter("engineer", reEmpNo).getResultList();
+        System.out.println(ids);
+        List<Integer> result = new ArrayList<Integer>();
+        for(Integer i : ids) {
+            if(!result.contains(i)) {
+                result.add(i);
+            }
+        }
+        return result;
+    }
+    
+    
 
     public List<Integer> getAllProjectManagerEmpNos() {
         return manager.createQuery("SELECT p.proMgrEmpNo FROM Project p", Integer.class)
@@ -472,7 +492,6 @@ public class DatabaseController implements Serializable {
     }
 
     public List<WorkPackage> getRootWPByProNo(int proNo) {
-        System.out.println("PRO NO" + proNo);
         List<WorkPackage> result = new ArrayList<WorkPackage>();
         for (WorkPackage wp : getAllWp()) {
             if (wp.getParentWPID() == null && wp.getProNo() == proNo) {
