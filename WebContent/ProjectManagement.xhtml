@@ -83,25 +83,15 @@
 								style="width:100px;text-align:center">
 								<p:cellEditor>
 									<f:facet name="output">
-										<h:outputText value="#{project.proMgrEmpNo}" />
+										<h:outputText value="#{pmController.getEmpName(project.proMgrEmpNo)}" />
 									</f:facet>
 									<f:facet name="input">
-										<h:outputText value="#{project.proMgrEmpNo}" />
+										<h:outputText value="#{pmController.getEmpName(project.proMgrEmpNo)}" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 
-							<p:column headerText="Description" style="width:120px;">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{project.proDesc}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputTextarea value="#{project.proDesc}" style="width:100%"
-											label="Description" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
+					
 
 							<p:column headerText="Start Date">
 

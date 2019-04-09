@@ -18,6 +18,7 @@ import javax.inject.Named;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import controller.ProjectController.Status;
 import controller.ProjectController.StatusCreation;
 import model.Employee;
 //import model.ProAssi;
@@ -47,6 +48,22 @@ public class ProjectDetailController implements Serializable {
 
 	}
 
+	public enum Status {
+
+		OPEN("Open"), ARCHIVED("Archived");
+
+		private String label;
+
+		private Status(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+
+	}
+
 	@Inject
 	private DatabaseController database;
 
@@ -66,6 +83,7 @@ public class ProjectDetailController implements Serializable {
 
 	private String suggestId;
 
+	private Project editpro;
 	private boolean editable;
 
 	public ProjectDetailController() {
@@ -90,6 +108,7 @@ public class ProjectDetailController implements Serializable {
 		this.project = project;
 		this.empPool = getAllEmpPool(project.getProNo());
 		this.addWp = new WorkPackage();
+		this.editpro = project;
 		initWPList();
 		treeInit(this.project.getProNo());
 		return "ProjectDetail.xhtml?faces-redirect=true";
@@ -266,6 +285,11 @@ public class ProjectDetailController implements Serializable {
 	public StatusCreation[] getStatusCreation() {
 		return StatusCreation.values();
 	}
+	
+	public Status[] getStatus() {
+		return Status.values();
+	}
+
 
 	public String createNew() {
 		return "CreateWorkPackage.xhtml?faces-redirect=true";
@@ -296,4 +320,19 @@ public class ProjectDetailController implements Serializable {
 
 	}
 
+	public void toggleEditable() {
+		this.editable = !this.editable;
+	}
+
+	public Project getEditpro() {
+		return editpro;
+	}
+
+	public void setEditpro(Project editpro) {
+		this.editpro = editpro;
+	}
+
+	public void save() {
+
+	}
 }

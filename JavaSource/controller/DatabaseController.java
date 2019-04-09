@@ -324,7 +324,7 @@ public class DatabaseController implements Serializable {
 		Project p = this.manager.find(Project.class, project.getProNo());
 		
 		if (p != null) {
-			addNewEmployeeToProject(project.getProMgrEmpNo(), project.getProNo());
+			updateEmployeeToProject(project.getProMgrEmpNo(), project.getProNo());
 			this.manager.merge(project);
 			return true;
 		}
