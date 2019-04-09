@@ -152,6 +152,7 @@ public class WorkPackageDetailController implements Serializable {
 	}
 
 	public boolean isEditable() {
+
 		return editable;
 	}
 
@@ -226,19 +227,27 @@ public class WorkPackageDetailController implements Serializable {
 		this.assignEmp = this.database.getEmployeeById(this.assignEmp.getEmpNumber());
 		this.database.addEmpToWp(assignEmp, this.wp);
 		this.assignEmp = new Employee();
-	
+
 		this.empList = this.database.getEmpListByWP(wp);
 		this.availEmp = this.getAvaliable();
 		PrimeFaces.current().executeScript("PF('addEmpDialog').hide();");
 
 	}
 
-	public void deleteEmp (Employee emp) {
-		if(this.database.deleteEmpFromWp(emp, wp)) {
+	public void deleteEmp(Employee emp) {
+		if (this.database.deleteEmpFromWp(emp, wp)) {
 			FacesMessage msg = new FacesMessage("Employee Removed");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			this.empList = this.database.getEmpListByWP(wp);
 			this.availEmp = this.getAvaliable();
 		}
+	}
+
+	public boolean canDeleteEmp() {
+		return this.wp.getState().equals("OPEN");
+	}
+
+	public boolean displayEdit() {
+		return this.wp.getState().equals("OPEN") && !this.editable;
 	}
 }

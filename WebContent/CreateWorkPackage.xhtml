@@ -237,8 +237,13 @@
 						</table>
 
 						<p:commandButton resetValues="true" id="addButton"
-							update=":formAddDialog " value="Add"
-							action="#{pdController.addWP}" style="float: right;" />
+							update=":formAddDialog " value="Add" 
+							action="#{pdController.addWP}" style="float: left;" />
+
+						<p:commandButton resetValues="true" id="backButton"
+							update=":formAddDialog " value="Cancel" 
+							action="WorkPackageManagement.xhtml?faces-redirect=true"
+							style="float: right;" />
 
 						<p:growl id="messageGrowl" showDetail="true" sticky="false" />
 

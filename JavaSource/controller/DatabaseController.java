@@ -485,6 +485,7 @@ public class DatabaseController implements Serializable {
 	public boolean persistWP(WorkPackage wp) {
 		WorkPackage checkWp = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
 		if (checkWp == null) {
+			addEmpToWp(getEmployeeById(wp.getReEmpNo()), wp);
 			this.manager.persist(wp);
 			return true;
 		}

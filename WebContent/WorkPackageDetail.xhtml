@@ -35,13 +35,15 @@
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Number" /></td>
 								<td><h:outputText value="#{wpdController.wp.proNo}" /></td>
-								<td style="border: 1px solid white;"><p:commandLink
-										ajax="true" update=":form"
-										action="#{wpdController.toggleEditable()}"
-										rendered="#{!wpdController.editable}">
-										<h:graphicImage value="resources/images/edit.png"
-											style="max-width:20px; max-height:20px" /> Edit
+								<h:panelGroup rendered="#{wpdController.canDeleteEmp()}">
+									<td style="border: 1px solid white;"><p:commandLink
+											ajax="true" update=":form"
+											action="#{wpdController.toggleEditable()}"
+											rendered="#{!wpdController.editable }">
+											<h:graphicImage value="resources/images/edit.png"
+												style="max-width:20px; max-height:20px" /> Edit
 									</p:commandLink></td>
+								</h:panelGroup>
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel value="Parent ID" /></td>
@@ -136,7 +138,7 @@
 								<td scope="row"><p:outputLabel value="Description" /></td>
 								<td><p:inputTextarea style="width:100%"
 										value="#{wpdController.editwp.description}" label="text"
-										readonly="#{!wpdController.editable}" /> </td>
+										readonly="#{!wpdController.editable}" /></td>
 							</tr>
 
 							<tr>
@@ -151,7 +153,7 @@
 								<td scope="row"><p:outputLabel value="Comment" /></td>
 								<td><p:inputTextarea style="width:100%"
 										value="#{wpdController.editwp.comment}" label="text"
-										readonly="#{!wpdController.editable}"/> </td>
+										readonly="#{!wpdController.editable}" /></td>
 							</tr>
 
 							<tr>
@@ -372,7 +374,7 @@
 
 				<p:dialog position="center" id="add" header="Assign Employee"
 					modal="true" width="400" hight="100" widgetVar="addEmpDialog">
-					<h2 style="font-weight: normal">Add Employee</h2>
+					<h3 style="font-weight: normal">Assign Employee</h3>
 
 					<p:messages id="messages" showDetail="true" closable="true">
 						<p:autoUpdate />
@@ -423,13 +425,13 @@
 						<p:column headerText="State">
 							<h:outputText value="#{emp.state}" />
 						</p:column>
-						<p:column headerText="Delete" style="width:80px">
+						<p:column headerText="Delete" style="width:80px"
+							rendered="#{wpdController.canDeleteEmp()}">
 							<p:commandLink ajax="true" update=":empList"
-								action="#{wpdController.deleteEmp(emp)}"
-								>
+								action="#{wpdController.deleteEmp(emp)}">
 								<h:graphicImage value="resources/images/error.png"
-									style="max-width:20px; max-height:20px" /> 
-									</p:commandLink>
+									style="max-width:20px; max-height:20px" />
+							</p:commandLink>
 						</p:column>
 
 					</p:dataTable>
