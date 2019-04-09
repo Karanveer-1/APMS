@@ -12,7 +12,7 @@
 			data-active-color="danger">
 			<div class="sidebar-wrapper">
 				<div class="logo">
-					<img src="resources/images/timesheet.png" style=" margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 30%;"/>						
+					<img src="resources/images/package.png" style=" margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 30%;"/>						
 	
 					<span class="simple-text" style="margin-top: 30px; font-size:150%">
 						APMS
@@ -23,22 +23,22 @@
 				</div>
 				<ul class="nav">
 					<li><p:commandLink
-							action="#{timesheetController.saveTimesheet()}"
-							ajax="false">
-                            <i class="ti-save"></i>
-                            Save
-                        </p:commandLink></li>
+							action="ProjectDetail.xhtml?faces-redirect=true"
+							rendered="#{paController.isPMorPA()}">
+							<i class="ti-pencil-alt"></i>
+							 Project Detail
+						</p:commandLink></li>
+						
+						
+
+				
+	
+
 					<li><p:commandLink
-							action="#{timesheetController.discardTimesheetChanges()}"
-							immediate="true">
-							<i class="ti-trash"></i>
-                            Discard
-                        </p:commandLink></li>
-					<li><p:commandLink id="nav-back"
-							action="Timesheets.xhtml?faces-redirect=true">
+							action="WorkPackageManagement.xhtml?faces-redirect=true">
 							<i class="ti-arrow-circle-left"></i>
-                            Back
-                        </p:commandLink></li>
+							Back
+						</p:commandLink></li>
 				</ul>
 			</div>
 		</div>

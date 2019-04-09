@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "WorkPackage")
 public class WorkPackage implements Serializable {
-	private static String[] STATE = { "OPEN", "CLOSED", "ARCHIVED" };
 
 	@EmbeddedId
 	private WorkPackagePK workPackagePk;
@@ -42,6 +41,9 @@ public class WorkPackage implements Serializable {
 
 	@Column(name = "EndDate", nullable = false)
 	private Date endDate;
+
+	@Column(name = "Editable", nullable = false)
+	private boolean editable;
 
 	@Column(name = "PMEstP1")
 	private Integer pmEstP1;
@@ -99,14 +101,28 @@ public class WorkPackage implements Serializable {
 
 	public WorkPackage() {
 		this.workPackagePk = new WorkPackagePK();
-		this.description = "hihihi";
-		this.state = "OPEN";
-		this.title = "okayyy";
-		this.reEmpNo = 1;
+
 		this.startDate = new Date();
 		this.endDate = new Date();
-		this.isLeaf = false;
-		
+
+		this.pmEstP1 = 0;
+		this.pmEstP2 = 0;
+		this.pmEstP3 = 0;
+		this.pmEstP4 = 0;
+		this.pmEstP5 = 0;
+		this.pmEstP6 = 0;
+		this.pmEstSS = 0;
+		this.pmEstDS = 0;
+		this.pmEstJS = 0;
+		this.reEstP1 = 0;
+		this.reEstP2 = 0;
+		this.reEstP3 = 0;
+		this.reEstP4 = 0;
+		this.reEstP5 = 0;
+		this.reEstP6 = 0;
+		this.reEstSS = 0;
+		this.reEstDS = 0;
+		this.reEstJS = 0;
 
 	}
 
@@ -387,6 +403,14 @@ public class WorkPackage implements Serializable {
 		this.isLeaf = isLeaf;
 	}
 
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
 	@Override
 	public String toString() {
 		return "WorkPackage [workPackagePk=" + workPackagePk + ", reEmpNo=" + reEmpNo + ", title=" + title
@@ -399,4 +423,69 @@ public class WorkPackage implements Serializable {
 				+ reEstSS + ", reEstJS=" + reEstJS + "]";
 	}
 
+	public void addHoursFromChild(WorkPackage wp) {
+		this.pmEstP1 += wp.pmEstP1;
+		this.pmEstP2 += wp.pmEstP2;
+		this.pmEstP3 += wp.pmEstP3;
+		this.pmEstP4 += wp.pmEstP4;
+		this.pmEstP5 += wp.pmEstP5;
+		this.pmEstP6 += wp.pmEstP6;
+		this.pmEstSS += wp.pmEstSS;
+		this.pmEstDS += wp.pmEstDS;
+		this.pmEstJS += wp.pmEstJS;
+		this.reEstP1 += wp.reEstP1;
+		this.reEstP2 += wp.reEstP2;
+		this.reEstP3 += wp.reEstP3;
+		this.reEstP4 += wp.reEstP4;
+		this.reEstP5 += wp.reEstP5;
+		this.reEstP6 += wp.reEstP6;
+		this.reEstSS += wp.reEstSS;
+		this.reEstDS += wp.reEstDS;
+		this.reEstJS += wp.reEstJS;
+
+	}
+
+	public boolean isCharged() {
+		int sum = pmEstP1;
+		sum += pmEstP2;
+		sum += pmEstP3;
+		sum += pmEstP4;
+		sum += pmEstP5;
+		sum += pmEstP6;
+		sum += pmEstSS;
+		sum += pmEstDS;
+		sum += pmEstJS;
+		sum += reEstP1;
+		sum += reEstP2;
+		sum += reEstP3;
+		sum += reEstP4;
+		sum += reEstP5;
+		sum += reEstP6;
+		sum += reEstSS;
+		sum += reEstDS;
+		sum += reEstJS;
+		return sum != 0;
+	}
+
+	public int getBudget() {
+		int sum = pmEstP1;
+		sum += pmEstP2;
+		sum += pmEstP3;
+		sum += pmEstP4;
+		sum += pmEstP5;
+		sum += pmEstP6;
+		sum += pmEstSS;
+		sum += pmEstDS;
+		sum += pmEstJS;
+		sum += reEstP1;
+		sum += reEstP2;
+		sum += reEstP3;
+		sum += reEstP4;
+		sum += reEstP5;
+		sum += reEstP6;
+		sum += reEstSS;
+		sum += reEstDS;
+		sum += reEstJS;
+		return sum;
+	}
 }
