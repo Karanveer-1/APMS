@@ -76,6 +76,15 @@ public class MonthlyReportController implements Serializable {
                 pLevel.get(3).getWage()*wp.getReEstP4() + pLevel.get(4).getWage()*wp.getReEstP5() + 
                 pLevel.get(5).getWage()*wp.getReEstP6() + pLevel.get(7).getWage()*wp.getReEstSS();
     }
+    
+    public double leftWork(WorkPackage wp) {
+        double pm = generatePmEstimate(wp);
+        double re = generateReEstimate(wp);
+        
+        double test =  ((pm - re)/re)*100;
+
+        return test;
+    }
 
     public Project getProject() {
         return project;
@@ -98,7 +107,6 @@ public class MonthlyReportController implements Serializable {
         for(String s : ps) {
             try {
                 PLevel pl = database.getPLevelByStartDate(project.getStartDate(), s);
-                System.out.println(s + " " + pl.getWage());
                 pLevel.add(pl);
             } catch (Exception e) {
                 System.out.println("Exception in Monthly controller");
