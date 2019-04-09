@@ -77,13 +77,6 @@ public class ProjectMangementController implements Serializable {
 	public List<Project> getProjectByManagerOrAssi() {
 		int id = currentEmployee.getEmpNumber();
 		List<Project> result = this.database.getProjectsByManagerNo(id);
-		System.out.println("Result List" + result);
-//		List<Project> assistantP = this.database.getProjectsByAssistantNo(id);
-//		for (Project p : assistantP) {
-//			if (result.indexOf(p) == -1) {
-//				result.add(p);
-//			}
-//		}
 		return result;
 	}
 
@@ -130,5 +123,8 @@ public class ProjectMangementController implements Serializable {
 		return Status.values();
 	}
 
+	public String getEmpName(int id) {
+		return this.database.getEmployeeById(id).getUserName();
+	}
 
 }

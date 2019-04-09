@@ -26,60 +26,112 @@
 
 
 				<h:form id="form">
-
-					<table id="table" class="table table-striped">
+					<p:messages id="msgs" showDetail="true" />
+					<table id="table" class="table table-bordered">
 						<tbody>
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Number: " /></td>
-								<td><p:outputLabel value="#{pdController.project.proNo}" /></td>
+								<td><p:inputText value="#{pdController.project.proNo}"
+										label="text" rendered="#{pdController.editable}" /> <h:outputText
+										value="#{pdController.project.proNo}"
+										rendered="#{!pdController.editable}" /></td>
+								<h:panelGroup rendered="#{pdController.canModify()}">
+									<td style="border: 1px solid white;"><p:commandLink
+											ajax="true" update=":form"
+											action="#{pdController.toggleEditable()}"
+											rendered="#{!pdController.editable}">
+											<h:graphicImage value="resources/images/edit.png"
+												style="max-width:20px; max-height:20px" /> Edit
+									</p:commandLink></td>
+								</h:panelGroup>
+
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Manager: " /></td>
-								<td><p:outputLabel
+								<td><h:outputText
 										value="#{pdController.getEmpName(pdController.project.proMgrEmpNo)}" /></td>
+								<td style="border: 1px solid white;"><p:commandLink
+										ajax="true" update=":form" action="#{pdController.submit()}"
+										rendered="#{pdController.editable}">
+										<h:graphicImage value="resources/images/submit.png"
+											style="max-width:20px; max-height:20px" /> Submit
+									</p:commandLink></td>
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Assistant: " /></td>
 								<td><h:selectOneMenu
-										rendered="#{paController.isProjectManager()}"
+										rendered="#{paController.isProjectManager() and pdController.editable}"
 										value="#{pdController.project.proAssiEmpNo}">
 										<f:selectItems value="#{pdController.empPool}" var="emp"
 											itemLabel="#{emp.userName}" itemValue="#{emp.empNumber}"
 											style="color:black" />
 
-									</h:selectOneMenu> <p:outputLabel rendered="#{paController.isPAnotPM()}"
+									</h:selectOneMenu> <h:outputText
+										rendered="#{!pdController.editable ||paController.PAnotPM }"
 										value="#{pdController.getEmpName(pdController.project.proAssiEmpNo)}" />
 
 								</td>
+								<td style="border: 1px solid white;"><p:commandLink
+										ajax="true" update=":form"
+										action="#{pdController.toggleEditable()}"
+										rendered="#{pdController.editable}">
+										<h:graphicImage value="resources/images/cancel.png"
+											style="max-width:20px; max-height:20px" /> Cancel
+									</p:commandLink></td>
+
 							</tr>
 							<tr>
-								<td scope="row"><p:outputLabel value="Project Name: " /></td>
-								<td><p:outputLabel value="#{pdController.project.proName}" /></td>
+								<td scope="row"><p:outputLabel value="Project Name " /></td>
+								<td><p:inputText value="#{pdController.project.proName}"
+										label="text" rendered="#{pdController.editable}" /> <h:outputText
+										value="#{pdController.project.proName}"
+										rendered="#{!pdController.editable}" /></td>
+
 							</tr>
+
 							<tr>
-								<td scope="row"><p:outputLabel value="Description: " /></td>
-								<td><p:outputLabel value="#{pdController.project.proDesc}" /></td>
-							</tr>
-							<tr>
-								<td scope="row"><p:outputLabel value="Start Date: " /></td>
-								<td><p:outputLabel
+								<td scope="row"><p:outputLabel value="Start Date" /></td>
+								<td><p:calendar id="start"
+										value="#{pdController.project.startDate}"
+										rendered="#{pdController.editable}" /> <h:outputText
+										rendered="#{!pdController.editable}"
 										value="#{pdController.project.startDate}">
 										<f:convertDateTime pattern="dd-MM-yyyy" />
-									</p:outputLabel></td>
+									</h:outputText></td>
 							</tr>
 							<tr>
-								<td scope="row"><p:outputLabel value="End Date: " /></td>
-								<td><p:outputLabel value="#{pdController.project.endDate}">
+								<td scope="row"><p:outputLabel value="End Date" /></td>
+								<td><p:calendar id="end"
+										value="#{pdController.project.endDate}"
+										rendered="#{pdController.editable}" /> <h:outputText
+										rendered="#{!pdController.editable}"
+										value="#{pdController.project.endDate}">
 										<f:convertDateTime pattern="dd-MM-yyyy" />
-									</p:outputLabel></td>
+									</h:outputText></td>
 							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Description" /></td>
+								<td><p:inputTextarea style="width:100%"
+										value="#{pdController.project.proDesc}" label="text"
+										readonly="#{!pdController.editable}" /></td>
+							</tr>
+
 							<tr>
 								<td scope="row"><p:outputLabel value="State " /></td>
-								<td><p:outputLabel value="#{pdController.project.state}" /></td>
+								<td><p:outputLabel value="#{pdController.project.state}"
+										rendered="#{!pdController.editable}" /> <h:selectOneMenu
+										value="#{project.state}" style="color:black"
+										rendered="#{pdController.editable}">
+										<f:selectItems style="color:black"
+											value="#{pdController.status}" />
+									</h:selectOneMenu></td>
 							</tr>
 							<tr>
-								<td scope="row"><p:outputLabel value="Comment: " /></td>
-								<td><p:outputLabel value="#{pdController.project.comment}" /></td>
+								<td scope="row"><p:outputLabel value="Comment" /></td>
+								<td><p:inputTextarea style="width:100%"
+										value="#{pdController.project.comment}" label="text"
+										readonly="#{!pdController.editable}" /></td>
 							</tr>
 
 
@@ -88,12 +140,7 @@
 						</tbody>
 					</table>
 
-					<p:commandButton value="Submit" ajax="true"
-						rendered="#{paController.isProjectManager()}" update="form"
-						action="#{pdController.submit}">
 
-					</p:commandButton>
-					<p:growl id="msgs" showDetail="true" />
 				</h:form>
 
 

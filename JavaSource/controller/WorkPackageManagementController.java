@@ -29,6 +29,7 @@ public class WorkPackageManagementController implements Serializable {
 
 	private WorkPackage editWP;
 	
+	private WorkPackage viewWp;
 
 
 	public WorkPackageManagementController() {
@@ -40,29 +41,10 @@ public class WorkPackageManagementController implements Serializable {
 		currentEmployeee = getLoggedInEmployee();
 		wpList = this.database.getWPByEmpNo(currentEmployeee.getEmpNumber());
 		editWP = new WorkPackage();
+		viewWp = new WorkPackage();
 	}
 
-	public void onRowEdit(RowEditEvent event) {
-		editWP = (WorkPackage) event.getObject();
-		boolean updateSuccess = this.database.updateWP(editWP);
-		if (updateSuccess) {
-			FacesMessage msg = new FacesMessage(
-					"WorkPackage #" + editWP.getWpid() + " - (P " + editWP.getProNo() + ")" + " Edited");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		} else {
-			FacesMessage msg = new FacesMessage("Failed To Edit Project");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
-
-	}
-	public String print() {
-		return "Total Length" + wpList.size();
-	}
-
-	public void onRowCancel(RowEditEvent event) {
-		FacesMessage msg = new FacesMessage("Edit Cancelled");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+	
 
 	private static Employee getLoggedInEmployee() {
 		return (Employee) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
@@ -83,6 +65,20 @@ public class WorkPackageManagementController implements Serializable {
 
 	public void setEditWP(WorkPackage editWP) {
 		this.editWP = editWP;
+	}
+
+	public WorkPackage getViewWp() {
+		return viewWp;
+	}
+
+	public void setViewWp(WorkPackage viewWp) {
+		this.viewWp = viewWp;
+	}
+	
+	public void onClick(WorkPackage wp) {
+		
+		this.viewWp = wp;
+		
 	}
 
 
