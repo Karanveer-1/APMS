@@ -7,7 +7,10 @@
 
 <h:head>
 	<title>IGNORED!</title>
+	<style>
+</style>
 </h:head>
+
 
 <h:body>
 	<ui:composition template="/templates/MasterLayout.xhtml">
@@ -25,15 +28,51 @@
 				style="margin-left:50px; margin-right:50px;">
 
 				<h:form id="form">
+					<p:growl id="messageGrowl" showDetail="true" sticky="false" />
+
 					<table id="table" class="table table-bordered">
 						<tbody>
 							<tr>
 								<td scope="row"><p:outputLabel value="Project Number" /></td>
 								<td><h:outputText value="#{wpdController.wp.proNo}" /></td>
+								<h:panelGroup rendered="#{wpdController.canDeleteEmp()}">
+									<td style="border: 1px solid white;"><p:commandLink
+											ajax="true" update=":form"
+											action="#{wpdController.toggleEditable()}"
+											rendered="#{!wpdController.editable }">
+											<h:graphicImage value="resources/images/edit.png"
+												style="max-width:20px; max-height:20px" /> Edit
+									</p:commandLink></td>
+								</h:panelGroup>
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel value="Parent ID" /></td>
 								<td><h:outputText value="#{wpdController.wp.parentWPID}" /></td>
+								<td style="border: 1px solid white;"><p:commandLink
+										ajax="true" update=":form" action="#{wpdController.save()}"
+										rendered="#{wpdController.editable}">
+										<h:graphicImage value="resources/images/submit.png"
+											style="max-width:20px; max-height:20px" /> Submit
+									</p:commandLink></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel value="Leaf Work Package" /></td>
+								<td><h:outputText value="#{wpdController.wp.leaf}" /></td>
+								<td style="border: 1px solid white;"><p:commandLink
+										ajax="true" update=":form"
+										action="#{wpdController.toggleEditable()}"
+										rendered="#{wpdController.editable}">
+										<h:graphicImage value="resources/images/cancel.png"
+											style="max-width:20px; max-height:20px" /> Cancel
+									</p:commandLink></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Charged Status" /></td>
+								<td><h:outputText value="#{!wpdController.wp.editable}" /></td>
+
 							</tr>
 
 							<tr>
@@ -41,14 +80,13 @@
 								<td><p:inputText value="#{wpdController.wp.wpid}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.wpid}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 							</tr>
 
 
 
 							<tr>
-								<td scope="row"><p:outputLabel value="Responsible Employee"
-										rendered="#{!wpdController.editable}" /></td>
+								<td scope="row"><p:outputLabel value="Responsible Employee" /></td>
 								<td><h:selectOneMenu
 										value="#{wpdController.editwp.reEmpNo}"
 										rendered="#{wpdController.wpEditable}">
@@ -57,7 +95,7 @@
 											style="color:black" />
 
 									</h:selectOneMenu> <h:outputText value="#{wpdController.wp.reEmpNo}"
-										rendered="#{!wpdController.editable}" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
 
 
 							</tr>
@@ -75,9 +113,9 @@
 								<td><p:calendar id="start"
 										value="#{wpdController.editwp.startDate}"
 										rendered="#{wpdController.wpEditable}" /> <h:outputText
+										rendered="#{!wpdController.wpEditable}"
 										value="#{wpdController.wp.startDate}">
-										<f:convertDateTime pattern="dd-MM-yyyy"
-											rendered="#{!wpdController.editable}" />
+										<f:convertDateTime pattern="dd-MM-yyyy" />
 									</h:outputText></td>
 							</tr>
 
@@ -87,6 +125,7 @@
 								<td><p:calendar id="end"
 										value="#{wpdController.editwp.endDate}"
 										rendered="#{wpdController.wpEditable}" /> <h:outputText
+										rendered="#{!wpdController.wpEditable}"
 										value="#{wpdController.wp.endDate}">
 										<f:convertDateTime pattern="dd-MM-yyyy"
 											rendered="#{!wpdController.editable}" />
@@ -97,11 +136,9 @@
 
 							<tr>
 								<td scope="row"><p:outputLabel value="Description" /></td>
-								<td><p:inputTextarea
+								<td><p:inputTextarea style="width:100%"
 										value="#{wpdController.editwp.description}" label="text"
-										rendered="#{wpdController.editable}" /> <h:outputText
-										value="#{wpdController.wp.description}"
-										rendered="#{!wpdController.editable}" /></td>
+										readonly="#{!wpdController.editable}" /></td>
 							</tr>
 
 							<tr>
@@ -114,17 +151,16 @@
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel value="Comment" /></td>
-								<td><p:inputTextarea
+								<td><p:inputTextarea style="width:100%"
 										value="#{wpdController.editwp.comment}" label="text"
-										rendered="#{wpdController.editable}" /> <h:outputText
-										value="#{wpdController.wp.comment}"
-										rendered="#{!wpdController.editable}" /></td>
+										readonly="#{!wpdController.editable}" /></td>
 							</tr>
 
 							<tr>
 								<td scope="row"><p:outputLabel value="Labour Level" /></td>
-								<td scope="row"><p:outputLabel value="Estimated Man Day" /></td>
-								<td scope="row"><p:outputLabel value="Estimated Budget" /></td>
+								<td scope="row"><p:outputLabel
+										value="Estimated Man Day (hrs)" /></td>
+								<td scope="row"><p:outputLabel value="Estimated Budget ($)" /></td>
 
 							</tr>
 
@@ -134,8 +170,9 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstP1}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstP1}"
-										rendered="#{!wpdController.editable}" /></td>
-								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP1,'P1')}" /></td>
 
 							</tr>
 
@@ -144,8 +181,9 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstP2}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstP2}"
-										rendered="#{!wpdController.editable}" /></td>
-								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP2,'P2')}" /></td>
 
 							</tr>
 
@@ -154,8 +192,9 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstP3}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstP3}"
-										rendered="#{!wpdController.editable}" /></td>
-								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP3,'P3')}" /></td>
 
 							</tr>
 
@@ -164,8 +203,9 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstP4}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstP4}"
-										rendered="#{!wpdController.editable}" /></td>
-								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP4,'P4')}" /></td>
 
 							</tr>
 
@@ -174,8 +214,9 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstP5}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstP5}"
-										rendered="#{!wpdController.editable}" /></td>
-								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP5, 'P5')}" /></td>
 
 							</tr>
 
@@ -184,8 +225,9 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstP6}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstP6}"
-										rendered="#{!wpdController.editable}" /></td>
-								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstP6, 'P6')}" /></td>
 
 							</tr>
 
@@ -194,8 +236,9 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstDS}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstDS}"
-										rendered="#{!wpdController.editable}" /></td>
-								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstDS, 'DS')}" /></td>
 
 							</tr>
 
@@ -204,8 +247,9 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstSS}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstSS}"
-										rendered="#{!wpdController.editable}" /></td>
-								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstSS, 'SS')}" /></td>
 
 							</tr>
 
@@ -214,22 +258,126 @@
 								<td><p:inputText value="#{wpdController.wp.pmEstJS}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.pmEstJS}"
-										rendered="#{!wpdController.editable}" /></td>
-								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.pmEstJS, 'JS')}" /></td>
 
 							</tr>
 
 							<tr>
-								<td scope="row"><p:outputLabel value="Responsible Employee P1" /></td>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee P1" /></td>
 								<td><p:inputText value="#{wpdController.wp.reEstP1}"
 										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
 										value="#{wpdController.wp.reEstP1}"
-										rendered="#{!wpdController.editable}" /></td>
-								<td scope="row"><p:outputLabel value="PSome Number" /></td>
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP1,'P1')}" /></td>
 
 							</tr>
-							
-							
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee P2" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstP2}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstP2}"
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP2,'P2')}" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee P3" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstP3}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstP3}"
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP3,'P3')}" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee P4" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstP4}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstP4}"
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP4,'P4')}" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee P5" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstP5}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstP5}"
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP5, 'P5')}" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee P6" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstP6}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstP6}"
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstP6,'P6')}" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee DS" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstDS}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstDS}"
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstDS, 'DS')}" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee SS" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstSS}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstSS}"
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstSS, 'SS')}" /></td>
+
+							</tr>
+							<tr>
+								<td scope="row"><p:outputLabel
+										value="Responsible Employee JS" /></td>
+								<td><p:inputText value="#{wpdController.wp.reEstJS}"
+										label="text" rendered="#{wpdController.wpEditable}" /> <h:outputText
+										value="#{wpdController.wp.reEstJS}"
+										rendered="#{!wpdController.wpEditable}" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getBudgetByPLevel(wpdController.wp.reEstJS, 'JS')}" /></td>
+
+							</tr>
+
+							<tr>
+								<td scope="row"><p:outputLabel value="Total Budget" /></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.wp.getBudget()} "> (hrs)
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
+								<td scope="row"><p:outputLabel
+										value="#{wpdController.getTotalBudget()}"> ($)
+										<f:convertNumber integerOnly="true" type="number" />
+									</p:outputLabel></td>
+
+							</tr>
+
+
 
 
 
@@ -238,7 +386,70 @@
 				</h:form>
 
 
+				<p:dialog position="center" id="add" header="Assign Employee"
+					modal="true" width="400" hight="100" widgetVar="addEmpDialog">
+					<h3 style="font-weight: normal">Assign Employee</h3>
 
+					<p:messages id="messages" showDetail="true" closable="true">
+						<p:autoUpdate />
+					</p:messages>
+
+					<h:form id="formAddDialog">
+						<table class="table">
+							<tbody>
+								<tr>
+									<td><h:outputText value="Employee" /></td>
+									<td><h:selectOneMenu
+											value="#{wpdController.assignEmp.empNumber}">
+											<f:selectItems value="#{wpdController.availEmp}" var="emp"
+												itemLabel="#{emp.userName}" itemValue="#{emp.empNumber}"></f:selectItems>
+
+										</h:selectOneMenu></td>
+								</tr>
+
+
+
+							</tbody>
+						</table>
+						<p:commandButton update=":formAddDialog :empList" value="Assign"
+							action="#{wpdController.assign}" style="float:right" />
+
+					</h:form>
+				</p:dialog>
+				<h:form id="empList">
+					<p:messages id="empList-msg" showDetail="true" closable="true">
+						<p:autoUpdate />
+					</p:messages>
+					<p:dataTable id="emp" var="emp" widgetVar="emp"
+						value="#{wpdController.empList}" editable="true"
+						style="margin-bottom:20px;text-align:center">
+						<f:facet name="header">
+       		 				List of Employees
+    				</f:facet>
+						<p:column headerText="Emp No">
+							<h:outputText value="#{emp.empNumber}" />
+						</p:column>
+						<p:column headerText="User Name">
+							<h:outputText value="#{emp.userName}" />
+						</p:column>
+						<p:column headerText="Supervisor">
+							<h:outputText
+								value="#{wpdController.getEmployeeByNo(emp.superEmpNo).userName}" />
+						</p:column>
+						<p:column headerText="State">
+							<h:outputText value="#{emp.state}" />
+						</p:column>
+						<p:column headerText="Delete" style="width:80px"
+							rendered="#{wpdController.canDeleteEmp()}">
+							<p:commandLink ajax="true" update=":empList"
+								action="#{wpdController.deleteEmp(emp)}">
+								<h:graphicImage value="resources/images/error.png"
+									style="max-width:20px; max-height:20px" />
+							</p:commandLink>
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
 			</p:panel>
 
 

@@ -412,13 +412,14 @@ public class TimesheetController implements Serializable {
                             .sum();
                 })
                 .sum();
-                
-        return totalHours >= 40 * rows.size() ? true : false;
+
+        float total = Math.abs(totalHours - (t.getFlextime() + t.getOvertime())) - 40.0f;
+        return total < 0.0001;
     }
 
     public void submitTimesheet(Timesheet t) {
         if (!hasEnoughHours(t)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "All rows must have at least 40 hours.", null);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Timesheet must have a total of 40 hours.", null);
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return;
         }
