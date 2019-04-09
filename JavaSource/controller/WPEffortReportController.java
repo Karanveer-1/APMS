@@ -211,7 +211,7 @@ public class WPEffortReportController implements Serializable {
                 rows.add(row);
             }
         }
-/*
+        /*
         for(Date d : dates) {
             float[] hours = new float[9];
             hours[0] = getHoursByPLevel("P1", d);
@@ -227,16 +227,17 @@ public class WPEffortReportController implements Serializable {
             System.out.println(row.toString());
             rows.add(row);
         }
-        */
+         */
         System.out.println("size:" + rows.size());
     }
     public void closeDialog() {
         PrimeFaces.current().executeScript("PF('errorDialog').hide();");
     }
-    
+
     public void addEntry(Date startDate) {
         Date customStartDate = DateUtils.getTimesheetStartDate(startDate);
         List<TimesheetRow> relaventRows = getRelaventTimesheetRows();
+        List<WPNeed> needs = database.getWPNeeds();
         List<Date> dates = relaventRows
                 .stream()
                 .map(r -> {
@@ -245,11 +246,27 @@ public class WPEffortReportController implements Serializable {
                 .distinct()
                 .collect(Collectors.toList());
         if(dates.contains(customStartDate)) {
-            PrimeFaces.current().executeScript("PF('errorDialog').show();");
+            boolean trigger = false;
 
+            for(WPNeed need : needs) {
+                trigger = false;
+                if(customStartDate.equals(need.getWpNeedPK().getStartDate())) {
+                    trigger = true;
+                    break;
+                }
+            }
+            System.out.println("Trigger " + trigger);
+            if(trigger) {
+                PrimeFaces.current().executeScript("PF('errorDialog').show();");
+            } else {
+                WPNeed tempWPNeed = new WPNeed(new WPNeedPK(proNo, customStartDate, wpid));
+                database.addWPNeed(tempWPNeed);
+                System.out.println("Added");
+            }
         } else {
             WPNeed tempWPNeed = new WPNeed(new WPNeedPK(proNo, customStartDate, wpid));
             database.addWPNeed(tempWPNeed);
+            System.out.println("Added");
         }
         generateReport();
     }
@@ -295,7 +312,7 @@ public class WPEffortReportController implements Serializable {
         return total;
 
     }
-    
+
 
     public void saveEstimateP1(WPEffortRow row, int val) {
         row.getWpNeed().setReNeedP1(val);
@@ -333,7 +350,7 @@ public class WPEffortReportController implements Serializable {
         row.getWpNeed().setReNeedSS(val);
         database.updateWPNeed(row.getWpNeed());
     }
-   
+
 
     // Should be get all leafs
     public boolean canSelectWP() {
