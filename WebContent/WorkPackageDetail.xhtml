@@ -134,11 +134,9 @@
 
 							<tr>
 								<td scope="row"><p:outputLabel value="Description" /></td>
-								<td><p:inputTextarea
+								<td><p:inputTextarea style="width:100%"
 										value="#{wpdController.editwp.description}" label="text"
-										rendered="#{wpdController.editable}" /> <h:outputText
-										rendered="#{!wpdController.editable}"
-										value="#{wpdController.wp.description}" /></td>
+										readonly="#{!wpdController.editable}" /> </td>
 							</tr>
 
 							<tr>
@@ -151,11 +149,9 @@
 							</tr>
 							<tr>
 								<td scope="row"><p:outputLabel value="Comment" /></td>
-								<td><p:inputTextarea
+								<td><p:inputTextarea style="width:100%"
 										value="#{wpdController.editwp.comment}" label="text"
-										rendered="#{wpdController.editable}" /> <h:outputText
-										value="#{wpdController.wp.comment}"
-										rendered="#{!wpdController.editable}" /></td>
+										readonly="#{!wpdController.editable}"/> </td>
 							</tr>
 
 							<tr>
@@ -374,7 +370,7 @@
 				</h:form>
 
 
-				<p:dialog position="center" id="add" header="Add Employee"
+				<p:dialog position="center" id="add" header="Assign Employee"
 					modal="true" width="400" hight="100" widgetVar="addEmpDialog">
 					<h2 style="font-weight: normal">Add Employee</h2>
 
@@ -386,65 +382,58 @@
 						<table class="table">
 							<tbody>
 								<tr>
-									<td><h:outputText value="Employee Number" /></td>
-									<td><h:inputText id="addEmpNo" binding="#{addEmpNoText}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText id="addFirstName" value="First Name" /></td>
-									<td><h:inputText binding="#{addFirstNameText}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText id="addlastName" value="Last Name" /></td>
-									<td><h:inputText binding="#{addLastNameText}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText id="addUsername" value="Username" /></td>
-									<td><h:inputText binding="#{addUsernameText}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText id="addPassword" value="Password" /></td>
-									<td><h:inputText binding="#{addPasswordText}" /></td>
-								</tr>
-								<tr>
-									<td><h:outputText id="addSupervisor" value="Supervisor" /></td>
-									<td><h:selectOneMenu binding="#{addSupervisorText}">
-											<f:selectItems value="#{employeesController.employees}"
-												var="e" itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+									<td><h:outputText value="Employee" /></td>
+									<td><h:selectOneMenu
+											value="#{wpdController.assignEmp.empNumber}">
+											<f:selectItems value="#{wpdController.availEmp}" var="emp"
+												itemLabel="#{emp.userName}" itemValue="#{emp.empNumber}"></f:selectItems>
+
 										</h:selectOneMenu></td>
 								</tr>
-								<tr>
-									<td><h:outputText id="addComment" value="Comment" /></td>
-									<td><h:inputText binding="#{addCommentText}" /></td>
-								</tr>
+
+
 
 							</tbody>
 						</table>
-
+						<p:commandButton update=":formAddDialog :empList" value="Assign"
+							action="#{wpdController.assign}" style="float:right" />
 
 					</h:form>
 				</p:dialog>
-
-				<p:dataTable id="emp" var="emp" widgetVar="emp"
-					value="#{wpdController.empPool}" editable="true"
-					style="margin-bottom:20px">
-					<f:facet name="header">
+				<h:form id="empList">
+					<p:messages id="empList-msg" showDetail="true" closable="true">
+						<p:autoUpdate />
+					</p:messages>
+					<p:dataTable id="emp" var="emp" widgetVar="emp"
+						value="#{wpdController.empList}" editable="true"
+						style="margin-bottom:20px;text-align:center">
+						<f:facet name="header">
        		 				List of Employees
     				</f:facet>
-					<p:column headerText="Emp No">
-						<h:outputText value="#{emp.empNumber}" />
-					</p:column>
-					<p:column headerText="User Name">
-						<h:outputText value="#{emp.userName}" />
-					</p:column>
-					<p:column headerText="Supervisor">
-						<h:outputText value="#{wpdController.getEmployeeByNo(emp.superEmpNo).userName}" />
-					</p:column>
-					<p:column headerText="State">
-						<h:outputText value="#{emp.state}" />
-					</p:column>
-					
-				</p:dataTable>
+						<p:column headerText="Emp No">
+							<h:outputText value="#{emp.empNumber}" />
+						</p:column>
+						<p:column headerText="User Name">
+							<h:outputText value="#{emp.userName}" />
+						</p:column>
+						<p:column headerText="Supervisor">
+							<h:outputText
+								value="#{wpdController.getEmployeeByNo(emp.superEmpNo).userName}" />
+						</p:column>
+						<p:column headerText="State">
+							<h:outputText value="#{emp.state}" />
+						</p:column>
+						<p:column headerText="Delete" style="width:80px">
+							<p:commandLink ajax="true" update=":empList"
+								action="#{wpdController.deleteEmp(emp)}"
+								>
+								<h:graphicImage value="resources/images/error.png"
+									style="max-width:20px; max-height:20px" /> 
+									</p:commandLink>
+						</p:column>
 
+					</p:dataTable>
+				</h:form>
 			</p:panel>
 
 

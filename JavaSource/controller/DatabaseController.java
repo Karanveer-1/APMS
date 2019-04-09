@@ -27,6 +27,7 @@ import model.TimesheetRow;
 import model.TimesheetRowPK;
 import model.TimesheetState;
 import model.WPEmp;
+import model.WPEmpPK;
 import model.WorkPackage;
 import model.WorkPackagePK;
 import utils.DateUtils;
@@ -284,10 +285,9 @@ public class DatabaseController implements Serializable {
 	}
 
 	public List<Integer> getAllProjectManagerEmpNos() {
-	    return manager.createQuery("SELECT p.proMgrEmpNo FROM Project p", Integer.class)
-	            .getResultList();
+		return manager.createQuery("SELECT p.proMgrEmpNo FROM Project p", Integer.class).getResultList();
 	}
-	
+
 	public List<Integer> getAllProjectNoForProjectManager(Integer proNo) {
 		List<Integer> ids = manager
 				.createQuery("SELECT p.proNo from Project p where p.proMgrEmpNo = :no", Integer.class)
@@ -548,6 +548,25 @@ public class DatabaseController implements Serializable {
 		return wpList;
 	}
 
+	public void addEmpToWp(Employee emp, WorkPackage wp) {
+		WPEmp wpemp = new WPEmp();
+		wpemp.setEmpNo(emp.getEmpNumber());
+		wpemp.setProNo(wp.getProNo());
+		wpemp.setWpid(wp.getWpid());
+		this.manager.persist(wpemp);
+	}
+
+	public boolean deleteEmpFromWp(Employee emp, WorkPackage wp) {
+		WPEmp wpemp = this.manager.find(WPEmp.class, new WPEmpPK(wp.getProNo(), wp.getWpid(), emp.getEmpNumber()));
+		try {
+			this.manager.remove(wpemp);
+			this.manager.flush();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	public boolean persistWPEmp(WPEmp wpe) {
 		WPEmp checkWp = this.manager.find(WPEmp.class, wpe.getPk());
 		if (checkWp == null) {
@@ -564,6 +583,18 @@ public class DatabaseController implements Serializable {
 			return true;
 		}
 		return false;
+	}
+
+	public List<Employee> getEmpListByWP(WorkPackage wp) {
+		List<WPEmp> wpeList = this.manager
+				.createQuery("SELECT wp from WPEmp wp WHERE wp.pk.wpid = :wpid AND wp.pk.proNo = :proNo", WPEmp.class)
+				.setParameter("proNo", wp.getProNo()).setParameter("wpid", wp.getWpid()).getResultList();
+
+		List<Employee> result = new ArrayList<Employee>();
+		for (WPEmp e : wpeList) {
+			result.add(this.getEmployeeById(e.getEmpNo()));
+		}
+		return result;
 	}
 
 	public List<String> getAllEmpAssignedWpid(int proNo, int empNo) {

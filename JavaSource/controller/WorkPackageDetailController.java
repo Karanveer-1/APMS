@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.PrimeFaces;
 
 import model.Employee;
 import model.PLevel;
@@ -48,9 +51,15 @@ public class WorkPackageDetailController implements Serializable {
 
 	private List<Employee> empPool;
 
+	private List<Employee> availEmp;
+
+	private List<Employee> empList;
+
 	private WorkPackage editwp;
 
 	private List<PLevel> pLevels;
+
+	private Employee assignEmp = new Employee();
 
 	public WorkPackageDetailController() {
 
@@ -68,6 +77,8 @@ public class WorkPackageDetailController implements Serializable {
 		this.editable = false;
 		this.wpEditable = editable && this.wp.isEditable() && this.wp.isLeaf();
 		this.empPool = getAllEmpPool(this.wp.getProNo());
+		this.empList = this.database.getEmpListByWP(wp);
+		this.availEmp = this.getAvaliable();
 		this.pLevels = this.database.getPLevels();
 		return "WorkPackageDetail.xhtml?faces-redirect=true";
 	}
@@ -78,6 +89,16 @@ public class WorkPackageDetailController implements Serializable {
 
 	public void setWp(WorkPackage wp) {
 		this.wp = wp;
+	}
+
+	public List<Employee> getAvaliable() {
+		List<Employee> result = new ArrayList<Employee>();
+		for (Employee emp : empPool) {
+			if (empList.indexOf(emp) == -1) {
+				result.add(emp);
+			}
+		}
+		return result;
 	}
 
 	public void save() {
@@ -127,7 +148,7 @@ public class WorkPackageDetailController implements Serializable {
 	public void toggleEditable() {
 		editwp = wp;
 		this.editable = !this.editable;
-		System.out.println("Edit toggle");
+
 	}
 
 	public boolean isEditable() {
@@ -177,4 +198,47 @@ public class WorkPackageDetailController implements Serializable {
 		return this.database.getEmployeeById(id);
 	}
 
+	public List<Employee> getAvailEmp() {
+		return availEmp;
+	}
+
+	public void setAvailEmp(List<Employee> availEmp) {
+		this.availEmp = availEmp;
+	}
+
+	public List<Employee> getEmpList() {
+		return empList;
+	}
+
+	public void setEmpList(List<Employee> empList) {
+		this.empList = empList;
+	}
+
+	public Employee getAssignEmp() {
+		return assignEmp;
+	}
+
+	public void setAssignEmp(Employee assignEmp) {
+		this.assignEmp = assignEmp;
+	}
+
+	public void assign() {
+		this.assignEmp = this.database.getEmployeeById(this.assignEmp.getEmpNumber());
+		this.database.addEmpToWp(assignEmp, this.wp);
+		this.assignEmp = new Employee();
+	
+		this.empList = this.database.getEmpListByWP(wp);
+		this.availEmp = this.getAvaliable();
+		PrimeFaces.current().executeScript("PF('addEmpDialog').hide();");
+
+	}
+
+	public void deleteEmp (Employee emp) {
+		if(this.database.deleteEmpFromWp(emp, wp)) {
+			FacesMessage msg = new FacesMessage("Employee Removed");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			this.empList = this.database.getEmpListByWP(wp);
+			this.availEmp = this.getAvaliable();
+		}
+	}
 }
