@@ -21,99 +21,126 @@
 		</ui:define>
 
 		<ui:define name="content">
+		
+		<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color:black">
+				  <div class="col-sm-2">
+				  </div>
+				  <div class="col-sm-8">
+				  	<h1>Approve Timesheet View</h1>
+	           		<h:outputText value="A list of all active employees." />
+				  </div>
+				  <div class="col-sm-2"></div>
+				</div>
+		<br></br>
 			<h:form id="formMain">
-				<p>
-					<h:outputText value="Employee No: " />
-					<h:outputText
-						value="#{approveTimesheetController.currentEmployee.empNumber}" />
-				</p>
-				<p>
-					<h:outputText value="Start Date: " />
-					<h:outputText
-						value="#{approveTimesheetController.viewTimesheet.timesheetPk.startDate}">
-						<f:convertDateTime pattern="MMM, dd, yyyy" />
-					</h:outputText>
-				</p>
-				<p>
-					<h:outputText value="Overtime:  " />
-					<h:outputText
-						value="#{approveTimesheetController.viewTimesheet.overtime}" />
-				</p>
-				<p>
-					<h:outputText value="Flextime: " />
-					<h:outputText
-						value="#{approveTimesheetController.viewTimesheet.flextime}" />
-				</p>
-				<p>
-					<h:outputText value="State: " />
-					<h:outputText
-						value="#{approveTimesheetController.viewTimesheet.state}" />
-				</p>
-				<p>
-					<h:outputText value="Comment: " />
-				</p>
-				<p>
-					<p:inputTextarea rows="6" cols="50" readonly="true"
-						style="resize: none"
-						value="#{approveTimesheetController.viewTimesheet.comment}">
-					</p:inputTextarea>
-				</p>
+				<table class="table table-striped">
+					<tbody>
+						<tr>
+							<td><h:outputText value="Employee No: " /></td>
+							<td>
+								<h:outputText
+									value="#{approveTimesheetController.currentEmployee.empNumber}" />
+							</td>
+						</tr>
+						<tr>
+							<td><h:outputText value="Start Date: " /></td>
+							<td>
+								<h:outputText
+									value="#{approveTimesheetController.viewTimesheet.timesheetPk.startDate}">
+									<f:convertDateTime pattern="MMM, dd, yyyy" />
+								</h:outputText>
+							</td>
+						</tr>
+						<tr>
+							<td><h:outputText value="Overtime:  " /></td>
+							<td><h:outputText
+						value="#{approveTimesheetController.viewTimesheet.overtime}" /></td>
+						</tr>
+						<tr>
+							<td><h:outputText value="Flextime: " /></td>
+							<td><h:outputText
+						value="#{approveTimesheetController.viewTimesheet.flextime}" /></td>
+						</tr>
+						<tr>
+							<td><h:outputText value="State: " /></td>
+							<td><h:outputText
+						value="#{approveTimesheetController.viewTimesheet.state}" /></td>
+						</tr>
+						<tr>
+							<td><h:outputText value="Comment: " /></td>
+							<td>
+								<p:inputTextarea rows="6" cols="50" readonly="true"
+									style="resize: none"
+									value="#{approveTimesheetController.viewTimesheet.comment}">
+								</p:inputTextarea>
+							</td>
+						</tr>
+						<tr>
+							<td><p:commandButton value="Approve" style="float:right"
+									action="#{approveTimesheetController.approveTimesheet()}" />
+							</td>
+							<td><p:commandButton value="Return" style="float:left"
+									action="#{approveTimesheetController.returnTimesheet()}" />
+				</td>
+						</tr>
+					</tbody>
+				</table>					
 
-				<p:commandButton value="Approve"
-					action="#{approveTimesheetController.approveTimesheet()}" />
-
-				<p:commandButton value="Return"
-					action="#{approveTimesheetController.returnTimesheet()}" />
+				
+				
 
 				<h:outputText value="" />
 
 				<p:dataTable id="viewTable"
 					value="#{approveTimesheetController.viewTimesheetRows}" var="row">
-					<p:column headerText="Project No">
+					<p:column headerText="Project No" style="width:100px">
 						<h:outputText value="#{row.timesheetRowPk.proNo}" />
 					</p:column>
 
-					<p:column headerText="WPID">
+					<p:column headerText="WPID" style="width:80px">
 						<h:outputText value="#{row.timesheetRowPk.wpid}" />
 					</p:column>
 
-					<p:column headerText="Sat">
+					<p:column headerText="Sat" style="width:80px">
 						<h:outputText value="#{row.sat}" />
 					</p:column>
 
-					<p:column headerText="Sun">
+					<p:column headerText="Sun" style="width:80px">
 						<h:outputText value="#{row.sun}" />
 					</p:column>
 
-					<p:column headerText="Mon">
+					<p:column headerText="Mon" style="width:80px">
 						<h:outputText value="#{row.mon}" />
 					</p:column>
 
-					<p:column headerText="Tue">
+					<p:column headerText="Tue" style="width:80px">
 						<h:outputText value="#{row.tue}" />
 					</p:column>
 
-					<p:column headerText="Wed">
+					<p:column headerText="Wed" style="width:80px">
 						<h:outputText value="#{row.wed}" />
 					</p:column>
 
-					<p:column headerText="Thu">
+					<p:column headerText="Thu" style="width:80px">
 						<h:outputText value="#{row.thu}" />
 					</p:column>
 
-					<p:column headerText="Fri">
+					<p:column headerText="Fri" style="width:80px">
 						<h:outputText value="#{row.fri}" />
 					</p:column>
 
-					<p:column headerText="Note">
+					<p:column headerText="Note" style="width:120px">
 						<h:outputText value="#{row.note}" />
 					</p:column>
 
-					<p:column headerText="Comment">
+					<p:column headerText="Comment"  style="width:100px">
 						<h:outputText value="#{row.comment}" />
 					</p:column>
 				</p:dataTable>
 			</h:form>
+			<br></br>
+			</p:fieldset>
 		</ui:define>
 	</ui:composition>
 </h:body>

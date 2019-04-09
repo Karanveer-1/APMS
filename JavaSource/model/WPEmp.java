@@ -16,6 +16,7 @@ public class WPEmp implements Serializable {
 	private WPEmpPK pk;
 
 	public WPEmp() {
+		this.pk = new WPEmpPK();
 
 	}
 

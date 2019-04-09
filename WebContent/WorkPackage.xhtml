@@ -14,169 +14,190 @@
 
 		<ui:define name="windowTitle">Work Packages</ui:define>
 		<ui:define name="headerTitle">
-			<h:outputText value="Work Packages - Responsible Engineer View" class="navbar-brand" />
+			<h:outputText value="Work Packages - Responsible Engineer View"
+				class="navbar-brand" />
 		</ui:define>
 		<ui:define name="navBar">
 			<ui:include src="/sections/ProjectNavigationBar.xhtml" />
 		</ui:define>
 
 		<ui:define name="content">
-		  <p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
-				<div class="row" style="color:black">
-				  <div class="col-sm-2">
-				  </div>
-				  <div class="col-sm-8">
-				  	<h1>Work Packages</h1>
-	           		<h:outputText value="A list of all work packages." />
-				  </div>
-				  <div class="col-sm-2"></div>
+			<p:fieldset scrollabe="true"
+				style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color: black">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-8">
+						<h1>Work Packages</h1>
+						<h:outputText value="A list of all work packages." />
+					</div>
+					<div class="col-sm-2"></div>
 				</div>
 
-           		<hr></hr>
+				<hr></hr>
 
 
-			<h:form id="form">
-				<p:growl id="msgs" showDetail="true" />
-				<p:dataTable id="wp" var="wp" widgetVar="wp"
-					value="#{wpmController.wpList}" editable="true"
-					style="margin-bottom:20px">
-					<f:facet name="header">
-           Work Packages
-        </f:facet>
-					<p:ajax event="rowEdit" listener="#{wpmController.onRowEdit}"
-						update=":form:msgs" />
-					<p:ajax event="rowEditCancel"
-						listener="#{wpmController.onRowCancel}" update=":form:msgs" />
-					<p:column headerText="WPID" style="width:100px;">
+				<h:form id="form">
 
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{wp.wpid}" />
-							</f:facet>
-							<f:facet name="input">
-								<h:outputText value="#{wp.wpid}" />
-							</f:facet>
-						</p:cellEditor>
+					<p:dataTable id="wp" var="wp" widgetVar="wp"
+						value="#{wpmController.wpList}" editable="true"
+						style="margin-bottom:20px">
 
 
-					</p:column>
-
-					<p:column headerText="Project Number" style="width:80px; text-align:center;">
-
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{wp.proNo}" />
-							</f:facet>
-							<f:facet name="input">
-								<h:outputText value="#{wp.proNo}" />
-							</f:facet>
-						</p:cellEditor>
 
 
-					</p:column>
+						<p:column headerText="Project Number"
+							style="width:80px; text-align:center;">
+
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{wp.proNo}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:outputText value="#{wp.proNo}" />
+								</f:facet>
+							</p:cellEditor>
 
 
-					<p:column headerText="Title" style="width:100px;">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{wp.wpid}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{wp.wpid}" style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
+						</p:column>
 
 
-					</p:column>
-
-					<p:column headerText="Start Date" style="width:100px;">
-
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{wp.startDate}" >
-								<f:convertDateTime pattern="dd-MM-yyyy" />
-								</h:outputText>
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{wp.wpid}" style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
-
-					</p:column>
+						<p:column headerText="Title" style="width:100px;">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{wp.title}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{wp.title}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 
 
-					<p:column headerText="End Date" style="width:100px;">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{wp.endDate}">
-									<f:convertDateTime pattern="dd-MM-yyyy" />
-								</h:outputText>
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{wp.endDate}" style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Start Date" style="width:100px;">
+
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{wp.startDate}">
+										<f:convertDateTime pattern="dd-MM-yyyy" />
+									</h:outputText>
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{wp.wpid}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+
+						</p:column>
 
 
-					</p:column>
-					<p:column headerText="Title" style="width:100px;">
-
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{wp.wpid}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{wp.wpid}" style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
-
-
-					</p:column>
-					<p:column headerText="Description" style="width:100px;">
-
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{wp.description}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{wp.description}" style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
+						<p:column headerText="End Date" style="width:100px;">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{wp.endDate}">
+										<f:convertDateTime pattern="dd-MM-yyyy" />
+									</h:outputText>
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{wp.endDate}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 
 
-					</p:column>
+						</p:column>
 
 
-					<p:column headerText="State" style="width:80px; text-align:center;">
 
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{wp.state}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{wp.state}" style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
+						<p:column headerText="State"
+							style="width:80px; text-align:center;">
 
-
-					</p:column>
-					<p:column headerText="Comment" style="width:100px;">
-
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{wp.comment}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{wp.comment}" style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{wp.state}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{wp.state}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
 
 
-					</p:column>
+						</p:column>
+						<p:column headerText="View" style="width:100px;">
 
-				</p:dataTable>
-			</h:form>
+							<p:commandLink onclick="PF('viewDialog').show()" ajax="true"
+								update=":view" action="#{wpmController.onClick(wp)}">
+								<h:graphicImage value="resources/images/view.png"
+									style="max-width:20%; max-height:20%" />
 
+							</p:commandLink>
+
+
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+				<p:dialog header="Work Package" widgetVar="viewDialog" modal="true"
+					showEffect="fade" hideEffect="fade" resizable="false">
+
+					<h:form id="view">
+						<table class="table table-bordered table-striped">
+							<tbody>
+								<tr>
+									<td><h:outputText value="Project Number" /></td>
+									<td><h:outputText value="#{wpmController.viewWp.proNo}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="WPID" /></td>
+									<td><h:outputText value="#{wpmController.viewWp.wpid}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Parent WPID" /></td>
+									<td><h:outputText
+											value="#{wpmController.viewWp.parentWPID}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="Title" /></td>
+									<td><h:outputText value="#{wpmController.viewWp.title}" /></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="State" /></td>
+									<td><h:outputText value="#{wpmController.viewWp.state}" /></td>
+								</tr>
+
+								<tr>
+									<td><h:outputText value="Start Date" /></td>
+									<td><h:outputText
+											value="#{wpmController.viewWp.startDate}">
+											<f:convertDateTime pattern="dd-MM-yyyy" />
+										</h:outputText></td>
+								</tr>
+								<tr>
+									<td><h:outputText value="End Date" /></td>
+									<td><h:outputText value="#{wpmController.viewWp.endDate}">
+											<f:convertDateTime pattern="dd-MM-yyyy" />
+										</h:outputText></td>
+								</tr>
+
+								<tr>
+									<td><h:outputText value="Description" /></td>
+									<td><h:inputTextarea readonly="true" style="width:250px;"
+											value="#{wpmController.viewWp.description}" /></td>
+								</tr>
+
+								<tr>
+									<td><h:outputText value="Comment" /></td>
+									<td><h:inputTextarea readonly="true" style="width:250px"
+											value="#{wpmController.viewWp.comment}" /></td>
+								</tr>
+							</tbody>
+
+
+
+
+						</table>
+					</h:form>
+
+
+				</p:dialog>
 
 			</p:fieldset>
 
