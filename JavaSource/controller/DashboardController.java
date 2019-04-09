@@ -15,7 +15,8 @@ import model.Employee;
 public class DashboardController implements Serializable {
 	@Inject
 	private DatabaseController database;
-	
+//	@Inject
+//	private EmployeeController currentEmployee;
 	private long employeeCount;
 	private long timesheetCount;
 	private long approvedTimesheetCount;
@@ -38,6 +39,7 @@ public class DashboardController implements Serializable {
 		
 		employeeCount = database.countEmployees();
 		int id = currentEmployee.getEmpNumber();
+		System.out.println(id);
 		timesheetCount = database.countTimesheets(id);
 		approvedTimesheetCount = database.countApprovedTimesheets(id);
 		rejectedTimesheetCount = database.countRejectedTimesheets(id);
