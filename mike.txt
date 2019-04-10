@@ -1,62 +1,0 @@
-Supervisor => Project Manager (Project) Project Manager => Project Assistant (Project)
-Project Manager create WorkPackages (fully CRUD)  Employee don’t have anything Project Manager can Crud work packager and VIEW their project
-
-Supervisor can see all the projects and work packages
- 
-
-Supervisor assign people that he supervised only to ProEmp (1) Project Manager can assign people from (1) to work packages
-Project assign assistant from list (1)
-We can get supervisor by going
- Assign
-
-Supervisor can see other projects. Any supervisor can assign their own team member to any projects 
-Project Manager assign their assistant to projects
-
-Assistant can’t assign another assistant  Project Manager/Assistant create work package  assign engineer from (1)
-
-ReEmp can modify workpakcage
-
-Project ( Supervisor ) (add/delete)
- ViewProject  (only manager/assistant edit/read/ )
----—|
-    |__ Project Detail (RU)
-    |__ WorkPackages (CRUD) assign engineer
-    |__ Assign Assistant (CRUD)
-
-WorkPackages ( engineer) (U)
-
-
-
-isLeaf will determine the leaf WP
-
-PROBLEM:
-
-
-I need to fix the update project for supervisors and worckpages for PM
-make project management ajax
-fix adding new WP
-modify WP.leaf whenever a WP is created or modified or deleted
-
-DELETE PROJECT ALSO DELETE ALL WORKPACKGE/PROEMP/WPEMP/WPNEED
-
-ADD VALIDATION to check for deletion
-
-
-
-Add a new PROJECT
-  => a new workpackage is added and its not a leaf
-  => every new workpckage added can be defined as leaf or not leaf
-  Edit/Add/Delete function will be disabled if wp is a leaf
-  can't edit leaf or not leaf
-  can edit leaf or non-leaf's information like description, name ... but not start end date blah blah
-
-
-
- add a new column a WorkPackage
- always check the budget for the non-leaf so it aligns with their leaves addition
-  can delete if there no estimated or children
-
-  TODO:
-  DELETE
-  ASSIGN TO WP
-  VALIDATION

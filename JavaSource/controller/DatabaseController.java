@@ -329,6 +329,14 @@ public class DatabaseController implements Serializable {
 
 		if (p != null) {
 			updateEmployeeToProject(project.getProMgrEmpNo(), project.getProNo());
+			if (project.getState().equals("ARCHIVED")) {
+				for (WorkPackage wp : getAllWp()) {
+					if (wp.getProNo() == project.getProNo()) {
+						wp.setState("ARCHIVED");
+						updateWP(wp);
+					}
+				}
+			}
 			this.manager.merge(project);
 			return true;
 		}
@@ -526,7 +534,6 @@ public class DatabaseController implements Serializable {
 	}
 
 	public List<WorkPackage> getRootWPByProNo(int proNo) {
-		System.out.println("PRO NO" + proNo);
 		List<WorkPackage> result = new ArrayList<WorkPackage>();
 		for (WorkPackage wp : getAllWp()) {
 			if (wp.getParentWPID() == null && wp.getProNo() == proNo) {
@@ -556,8 +563,6 @@ public class DatabaseController implements Serializable {
 
 	public boolean updateWP(WorkPackage wp) {
 		WorkPackage checkWp = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
-		System.out.println("what can be wrong" + checkWp);
-		System.out.println("This is the OG wp" + wp);
 		if (checkWp != null) {
 			this.manager.merge(wp);
 			return true;
@@ -843,7 +848,6 @@ public class DatabaseController implements Serializable {
 				.createQuery("SELECT p.workPackagePk.proNo from WorkPackage p where p.reEmpNo = :engineer",
 						Integer.class)
 				.setParameter("engineer", reEmpNo).getResultList();
-		System.out.println(ids);
 		List<Integer> result = new ArrayList<Integer>();
 		for (Integer i : ids) {
 			if (!result.contains(i)) {
