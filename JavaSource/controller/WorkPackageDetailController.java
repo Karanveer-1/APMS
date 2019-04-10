@@ -109,8 +109,7 @@ public class WorkPackageDetailController implements Serializable {
 			this.editwp.setEditable(false);
 			if (WorkPackageValidator.isValid(editwp)) {
 				updateParentWP(editwp, this.database.getParentWP(editwp));
-				this.database.deleteWorkPackage(wp);
-				this.database.persistWP(editwp);
+				this.database.updateWP(editwp);
 				FacesMessage msg = new FacesMessage("Work Package Updated");
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 			} else {
@@ -160,7 +159,7 @@ public class WorkPackageDetailController implements Serializable {
 	}
 
 	public void toggleEditable() {
-		if(editable == true) {
+		if (editable == true) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message:", "Edit Cancel");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
@@ -292,6 +291,10 @@ public class WorkPackageDetailController implements Serializable {
 		result += getBudgetByPLevel(wp.getReEstJS(), "JS");
 
 		return result;
+	}
+
+	public boolean canAssignWP() {
+		return WorkPackageValidator.canAssign(database, this.wp);
 	}
 
 }

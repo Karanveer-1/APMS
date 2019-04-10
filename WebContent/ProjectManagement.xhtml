@@ -26,140 +26,142 @@
 					<div class="col-sm-2"></div>
 					<div class="col-sm-8">
 						<h1>Project Management</h1>
-						
+
 					</div>
 					<div class="col-sm-2"></div>
 				</div>
 				<hr></hr>
 				<f:event listener="#{pmController.init}" type="preRenderView" />
-				
-
-
-					<h:form id="form">
-						<p:growl id="msgs" showDetail="true" />
 
 
 
+				<h:form id="form">
+					<p:growl id="msgs" showDetail="true" />
 
-						<p:dataTable id="project" var="project" widgetVar="project"
-							value="#{pmController.projects}" editable="true"
-							style="margin-bottom:20px">
-							<f:facet name="header">
+
+
+
+					<p:dataTable id="project" var="project" widgetVar="project"
+						value="#{pmController.projects}" editable="true"
+						style="margin-bottom:20px">
+						<f:facet name="header">
            Projects
         </f:facet>
 
 
-							<p:ajax event="rowEdit" listener="#{pmController.onRowEdit}"
-								update=":form:msgs" />
+						<p:ajax event="rowEdit" listener="#{pmController.onRowEdit}"
+							update=":form:msgs" />
 
-							<p:ajax event="rowEditCancel"
-								listener="#{pmController.onRowCancel}" update=":form:msgs" />
-							<p:column headerText="Project Number"
-								style="width:100px; text-align:center">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{project.proNo}" />
-									</f:facet>
-									<f:facet name="input">
-										<h:outputText value="#{project.proNo}" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
+						<p:ajax event="rowEditCancel"
+							listener="#{pmController.onRowCancel}" update=":form:msgs" />
+						<p:column headerText="Project Number"
+							style="width:100px; text-align:center">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{project.proNo}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:outputText value="#{project.proNo}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
 
-							<p:column headerText="Project Name"
-								style="width:100px; text-align:center">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{project.proName}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{project.proName}" style="width:100%"
-											label="Project Project" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
+						<p:column headerText="Project Name"
+							style="width:100px; text-align:center">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{project.proName}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{project.proName}" style="width:100%"
+										label="Project Project" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
 
-							<p:column headerText="Project Manager"
-								style="width:100px;text-align:center">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{pmController.getEmpName(project.proMgrEmpNo)}" />
-									</f:facet>
-									<f:facet name="input">
-										<h:outputText value="#{pmController.getEmpName(project.proMgrEmpNo)}" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-
-					
-
-							<p:column headerText="Start Date">
-
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{project.startDate}">
-											<f:convertDateTime pattern="dd-MM-yyyy" />
-										</h:outputText>
-									</f:facet>
-									<f:facet name="input">
-										<p:calendar id="start" value="#{project.startDate}" />
-									</f:facet>
-								</p:cellEditor>
-
-
-							</p:column>
-
-							<p:column headerText="End Date">
-
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{project.endDate}">
-											<f:convertDateTime pattern="dd-MM-yyyy" />
-										</h:outputText>
-									</f:facet>
-									<f:facet name="input">
-										<p:calendar value="#{project.endDate}" />
-									</f:facet>
-								</p:cellEditor>
-
-
-							</p:column>
-
-							<p:column headerText="State">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{project.state}" />
-									</f:facet>
-									<f:facet name="input">
-										<h:selectOneMenu value="#{project.state}" style="color:black">
-											<f:selectItems style="color:black"
-												value="#{pmController.statuses}" />
-										</h:selectOneMenu>
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-
-							
-							<p:column headerText="View"
-								style="text-align:center; width:100px">
-
-								<p:commandLink update="project"
-									action="#{pdController.detail(project)}">
-
-									<h:graphicImage value="resources/images/view.png"
-										style="max-width:40%; max-height:40%" />
-
-								</p:commandLink>
-
-							</p:column>
+						<p:column headerText="Project Manager"
+							style="width:100px;text-align:center">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText
+										value="#{pmController.getEmpName(project.proMgrEmpNo)}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:outputText
+										value="#{pmController.getEmpName(project.proMgrEmpNo)}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
 
 
 
-						</p:dataTable>
+						<p:column headerText="Start Date">
 
-					</h:form>
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{project.startDate}">
+										<f:convertDateTime pattern="dd-MM-yyyy" />
+									</h:outputText>
+								</f:facet>
+								<f:facet name="input">
+									<p:calendar id="start" value="#{project.startDate}" />
+								</f:facet>
+							</p:cellEditor>
 
-		
+
+						</p:column>
+
+						<p:column headerText="End Date">
+
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{project.endDate}">
+										<f:convertDateTime pattern="dd-MM-yyyy" />
+									</h:outputText>
+								</f:facet>
+								<f:facet name="input">
+									<p:calendar value="#{project.endDate}" />
+								</f:facet>
+							</p:cellEditor>
+
+
+						</p:column>
+
+						<p:column headerText="State">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{project.state}" />
+								</f:facet>
+								<f:facet name="input">
+									<h:selectOneMenu value="#{project.state}" style="color:black">
+										<f:selectItems style="color:black"
+											value="#{pmController.statuses}" />
+									</h:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+
+						<p:column headerText="View" style="text-align:center; width:100px">
+
+							<p:commandLink update="project"
+								action="#{pdController.detail(project)}"
+								rendered="#{pdController.isPMorPA(project)}">
+
+								<h:graphicImage value="resources/images/view.png"
+									style="max-width:40%; max-height:40%" />
+
+							</p:commandLink>
+
+						</p:column>
+
+
+
+					</p:dataTable>
+
+				</h:form>
+
+
 			</p:fieldset>
 
 		</ui:define>
