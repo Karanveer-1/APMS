@@ -45,11 +45,19 @@
 
 
 					<h:form id="formAddDialog">
-					<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="true" />
 						<table class="table">
 							<tbody>
 
+								<tr>
+									<td><h:outputText value="Leaf Work Package"></h:outputText></td>
+									<td><p:selectBooleanCheckbox
+											value="#{pdController.addWp.leaf}" itemLabel="Leaf">
+											<p:ajax update=":formAddDialog"
+												listener="#{pdController.toggleLeaf}" />
 
+										</p:selectBooleanCheckbox></td>
+								</tr>
 
 								<tr>
 									<td><h:outputText value="Parent Work Package" /></td>
@@ -78,15 +86,7 @@
 
 										</h:selectOneMenu></td>
 								</tr>
-								<tr>
-									<td><h:outputText value="Leaf Work Package"></h:outputText></td>
-									<td><p:selectBooleanCheckbox
-											value="#{pdController.addWp.leaf}" itemLabel="Leaf">
-											<p:ajax update=":formAddDialog"
-												listener="#{pdController.toggleLeaf}" />
 
-										</p:selectBooleanCheckbox></td>
-								</tr>
 								<tr>
 									<td><h:outputText value="Title(*)" /></td>
 									<td><p:inputText value="#{pdController.addWp.title}" /></td>
@@ -246,7 +246,7 @@
 							action="WorkPackageManagement.xhtml?faces-redirect=true"
 							style="float: right;" />
 
-						
+
 					</h:form>
 
 

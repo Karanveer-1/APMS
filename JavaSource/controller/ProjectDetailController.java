@@ -86,7 +86,7 @@ public class ProjectDetailController implements Serializable {
 	private String suggestId;
 
 	private Project editpro;
-	private boolean editable;
+	private boolean editable = false;
 
 	public ProjectDetailController() {
 
@@ -142,6 +142,11 @@ public class ProjectDetailController implements Serializable {
 
 	public String addWP() {
 
+		if (addWp.getStartDate().before(new Date())) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message:", "Invalid Input");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return "";
+		}
 		addWp.setProNo(project.getProNo());
 		if (addWp.getParentWPID().equals("Project")) {
 			addWp.setParentWPID(null);
@@ -151,7 +156,7 @@ public class ProjectDetailController implements Serializable {
 
 		if (addWp.isLeaf()) {
 			addWp.setEditable(true);
-			if(WorkPackageValidator.isValid(addWp)) {
+			if (WorkPackageValidator.isValid(addWp)) {
 				updateParentWP(addWp, this.database.getParentWP(addWp));
 			}
 
@@ -336,8 +341,7 @@ public class ProjectDetailController implements Serializable {
 
 	public boolean canDeleteWP(WorkPackage wp) {
 		if (wp != null) {
-			return canModify() && WorkPackageValidator.canDelete(database, wp)
-					&& ProjectValidator.canDelete(database, this.database.findByProjectNo(wp.getProNo()));
+			return canModify() && WorkPackageValidator.canDelete(database, wp);
 		}
 		return true;
 
@@ -415,4 +419,36 @@ public class ProjectDetailController implements Serializable {
 		result += getBudgetByPLevel("JS");
 		return result;
 	}
+
+	public boolean isPMorPA(Project project) {
+		return isProjectManager(project) || isProjectAssistant(project);
+	}
+
+	public boolean isProjectManager(Project project) {
+		Employee currentEmployee = getLoggedInEmployee();
+
+		if (currentEmployee.getEmpNumber() == project.getProMgrEmpNo()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean isProjectAssistant(Project project) {
+		Employee currentEmployee = getLoggedInEmployee();
+
+		if (currentEmployee.getEmpNumber() == project.getProAssiEmpNo()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private static Employee getLoggedInEmployee() {
+
+		return (Employee) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.get(LoginController.USER_KEY);
+
+	}
+
 }

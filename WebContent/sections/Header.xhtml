@@ -8,11 +8,20 @@
 	<ui:composition>
 		<div class="main-panel">
 			<div class="navbar navbar-default">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<ui:insert name="headerTitle" class="navbar-brand"/>
+				<div class="card" style="height: 8rem; margin-left: 10px; margin-right: 10px; padding:3px; margin-top:10px;">
+					<div class="card-body">
+						<ui:insert name="headerTitle" class="navbar-brand"/>	
+						<div style="float:right !important; margin:20px;">
+						<h:form>
+						<h:commandLink id="nav-logout" 
+							action="#{loginController.logout()}">
+							<i class="ti-angle-left"></i>
+							Log Out
+						</h:commandLink>
+						</h:form>
 					</div>
-				</div>
+					</div>
+			</div>
 			</div>
 		</div>
 	</ui:composition>
