@@ -26,7 +26,10 @@
 
 				<f:event listener="#{wpEffortReportController.init}"
 					type="preRenderView" />
-
+				<h:form>
+					<p:remoteCommand name="pageInitComamnd" autoRun="true"
+						action="#{wpEffortReportController.pageInit()}" update=":formMain :formMain:report" />
+				</h:form>"
 				<h:form id="formMain">
 					<table class="table table-striped">
 						<tbody>
@@ -58,7 +61,7 @@
 								<td><p:commandButton id="generate" value="Generate"
 										disabled="#{!wpEffortReportController.canGenerateReport()}"
 										action="#{wpEffortReportController.generateReport()}"
-										update=":formMain" /></td>
+										update="report" /></td>
 								<td><h:outputText value="&nbsp;" /></td>
 							</tr>
 
@@ -67,7 +70,6 @@
 
 					<hr />
 					<p:calendar binding="#{selectedDate}" pattern="dd-MMM-yyyy">
-						<f:convertDateTime pattern="dd-MMM-yyyy" />
 					</p:calendar>
 					<p:commandButton value="Add New Entry"
 						action="#{wpEffortReportController.addEntry(selectedDate.value)}"

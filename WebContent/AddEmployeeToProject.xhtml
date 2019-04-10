@@ -14,94 +14,137 @@
 		<ui:include src="/sections/ProjectNavigationBar.xhtml" />
 	</ui:define>
 	<ui:define name="content">
-	<p:fieldset scrollabe="true" style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
-				<div class="row" style="color:black">
-				  <div class="col-sm-2">
-				  </div>
-				  <div class="col-sm-8">
-				  	<h1>Add Employee to Project</h1>
-	           		<h:outputText value="A list of all active employees." />
-				  </div>
-				  <div class="col-sm-2"></div>
+		<p:fieldset scrollabe="true"
+			style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+			<div class="row" style="color: black">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-8">
+					<h1>Add Employee to Project</h1>
+					<h:outputText value="A list of all active employees." />
 				</div>
-		<br></br>
-		
-		
-		
-		<table class="table table-striped">
-				<tbody>
-					<tr>
-						<td scope="row"><p:outputLabel value="Project Number:  " /></td>
-						<td><p:outputLabel value="#{assignProject.project.proNo}" /></td>
-					</tr>
-					<tr>
-						<td scope="row"><p:outputLabel value="Project Manager:  " /></td>
-						<td><p:outputLabel value="#{assign.getEmployeeById(assignProject.project.proMgrEmpNo).userName}" /></td>
-					</tr>
-					<tr>
-						<td scope="row"><p:outputLabel value="Project Name:  " /></td>
-						<td><p:outputLabel value="#{assignProject.project.proName}" /></td>
-					</tr>
-					<tr>
-						<td scope="row"><p:outputLabel value="Project Description:    " /></td>
-						<td scope="row"><p:outputLabel value="#{assignProject.project.proDesc}" /></td>
-					</tr>
-				
-					
-				</tbody>
-		</table>
+				<div class="col-sm-2"></div>
+			</div>
+			<br></br>
 
-		<h:form id="formMain">
-		<hr></hr>
-			<p:commandButton value="Add Employee"
-				update=":formMain:invalidEmployee"
-				action="#{assignProject.checkIfHaveAnyEmployee()}" />
-			
-			<hr></hr>
-			
-			<p:growl id="invalidEmployee" sticky="false" />
-		<hr></hr>
-			<p:dataTable id="employeeTable"
-				value="#{assignProject.getAssignedEmployee()}" var="emp"
-				style="margin-bottom:20px;width:100%">
-				<f:facet name="header">Employees</f:facet>
-				<p:column style="width:150px;">
-					<f:facet name="header">Employee Number</f:facet>
+
+
+			<h:form id="info">
+
+				<table class="table table-bordered" style="text-align: left">
+					<tbody>
+						<tr>
+							<td scope="row"><p:outputLabel value="Project Number:  " /></td>
+							<td><p:outputLabel value="#{assignProject.project.proNo}" /></td>
+						</tr>
+						<tr>
+							<td scope="row"><p:outputLabel value="Project Manager:  " /></td>
+							<td><p:outputLabel
+									value="#{assign.getEmployeeById(assignProject.project.proMgrEmpNo).userName}" /></td>
+						</tr>
+						<tr>
+							<td scope="row"><p:outputLabel value="Project Name:  " /></td>
+							<td><p:outputLabel value="#{assignProject.project.proName}" /></td>
+						</tr>
+
+						<tr>
+							<td scope="row"><p:outputLabel value="Start Date:  " /></td>
+							<td><p:outputLabel
+									value="#{assignProject.project.startDate}">
+
+									<f:convertDateTime pattern="dd-MM-yyyy" />
+
+								</p:outputLabel></td>
+						</tr>
+
+						<tr>
+							<td scope="row"><p:outputLabel value="End Date:  " /></td>
+							<td><p:outputLabel value="#{assignProject.project.endDate}">
+
+									<f:convertDateTime pattern="dd-MM-yyyy" />
+
+								</p:outputLabel></td>
+						</tr>
+						<tr>
+							<td scope="row"><p:outputLabel
+									value="Project Description:    " /></td>
+							<td scope="row"><h:inputTextarea readonly="true"
+									style="width:100%; font-weight:bold"
+									value="#{assignProject.project.proDesc}" /></td>
+						</tr>
+
+						<tr>
+							<td scope="row"><p:outputLabel value="Project Comment    " /></td>
+							<td scope="row"><h:inputTextarea readonly="true"
+									style="width:100%; font-weight:bold"
+									value="#{assignProject.project.comment}" /></td>
+						</tr>
+
+
+
+					</tbody>
+				</table>
+
+
+
+			</h:form>
+			<h:form id="formMain">
+				<hr></hr>
+				<p:commandButton value="Add Employee" update=":formMain"
+					action="#{assignProject.checkIfHaveAnyEmployee()}" />
+
+				<hr></hr>
+
+				<p:messages id="messageGrowl" showDetail="true" sticky="false" />
+				<hr></hr>
+				<p:dataTable id="employeeTable"
+					value="#{assignProject.getAssignedEmployee()}" var="emp"
+					style="margin-bottom:20px;width:100%">
+					<f:facet name="header">Employees</f:facet>
+					<p:column style="width:150px;">
+						<f:facet name="header">Employee Number</f:facet>
 						#{emp.empNumber}
 					</p:column>
-				<p:column style="width:150px;">
-					<f:facet name="header">Employee Name</f:facet>
+					<p:column style="width:150px;">
+						<f:facet name="header">Employee Name</f:facet>
 						#{emp.firstName} #{emp.lastName}
 					</p:column>
-				<p:column style="width:150px;">
-					<f:facet name="header">Username</f:facet>
+					<p:column style="width:150px;">
+						<f:facet name="header">Username</f:facet>
 						#{emp.userName}
 					</p:column>
-			</p:dataTable>
-		</h:form>
-
-
-		<p:dialog id="addDialog" header="Add Employee" modal="true"
-			width="300" widgetVar="addEmployeeDialog" resizable="false"
-			draggable="false" >
-			<h:form id="formAddDialog" >
-				<h:panelGrid columns="1" style="width:250px;">
-					<h:outputText id="addEmployee" value="Employee" />
-					<hr></hr>
-					<h:selectOneMenu binding="#{addEmployeeText}" style="width:100px; hight:50px;">
-						<f:selectItems value="#{assignProject.getSupervisorEmployee()}"
-							var="e" itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
-					</h:selectOneMenu>
-					<hr></hr>
-					<p:commandButton resetValues="true"
-						update=":formMain:employeeTable :formAddDialog" value="Save"
-						action="#{assignProject.assignEmployee(addEmployeeText.value)}"
-						style="float: right;" />
-				</h:panelGrid>
+					<p:column style="width:40px;">
+						<f:facet name="header">Delete</f:facet>
+						<p:commandLink update=" :formAddDialog :formMain" ajax="true">
+							<h:graphicImage value="resources/images/error.png"
+								style="max-width:20px; max-height:20px" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
 			</h:form>
-		</p:dialog>
-	<br></br>
-	</p:fieldset>
+
+
+			<p:dialog id="addDialog" header="Add Employee" modal="true"
+				width="300" widgetVar="addEmployeeDialog" resizable="false"
+				draggable="false">
+				<h:form id="formAddDialog">
+					<h:panelGrid columns="1" style="width:250px;">
+						<h:outputText id="addEmployee" value="Employee" />
+						<hr></hr>
+						<h:selectOneMenu binding="#{addEmployeeText}"
+							style="width:100px; hight:50px;">
+							<f:selectItems value="#{assignProject.getSupervisorEmployee()}"
+								var="e" itemLabel="#{e.userName}" itemValue="#{e.empNumber}" />
+						</h:selectOneMenu>
+						<hr></hr>
+						<p:commandButton resetValues="true"
+							update=":formMain:employeeTable :formAddDialog" value="Save"
+							action="#{assignProject.assignEmployee(addEmployeeText.value)}"
+							style="float: right;" />
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+			<br></br>
+		</p:fieldset>
 
 	</ui:define>
 </ui:composition>

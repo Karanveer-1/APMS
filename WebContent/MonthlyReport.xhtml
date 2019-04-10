@@ -87,16 +87,20 @@
 				    		</p:column>
 				    		<p:column headerText="BCWS">
 				    			#{monthlyReport.generatePmEstimate(wp)} <br/>
-				    			#{monthlyReport.convertPmEstimateIntoLabour(wp)}
+				    			$ #{monthlyReport.convertPmEstimateIntoLabour(wp)}
 				    		</p:column>
 				    		<p:column headerText="BCWP (in MD)">
 				    			#{monthlyReport.getTotalForAllEmployees(wp.wpid)/8}
 				    		</p:column>
 				    		<p:column headerText="EAC">
 				    			#{monthlyReport.generateReEstimate(wp)} <br/>
-				    			#{monthlyReport.convertReEstimateIntoLabour(wp)}
+				    			$ #{monthlyReport.convertReEstimateIntoLabour(wp)}
 				    		</p:column>
-				    		<p:column headerText="% of work left compared to EAC"></p:column>
+				    		<p:column headerText="% of work left compared to EAC">
+				    			<h:outputText value="#{monthlyReport.leftWork(wp)}">
+									<f:convertNumber maxFractionDigits="2" />
+								</h:outputText>
+				    		</p:column>
 				    	</p:dataTable>
 					</h:panelGroup>
 				</h:form>

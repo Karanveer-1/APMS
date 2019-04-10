@@ -1,5 +1,6 @@
 package validator;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -12,6 +13,9 @@ public class WorkPackageValidator {
 
 
 	public static boolean isValid(WorkPackage wp) {
+		if (wp.getStartDate().before(new Date())) {
+			return false;
+		}
 		return isValidDate(wp) && isValidFields(wp);
 	}
 

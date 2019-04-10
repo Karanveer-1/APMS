@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -43,12 +44,10 @@ public class WPEffortReportController implements Serializable {
     private Integer proNo;
     private String wpid;
     private WorkPackage wp;
-    private boolean show;
     private String[] pLevels = {"P1", "P2", "P3", "P4", "P5", "P6", "DS", "JS", "SS"};
 
     public void init() {
-        projectNos = database.getAllProjectNo();
-        show = false;
+        projectNos = database.getAllProjectNoByRe();
     }
 
     public void onProjectChange() {
@@ -61,7 +60,13 @@ public class WPEffortReportController implements Serializable {
     // Get any WP that is in any approved timesheet that is in the current project
     // number
     private List<String> getLeafWpids(int proNo) {
-        return database.getTimesheetRows()
+        Employee engineer = (Employee) FacesContext.getCurrentInstance()
+                .getExternalContext().getSessionMap()
+                .get(LoginController.USER_KEY);
+        int reEmpNo = engineer.getEmpNumber();
+        
+        
+        List<String> ids =  database.getTimesheetRows()
                 .stream()
                 .filter(r -> r.getTimesheetRowPk().getProNo() == proNo)
                 .filter(r -> r.getState().equalsIgnoreCase(TimesheetRowState.APPROVED))
@@ -70,6 +75,17 @@ public class WPEffortReportController implements Serializable {
                 })
                 .distinct()
                 .collect(Collectors.toList());
+        List<WorkPackage> wps = database.getAllWp();
+        System.out.println(wps);
+        List<String> result = new ArrayList<String>();
+        for(WorkPackage wp : wps) {
+            System.out.println(wp.getWorkPackagePk().getWpid());
+            System.out.println(wp.getReEmpNo() + ":" + reEmpNo);
+            if(ids.contains(wp.getWorkPackagePk().getWpid()) && reEmpNo == wp.getReEmpNo()) {
+                result.add(wp.getWorkPackagePk().getWpid());
+            }
+        }
+        return result;
     }
 
     private List<Employee> getParticipatingEmployees() {
@@ -175,8 +191,8 @@ public class WPEffortReportController implements Serializable {
 
     public void generateReport() {
         wp = database.getWpByPk(proNo, wpid);
+        System.out.println(wp);
         rows = new ArrayList<>();
-        show = true;
 
         List<Employee> participatingEmployees = getParticipatingEmployees();
         List<TimesheetRow> relaventRows = getRelaventTimesheetRows();
@@ -312,7 +328,14 @@ public class WPEffortReportController implements Serializable {
         return total;
 
     }
-
+    public void pageInit() {
+        System.out.println("Called pageInit");
+        proNo = null;
+        wpid = null;
+        wpids = null;
+        rows = null;
+        wp = null;
+    }
 
     public void saveEstimateP1(WPEffortRow row, int val) {
         row.getWpNeed().setReNeedP1(val);
@@ -433,19 +456,4 @@ public class WPEffortReportController implements Serializable {
         this.pLevels = pLevels;
     }
 
-    /**
-     * Returns the {bare_field_name} for this WPEffortReportController.
-     * @return the show
-     */
-    public boolean isShow() {
-        return show;
-    }
-
-    /**
-     * Sets the show for this WPEffortReportController
-     * @param show the show to set
-     */
-    public void setShow(boolean show) {
-        this.show = show;
-    }
 }
