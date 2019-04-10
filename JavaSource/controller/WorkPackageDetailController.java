@@ -107,7 +107,8 @@ public class WorkPackageDetailController implements Serializable {
 
 		if (this.editwp.isCharged()) {
 			this.editwp.setEditable(false);
-			if (WorkPackageValidator.isValid(editwp)) {
+			if (WorkPackageValidator.isValid(editwp)
+					&& !editwp.getStartDate().before(this.database.findByProjectNo(editwp.getProNo()).getStartDate())) {
 				updateParentWP(editwp, this.database.getParentWP(editwp));
 				this.database.updateWP(editwp);
 				FacesMessage msg = new FacesMessage("Work Package Updated");

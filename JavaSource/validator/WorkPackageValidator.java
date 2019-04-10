@@ -16,6 +16,7 @@ public class WorkPackageValidator {
 	}
 
 	public static boolean isValidDate(WorkPackage wp) {
+	
 		return wp.getStartDate().before(wp.getEndDate());
 
 	}
