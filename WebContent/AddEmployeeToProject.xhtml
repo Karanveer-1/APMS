@@ -114,7 +114,8 @@
 					</p:column>
 					<p:column style="width:40px;">
 						<f:facet name="header">Delete</f:facet>
-						<p:commandLink update=" :formAddDialog :formMain" ajax="true">
+						<p:commandLink update=" :formAddDialog :formMain" ajax="true"
+							action="#{assignProject.deleteEmp(emp)}">
 							<h:graphicImage value="resources/images/error.png"
 								style="max-width:20px; max-height:20px" />
 						</p:commandLink>

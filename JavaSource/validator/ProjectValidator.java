@@ -35,7 +35,7 @@ public class ProjectValidator {
 	public static boolean canDelete(DatabaseController database, Project pro) {
 		List<WorkPackage> allWp = database.getAllWp();
 		for (WorkPackage e : allWp) {
-			if (e.getProNo() == pro.getProNo() || !WorkPackageValidator.canDelete(database, e)) {
+			if (e.getProNo() == pro.getProNo() && !WorkPackageValidator.canDelete(database, e)) {
 				return false;
 			}
 

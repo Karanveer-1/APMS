@@ -21,6 +21,7 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 
 import model.Employee;
+import model.ProEmp;
 import model.Project;
 import model.WorkPackage;
 import validator.ProjectValidator;
@@ -262,10 +263,20 @@ public class ProjectController implements Serializable {
 		}
 		return false;
 	}
+	
+	public boolean isAssignedProjectEmployee() {
+		List<ProEmp> pme = this.database.getAllProEmp();
+		for(ProEmp pe : pme){
+			if(pe.getProEmp().getEmpNo() == currentEmployee.getEmpNumber()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public void authenticate() {
 		if (!isSupervisor()) {
-			if (isPMorPA()) {
+			if (isPMorPA() || isAssignedProjectEmployee()) {
 				FacesContext context = FacesContext.getCurrentInstance();
 				HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 				try {

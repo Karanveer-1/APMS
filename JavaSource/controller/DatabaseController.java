@@ -338,14 +338,34 @@ public class DatabaseController implements Serializable {
 
 	public boolean deleteProjectByProNo(final int proNo) {
 		Project p = this.findByProjectNo(proNo);
-
+		List<ProEmp> pe = this.manager.createQuery("select p from ProEmp p ", ProEmp.class).getResultList();
 		try {
+			for (ProEmp pro : pe) {
+				this.deleteEmpFromProject(proNo, pro.getProEmp().getEmpNo());
+			}
 			this.manager.remove(p);
 			this.manager.flush();
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	public boolean deleteEmpFromProject(int proNo, int empNo) {
+		TypedQuery<ProEmp> query = manager.createQuery(
+				"select p from ProEmp p where p.proEmp.proNo = :proNo and p.proEmp.empNo=:empNo", ProEmp.class);
+		query.setParameter("proNo", proNo);
+		query.setParameter("empNo", empNo);
+		ProEmp pe = query.getSingleResult();
+		try {
+			this.manager.remove(pe);
+			this.manager.flush();
+			return true;
+		} catch (Exception e) {
+
+			return false;
+		}
+
 	}
 
 	public List<Role> getRolesByEmpNo(int empNo) {
@@ -426,6 +446,10 @@ public class DatabaseController implements Serializable {
 			}
 		}
 		return result;
+	}
+	
+	public List<ProEmp> getAllProEmp(){
+		return this.manager.createQuery("SELECT p from ProEmp p", ProEmp.class).getResultList();
 	}
 
 	// #########################################################################

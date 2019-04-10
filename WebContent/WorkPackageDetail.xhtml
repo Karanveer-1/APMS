@@ -49,7 +49,7 @@
 								<td scope="row"><p:outputLabel value="Parent ID" /></td>
 								<td><h:outputText value="#{wpdController.wp.parentWPID}" /></td>
 								<td style="border: 1px solid white;"><p:commandLink
-										ajax="true" update=":form :formAddDialog :empList"
+										ajax="true" update=":form :formAddDialog :empList :wpmform"
 										action="#{wpdController.save()}"
 										rendered="#{wpdController.editable}">
 										<h:graphicImage value="resources/images/submit.png"

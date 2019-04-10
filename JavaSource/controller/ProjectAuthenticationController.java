@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,8 +11,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import model.Employee;
+import model.ProEmp;
 //import model.ProAssi;
 import model.Project;
+import model.WPEmp;
 import model.WorkPackage;
 
 @Named("paController")
@@ -38,7 +41,7 @@ public class ProjectAuthenticationController implements Serializable {
 		for (Employee emp : empList) {
 			if (emp.getSuperEmpNo() == currentEmployee.getEmpNumber()) {
 				return true;
-				
+
 			}
 		}
 		return false;
@@ -64,20 +67,33 @@ public class ProjectAuthenticationController implements Serializable {
 		return false;
 	}
 
-	public boolean isPMorPA() {
-		return isProjectManager() || isProjectAssistant() ;
-	}
-	
-	public boolean isPAnotPM() {
-		return !isProjectManager() && isProjectAssistant() ;
-	}
-
-	public boolean isREEmp() {
-		for (WorkPackage wp : this.database.getAllWp()) {
-			if (currentEmployee.getEmpNumber() == wp.getReEmpNo()) {
+	public boolean isAssignedProjectEmployee() {
+		List<ProEmp> pme = this.database.getAllProEmp();
+		for(ProEmp pe : pme){
+			if(pe.getProEmp().getEmpNo() == currentEmployee.getEmpNumber()) {
 				return true;
 			}
 		}
+		return false;
+	}
+	public boolean isPMorPA() {
+		return isProjectManager() || isProjectAssistant();
+	}
+
+	public boolean isPAnotPM() {
+		return !isProjectManager() && isProjectAssistant();
+	}
+
+	public boolean isREEmp() {
+		int empNo = currentEmployee.getEmpNumber();
+		List<WPEmp> wpList = this.database.getAllWPEmp();
+
+		for (WPEmp wp : wpList) {
+			if (wp.getEmpNo() == empNo) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 
@@ -85,8 +101,9 @@ public class ProjectAuthenticationController implements Serializable {
 		return (Employee) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 				.get(LoginController.USER_KEY);
 	}
+
 	public boolean canSeeProject() {
-		return isSupervisor() ||isProjectManager() ||isProjectAssistant() || isREEmp();
+		return isSupervisor() || isProjectManager() || isProjectAssistant() || isREEmp();
 	}
 
 }

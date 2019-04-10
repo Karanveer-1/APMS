@@ -86,7 +86,7 @@ public class ProjectDetailController implements Serializable {
 	private String suggestId;
 
 	private Project editpro;
-	private boolean editable;
+	private boolean editable =false;
 
 	public ProjectDetailController() {
 
@@ -142,6 +142,11 @@ public class ProjectDetailController implements Serializable {
 
 	public String addWP() {
 
+		if (addWp.getStartDate().before(new Date())) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message:", "Invalid Input");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return "";
+		}
 		addWp.setProNo(project.getProNo());
 		if (addWp.getParentWPID().equals("Project")) {
 			addWp.setParentWPID(null);
@@ -414,4 +419,38 @@ public class ProjectDetailController implements Serializable {
 		result += getBudgetByPLevel("JS");
 		return result;
 	}
+
+	public boolean isPMorPA() {
+		return isProjectManager() || isProjectAssistant();
+	}
+
+	public boolean isProjectManager() {
+		Employee currentEmployee = getLoggedInEmployee();
+		List<Project> allProject = this.database.getAllProjects();
+		for (Project p : allProject) {
+			if (currentEmployee.getEmpNumber() == p.getProMgrEmpNo()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isProjectAssistant() {
+		Employee currentEmployee = getLoggedInEmployee();
+		List<Project> allProject = this.database.getAllProjects();
+		for (Project p : allProject) {
+			if (currentEmployee.getEmpNumber() == p.getProAssiEmpNo()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static Employee getLoggedInEmployee() {
+
+		return (Employee) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.get(LoginController.USER_KEY);
+
+	}
+
 }
