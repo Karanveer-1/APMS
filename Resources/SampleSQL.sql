@@ -200,7 +200,7 @@ CREATE TABLE WorkPackage
     WPDescription  VARCHAR(1000)   NOT NULL,
 	StartDate      DATE            NOT NULL,
 	EndDate        DATE            NOT NULL,
-	IsLeaf         BOOLEAN         NOT NULL,	
+	IsLeaf         BOOLEAN         NOT NULL,
     ParentWPID     VARCHAR(30)     ,
 	Editable       BOOLEAN         NOT NULL,
 	PMEstP1        INTEGER         DEFAULT '0',
@@ -227,8 +227,8 @@ CREATE TABLE WorkPackage
 );
 
 -- Load data into table WorkPackage
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP101', '6', 'COMP101', 'COMP101', '2018-01-06', '2019-12-27', false, NULL, true, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
-INSERT INTO APMS.WorkPackage VALUES('100', 'COMP201', '6', 'COMP201', 'COMP201', '2018-01-06', '2019-12-27', false, 'COMP101', true, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP101', '6', 'COMP101', 'COMP101', '2018-01-06', '2019-12-27', false, NULL, false, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
+INSERT INTO APMS.WorkPackage VALUES('100', 'COMP201', '6', 'COMP201', 'COMP201', '2018-01-06', '2019-12-27', false, 'COMP101', false, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
 INSERT INTO APMS.WorkPackage VALUES('100', 'COMP303', '6', 'COMP303', 'COMP303', '2018-01-06', '2019-12-27', true, 'COMP201', true, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
 INSERT INTO APMS.WorkPackage VALUES('100', 'COMP305', '6', 'COMP305', 'COMP305', '2018-01-06', '2019-12-27', true, 'COMP201', true, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
 INSERT INTO APMS.WorkPackage VALUES('100', 'COMP204', '6', 'COMP204', 'COMP204', '2018-01-06', '2019-12-27', true, 'COMP101', true, '10', '10', '10', '10', '10', '10', '10', '10', '10', '20', '20', '10', '10', '10', '10', '10', '10', '10', 'OPEN', NULL);
@@ -397,4 +397,3 @@ CREATE TABLE Signature(
 	PublicKey 	   BLOB 		   NOT NULL,
 	PRIMARY KEY(EmpNo, StartDate)
 );
-
