@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -140,7 +141,7 @@ public class ProjectController implements Serializable {
 
 		// manager will assistant for now
 
-		if (ProjectValidator.isValid(addProject)) {
+		if (ProjectValidator.isValid(addProject) && !addProject.getStartDate().before(new Date())) {
 			database.persistProject(addProject);
 			FacesMessage msg = new FacesMessage("Project #" + addProject.getProNo() + " Added");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -156,6 +157,7 @@ public class ProjectController implements Serializable {
 
 	public void onRowEdit(RowEditEvent event) {
 		editProject = (Project) event.getObject();
+
 		if (ProjectValidator.isValid(editProject)) {
 			this.database.updateProject(editProject);
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message:",

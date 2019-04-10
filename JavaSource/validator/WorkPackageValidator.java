@@ -10,12 +10,8 @@ import model.WorkPackage;
 
 public class WorkPackageValidator {
 
-
-
 	public static boolean isValid(WorkPackage wp) {
-		if (wp.getStartDate().before(new Date())) {
-			return false;
-		}
+		
 		return isValidDate(wp) && isValidFields(wp);
 	}
 
@@ -42,17 +38,20 @@ public class WorkPackageValidator {
 	}
 
 	public static boolean canDelete(DatabaseController database, WorkPackage wp) {
-		if (wp.isLeaf() && !wp.isCharged()) {
-			return true;
+		if (wp.isLeaf() && !wp.isEditable()) {
+			return false;
 		}
 
-		if (!wp.isLeaf() && !hasChild(database, wp)) {
-			return true;
+		if (!wp.isLeaf() && hasChild(database, wp)) {
+			return false;
 		}
-		if(wp.getState().equals("OPEN")) {
-			return true;
+		if (!wp.getState().equals("OPEN")) {
+			return false;
 		}
-		return false;
+		if (!database.findByProjectNo(wp.getProNo()).getState().equals("OPEN")) {
+			return false;
+		}
+		return true;
 	}
 
 	public static boolean hasChild(DatabaseController database, WorkPackage wp) {
@@ -70,9 +69,22 @@ public class WorkPackageValidator {
 	public static boolean canAddChild(WorkPackage wp) {
 		return wp.getState().equals("OPEN");
 	}
-	
+
 	public static boolean canModify(DatabaseController database, WorkPackage wp) {
 		return wp.getState().equals("OPEN") && database.findByProjectNo(wp.getProNo()).getState().equals("OPEN");
+	}
+	
+	public static boolean canAssign(DatabaseController database, WorkPackage wp) {
+		if (wp.isLeaf() && !wp.isEditable()) {
+			return false;
+		}
+		if (!wp.getState().equals("OPEN")) {
+			return false;
+		}
+		if (!database.findByProjectNo(wp.getProNo()).getState().equals("OPEN")) {
+			return false;
+		}
+		return true;
 	}
 
 }

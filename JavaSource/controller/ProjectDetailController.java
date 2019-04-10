@@ -151,7 +151,7 @@ public class ProjectDetailController implements Serializable {
 
 		if (addWp.isLeaf()) {
 			addWp.setEditable(true);
-			if(WorkPackageValidator.isValid(addWp)) {
+			if (WorkPackageValidator.isValid(addWp)) {
 				updateParentWP(addWp, this.database.getParentWP(addWp));
 			}
 
@@ -336,8 +336,7 @@ public class ProjectDetailController implements Serializable {
 
 	public boolean canDeleteWP(WorkPackage wp) {
 		if (wp != null) {
-			return canModify() && WorkPackageValidator.canDelete(database, wp)
-					&& ProjectValidator.canDelete(database, this.database.findByProjectNo(wp.getProNo()));
+			return canModify() && WorkPackageValidator.canDelete(database, wp);
 		}
 		return true;
 

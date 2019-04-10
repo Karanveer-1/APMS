@@ -16,9 +16,7 @@ public class ProjectValidator {
 	}
 
 	public static boolean isValidDate(Project pro) {
-		if (pro.getStartDate().before(new Date())) {
-			return false;
-		}
+		
 		return pro.getStartDate().before(pro.getEndDate());
 	}
 
