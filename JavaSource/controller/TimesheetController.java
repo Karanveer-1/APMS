@@ -189,6 +189,13 @@ public class TimesheetController implements Serializable {
             context.addMessage(null, msg);
             hasError = true;
         }
+        
+        if (!isOvertimeAndFlextimeInRange(editTimesheet)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Overtime and flextime cannot be less than 0.", null);
+            context.addMessage(null, msg);
+            hasError = true;
+        }
 
         if (hasError) {
             return false;
@@ -238,6 +245,10 @@ public class TimesheetController implements Serializable {
         }
 
         return true;
+    }
+    
+    public boolean isOvertimeAndFlextimeInRange(Timesheet t) {
+        return t.getFlextime() >= 0 && t.getOvertime() >= 0;
     }
 
     public boolean hasDuplicateTimesheetRow(List<TimesheetRow> rows) {
@@ -418,7 +429,8 @@ public class TimesheetController implements Serializable {
                 })
                 .sum();
 
-        float total = Math.abs(totalHours - (t.getFlextime() + t.getOvertime())) - 40.0f;
+        float total = Math.abs(Math.abs(totalHours - (t.getFlextime() + t.getOvertime())) - 40.0f);
+        System.out.println(total);
         return total < 0.0001;
     }
 

@@ -2,6 +2,7 @@ package controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import org.primefaces.model.TreeNode;
 import controller.ProjectController.Status;
 import controller.ProjectController.StatusCreation;
 import model.Employee;
+import model.PLevel;
 //import model.ProAssi;
 import model.Project;
 import model.WPEmp;
@@ -149,16 +151,26 @@ public class ProjectDetailController implements Serializable {
 
 		if (addWp.isLeaf()) {
 			addWp.setEditable(true);
-			updateParentWP(addWp, this.database.getParentWP(addWp));
+			if(WorkPackageValidator.isValid(addWp)) {
+				updateParentWP(addWp, this.database.getParentWP(addWp));
+			}
+
 		} else {
+
 			addWp.setEditable(false);
 		}
-		this.database.persistWP(addWp);
 
-		addWp = new WorkPackage();
+		if (WorkPackageValidator.isValid(addWp)) {
+			this.database.persistWP(addWp);
+			addWp = new WorkPackage();
+			treeInit(this.project.getProNo());
+			return "WorkPackageManagement.xhtml?faces-redirect=true";
 
-		treeInit(this.project.getProNo());
-		return "WorkPackageManagement.xhtml?faces-redirect=true";
+		}
+
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message:", "Invalid Input");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		return "";
 
 	}
 
@@ -233,9 +245,19 @@ public class ProjectDetailController implements Serializable {
 	}
 
 	public void submit() {
-		this.database.updateProject(project);
-		FacesMessage msg = new FacesMessage("Project Assistant Updated");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+
+		if (ProjectValidator.isValid(editpro)) {
+			this.database.updateProject(editpro);
+			project = editpro;
+
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message:", "Project Successfully Updated");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			this.editable = !this.editable;
+		} else {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message:", "Invalid Input");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			project = this.database.findByProjectNo(project.getProNo());
+		}
 
 	}
 
@@ -285,18 +307,18 @@ public class ProjectDetailController implements Serializable {
 	public StatusCreation[] getStatusCreation() {
 		return StatusCreation.values();
 	}
-	
+
 	public Status[] getStatus() {
 		return Status.values();
 	}
 
-
 	public String createNew() {
+		this.editable = false;
 		return "CreateWorkPackage.xhtml?faces-redirect=true";
 	}
 
 	public void toggleLeaf() {
-		System.out.println("helllloo");
+
 		this.editable = !this.editable;
 	}
 
@@ -314,13 +336,20 @@ public class ProjectDetailController implements Serializable {
 
 	public boolean canDeleteWP(WorkPackage wp) {
 		if (wp != null) {
-			return canModify() && WorkPackageValidator.canDelete(database, wp);
+			return canModify() && WorkPackageValidator.canDelete(database, wp)
+					&& ProjectValidator.canDelete(database, this.database.findByProjectNo(wp.getProNo()));
 		}
 		return true;
 
 	}
 
 	public void toggleEditable() {
+		if (this.editable == true) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message:", "Edit Cancelled");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			project = this.database.findByProjectNo(project.getProNo());
+		}
+		this.editpro = this.project;
 		this.editable = !this.editable;
 	}
 
@@ -332,7 +361,58 @@ public class ProjectDetailController implements Serializable {
 		this.editpro = editpro;
 	}
 
-	public void save() {
+	public int getChildWPHours(String lvl) {
+		int result = 0;
+		List<WorkPackage> wp = this.database.getWPListByProNo(this.project.getProNo());
+		for (WorkPackage e : wp) {
+			if (e.isLeaf()) {
+				result += e.getPLevel(lvl);
+			}
+		}
+		return result;
+	}
 
+	public float getBudgetByPLevel(String pLevel) {
+		int hr = getChildWPHours(pLevel);
+		List<PLevel> result = this.database.getPLevelByLevel(pLevel);
+		if (result.size() == 0) {
+			return 0;
+		}
+		PLevel closest = result.get(0);
+		for (PLevel pl : result) {
+			Date current = pl.getpLevelPK().getStartDate();
+			if (current.before(project.getStartDate()) && current.after(closest.getpLevelPK().getStartDate())) {
+				closest = pl;
+			}
+		}
+		return closest.getWage() * hr;
+	}
+
+	public int getTotalHours() {
+		int result = 0;
+		result += getChildWPHours("P1");
+		result += getChildWPHours("P2");
+		result += getChildWPHours("P3");
+		result += getChildWPHours("P4");
+		result += getChildWPHours("P5");
+		result += getChildWPHours("P6");
+		result += getChildWPHours("SS");
+		result += getChildWPHours("DS");
+		result += getChildWPHours("JS");
+		return result;
+	}
+
+	public float getTotalBudget() {
+		float result = 0;
+		result += getBudgetByPLevel("P1");
+		result += getBudgetByPLevel("P2");
+		result += getBudgetByPLevel("P3");
+		result += getBudgetByPLevel("P4");
+		result += getBudgetByPLevel("P5");
+		result += getBudgetByPLevel("P6");
+		result += getBudgetByPLevel("SS");
+		result += getBudgetByPLevel("DS");
+		result += getBudgetByPLevel("JS");
+		return result;
 	}
 }

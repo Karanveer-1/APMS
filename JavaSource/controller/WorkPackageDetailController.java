@@ -17,6 +17,8 @@ import org.primefaces.PrimeFaces;
 import model.Employee;
 import model.PLevel;
 import model.WorkPackage;
+import validator.ProjectValidator;
+import validator.WorkPackageValidator;
 
 @Named("wpdController")
 @SessionScoped
@@ -105,16 +107,28 @@ public class WorkPackageDetailController implements Serializable {
 
 		if (this.editwp.isCharged()) {
 			this.editwp.setEditable(false);
-			updateParentWP(editwp, this.database.getParentWP(editwp));
-			this.database.deleteWorkPackage(wp);
-			this.database.persistWP(editwp);
+			if (WorkPackageValidator.isValid(editwp)) {
+				updateParentWP(editwp, this.database.getParentWP(editwp));
+				this.database.deleteWorkPackage(wp);
+				this.database.persistWP(editwp);
+				FacesMessage msg = new FacesMessage("Work Package Updated");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+			} else {
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message:", "Invalid Input");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+			}
 		}
-		System.out.println("Is this true" + this.database.updateWP(editwp));
-		if (this.database.updateWP(editwp)) {
-			FacesMessage msg = new FacesMessage("Work Package Updated");
+
+		if (WorkPackageValidator.isValid(editwp)) {
+			if (this.database.updateWP(editwp)) {
+				FacesMessage msg = new FacesMessage("Work Package Updated");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+				editable = false;
+				wp = editwp;
+			}
+		} else {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message:", "Invalid Input");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			editable = false;
-			wp = editwp;
 		}
 
 	}
@@ -146,6 +160,10 @@ public class WorkPackageDetailController implements Serializable {
 	}
 
 	public void toggleEditable() {
+		if(editable == true) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message:", "Edit Cancel");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
 		editwp = wp;
 		this.editable = !this.editable;
 
@@ -244,7 +262,11 @@ public class WorkPackageDetailController implements Serializable {
 	}
 
 	public boolean canDeleteEmp() {
-		return this.wp.getState().equals("OPEN");
+		return WorkPackageValidator.canDelete(database, this.wp) && WorkPackageValidator.canModify(database, this.wp);
+	}
+
+	public boolean canModifyWP() {
+		return WorkPackageValidator.canModify(database, this.wp);
 	}
 
 	public float getTotalBudget() {
