@@ -146,7 +146,7 @@
 
 							<p:commandLink update="project"
 								action="#{pdController.detail(project)}"
-								rendered="#{pdController.isPMorPA()}">
+								rendered="#{pdController.isPMorPA(project)}">
 
 								<h:graphicImage value="resources/images/view.png"
 									style="max-width:40%; max-height:40%" />

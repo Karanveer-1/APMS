@@ -86,7 +86,7 @@ public class ProjectDetailController implements Serializable {
 	private String suggestId;
 
 	private Project editpro;
-	private boolean editable =false;
+	private boolean editable = false;
 
 	public ProjectDetailController() {
 
@@ -420,29 +420,27 @@ public class ProjectDetailController implements Serializable {
 		return result;
 	}
 
-	public boolean isPMorPA() {
-		return isProjectManager() || isProjectAssistant();
+	public boolean isPMorPA(Project project) {
+		return isProjectManager(project) || isProjectAssistant(project);
 	}
 
-	public boolean isProjectManager() {
+	public boolean isProjectManager(Project project) {
 		Employee currentEmployee = getLoggedInEmployee();
-		List<Project> allProject = this.database.getAllProjects();
-		for (Project p : allProject) {
-			if (currentEmployee.getEmpNumber() == p.getProMgrEmpNo()) {
-				return true;
-			}
+
+		if (currentEmployee.getEmpNumber() == project.getProMgrEmpNo()) {
+			return true;
 		}
+
 		return false;
 	}
 
-	public boolean isProjectAssistant() {
+	public boolean isProjectAssistant(Project project) {
 		Employee currentEmployee = getLoggedInEmployee();
-		List<Project> allProject = this.database.getAllProjects();
-		for (Project p : allProject) {
-			if (currentEmployee.getEmpNumber() == p.getProAssiEmpNo()) {
-				return true;
-			}
+
+		if (currentEmployee.getEmpNumber() == project.getProAssiEmpNo()) {
+			return true;
 		}
+
 		return false;
 	}
 

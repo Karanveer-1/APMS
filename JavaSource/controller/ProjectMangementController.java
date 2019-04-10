@@ -76,7 +76,7 @@ public class ProjectMangementController implements Serializable {
 
 	public List<Project> getProjectByManagerOrAssi() {
 		int id = currentEmployee.getEmpNumber();
-		List<Project> result = this.database.getProjectsByManagerNo(id);
+		List<Project> result = this.database.getProjectByAssignedEmpNo(id);
 		return result;
 	}
 

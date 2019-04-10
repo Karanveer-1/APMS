@@ -447,8 +447,20 @@ public class DatabaseController implements Serializable {
 		}
 		return result;
 	}
-	
-	public List<ProEmp> getAllProEmp(){
+
+	public List<Project> getProjectByAssignedEmpNo(int id) {
+		List<ProEmp> pe = getAllProEmp();
+
+		List<Project> result = new ArrayList<Project>();
+		for (ProEmp p : pe) {
+			if (p.getProEmp().getEmpNo() == id) {
+				result.add(findByProjectNo(p.getProEmp().getProNo()));
+			}
+		}
+		return result;
+	}
+
+	public List<ProEmp> getAllProEmp() {
 		return this.manager.createQuery("SELECT p from ProEmp p", ProEmp.class).getResultList();
 	}
 
