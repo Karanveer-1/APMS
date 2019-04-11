@@ -433,15 +433,6 @@ public class WorkPackage implements Serializable {
 		this.pmEstSS += wp.pmEstSS;
 		this.pmEstDS += wp.pmEstDS;
 		this.pmEstJS += wp.pmEstJS;
-		this.reEstP1 += wp.reEstP1;
-		this.reEstP2 += wp.reEstP2;
-		this.reEstP3 += wp.reEstP3;
-		this.reEstP4 += wp.reEstP4;
-		this.reEstP5 += wp.reEstP5;
-		this.reEstP6 += wp.reEstP6;
-		this.reEstSS += wp.reEstSS;
-		this.reEstDS += wp.reEstDS;
-		this.reEstJS += wp.reEstJS;
 
 	}
 
@@ -455,15 +446,6 @@ public class WorkPackage implements Serializable {
 		sum += pmEstSS;
 		sum += pmEstDS;
 		sum += pmEstJS;
-		sum += reEstP1;
-		sum += reEstP2;
-		sum += reEstP3;
-		sum += reEstP4;
-		sum += reEstP5;
-		sum += reEstP6;
-		sum += reEstSS;
-		sum += reEstDS;
-		sum += reEstJS;
 		return sum != 0;
 	}
 
@@ -477,46 +459,37 @@ public class WorkPackage implements Serializable {
 		sum += pmEstSS;
 		sum += pmEstDS;
 		sum += pmEstJS;
-		sum += reEstP1;
-		sum += reEstP2;
-		sum += reEstP3;
-		sum += reEstP4;
-		sum += reEstP5;
-		sum += reEstP6;
-		sum += reEstSS;
-		sum += reEstDS;
-		sum += reEstJS;
 		return sum;
 	}
 
 	public int getPLevel(String lvl) {
 		if (lvl.equals("P1")) {
-			return pmEstP1 + reEstP1;
+			return pmEstP1;
 		}
 
 		if (lvl.equals("P2")) {
-			return pmEstP2 + reEstP2;
+			return pmEstP2;
 		}
 		if (lvl.equals("P3")) {
-			return pmEstP3 + reEstP3;
+			return pmEstP3;
 		}
 		if (lvl.equals("P4")) {
-			return pmEstP4 + reEstP4;
+			return pmEstP4;
 		}
 		if (lvl.equals("P5")) {
-			return pmEstP5 + reEstP5;
+			return pmEstP5;
 		}
 		if (lvl.equals("P6")) {
-			return pmEstP6 + reEstP6;
+			return pmEstP6;
 		}
 		if (lvl.equals("DS")) {
-			return pmEstDS + reEstDS;
+			return pmEstDS;
 		}
 		if (lvl.equals("SS")) {
-			return pmEstSS + reEstSS;
+			return pmEstSS;
 		}
 		if (lvl.equals("JS")) {
-			return pmEstJS + reEstJS;
+			return pmEstJS;
 		}
 
 		return 0;

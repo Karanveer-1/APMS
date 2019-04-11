@@ -180,10 +180,12 @@ public class ProjectController implements Serializable {
 	}
 
 	public void deleteProject(Project project) throws IOException {
-		this.database.deleteProjectByProNo(project.getProNo());
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message:",
-				"Project " + project.getProNo() + " Deleted");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+		if(this.database.deleteProjectByProNo(project.getProNo())) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message:",
+					"Project " + project.getProNo() + " Deleted");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+		
 		projects = this.database.getAllProjects();
 	}
 

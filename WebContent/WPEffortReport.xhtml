@@ -21,15 +21,25 @@
 		</ui:define>
 
 		<ui:define name="content">
-			<p:panel id="basic" header="WP Effort Report" footer=""
-				style="margin-left:50px; margin-right:50px;">
+			<p:fieldset scrollabe="true"
+				style="display:block; margin-left:50px; margin-right:50px; text-align:center; margin-bottom:50px">
+				<div class="row" style="color: black">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-8">
+						<h1>Effort Report</h1>
+					</div>
+					<div class="col-sm-2"></div>
+				</div>
+
+				<hr></hr>
 
 				<f:event listener="#{wpEffortReportController.init}"
 					type="preRenderView" />
 				<h:form>
 					<p:remoteCommand name="pageInitComamnd" autoRun="true"
-						action="#{wpEffortReportController.pageInit()}" update=":formMain :formMain:report" />
-				</h:form>"
+						action="#{wpEffortReportController.pageInit()}"
+						update=":formMain :formMain:report" />
+				</h:form>
 				<h:form id="formMain">
 					<table class="table table-striped">
 						<tbody>
@@ -396,7 +406,7 @@
 							action="#{wpEffortReportController.closeDialog()}" />
 					</h:form>
 				</p:dialog>
-			</p:panel>
+			</p:fieldset>
 		</ui:define>
 	</ui:composition>
 </h:body>
