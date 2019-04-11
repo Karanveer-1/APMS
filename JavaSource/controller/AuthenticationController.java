@@ -49,4 +49,8 @@ public class AuthenticationController implements Serializable {
         .stream()
         .anyMatch(p -> p == currentEmployee.getEmpNumber());
     }
+    
+    public boolean isUserResponsibleEngineer() {
+        return !database.getAllProjectNoByRe().isEmpty();
+    }
 }

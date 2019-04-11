@@ -51,6 +51,12 @@
 							 authController.isUserSystemAdmin()}">
 							<i class="ti-bookmark-alt"></i>
                             Reports
+                        </h:commandLink>
+                        <h:commandLink id="nav-wp-weekly-report-re"
+							action="WPEffortReport.xhtml?faces-redirect=true"
+							rendered="#{authController.isUserResponsibleEngineer()}">
+							<i class="ti-bookmark-alt"></i>
+                            Reports
                         </h:commandLink></li>
 
 					<li><h:commandLink id="nav-timesheets"
