@@ -263,6 +263,12 @@ public class DatabaseController implements Serializable {
 		Query q = manager.createQuery(sql);
 		return (long) q.getSingleResult();
 	}
+	
+	public List<Integer> getAllProNoByEmpNo(int empNo) {
+	    return manager.createQuery("select p.proEmp.proNo from ProEmp p where p.proEmp.empNo = :empNo", Integer.class)
+	        .setParameter("empNo", empNo)
+	        .getResultList();
+	}
 
 	public List<Project> getAllProjectsbyEmpNo(int empNo) {
 		List<Project> projects = getAllProjects();
@@ -666,7 +672,7 @@ public class DatabaseController implements Serializable {
 					return wp.getWpid();
 				}).collect(Collectors.toList());
 	}
-
+	
 	public WorkPackage getWPById(String wpid) {
 		try {
 			return manager
