@@ -263,6 +263,12 @@ public class DatabaseController implements Serializable {
 		Query q = manager.createQuery(sql);
 		return (long) q.getSingleResult();
 	}
+	
+	public List<Integer> getAllProNoByEmpNo(int empNo) {
+	    return manager.createQuery("select p.proEmp.proNo from ProEmp p where p.proEmp.empNo = :empNo", Integer.class)
+	        .setParameter("empNo", empNo)
+	        .getResultList();
+	}
 
 	public List<Project> getAllProjectsbyEmpNo(int empNo) {
 		List<Project> projects = getAllProjects();
@@ -348,32 +354,25 @@ public class DatabaseController implements Serializable {
 		Project p = this.findByProjectNo(proNo);
 		List<ProEmp> pe = this.manager.createQuery("select p from ProEmp p ", ProEmp.class).getResultList();
 		try {
+
+			this.manager.remove(p);
 			for (ProEmp pro : pe) {
 				this.deleteEmpFromProject(proNo, pro.getProEmp().getEmpNo());
 			}
-			this.manager.remove(p);
-			this.manager.flush();
+
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
 	}
 
-	public boolean deleteEmpFromProject(int proNo, int empNo) {
+	public void deleteEmpFromProject(int proNo, int empNo) {
 		TypedQuery<ProEmp> query = manager.createQuery(
 				"select p from ProEmp p where p.proEmp.proNo = :proNo and p.proEmp.empNo=:empNo", ProEmp.class);
 		query.setParameter("proNo", proNo);
 		query.setParameter("empNo", empNo);
 		ProEmp pe = query.getSingleResult();
-		try {
-			this.manager.remove(pe);
-			this.manager.flush();
-			return true;
-		} catch (Exception e) {
-
-			return false;
-		}
-
+		this.manager.remove(pe);
 	}
 
 	public List<Role> getRolesByEmpNo(int empNo) {
@@ -666,7 +665,7 @@ public class DatabaseController implements Serializable {
 					return wp.getWpid();
 				}).collect(Collectors.toList());
 	}
-
+	
 	public WorkPackage getWPById(String wpid) {
 		try {
 			return manager

@@ -143,10 +143,12 @@ public class ProjectDetailController implements Serializable {
 
 	public String addWP() {
 
-		if (addWp.getStartDate().before(new Date()) || addWp.getStartDate().before(this.project.getStartDate())) {
+		if (addWp.getStartDate().before(new Date()) || addWp.getStartDate().before(this.project.getStartDate())
+				|| !WorkPackageValidator.isValid(addWp)) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message:", "Invalid Input");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			editable = false;
+			this.addWp = new WorkPackage();
 			return "";
 		}
 		addWp.setProNo(project.getProNo());
@@ -158,12 +160,8 @@ public class ProjectDetailController implements Serializable {
 
 		if (addWp.isLeaf()) {
 			addWp.setEditable(true);
-			if (WorkPackageValidator.isValid(addWp)) {
-				updateParentWP(addWp, this.database.getParentWP(addWp));
-			}
-
+			updateParentWP(addWp, this.database.getParentWP(addWp));
 		} else {
-
 			addWp.setEditable(false);
 		}
 
@@ -258,7 +256,7 @@ public class ProjectDetailController implements Serializable {
 		if (ProjectValidator.isValid(editpro)) {
 			this.database.updateProject(editpro);
 			project = editpro;
-			
+
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message:", "Project Successfully Updated");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			this.editable = false;
@@ -357,6 +355,7 @@ public class ProjectDetailController implements Serializable {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message:", "Edit Cancelled");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			project = this.database.findByProjectNo(project.getProNo());
+			this.addWp = new WorkPackage();
 		}
 		this.editpro = this.project;
 		this.editable = !this.editable;

@@ -46,13 +46,12 @@
 						</h:commandLink></li>
 
 					<li><h:commandLink id="nav-wp-weekly-report"
-							action="WPWeeklyReport.xhtml?faces-redirect=true"
+							action="#{reportNavController.redirect()}"
 							rendered="#{authController.isUserProjectManager() ||
-							 authController.isUserSystemAdmin()}">
+                             authController.isUserSystemAdmin() || authController.isUserResponsibleEngineer()}">
 							<i class="ti-bookmark-alt"></i>
                             Reports
                         </h:commandLink></li>
-
 					<li><h:commandLink id="nav-timesheets"
 							action="Timesheets.xhtml?faces-redirect=true">
 							<i class="ti-alarm-clock"></i>
