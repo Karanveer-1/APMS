@@ -62,7 +62,9 @@ INSERT INTO APMS.Employee VALUES('14', 'RE2', 'Demo', 're2', 'sha1:64000:18:Ox+s
 INSERT INTO APMS.Employee VALUES('15', 'Appro2', 'Demo', 'appro2', 'sha1:64000:18:2qoiP12Sj4PETz4TAkVKAWPgaFtI+8Wj:Fn4SKfh04/fErB+nwNjyhJ3/', '11', '11', 'Active', '');
 INSERT INTO APMS.Employee VALUES('16', 'e21', 'Demo', 'e21', 'sha1:64000:18:dxIXIVfbcUVVJWH8U4IWaoAyqVbML6nQ:buO83rjexg7NfIerwcI6E2o6', '11', '15', 'Active', '');
 
-
+INSERT INTO APMS.Employee VALUES('18', 'Supervisor', 'Demo', 'suptest', 'sha1:64000:18:Ox+scAvdNXOKQwqb0niFVOYEB0YV5y9j:XnAz/5jS7zYR89rb+5cTeBZ4', '1', '1', 'Active', '');
+INSERT INTO APMS.Employee VALUES('19', 'PM', 'Demo', 'pmtest', 'sha1:64000:18:2qoiP12Sj4PETz4TAkVKAWPgaFtI+8Wj:Fn4SKfh04/fErB+nwNjyhJ3/', '18', '18', 'Active', '');
+INSERT INTO APMS.Employee VALUES('20', 'Employee', 'Demo', 'emptest', 'sha1:64000:18:dxIXIVfbcUVVJWH8U4IWaoAyqVbML6nQ:buO83rjexg7NfIerwcI6E2o6', '18', '18', 'Active', '');
 
 
 -- Create table EmpPLevel
@@ -75,24 +77,6 @@ CREATE TABLE EmpPLevel
 );
 
 -- Load data into table EmpPLevel
-INSERT INTO APMS.EmpPLevel VALUES (1, '2018-01-06', 'P6');
-INSERT INTO APMS.EmpPLevel VALUES (2, '2018-01-06', 'P6');
-INSERT INTO APMS.EmpPLevel VALUES (3, '2018-01-06', 'P6');
-INSERT INTO APMS.EmpPLevel VALUES (4, '2018-01-06', 'P6');
-INSERT INTO APMS.EmpPLevel VALUES (5, '2018-01-06', 'P6');
-INSERT INTO APMS.EmpPLevel VALUES (6, '2018-01-06', 'P6');
-INSERT INTO APMS.EmpPLevel VALUES (7, '2018-01-06', 'P6');
-INSERT INTO APMS.EmpPLevel VALUES (8, '2018-01-06', 'P1');
-INSERT INTO APMS.EmpPLevel VALUES (9, '2018-01-06', 'P2');
-INSERT INTO APMS.EmpPLevel VALUES (10, '2018-01-06', 'P3');
-
-INSERT INTO APMS.EmpPLevel VALUES (11, '2018-01-06', 'P6');
-INSERT INTO APMS.EmpPLevel VALUES (12, '2018-01-06', 'P6');
-INSERT INTO APMS.EmpPLevel VALUES (13, '2018-01-06', 'P6');
-INSERT INTO APMS.EmpPLevel VALUES (14, '2018-01-06', 'P6');
-INSERT INTO APMS.EmpPLevel VALUES (15, '2018-01-06', 'P6');
-INSERT INTO APMS.EmpPLevel VALUES (16, '2018-01-06', 'P1');
-
 INSERT INTO APMS.EmpPLevel VALUES (1, '2019-01-05', 'P6');
 INSERT INTO APMS.EmpPLevel VALUES (2, '2019-01-05', 'P6');
 INSERT INTO APMS.EmpPLevel VALUES (3, '2019-01-05', 'P6');
@@ -110,7 +94,9 @@ INSERT INTO APMS.EmpPLevel VALUES (13, '2019-01-05', 'P6');
 INSERT INTO APMS.EmpPLevel VALUES (14, '2019-01-05', 'P6');
 INSERT INTO APMS.EmpPLevel VALUES (15, '2019-01-05', 'P6');
 INSERT INTO APMS.EmpPLevel VALUES (16, '2019-01-05', 'P1');
-
+INSERT INTO APMS.EmpPLevel VALUES (18, '2019-01-05', 'P1');
+INSERT INTO APMS.EmpPLevel VALUES (19, '2019-01-05', 'P1');
+INSERT INTO APMS.EmpPLevel VALUES (20, '2019-01-05', 'P1');
 
 
 -- Create table PLevel
