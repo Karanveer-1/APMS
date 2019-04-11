@@ -24,7 +24,6 @@
 				  	<h5 class="card-title">Employees</h5>
 				  </span>
 				    <p class="card-text"></p>
-				    <h:link rendered="#{authController.isUserSystemAdmin() || authController.isUserHumanResource()}" href="Employees.xhtml?faces-redirect=true" class="btn btn-primary">More Info</h:link>
 				  </div>
 				  <br/><br/><br/><br/><br/>
 				</div>
@@ -62,7 +61,6 @@
 					  #{dashboardController.rejectedTimesheetCount} Rejected Timesheets
 					</div>
 				  </span>
-				    <a href="Timesheets.xhtml?faces-redirect=true" class="btn btn-primary">More Info</a>
 				  </div>
 				</div>
 				<h:form>
@@ -83,7 +81,6 @@
 				  	<h1>#{dashboardController.projectCount}</h1>
 				  	<h5 class="card-title">Projects</h5>
 				  </span>
-				    <a href="Projects.xhtml?faces-redirect=true" class="btn btn-primary">More Info</a>
 				  </div>
 				  <br/><br/><br/><br/><br/>
 				</div>
