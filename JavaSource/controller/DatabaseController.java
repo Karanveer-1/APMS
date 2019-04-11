@@ -263,11 +263,10 @@ public class DatabaseController implements Serializable {
 		Query q = manager.createQuery(sql);
 		return (long) q.getSingleResult();
 	}
-	
+
 	public List<Integer> getAllProNoByEmpNo(int empNo) {
-	    return manager.createQuery("select p.proEmp.proNo from ProEmp p where p.proEmp.empNo = :empNo", Integer.class)
-	        .setParameter("empNo", empNo)
-	        .getResultList();
+		return manager.createQuery("select p.proEmp.proNo from ProEmp p where p.proEmp.empNo = :empNo", Integer.class)
+				.setParameter("empNo", empNo).getResultList();
 	}
 
 	public List<Project> getAllProjectsbyEmpNo(int empNo) {
@@ -571,9 +570,17 @@ public class DatabaseController implements Serializable {
 
 	public boolean deleteWorkPackage(final WorkPackage wp) {
 		WorkPackage workpackage = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
+		List<WPEmp> wpe = getAllWPEmp();
+
 		try {
+			for (WPEmp p : wpe) {
+				if (p.getProNo() == wp.getProNo() && p.getWpid().equals(wp.getWpid())) {
+					this.manager.remove(p);
+				}
+			}
 			this.manager.remove(workpackage);
-			this.manager.flush();
+//			this.manager.flush();
+
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -665,7 +672,7 @@ public class DatabaseController implements Serializable {
 					return wp.getWpid();
 				}).collect(Collectors.toList());
 	}
-	
+
 	public WorkPackage getWPById(String wpid) {
 		try {
 			return manager
@@ -797,7 +804,7 @@ public class DatabaseController implements Serializable {
 		manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
 	}
 
-	public WorkPackage getWpByPk(Integer proNo, String wpid) {
+	public WorkPackage getWpByPk(int proNo, String wpid) {
 		TypedQuery<WorkPackage> query = manager.createQuery(
 				"select p from WorkPackage p where p.workPackagePk.proNo = :proNo AND p.workPackagePk.wpid = :wpid",
 				WorkPackage.class);
@@ -881,7 +888,7 @@ public class DatabaseController implements Serializable {
 		List<WorkPackage> result = new ArrayList<WorkPackage>();
 		for (WPEmp wp : wpList) {
 			if (wp.getEmpNo() == empNo) {
-				result.add(getWpByPk(wp.getProNo(), wp.getWpid()));
+				result.add(getWPByID(new WorkPackagePK(wp.getProNo(), wp.getWpid())));
 			}
 		}
 		return result;
