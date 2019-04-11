@@ -497,4 +497,34 @@ public class TimesheetController implements Serializable {
 
         database.updateTimesheetRows(rows);
     }
+    
+      
+//    public boolean verifyTimesheet(Timesheet timesheet) {
+//        try {
+//            String data = timesheet.toString();
+//            model.Signature sigObject = database.findSignature(timesheet.getTimesheetPk());
+//
+//            byte[] encKey = sigObject.getPublicKey();
+//            
+//            X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(encKey);
+//            KeyFactory keyFactory = KeyFactory.getInstance("DSA", "SUN");
+//            PublicKey pubKey = keyFactory.generatePublic(pubKeySpec);
+//            
+//            byte[] sigToVerify = sigObject.getSignature();
+//            
+//            Signature sig = Signature.getInstance("SHA1withDSA", "SUN");
+//            sig.initVerify(pubKey);            
+//
+//            byte[] dataBytes = data.getBytes();
+//            sig.update(dataBytes);
+//
+//            return sig.verify(sigToVerify);
+//            
+//        } catch (Exception e) {
+//            System.err.println("Caught exception " + e.toString());
+//        }
+//        
+//        return false;
+//    }
+    
 }
