@@ -86,7 +86,7 @@ public class ProjectDetailController implements Serializable {
 	private String suggestId;
 
 	private Project editpro;
-	private boolean editable;
+	private boolean editable = false;
 
 	public ProjectDetailController() {
 
@@ -94,7 +94,7 @@ public class ProjectDetailController implements Serializable {
 
 	@PostConstruct
 	public void init() {
-
+		this.editable = false;
 	}
 
 	public Project getProject() {
@@ -111,6 +111,7 @@ public class ProjectDetailController implements Serializable {
 		this.empPool = getAllEmpPool(project.getProNo());
 		this.addWp = new WorkPackage();
 		this.editpro = project;
+		this.editable = false;
 		initWPList();
 		treeInit(this.project.getProNo());
 		return "ProjectDetail.xhtml?faces-redirect=true";
@@ -142,6 +143,12 @@ public class ProjectDetailController implements Serializable {
 
 	public String addWP() {
 
+		if (addWp.getStartDate().before(new Date()) || addWp.getStartDate().before(this.project.getStartDate())) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message:", "Invalid Input");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			editable = false;
+			return "";
+		}
 		addWp.setProNo(project.getProNo());
 		if (addWp.getParentWPID().equals("Project")) {
 			addWp.setParentWPID(null);
@@ -151,7 +158,7 @@ public class ProjectDetailController implements Serializable {
 
 		if (addWp.isLeaf()) {
 			addWp.setEditable(true);
-			if(WorkPackageValidator.isValid(addWp)) {
+			if (WorkPackageValidator.isValid(addWp)) {
 				updateParentWP(addWp, this.database.getParentWP(addWp));
 			}
 
@@ -164,10 +171,12 @@ public class ProjectDetailController implements Serializable {
 			this.database.persistWP(addWp);
 			addWp = new WorkPackage();
 			treeInit(this.project.getProNo());
+			editable = false;
 			return "WorkPackageManagement.xhtml?faces-redirect=true";
 
 		}
 
+		editable = false;
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message:", "Invalid Input");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		return "";
@@ -249,14 +258,15 @@ public class ProjectDetailController implements Serializable {
 		if (ProjectValidator.isValid(editpro)) {
 			this.database.updateProject(editpro);
 			project = editpro;
-
+			
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message:", "Project Successfully Updated");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			this.editable = !this.editable;
+			this.editable = false;
 		} else {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message:", "Invalid Input");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			project = this.database.findByProjectNo(project.getProNo());
+
 		}
 
 	}
@@ -336,8 +346,7 @@ public class ProjectDetailController implements Serializable {
 
 	public boolean canDeleteWP(WorkPackage wp) {
 		if (wp != null) {
-			return canModify() && WorkPackageValidator.canDelete(database, wp)
-					&& ProjectValidator.canDelete(database, this.database.findByProjectNo(wp.getProNo()));
+			return canModify() && WorkPackageValidator.canDelete(database, wp);
 		}
 		return true;
 
@@ -415,4 +424,36 @@ public class ProjectDetailController implements Serializable {
 		result += getBudgetByPLevel("JS");
 		return result;
 	}
+
+	public boolean isPMorPA(Project project) {
+		return isProjectManager(project) || isProjectAssistant(project);
+	}
+
+	public boolean isProjectManager(Project project) {
+		Employee currentEmployee = getLoggedInEmployee();
+
+		if (currentEmployee.getEmpNumber() == project.getProMgrEmpNo()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean isProjectAssistant(Project project) {
+		Employee currentEmployee = getLoggedInEmployee();
+
+		if (currentEmployee.getEmpNumber() == project.getProAssiEmpNo()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private static Employee getLoggedInEmployee() {
+
+		return (Employee) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.get(LoginController.USER_KEY);
+
+	}
+
 }

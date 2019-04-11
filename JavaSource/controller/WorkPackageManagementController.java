@@ -28,9 +28,8 @@ public class WorkPackageManagementController implements Serializable {
 	private List<WorkPackage> wpList;
 
 	private WorkPackage editWP;
-	
-	private WorkPackage viewWp;
 
+	private WorkPackage viewWp;
 
 	public WorkPackageManagementController() {
 
@@ -39,12 +38,10 @@ public class WorkPackageManagementController implements Serializable {
 	@PostConstruct
 	public void init() {
 		currentEmployeee = getLoggedInEmployee();
-		wpList = this.database.getWPByEmpNo(currentEmployeee.getEmpNumber());
+		wpList = this.database.getAssignedWPByEmpNo(currentEmployeee.getEmpNumber());
 		editWP = new WorkPackage();
 		viewWp = new WorkPackage();
 	}
-
-	
 
 	private static Employee getLoggedInEmployee() {
 		return (Employee) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
@@ -74,12 +71,11 @@ public class WorkPackageManagementController implements Serializable {
 	public void setViewWp(WorkPackage viewWp) {
 		this.viewWp = viewWp;
 	}
-	
-	public void onClick(WorkPackage wp) {
-		
-		this.viewWp = wp;
-		
-	}
 
+	public void onClick(WorkPackage wp) {
+
+		this.viewWp = wp;
+
+	}
 
 }

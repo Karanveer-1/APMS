@@ -38,8 +38,8 @@ import utils.DateUtils;
 @Stateless
 public class DatabaseController implements Serializable {
 
-    @PersistenceContext(unitName = "apms", type = PersistenceContextType.TRANSACTION)
-    private EntityManager manager;
+	@PersistenceContext(unitName = "apms", type = PersistenceContextType.TRANSACTION)
+	private EntityManager manager;
 
 	// #########################################################################
 	// # Employee methods
@@ -107,41 +107,23 @@ public class DatabaseController implements Serializable {
 		return manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
 	}
 
-    public long countTimesheets(int id) {
-        Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.timesheetPk.empNo = :empNumber");
-        q.setParameter("empNumber", id);
-        return (long) q.getSingleResult();
-    }
+	public long countTimesheets() {
+		String sql = "SELECT COUNT(t) FROM Timesheet t";
+		Query q = manager.createQuery(sql);
+		return (long) q.getSingleResult();
+	}
 
-    public long countApprovedTimesheets(int id) {
-        Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Approved' AND t.timesheetPk.empNo = :empNumber");
-        q.setParameter("empNumber", id);
-        return (long) q.getSingleResult();
-    }
+	public long countApprovedTimesheets() {
+		String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Approved'";
+		Query q = manager.createQuery(sql);
+		return (long) q.getSingleResult();
+	}
 
-    public long countRejectedTimesheets(int id) {
-        Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Returned' AND t.timesheetPk.empNo = :empNumber");
-        q.setParameter("empNumber", id);
-        return (long) q.getSingleResult();
-    }
-    
-    public List<Integer> getAllProjectNoByRe() {
-        Employee engineer = (Employee) FacesContext.getCurrentInstance()
-                .getExternalContext().getSessionMap()
-                .get(LoginController.USER_KEY);
-        int reEmpNo = engineer.getEmpNumber();
-        List<Integer> ids = manager.createQuery("SELECT p.workPackagePk.proNo from WorkPackage p where p.reEmpNo = :engineer", Integer.class)
-                .setParameter("engineer", reEmpNo).getResultList();
-        System.out.println(ids);
-        List<Integer> result = new ArrayList<Integer>();
-        for(Integer i : ids) {
-            if(!result.contains(i)) {
-                result.add(i);
-            }
-        }
-        return result;
-    }
-   
+	public long countRejectedTimesheets() {
+		String sql = "SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Returned'";
+		Query q = manager.createQuery(sql);
+		return (long) q.getSingleResult();
+	}
 
 	public List<Timesheet> getTimesheets(int empNo) {
 		List<Timesheet> timesheets = manager.createQuery("SELECT t from Timesheet t", Timesheet.class).getResultList();
@@ -324,7 +306,7 @@ public class DatabaseController implements Serializable {
 
 	/**
 	 * Also add the project manager to the proemp database
-	 * 
+	 *
 	 * @param newProject
 	 * @return
 	 */
@@ -347,6 +329,14 @@ public class DatabaseController implements Serializable {
 
 		if (p != null) {
 			updateEmployeeToProject(project.getProMgrEmpNo(), project.getProNo());
+			if (project.getState().equals("ARCHIVED")) {
+				for (WorkPackage wp : getAllWp()) {
+					if (wp.getProNo() == project.getProNo()) {
+						wp.setState("ARCHIVED");
+						updateWP(wp);
+					}
+				}
+			}
 			this.manager.merge(project);
 			return true;
 		}
@@ -356,14 +346,10 @@ public class DatabaseController implements Serializable {
 
 	public boolean deleteProjectByProNo(final int proNo) {
 		Project p = this.findByProjectNo(proNo);
+		List<ProEmp> pe = this.manager.createQuery("select p from ProEmp p ", ProEmp.class).getResultList();
 		try {
-			TypedQuery<ProEmp> query = manager.createQuery("select p from ProEmp p where p.proEmp.proNo = :projectId",
-					ProEmp.class);
-			query.setParameter("projectId", proNo);
-			List<ProEmp> data = query.getResultList();
-			for (ProEmp d : data) {
-				this.manager.remove(d);
-				this.manager.flush();
+			for (ProEmp pro : pe) {
+				this.deleteEmpFromProject(proNo, pro.getProEmp().getEmpNo());
 			}
 			this.manager.remove(p);
 			this.manager.flush();
@@ -371,6 +357,23 @@ public class DatabaseController implements Serializable {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	public boolean deleteEmpFromProject(int proNo, int empNo) {
+		TypedQuery<ProEmp> query = manager.createQuery(
+				"select p from ProEmp p where p.proEmp.proNo = :proNo and p.proEmp.empNo=:empNo", ProEmp.class);
+		query.setParameter("proNo", proNo);
+		query.setParameter("empNo", empNo);
+		ProEmp pe = query.getSingleResult();
+		try {
+			this.manager.remove(pe);
+			this.manager.flush();
+			return true;
+		} catch (Exception e) {
+
+			return false;
+		}
+
 	}
 
 	public List<Role> getRolesByEmpNo(int empNo) {
@@ -453,6 +456,22 @@ public class DatabaseController implements Serializable {
 		return result;
 	}
 
+	public List<Project> getProjectByAssignedEmpNo(int id) {
+		List<ProEmp> pe = getAllProEmp();
+
+		List<Project> result = new ArrayList<Project>();
+		for (ProEmp p : pe) {
+			if (p.getProEmp().getEmpNo() == id) {
+				result.add(findByProjectNo(p.getProEmp().getProNo()));
+			}
+		}
+		return result;
+	}
+
+	public List<ProEmp> getAllProEmp() {
+		return this.manager.createQuery("SELECT p from ProEmp p", ProEmp.class).getResultList();
+	}
+
 	// #########################################################################
 	// # WorkPackage methods
 	// #########################################################################
@@ -515,7 +534,6 @@ public class DatabaseController implements Serializable {
 	}
 
 	public List<WorkPackage> getRootWPByProNo(int proNo) {
-		System.out.println("PRO NO" + proNo);
 		List<WorkPackage> result = new ArrayList<WorkPackage>();
 		for (WorkPackage wp : getAllWp()) {
 			if (wp.getParentWPID() == null && wp.getProNo() == proNo) {
@@ -555,15 +573,6 @@ public class DatabaseController implements Serializable {
 	public boolean deleteWorkPackage(final WorkPackage wp) {
 		WorkPackage workpackage = this.manager.find(WorkPackage.class, wp.getWorkPackagePk());
 		try {
-			TypedQuery<WPEmp> query = manager.createQuery(
-					"select p from WPEmp p where p.pk.proNo = :projectId and p.pk.wpid =:wpid", WPEmp.class);
-			query.setParameter("projectId", wp.getProNo());
-			query.setParameter("wpid", wp.getWpid());
-			List<WPEmp> data = query.getResultList();
-			for (WPEmp d : data) {
-				this.manager.remove(d);
-				this.manager.flush();
-			}
 			this.manager.remove(workpackage);
 			this.manager.flush();
 			return true;
@@ -789,11 +798,6 @@ public class DatabaseController implements Serializable {
 		manager.remove(manager.contains(ep) ? ep : manager.merge(ep));
 	}
 
-	/**
-	 * @param proNo
-	 * @param wpid
-	 * @return
-	 */
 	public WorkPackage getWpByPk(Integer proNo, String wpid) {
 		TypedQuery<WorkPackage> query = manager.createQuery(
 				"select p from WorkPackage p where p.workPackagePk.proNo = :proNo AND p.workPackagePk.wpid = :wpid",
@@ -836,4 +840,51 @@ public class DatabaseController implements Serializable {
 		manager.remove(manager.contains(e) ? e : manager.merge(e));
 	}
 
+	public List<Integer> getAllProjectNoByRe() {
+		Employee engineer = (Employee) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.get(LoginController.USER_KEY);
+		int reEmpNo = engineer.getEmpNumber();
+		List<Integer> ids = manager
+				.createQuery("SELECT p.workPackagePk.proNo from WorkPackage p where p.reEmpNo = :engineer",
+						Integer.class)
+				.setParameter("engineer", reEmpNo).getResultList();
+		List<Integer> result = new ArrayList<Integer>();
+		for (Integer i : ids) {
+			if (!result.contains(i)) {
+				result.add(i);
+			}
+		}
+		return result;
+	}
+
+	public long countTimesheets(int id) {
+		Query q = manager.createQuery("SELECT COUNT(t) FROM Timesheet t WHERE t.timesheetPk.empNo = :empNumber");
+		q.setParameter("empNumber", id);
+		return (long) q.getSingleResult();
+	}
+
+	public long countApprovedTimesheets(int id) {
+		Query q = manager.createQuery(
+				"SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Approved' AND t.timesheetPk.empNo = :empNumber");
+		q.setParameter("empNumber", id);
+		return (long) q.getSingleResult();
+	}
+
+	public long countRejectedTimesheets(int id) {
+		Query q = manager.createQuery(
+				"SELECT COUNT(t) FROM Timesheet t WHERE t.state = 'Returned' AND t.timesheetPk.empNo = :empNumber");
+		q.setParameter("empNumber", id);
+		return (long) q.getSingleResult();
+	}
+
+	public List<WorkPackage> getAssignedWPByEmpNo(int empNo) {
+		List<WPEmp> wpList = getAllWPEmp();
+		List<WorkPackage> result = new ArrayList<WorkPackage>();
+		for (WPEmp wp : wpList) {
+			if (wp.getEmpNo() == empNo) {
+				result.add(getWpByPk(wp.getProNo(), wp.getWpid()));
+			}
+		}
+		return result;
+	}
 }

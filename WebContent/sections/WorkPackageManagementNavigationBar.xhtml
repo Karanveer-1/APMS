@@ -7,7 +7,7 @@
 
 <!-- Nav BAR -->
 <ui:composition>
-	<h:form>
+	<h:form id="wpmform">
 		<div class="sidebar" data-background-color="black"
 			data-active-color="danger">
 			<div class="sidebar-wrapper">
@@ -21,7 +21,7 @@
 				<ul class="nav">
 
 					<li><p:commandLink onclick="PF('addEmpDialog').show();"
-							rendered="#{wpdController.canModifyWP()}">
+							rendered="#{wpdController.canAssignWP()}">
 							<i class="ti-user">
 							</i>
 							Assign Employee
