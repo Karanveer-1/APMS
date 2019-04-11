@@ -12,31 +12,36 @@
 			data-active-color="danger">
 			<div class="sidebar-wrapper">
 				<div class="logo">
-					<img src="resources/images/report.png" style=" margin-bottom: -35px; display:block; margin-left:auto; margin-right:auto; width: 30%;"/>						
-	
-					<span class="simple-text" style="margin-top: 30px; font-size:150%">
-						APMS
-					</span>
-					<span class="simple-text" style="color:gray">
-				</span>	
-			</div>
+					<img src="resources/images/report.png"
+						style="margin-bottom: -35px; display: block; margin-left: auto; margin-right: auto; width: 30%;" />
+
+					<span class="simple-text" style="margin-top: 30px; font-size: 150%">
+						APMS </span> <span class="simple-text" style="color: gray"> </span>
+				</div>
 				<ul class="nav">
 					<li><p:commandLink id="nav-wp-weekly-report"
-							action="WPWeeklyReport.xhtml?faces-redirect=true">
+							action="WPWeeklyReport.xhtml?faces-redirect=true"
+							rendered="#{authController.isUserProjectManager() ||
+                             authController.isUserSystemAdmin()}">
 							<i class="ti-bookmark-alt"></i>
                             WP Weekly Report
                         </p:commandLink></li>
 					<li><p:commandLink id="nav-wp-effort-report"
-							action="WPEffortReport.xhtml?faces-redirect=true">
+							action="WPEffortReport.xhtml?faces-redirect=true"
+							rendered="#{authController.isUserProjectManager() ||
+                             authController.isUserSystemAdmin() ||
+                             authController.isUserResponsibleEngineer()}">
 							<i class="ti-bookmark-alt"></i>
                             WP Effort Report
                         </p:commandLink></li>
-                   <li><p:commandLink id="nav-monthly-report"
-							action="MonthlyReport.xhtml?faces-redirect=true">
+					<li><p:commandLink id="nav-monthly-report"
+							action="MonthlyReport.xhtml?faces-redirect=true"
+							rendered="#{authController.isUserProjectManager() ||
+                             authController.isUserSystemAdmin()}">
 							<i class="ti-bookmark-alt"></i>
                             Monthly Report
                         </p:commandLink></li>
-                       <li><p:commandLink id="nav-back"
+					<li><p:commandLink id="nav-back"
 							action="Dashboard.xhtml?faces-redirect=true">
 							<i class="ti-arrow-circle-left"></i>
                             Back
