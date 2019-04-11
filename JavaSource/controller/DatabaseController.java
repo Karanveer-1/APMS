@@ -348,32 +348,25 @@ public class DatabaseController implements Serializable {
 		Project p = this.findByProjectNo(proNo);
 		List<ProEmp> pe = this.manager.createQuery("select p from ProEmp p ", ProEmp.class).getResultList();
 		try {
+
+			this.manager.remove(p);
 			for (ProEmp pro : pe) {
 				this.deleteEmpFromProject(proNo, pro.getProEmp().getEmpNo());
 			}
-			this.manager.remove(p);
-			this.manager.flush();
+
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
 	}
 
-	public boolean deleteEmpFromProject(int proNo, int empNo) {
+	public void deleteEmpFromProject(int proNo, int empNo) {
 		TypedQuery<ProEmp> query = manager.createQuery(
 				"select p from ProEmp p where p.proEmp.proNo = :proNo and p.proEmp.empNo=:empNo", ProEmp.class);
 		query.setParameter("proNo", proNo);
 		query.setParameter("empNo", empNo);
 		ProEmp pe = query.getSingleResult();
-		try {
-			this.manager.remove(pe);
-			this.manager.flush();
-			return true;
-		} catch (Exception e) {
-
-			return false;
-		}
-
+		this.manager.remove(pe);
 	}
 
 	public List<Role> getRolesByEmpNo(int empNo) {
