@@ -1,1 +1,130 @@
-BLANK
+
+Notes:
+
+Generate Invoice for customer (UseCase unknown placement)
+(PM enters) Project Budget + (PM enters, maintain estimate) Engineer's Estimate <- Two WP $ fields
+Reports run on current data
+
+Bold Front are Use Cases
+---------------------------------------------------------------------------------------------------------------------
+
+Human Resources
+[1] Create Employee
+Add Employee Number to Employee
+[2] Add Employee to Supervisor
+E.g. Like a department, hierarchical, one supervisor. CEO does not have supervisor
+[3b] Update labour rates / charge rate (in labour table / charge table)
+Remember 8x as the units are person-days
+Track date ranges, think about implementation (e.g. Fri/Sat switch)
+Read Employee
+Update Employee
+[3a] Update Employee labour grade
+Don’t delete, change status to e.g. retired
+Employee (Everyone is an employee)
+Access
+[1] Login Employee
+Logout Employee
+TS
+Create Timesheet
+[2] Update Timesheet hours [[PAGE 1 - Timesheet]]
+Read flextime
+Use flextime hours
+Flextime pool is MIN -80 to +80 hours
+Update overtime hours
+Just a submission
+[3] Sign Timesheet
+Use concept of Public Key / Private Key
+Timesheet is in 1/4th hr is smallest unit
+Allow timesheet submission if work hours >= 40 aka Full load
+Verify appropriately
+Saved timesheet can be default instead
+Auto-populate statutory holidays
+Verify appropriately
+Vacation
+[4] Read vacation days
+Accrued
+Submit vacation hours
+Is a WP - but not follow by WP ID
+Sick
+[5] Read sick days
+Not accrued, handled outside the system
+[LS 2] Submit sick hours [This isn’t really a use-case, just a cell in the timesheet gridblock]
+Supervisor
+[OS 1] Create project + assign project Manager
+Update Mark-up (A project’s charge multiplier of the internal charge for the customer)
+Internal 1.0x
+External e.g. 2.6x (gov. rate)
+[OS 2] Change project’s Project Manager
+DB relationship
+Change the project status
+Close project
+Guess: Project hasn’t been paid, but work is completed / client doesn’t want it anymore
+Not keep track whether the client paid
+[OS 3] Archive project
+Closes all WP and prevent charges to project
+
+[LS 1] Add Employee to project
+Remove Employee from project
+Change Timesheet Approver
+Project Manager
+[2] Update project planning info [[PAGE 3 - PROJECT ASSIGNMENT FORM]]
+Ryan needs to clarify detail on project
+[3] Check labour spent on project so far (weekly report)
+Ryan thinks it’s a sum of all person-hours and/or dollars so far
+Similar to [[PAGE 4 - Project Budget Matrix]]
+[4] Add Employee(s) (on project) to WP(s)
+Can only add someone who’s on a project to WP
+Remove Employee(s) (on project) to WP(s) [OOS]
+[A] Read general project(s) information
+E.g. Show Budget (dollar value field) budget
+[Ai] Read project planning info
+@DEV Same as Update project planning info
+[8] Create WP
+WP Number, Title (Minimally)
+Add Responsible Engineer to WP
+Remove Responsible Engineer to WP
+Breakdown WP
+Add Responsible Engineer to leaf WP
+Remove Responsible Engineer from leaf WP
+Project is also top-level WP, can be implemented similar to Create WP
+Cannot break down a charged WP
+[B] Read WP description [[PAGE 2 - Work Package]]
+[9] Update WP Status (Delete state)
+Change WP status to Complete
+[PA 5] Print / Generate customer invoice [OOS]
+[C] Generate Weekly Report (for each project) [[PAGE 4 - PROJECT BUDGET MATRIX]]
+Indicating hours each employee charged to each WP for current week, month and ‘project-to-date’
+Indicate which date it is in top left corner
+Update WP
+[1] Update WP info [[PAGE 2 - Work Package]]
+[1] Budget person-days / man-days by labour grade - similar to [[PAGE 5 - RATE SHEET]]
+WP budgeting is in person-days
+A person-day is worth 8 hours
+Prevent allocation of charges / hours to non-leaf WP
+Careful about concurrency (ignore addition of hours in logic if closed)
+Change WP status to ‘Open for charges’
+We think open means done planning [7], [PM 7] and Employees can work on it
+[PM 10] Change WP status to Closed
+Means: Exists but cannot be ‘charged to’
+
+
+Project Assistant
+Same as PM without [4] Add Employee(s) (on project) to WP(s), Remove Employee(s) (on project) to WP(s) [OOS], Create WP,Breakdown WP,[9] Update WP Status (Delete state), Change WP status to Complete
+
+Responsible Engineer
+Read WP description
+@DEV Refer to PM [B]
+[2] Report effort planned and effort spent for WP [[PAGE 6 - WP BUDGET/ACTUAL]]
+[3] Input effort needed to date task status report [[PAGE 7 - WP Status Report Cover Sheet]]
+TS Approver
+Read list of TS needing approval
+[1] Approve TS
+[2] Return TS (with notes) for correction
+Corrector needs to re-sign + somehow know they need to correct
+(Defaults to Supervisor, supervisor can change to someone else)
+System Admin
+[1] Backup data
+[2] Do Administrative Tasks [Low Priority]
+E.g. Archive archived projects to file
+Master Admin
+[1] Performs all possible actions
