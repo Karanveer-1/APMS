@@ -24,17 +24,23 @@
 				  	<h5 class="card-title">Employees</h5>
 				  </span>
 				    <p class="card-text"></p>
-				    <a href="Employees.xhtml?faces-redirect=true" class="btn btn-primary">More Info</a>
+				    <h:link rendered="#{authController.isUserSystemAdmin() || authController.isUserHumanResource()}" href="Employees.xhtml?faces-redirect=true" class="btn btn-primary">More Info</h:link>
 				  </div>
 				  <br/><br/><br/><br/><br/>
 				</div>
 				<h:form>
-				  	<p:panelMenu>
+				  	<p:panelMenu rendered="#{authController.isUserSystemAdmin() || authController.isUserHumanResource()}">
 			        <p:submenu label="Employee Features">
 			            <p:menuitem value="Assign Approvers" action="AssignEmployee.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
 			            <p:menuitem value="Active Employees" action="Employees.xhtml?faces-redirect=true" icon="fa fa-heartbeat" />
 			            <p:menuitem value="Inactive Employees" action="InactiveEmployees.xhtml?faces-redirect=true" icon="fa fa-minus-circle" />
 			            <p:menuitem value="Employee P Level" action="EmpPLevels.xhtml?faces-redirect=true" icon="fa fa-bar-chart" />
+			            <p:menuitem value="Profile" action="Profile.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
+			        </p:submenu>
+			       </p:panelMenu>
+			       <p:panelMenu rendered="#{!authController.isUserSystemAdmin() and !authController.isUserHumanResource()}">
+			        <p:submenu label="Employee Features">
+			        	<p:menuitem value="Profile" action="Profile.xhtml?faces-redirect=true" icon="fa fa-check-circle" />
 			        </p:submenu>
 			       </p:panelMenu>
 			  	</h:form>
