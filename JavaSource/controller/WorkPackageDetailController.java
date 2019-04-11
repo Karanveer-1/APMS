@@ -281,15 +281,6 @@ public class WorkPackageDetailController implements Serializable {
 		result += getBudgetByPLevel(wp.getPmEstDS(), "DS");
 		result += getBudgetByPLevel(wp.getPmEstJS(), "JS");
 
-		result += getBudgetByPLevel(wp.getReEstP1(), "P1");
-		result += getBudgetByPLevel(wp.getReEstP2(), "P2");
-		result += getBudgetByPLevel(wp.getReEstP3(), "P3");
-		result += getBudgetByPLevel(wp.getReEstP4(), "P4");
-		result += getBudgetByPLevel(wp.getReEstP5(), "P5");
-		result += getBudgetByPLevel(wp.getReEstP6(), "P6");
-		result += getBudgetByPLevel(wp.getReEstSS(), "SS");
-		result += getBudgetByPLevel(wp.getReEstDS(), "DS");
-		result += getBudgetByPLevel(wp.getReEstJS(), "JS");
 
 		return result;
 	}
